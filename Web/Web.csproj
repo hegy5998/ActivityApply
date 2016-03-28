@@ -1,0 +1,1811 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B080F039-AFAA-4283-A620-E89E1D972190}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Web</RootNamespace>
+    <AssemblyName>Web</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=4.1.51116.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>App_Code\AjaxControlToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="BusinessLayerBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\BusinessLayer\Lib\BusinessLayerBase.dll</HintPath>
+    </Reference>
+    <Reference Include="CKEditor.NET, Version=3.6.6.2, Culture=neutral, PublicKeyToken=e379cdf2f8354999, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\CKEditor.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="DataAccessBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DataAccess\Lib\DataAccessBase.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="UtilBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Util\Lib\UtilBase.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Code\AjaxControlToolkit.dll" />
+    <Content Include="bin\AjaxControlToolkit.dll" />
+    <Content Include="bin\BusinessLayer.dll" />
+    <Content Include="bin\BusinessLayer.pdb" />
+    <Content Include="bin\BusinessLayerBase.dll" />
+    <Content Include="bin\BusinessLayerBase.xml" />
+    <Content Include="bin\CKEditor.NET.dll" />
+    <Content Include="bin\CKEditor.NET.pdb" />
+    <Content Include="bin\DataAccess.dll" />
+    <Content Include="bin\DataAccess.pdb" />
+    <Content Include="bin\DataAccessBase.dll" />
+    <Content Include="bin\DataAccessBase.xml" />
+    <Content Include="bin\Model.dll" />
+    <Content Include="bin\Model.pdb" />
+    <Content Include="bin\Util.dll" />
+    <Content Include="bin\Util.pdb" />
+    <Content Include="bin\UtilBase.dll" />
+    <Content Include="bin\UtilBase.xml" />
+    <Content Include="bin\Web.dll" />
+    <Content Include="bin\Web.pdb" />
+    <Content Include="CommonPages\BasePage.aspx" />
+    <Content Include="CommonPages\Captcha.aspx" />
+    <Content Include="CommonPages\Error.aspx" />
+    <Content Include="Css\Base.css" />
+    <Content Include="Css\google.css" />
+    <Content Include="Css\Images\arrowLeft.png" />
+    <Content Include="Css\Images\arrowRight.png" />
+    <Content Include="Css\Images\background.png" />
+    <Content Include="Css\Images\bt_bg01.jpg" />
+    <Content Include="Css\Images\bt_bg02.jpg" />
+    <Content Include="Css\Images\ForgetPwdBg.jpg" />
+    <Content Include="Css\Images\Icons\add.gif" />
+    <Content Include="Css\Images\Icons\airliner.gif" />
+    <Content Include="Css\Images\Icons\cancel.png" />
+    <Content Include="Css\Images\Icons\close.png" />
+    <Content Include="Css\Images\Icons\config.png" />
+    <Content Include="Css\Images\Icons\delete.png" />
+    <Content Include="Css\Images\Icons\edit.gif" />
+    <Content Include="Css\Images\Icons\map.png" />
+    <Content Include="Css\Images\Icons\MapPoint.png" />
+    <Content Include="Css\Images\Icons\ok.gif" />
+    <Content Include="Css\Images\Icons\orangeItem.png" />
+    <Content Include="Css\Images\Icons\question.png" />
+    <Content Include="Css\Images\Icons\refresh.gif" />
+    <Content Include="Css\Images\Icons\save.png" />
+    <Content Include="Css\Images\Icons\search.gif" />
+    <Content Include="Css\Images\Icons\sub.gif" />
+    <Content Include="Css\Images\Icons\tree.png" />
+    <Content Include="Css\Images\Icons\user.png" />
+    <Content Include="Css\Images\Icons\yes.png" />
+    <Content Include="Css\Images\JqueryUI\arrow_left.png" />
+    <Content Include="Css\Images\JqueryUI\arrow_left_hover.png" />
+    <Content Include="Css\Images\JqueryUI\glass.png" />
+    <Content Include="Css\Images\JqueryUI\icons_black.png" />
+    <Content Include="Css\Images\JqueryUI\icons_white.png" />
+    <Content Include="Css\Images\JqueryUI\input.png" />
+    <Content Include="Css\Images\JqueryUI\largebut.png" />
+    <Content Include="Css\Images\JqueryUI\largebut_hover.png" />
+    <Content Include="Css\Images\JqueryUI\loginbg.png" />
+    <Content Include="Css\Images\JqueryUI\mhover.png" />
+    <Content Include="Css\Images\JqueryUI\rep1.png" />
+    <Content Include="Css\Images\JqueryUI\repgray2.png" />
+    <Content Include="Css\Images\JqueryUI\siderep.png" />
+    <Content Include="Css\Images\loading.gif" />
+    <Content Include="Css\Images\LoginBg.jpg" />
+    <Content Include="Css\Images\LoginBg2.png" />
+    <Content Include="Css\Images\LoginBg3.png" />
+    <Content Include="Css\Images\mainContentBg.jpg" />
+    <Content Include="Css\Images\mainFooterBg.jpg" />
+    <Content Include="Css\Images\mainMenuBg.jpg" />
+    <Content Include="Css\Images\mainMenuExtendBg.jpg" />
+    <Content Include="Css\Images\mainMenuFloatBg.png" />
+    <Content Include="Css\Images\mainMenuModuledBg.png" />
+    <Content Include="Css\Images\mainMenuProcessActiveBg.jpg" />
+    <Content Include="Css\Images\mainMenuProcessActiveBg2.jpg" />
+    <Content Include="Css\Images\mainMenuProcessBg.jpg" />
+    <Content Include="Css\Images\mainMenuProcessBg2.jpg" />
+    <Content Include="Css\Images\mainTitleBg.png" />
+    <Content Include="Css\Images\mainTitleExtendBg.png" />
+    <Content Include="Css\Images\SystemMenuBg.jpg" />
+    <Content Include="Css\Index.css" />
+    <Content Include="Css\JqueryUI.css" />
+    <Content Include="Css\Lib\bootstrap-responsive.css" />
+    <Content Include="Css\Lib\bootstrap.css" />
+    <Content Include="Css\Lib\Images\animated-overlay.gif" />
+    <Content Include="Css\Lib\Images\glyphicons-halflings-white.png" />
+    <Content Include="Css\Lib\Images\glyphicons-halflings.png" />
+    <Content Include="Css\Lib\Images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Css\Lib\Images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Css\Lib\Images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Css\Lib\Images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Css\Lib\Images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Css\Lib\Images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Css\Lib\Images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Css\Lib\Images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Css\Lib\Images\ui-icons_222222_256x240.png" />
+    <Content Include="Css\Lib\Images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Css\Lib\Images\ui-icons_454545_256x240.png" />
+    <Content Include="Css\Lib\Images\ui-icons_888888_256x240.png" />
+    <Content Include="Css\Lib\Images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Css\Lib\jquery-ui.css" />
+    <Content Include="Css\Lib\jquery.jgrowl.css" />
+    <Content Include="Css\Lib\jquery.ui.accordion.css" />
+    <Content Include="Css\Lib\jquery.ui.all.css" />
+    <Content Include="Css\Lib\jquery.ui.autocomplete.css" />
+    <Content Include="Css\Lib\jquery.ui.base.css" />
+    <Content Include="Css\Lib\jquery.ui.button.css" />
+    <Content Include="Css\Lib\jquery.ui.core.css" />
+    <Content Include="Css\Lib\jquery.ui.datepicker.css" />
+    <Content Include="Css\Lib\jquery.ui.dialog.css" />
+    <Content Include="Css\Lib\jquery.ui.menu.css" />
+    <Content Include="Css\Lib\jquery.ui.progressbar.css" />
+    <Content Include="Css\Lib\jquery.ui.resizable.css" />
+    <Content Include="Css\Lib\jquery.ui.selectable.css" />
+    <Content Include="Css\Lib\jquery.ui.slider.css" />
+    <Content Include="Css\Lib\jquery.ui.spinner.css" />
+    <Content Include="Css\Lib\jquery.ui.tabs.css" />
+    <Content Include="Css\Lib\jquery.ui.theme.css" />
+    <Content Include="Css\Lib\jquery.ui.tooltip.css" />
+    <Content Include="Css\Lib\reset.css" />
+    <Content Include="Css\Lib\titatoggle-dist-min.css" />
+    <Content Include="Css\Lib\titatoggle-dist.css" />
+    <Content Include="Css\Login.css" />
+    <Content Include="Css\Main.css" />
+    <Content Include="DefaultSystemIndex.aspx" />
+    <Content Include="Global.asax" />
+    <Content Include="Images\drag_pic.jpg" />
+    <Content Include="Images\ErrorPage.jpg" />
+    <Content Include="Images\SystemBanner\01.jpg" />
+    <Content Include="Images\SystemButton\01.png" />
+    <Content Include="Index.aspx" />
+    <Content Include="Login.aspx" />
+    <Content Include="Logout.aspx" />
+    <Content Include="robot.txt" />
+    <Content Include="S01\S01000101.aspx" />
+    <Content Include="S01\S01000301.aspx" />
+    <Content Include="S01\S01000401.aspx" />
+    <Content Include="S01\S01000501.aspx" />
+    <Content Include="S01\S01000601.aspx" />
+    <Content Include="S01\S01000701.aspx" />
+    <Content Include="S01\UCAccountManager.ascx" />
+    <Content Include="S01\UCAccountRoleManager.ascx" />
+    <Content Include="S01\UCProcessAuthManager.ascx" />
+    <Content Include="S01\S01000901.aspx" />
+    <Content Include="S01\UCProcessSubFuncAuthManager.ascx" />
+    <Content Include="S01\UCProcessSubFuncAuthManagerDialog.ascx" />
+    <Content Include="S01\UCProcessSubFuncAuthManagerAuthView.ascx" />
+    <Content Include="S01\UCRoleUnitManager.ascx" />
+    <Content Include="S01\UCRoleUnitPositionManager.ascx" />
+    <Content Include="S01\UCRoleUnitPositionManagerDialog.ascx" />
+    <Content Include="S01\S01001001.aspx" />
+    <Content Include="S01\UCAccountManagerDialog.ascx" />
+    <Content Include="S02\S02010101.aspx" />
+    <Content Include="S02\S02010102.aspx" />
+    <Content Include="S02\S02010103.aspx" />
+    <Content Include="S02\S02010201.aspx" />
+    <Content Include="S02\WebForm1.aspx" />
+    <Content Include="Scripts\ITCFunctions.js" />
+    <Content Include="Scripts\Lib\assets\css\style-responsive.css" />
+    <Content Include="Scripts\Lib\assets\css\style.css" />
+    <Content Include="Scripts\Lib\assets\css\table-responsive.css" />
+    <Content Include="Scripts\Lib\assets\css\to-do.css" />
+    <Content Include="Scripts\Lib\assets\css\zabuto_calendar.css" />
+    <Content Include="Scripts\Lib\assets\font-awesome\css\font-awesome.css" />
+    <Content Include="Scripts\Lib\assets\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Scripts\Lib\assets\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Scripts\Lib\assets\img\12767525_955825364513665_1121294852_n.jpg" />
+    <Content Include="Scripts\Lib\assets\img\blog-bg.jpg" />
+    <Content Include="Scripts\Lib\assets\img\checkbox-gray.png" />
+    <Content Include="Scripts\Lib\assets\img\drag_pic.jpg" />
+    <Content Include="Scripts\Lib\assets\img\fcu.jpg" />
+    <Content Include="Scripts\Lib\assets\img\friends\fr-01.jpg" />
+    <Content Include="Scripts\Lib\assets\img\friends\fr-02.jpg" />
+    <Content Include="Scripts\Lib\assets\img\friends\fr-03.jpg" />
+    <Content Include="Scripts\Lib\assets\img\friends\fr-04.jpg" />
+    <Content Include="Scripts\Lib\assets\img\friends\fr-05.jpg" />
+    <Content Include="Scripts\Lib\assets\img\friends\fr-06.jpg" />
+    <Content Include="Scripts\Lib\assets\img\friends\fr-07.jpg" />
+    <Content Include="Scripts\Lib\assets\img\friends\fr-08.jpg" />
+    <Content Include="Scripts\Lib\assets\img\friends\fr-09.jpg" />
+    <Content Include="Scripts\Lib\assets\img\friends\fr-10.jpg" />
+    <Content Include="Scripts\Lib\assets\img\friends\fr-11.jpg" />
+    <Content Include="Scripts\Lib\assets\img\instagram.jpg" />
+    <Content Include="Scripts\Lib\assets\img\login-bg.jpg" />
+    <Content Include="Scripts\Lib\assets\img\lorde.jpg" />
+    <Content Include="Scripts\Lib\assets\img\mask.png" />
+    <Content Include="Scripts\Lib\assets\img\ny.jpg" />
+    <Content Include="Scripts\Lib\assets\img\portfolio\port01.jpg" />
+    <Content Include="Scripts\Lib\assets\img\portfolio\port02.jpg" />
+    <Content Include="Scripts\Lib\assets\img\portfolio\port03.jpg" />
+    <Content Include="Scripts\Lib\assets\img\portfolio\port04.jpg" />
+    <Content Include="Scripts\Lib\assets\img\portfolio\port05.jpg" />
+    <Content Include="Scripts\Lib\assets\img\portfolio\port06.jpg" />
+    <Content Include="Scripts\Lib\assets\img\product.jpg" />
+    <Content Include="Scripts\Lib\assets\img\product.png" />
+    <Content Include="Scripts\Lib\assets\img\profile-01.jpg" />
+    <Content Include="Scripts\Lib\assets\img\profile-02.jpg" />
+    <Content Include="Scripts\Lib\assets\img\qrcodetest.png" />
+    <Content Include="Scripts\Lib\assets\img\radio-gray.png" />
+    <Content Include="Scripts\Lib\assets\img\ui-danro.jpg" />
+    <Content Include="Scripts\Lib\assets\img\ui-divya.jpg" />
+    <Content Include="Scripts\Lib\assets\img\ui-sam.jpg" />
+    <Content Include="Scripts\Lib\assets\img\ui-sherman.jpg" />
+    <Content Include="Scripts\Lib\assets\img\ui-zac.jpg" />
+    <Content Include="Scripts\Lib\assets\img\weather.jpg" />
+    <Content Include="Scripts\Lib\assets\img\zoom.png" />
+    <Content Include="Scripts\Lib\assets\js\bootstrap-inputmask\bootstrap-inputmask.min.js" />
+    <Content Include="Scripts\Lib\assets\js\bootstrap-switch.js" />
+    <Content Include="Scripts\Lib\assets\js\bootstrap.min.js" />
+    <Content Include="Scripts\Lib\assets\js\calendar-conf-events.js" />
+    <Content Include="Scripts\Lib\assets\js\chart-master\Chart.js" />
+    <Content Include="Scripts\Lib\assets\js\chartjs-conf.js" />
+    <Content Include="Scripts\Lib\assets\js\common-scripts.js" />
+    <Content Include="Scripts\Lib\assets\js\easy-pie-chart.js" />
+    <Content Include="Scripts\Lib\assets\js\form-component.js" />
+    <Content Include="Scripts\Lib\assets\js\fullcalendar\bootstrap-fullcalendar.css" />
+    <Content Include="Scripts\Lib\assets\js\fullcalendar\fullcalendar.min.js" />
+    <Content Include="Scripts\Lib\assets\js\gritter-conf.js" />
+    <Content Include="Scripts\Lib\assets\js\gritter\css\jquery.gritter.css" />
+    <Content Include="Scripts\Lib\assets\js\gritter\css\jquery.gritter0.css" />
+    <Content Include="Scripts\Lib\assets\js\gritter\images\gritter-light.png" />
+    <Content Include="Scripts\Lib\assets\js\gritter\images\gritter-long.png" />
+    <Content Include="Scripts\Lib\assets\js\gritter\images\gritter.png" />
+    <Content Include="Scripts\Lib\assets\js\gritter\images\ie-spacer.gif" />
+    <Content Include="Scripts\Lib\assets\js\gritter\js\jquery.gritter.js" />
+    <Content Include="Scripts\Lib\assets\js\jquery-easy-pie-chart\jquery.easy-pie-chart.css" />
+    <Content Include="Scripts\Lib\assets\js\jquery-easy-pie-chart\jquery.easy-pie-chart.js" />
+    <Content Include="Scripts\Lib\assets\js\jquery-ui-1.9.2.custom.min.js" />
+    <Content Include="Scripts\Lib\assets\js\jquery.backstretch.min.js" />
+    <Content Include="Scripts\Lib\assets\js\jquery.datetimepicker.js" />
+    <Content Include="Scripts\Lib\assets\js\jquery.dcjqaccordion.2.7.js" />
+    <Content Include="Scripts\Lib\assets\js\jquery.js" />
+    <Content Include="Scripts\Lib\assets\js\jquery.nicescroll.js" />
+    <Content Include="Scripts\Lib\assets\js\jquery.scrollTo.min.js" />
+    <Content Include="Scripts\Lib\assets\js\jquery.sparkline.js" />
+    <Content Include="Scripts\Lib\assets\js\jquery.tagsinput.js" />
+    <Content Include="Scripts\Lib\assets\js\jquery.ui.touch-punch.min.js" />
+    <Content Include="Scripts\Lib\assets\js\morris-conf.js" />
+    <Content Include="Scripts\Lib\assets\js\sparkline-chart.js" />
+    <Content Include="Scripts\Lib\assets\js\tasks.js" />
+    <Content Include="Scripts\Lib\assets\js\zabuto_calendar.js" />
+    <Content Include="Scripts\Lib\assets\lineicons\fonts\linecons.svg" />
+    <Content Include="Scripts\Lib\assets\lineicons\index.html" />
+    <Content Include="Scripts\Lib\assets\lineicons\lte-ie7.js" />
+    <Content Include="Scripts\Lib\assets\lineicons\style.css" />
+    <Content Include="Scripts\Lib\ckeditor\adapters\jquery.js" />
+    <Content Include="Scripts\Lib\ckeditor\CHANGES.html" />
+    <Content Include="Scripts\Lib\ckeditor\ckeditor.js" />
+    <Content Include="Scripts\Lib\ckeditor\ckeditor_basic.js" />
+    <Content Include="Scripts\Lib\ckeditor\config.js" />
+    <Content Include="Scripts\Lib\ckeditor\contents.css" />
+    <Content Include="Scripts\Lib\ckeditor\images\spacer.gif" />
+    <Content Include="Scripts\Lib\ckeditor\lang\af.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\ar.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\bg.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\bn.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\bs.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\ca.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\cs.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\cy.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\da.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\de.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\el.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\en-au.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\en-ca.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\en-gb.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\en.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\eo.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\es.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\et.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\eu.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\fa.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\fi.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\fo.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\fr-ca.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\fr.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\gl.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\gu.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\he.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\hi.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\hr.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\hu.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\id.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\is.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\it.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\ja.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\ka.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\km.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\ko.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\ku.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\lt.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\lv.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\mk.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\mn.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\ms.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\nb.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\nl.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\no.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\pl.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\pt-br.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\pt.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\ro.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\ru.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\sk.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\sl.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\sr-latn.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\sr.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\sv.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\th.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\tr.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\ug.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\uk.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\vi.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\zh-cn.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\zh.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\_languages.js" />
+    <Content Include="Scripts\Lib\ckeditor\lang\_translationstatus.txt" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\dialogs\a11yhelp.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\cs.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\cy.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\da.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\de.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\el.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\en.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\eo.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\fa.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\fi.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\fr.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\gu.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\he.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\it.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\ku.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\lv.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\mk.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\nb.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\nl.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\no.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\pt-br.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\ro.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\sk.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\tr.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\ug.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\vi.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\zh-cn.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\a11yhelp\lang\_translationstatus.txt" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\about\dialogs\about.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\about\dialogs\logo_ckeditor.png" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\adobeair\plugin.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\ajax\plugin.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\autogrow\plugin.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\bbcode\plugin.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\clipboard\dialogs\paste.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\colordialog\dialogs\colordialog.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\bg.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\cs.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\cy.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\da.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\de.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\el.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\en.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\eo.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\et.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\fa.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\fi.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\fr.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\gu.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\he.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\hr.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\it.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\ku.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\lv.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\nb.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\nl.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\no.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\pl.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\pt-br.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\sk.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\tr.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\ug.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\uk.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\vi.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\zh-cn.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\lang\_translationstatus.txt" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\devtools\plugin.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\dialog\dialogDefinition.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\div\dialogs\div.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\docprops\dialogs\docprops.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\docprops\plugin.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\find\dialogs\find.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\flash\dialogs\flash.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\flash\images\placeholder.png" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\forms\dialogs\button.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\forms\dialogs\checkbox.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\forms\dialogs\form.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\forms\dialogs\hiddenfield.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\forms\dialogs\radio.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\forms\dialogs\select.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\forms\dialogs\textarea.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\forms\dialogs\textfield.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\forms\images\hiddenfield.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\iframedialog\plugin.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\iframe\dialogs\iframe.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\iframe\images\placeholder.png" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\image\dialogs\image.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\link\dialogs\anchor.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\link\dialogs\link.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\link\images\anchor.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\liststyle\dialogs\liststyle.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\pagebreak\images\pagebreak.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\pastefromword\filter\default.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\pastetext\dialogs\pastetext.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\dialogs\placeholder.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\bg.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\cs.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\cy.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\da.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\de.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\el.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\en.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\eo.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\et.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\fa.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\fi.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\fr.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\he.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\hr.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\it.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\ku.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\lv.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\nb.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\nl.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\no.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\pl.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\pt-br.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\sk.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\tr.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\ug.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\uk.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\vi.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\zh-cn.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\lang\_translationstatus.txt" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\placeholder.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\placeholder\plugin.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\preview\preview.html" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\scayt\dialogs\options.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\scayt\dialogs\toolbar.css" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\showblocks\images\block_address.png" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\showblocks\images\block_blockquote.png" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\showblocks\images\block_div.png" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\showblocks\images\block_h1.png" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\showblocks\images\block_h2.png" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\showblocks\images\block_h3.png" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\showblocks\images\block_h4.png" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\showblocks\images\block_h5.png" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\showblocks\images\block_h6.png" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\showblocks\images\block_p.png" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\showblocks\images\block_pre.png" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\smiley\dialogs\smiley.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\smiley\images\angel_smile.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\smiley\images\angry_smile.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\smiley\images\broken_heart.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\smiley\images\confused_smile.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\smiley\images\cry_smile.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\smiley\images\devil_smile.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\smiley\images\embaressed_smile.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\smiley\images\envelope.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\smiley\images\heart.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\smiley\images\kiss.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\smiley\images\lightbulb.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\smiley\images\omg_smile.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\smiley\images\regular_smile.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\smiley\images\sad_smile.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\smiley\images\shades_smile.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\smiley\images\teeth_smile.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\smiley\images\thumbs_down.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\smiley\images\thumbs_up.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\smiley\images\tounge_smile.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\smiley\images\whatchutalkingabout_smile.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\smiley\images\wink_smile.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\dialogs\specialchar.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\cs.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\cy.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\de.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\el.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\en.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\eo.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\et.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\fa.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\fi.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\fr.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\he.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\hr.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\it.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\ku.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\lv.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\nb.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\nl.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\no.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\pt-br.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\sk.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\tr.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\ug.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\zh-cn.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\specialchar\lang\_translationstatus.txt" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\stylesheetparser\plugin.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\styles\styles\default.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\tableresize\plugin.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\tabletools\dialogs\tableCell.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\table\dialogs\table.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\templates\dialogs\templates.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\templates\templates\default.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\templates\templates\images\template1.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\templates\templates\images\template2.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\templates\templates\images\template3.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\dialogs\uicolor.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\bg.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\cs.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\cy.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\da.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\de.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\el.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\en.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\eo.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\et.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\fa.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\fi.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\fr.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\he.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\hr.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\it.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\ku.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\lv.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\mk.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\nb.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\nl.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\no.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\pl.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\pt-br.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\sk.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\tr.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\ug.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\uk.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\vi.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\zh-cn.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\lang\_translationstatus.txt" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\plugin.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\uicolor.gif" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\yui\assets\hue_bg.png" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\yui\assets\hue_thumb.png" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\yui\assets\picker_mask.png" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\yui\assets\picker_thumb.png" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\yui\assets\yui.css" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\uicolor\yui\yui.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\wsc\dialogs\ciframe.html" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\wsc\dialogs\tmpFrameset.html" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\wsc\dialogs\wsc.css" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\wsc\dialogs\wsc.js" />
+    <Content Include="Scripts\Lib\ckeditor\plugins\xml\plugin.js" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\.temp\css\dialog.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\.temp\css\dialog_ie.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\.temp\css\dialog_ie7.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\.temp\css\dialog_ie8.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\.temp\css\dialog_iequirks.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\.temp\css\dialog_opera.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\.temp\css\editor.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\.temp\css\editor_gecko.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\.temp\css\editor_ie.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\.temp\css\editor_ie7.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\.temp\css\editor_ie8.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\.temp\css\editor_iequirks.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\dev\icons16.svg" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\dev\icons32.svg" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\dialog.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\dialog_ie.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\dialog_ie7.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\dialog_ie8.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\dialog_iequirks.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\dialog_opera.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\editor.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\editor_gecko.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\editor_ie.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\editor_ie7.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\editor_ie8.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\editor_iequirks.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\icons.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\icons_hidpi.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\images\arrow.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\images\close.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\images\hidpi\close.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\images\hidpi\lock-open.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\images\hidpi\lock.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\images\hidpi\refresh.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\images\lock-open.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\images\lock.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\images\refresh.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\sample\bootstrapck-sample.html" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\sample\css\bootstrapck-sample.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\sample\js\analytics.js" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\sample\js\jquery-1.11.0.min.js" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\skin.js" />
+    <Content Include="Scripts\Lib\ckeditor\skins\kama\dialog.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\kama\editor.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\kama\icons.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\kama\icons_rtl.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\kama\images\dialog_sides.gif" />
+    <Content Include="Scripts\Lib\ckeditor\skins\kama\images\dialog_sides.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\kama\images\dialog_sides_rtl.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\kama\images\mini.gif" />
+    <Content Include="Scripts\Lib\ckeditor\skins\kama\images\noimage.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\kama\images\sprites.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\kama\images\sprites_ie6.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\kama\images\toolbar_start.gif" />
+    <Content Include="Scripts\Lib\ckeditor\skins\kama\skin.js" />
+    <Content Include="Scripts\Lib\ckeditor\skins\kama\templates.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\dialog.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\dialog_ie.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\dialog_ie7.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\dialog_ie8.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\dialog_iequirks.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\editor.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\editor_gecko.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\editor_ie.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\editor_ie7.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\editor_ie8.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\editor_iequirks.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\icons.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\icons_hidpi.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\images\arrow.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\images\close.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\images\hidpi\close.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\images\hidpi\lock-open.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\images\hidpi\lock.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\images\hidpi\refresh.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\images\lock-open.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\images\lock.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\images\refresh.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\skin.js" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\dialog.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\dialog_ie.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\dialog_ie7.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\dialog_ie8.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\dialog_iequirks.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\editor.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\editor_gecko.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\editor_ie.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\editor_ie7.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\editor_ie8.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\editor_iequirks.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\icons.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\icons_hidpi.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\images\arrow.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\images\close.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\images\hidpi\close.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\images\hidpi\lock-open.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\images\hidpi\lock.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\images\hidpi\refresh.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\images\lock-open.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\images\lock.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\images\refresh.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\images\spinner.gif" />
+    <Content Include="Scripts\Lib\ckeditor\skins\office2003\dialog.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\office2003\editor.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\office2003\icons.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\office2003\icons_rtl.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\office2003\images\dialog_sides.gif" />
+    <Content Include="Scripts\Lib\ckeditor\skins\office2003\images\dialog_sides.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\office2003\images\dialog_sides_rtl.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\office2003\images\mini.gif" />
+    <Content Include="Scripts\Lib\ckeditor\skins\office2003\images\noimage.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\office2003\images\sprites.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\office2003\images\sprites_ie6.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\office2003\skin.js" />
+    <Content Include="Scripts\Lib\ckeditor\skins\office2003\templates.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\v2\dialog.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\v2\editor.css" />
+    <Content Include="Scripts\Lib\ckeditor\skins\v2\icons.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\v2\icons_rtl.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\v2\images\dialog_sides.gif" />
+    <Content Include="Scripts\Lib\ckeditor\skins\v2\images\dialog_sides.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\v2\images\dialog_sides_rtl.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\v2\images\mini.gif" />
+    <Content Include="Scripts\Lib\ckeditor\skins\v2\images\noimage.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\v2\images\sprites.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\v2\images\sprites_ie6.png" />
+    <Content Include="Scripts\Lib\ckeditor\skins\v2\images\toolbar_start.gif" />
+    <Content Include="Scripts\Lib\ckeditor\skins\v2\skin.js" />
+    <Content Include="Scripts\Lib\ckeditor\skins\v2\templates.css" />
+    <Content Include="Scripts\Lib\ckeditor\themes\default\theme.js" />
+    <Content Include="Scripts\Lib\jQuery-datetimepicker\index.html" />
+    <Content Include="Scripts\Lib\jQuery-datetimepicker\jquery.datetimepicker.css" />
+    <Content Include="Scripts\Lib\jQuery-datetimepicker\jquery.datetimepicker.js" />
+    <Content Include="Scripts\Lib\jQuery-datetimepicker\jquery.js" />
+    <Content Include="Scripts\Lib\jQuery-datetimepicker\MIT-LICENSE.txt" />
+    <Content Include="Scripts\Lib\jQuery-datetimepicker\screen\1.png" />
+    <Content Include="Scripts\Lib\jQuery-datetimepicker\screen\2.png" />
+    <Content Include="Scripts\Lib\jQuery-datetimepicker\screen\3.1.png" />
+    <Content Include="Scripts\Lib\jQuery-datetimepicker\screen\3.png" />
+    <Content Include="Scripts\Lib\jQuery-datetimepicker\www.jq22.com.txt" />
+    <Content Include="Scripts\Lib\jquery-sortable-0.9.13.js" />
+    <Content Include="Scripts\Lib\angular-1.0.7.min.js" />
+    <Content Include="Scripts\Lib\angular-1.2.1.min.js" />
+    <Content Include="Scripts\Lib\bootstrap.js" />
+    <Content Include="App_Themes\default\default.skin" />
+    <Content Include="MasterPages\Main.master" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\ajaxSubmit-integration-demo.html" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\bootstrap\index.html" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\captcha\captcha.js" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\captcha\images\button.png" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\captcha\style.css" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\cinema\index.html" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\cinema\plan_9.jpg" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\cinema\refer_madness.jpg" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\cinema\saucer_men.jpg" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\css\cmxform.css" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\css\cmxformTemplate.css" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\css\core.css" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\css\reset.css" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\css\screen.css" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\custom-messages-data-demo.html" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\custom-methods-demo.html" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\dynamic-totals.html" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\errorcontainer-demo.html" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\errors-within-labels.html" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\file_input.html" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\images\bg.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\images\checked.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\images\cmxform-divider.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\images\cmxform-fieldset.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\images\loading.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\images\unchecked.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\index.html" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\jquerymobile.html" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\login\images\bg.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\login\images\header1.jpg" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\login\images\page.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\login\images\required_star.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\login\index.html" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\login\screen.css" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\images\backRequiredGray.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\images\back_green-fade.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\images\back_nav_blue.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\images\blank.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\images\button-submit.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\images\favicon.ico" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\images\help.png" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\images\left-nav-callout-long.png" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\images\login-sprite.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\images\logo_marketo.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\images\sf.png" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\images\step1-24.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\images\step2-24.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\images\step3-24.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\images\tab-sprite.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\images\tab_green.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\images\time.png" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\images\toggle.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\images\warning.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\index.html" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\jquery.maskedinput.js" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\mktSignup.js" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\step2.htm" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\marketo\stylesheet.css" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\milk\bg.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\milk\index.html" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\milk\left_white.png" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\milk\milk.css" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\milk\milk.png" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\milk\right_white.png" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\multipart\index.html" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\multipart\style.css" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\radio-checkbox-select-demo.html" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\requirejs\app.js" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\requirejs\index.html" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\semantic-ui\index.html" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\site-demos.css" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\themerollered.html" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\tinymce4\index.html" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\tinymce\index.html" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\tinymce\themes\simple\editor_template.js" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\tinymce\themes\simple\img\icons.gif" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\tinymce\themes\simple\langs\en.js" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\tinymce\themes\simple\skins\default\ui.css" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\tinymce\tiny_mce.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\additional-methods.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\additional-methods.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\jquery.validate.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\jquery.validate.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_ar.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_ar.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_bg.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_bg.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_bn_BD.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_bn_BD.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_ca.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_ca.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_cs.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_cs.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_da.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_da.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_de.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_de.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_el.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_el.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_es.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_es.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_es_AR.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_es_AR.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_es_PE.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_es_PE.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_et.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_et.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_eu.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_eu.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_fa.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_fa.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_fi.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_fi.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_fr.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_fr.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_ge.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_ge.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_gl.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_gl.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_he.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_he.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_hr.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_hr.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_hu.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_hu.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_hy_AM.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_hy_AM.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_id.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_id.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_is.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_is.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_it.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_it.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_ja.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_ja.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_ka.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_ka.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_kk.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_kk.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_ko.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_ko.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_lt.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_lt.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_lv.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_lv.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_mk.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_mk.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_my.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_my.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_nl.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_nl.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_no.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_no.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_pl.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_pl.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_pt_BR.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_pt_BR.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_pt_PT.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_pt_PT.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_ro.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_ro.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_ru.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_ru.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_si.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_si.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_sk.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_sk.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_sl.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_sl.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_sr.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_sr.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_sr_lat.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_sr_lat.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_sv.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_sv.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_th.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_th.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_tj.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_tj.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_tr.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_tr.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_uk.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_uk.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_vi.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_vi.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_zh.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_zh.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_zh_TW.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\messages_zh_TW.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\methods_de.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\methods_de.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\methods_es_CL.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\methods_es_CL.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\methods_fi.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\methods_fi.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\methods_nl.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\methods_nl.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\methods_pt.js" />
+    <Content Include="Scripts\Lib\jquery-validation\dist\localization\methods_pt.min.js" />
+    <Content Include="Scripts\Lib\jquery-validation\Gruntfile.js" />
+    <Content Include="Scripts\Lib\jquery-validation\lib\jquery-1.11.1.js" />
+    <Content Include="Scripts\Lib\jquery-validation\lib\jquery-1.7.2.js" />
+    <Content Include="Scripts\Lib\jquery-validation\lib\jquery-1.8.3.js" />
+    <Content Include="Scripts\Lib\jquery-validation\lib\jquery-1.9.1.js" />
+    <Content Include="Scripts\Lib\jquery-validation\lib\jquery.form.js" />
+    <Content Include="Scripts\Lib\jquery-validation\lib\jquery.js" />
+    <Content Include="Scripts\Lib\jquery-validation\lib\jquery.mockjax.js" />
+    <Content Include="Scripts\Lib\jquery-validation\lib\jquery.simulate.js" />
+    <Content Include="Scripts\Lib\jquery-validation\lib\require.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\accept.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\additional.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\alphanumeric.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\bankaccountNL.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\bankorgiroaccountNL.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\bic.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\cifES.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\cpfBR.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\creditcard.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\creditcardtypes.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\currency.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\dateFA.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\dateITA.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\dateNL.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\extension.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\giroaccountNL.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\iban.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\integer.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\ipv4.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\ipv6.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\lettersonly.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\letterswithbasicpunc.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\mobileNL.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\mobileUK.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\nieES.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\nifES.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\notEqualTo.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\nowhitespace.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\pattern.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\phoneNL.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\phonesUK.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\phoneUK.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\phoneUS.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\postalcodeBR.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\postalCodeCA.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\postalcodeIT.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\postalcodeNL.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\postcodeUK.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\require_from_group.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\skip_or_fill_minimum.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\statesUS.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\strippedminlength.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\time.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\time12h.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\url2.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\vinUS.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\zipcodeUS.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\additional\ziprange.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\ajax.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\core.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_ar.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_bg.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_bn_BD.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_ca.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_cs.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_da.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_de.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_el.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_es.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_es_AR.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_es_PE.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_et.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_eu.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_fa.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_fi.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_fr.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_ge.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_gl.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_he.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_hr.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_hu.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_hy_AM.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_id.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_is.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_it.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_ja.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_ka.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_kk.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_ko.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_lt.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_lv.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_mk.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_my.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_nl.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_no.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_pl.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_pt_BR.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_pt_PT.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_ro.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_ru.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_si.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_sk.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_sl.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_sr.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_sr_lat.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_sv.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_th.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_tj.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_tr.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_uk.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_vi.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_zh.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\messages_zh_TW.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\methods_de.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\methods_es_CL.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\methods_fi.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\methods_nl.js" />
+    <Content Include="Scripts\Lib\jquery-validation\src\localization\methods_pt.js" />
+    <Content Include="Scripts\Lib\jquery-validation\test\additional\creditcard.js" />
+    <Content Include="Scripts\Lib\jquery-validation\test\aria.js" />
+    <Content Include="Scripts\Lib\jquery-validation\test\error-placement.js" />
+    <Content Include="Scripts\Lib\jquery-validation\test\index.html" />
+    <Content Include="Scripts\Lib\jquery-validation\test\messages.js" />
+    <Content Include="Scripts\Lib\jquery-validation\test\methods.js" />
+    <Content Include="Scripts\Lib\jquery-validation\test\qunit\qunit.css" />
+    <Content Include="Scripts\Lib\jquery-validation\test\qunit\qunit.js" />
+    <Content Include="Scripts\Lib\jquery-validation\test\rules.js" />
+    <Content Include="Scripts\Lib\jquery-validation\test\test.js" />
+    <Content Include="Scripts\Lib\jquery_validation\additional-methods.js" />
+    <Content Include="Scripts\Lib\jquery_validation\additional-methods.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\jquery.validate.js" />
+    <Content Include="Scripts\Lib\jquery_validation\jquery.validate.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_ar.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_ar.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_bg.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_bg.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_bn_BD.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_bn_BD.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_ca.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_ca.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_cs.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_cs.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_da.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_da.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_de.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_de.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_el.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_el.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_es.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_es.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_es_AR.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_es_AR.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_es_PE.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_es_PE.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_et.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_et.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_eu.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_eu.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_fa.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_fa.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_fi.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_fi.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_fr.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_fr.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_ge.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_ge.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_gl.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_gl.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_he.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_he.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_hr.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_hr.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_hu.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_hu.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_hy_AM.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_hy_AM.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_id.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_id.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_is.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_is.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_it.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_it.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_ja.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_ja.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_ka.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_ka.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_kk.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_kk.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_ko.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_ko.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_lt.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_lt.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_lv.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_lv.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_mk.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_mk.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_my.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_my.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_nl.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_nl.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_no.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_no.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_pl.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_pl.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_pt_BR.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_pt_BR.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_pt_PT.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_pt_PT.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_ro.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_ro.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_ru.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_ru.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_si.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_si.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_sk.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_sk.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_sl.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_sl.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_sr.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_sr.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_sr_lat.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_sr_lat.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_sv.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_sv.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_th.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_th.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_tj.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_tj.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_tr.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_tr.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_uk.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_uk.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_vi.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_vi.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_zh.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_zh.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_zh_TW.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\messages_zh_TW.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\methods_de.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\methods_de.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\methods_es_CL.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\methods_es_CL.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\methods_fi.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\methods_fi.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\methods_nl.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\methods_nl.min.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\methods_pt.js" />
+    <Content Include="Scripts\Lib\jquery_validation\localization\methods_pt.min.js" />
+    <Content Include="WebForm1.aspx" />
+    <None Include="bin\Web.dll.config" />
+    <Content Include="Scripts\Lib\ckeditor\.htaccess" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\dev\locations.json" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\readme.md" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\gecko\editor_gecko.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\ie7\dialog_ie7.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\ie7\editor_ie7.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\ie8\dialog_ie8.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\ie8\editor_ie8.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\iequirks\dialog_iequirks.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\iequirks\editor_iequirks.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\ie\dialog_ie.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\ie\editor_ie.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\opera\dialog_opera.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\editor.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_colorpanel.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_elementspath.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_mainui.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_menu.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_panel.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_presets.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_reset.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_richcombo.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_toolbar.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\config\_colors.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\config\_config.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\config\_defaults.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\dialog\dialog.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\readme.md" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\readme.md" />
+    <Content Include="Scripts\Lib\assets\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\css\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\font-awesome\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\font-awesome\css\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\font-awesome\fonts\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Scripts\Lib\assets\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Scripts\Lib\assets\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Scripts\Lib\assets\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="Scripts\Lib\assets\fonts\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Scripts\Lib\assets\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Scripts\Lib\assets\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Scripts\Lib\assets\img\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\img\friends\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\img\portfolio\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\js\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\js\bootstrap-inputmask\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\js\chart-master\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\js\fullcalendar\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\js\gritter\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\js\gritter\css\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\js\gritter\images\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\js\gritter\js\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\js\jquery-easy-pie-chart\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\lineicons\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\lineicons\fonts\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\lineicons\fonts\linecons.eot" />
+    <Content Include="Scripts\Lib\assets\lineicons\fonts\linecons.ttf" />
+    <Content Include="Scripts\Lib\assets\lineicons\fonts\linecons.woff" />
+    <Content Include="Css\Lib\_titatoggle.less" />
+    <None Include="Scripts\Lib\jquery-1.9.1.min.intellisense.js" />
+    <Content Include="Scripts\Lib\jquery-1.9.1.min.js" />
+    <Content Include="Scripts\Lib\jquery-migrate-1.2.1.min.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-addon-i18n.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-addon-i18n.min.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-af.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-am.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-bg.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-ca.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-cs.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-da.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-de.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-el.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-es.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-et.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-eu.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-fa.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-fi.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-fr.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-gl.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-he.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-hr.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-hu.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-id.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-it.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-ja.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-ko.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-lt.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-lv.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-mk.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-nl.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-no.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-pl.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-pt-BR.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-pt.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-ro.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-ru.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-sk.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-sl.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-sr-RS.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-sr-YU.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-sv.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-th.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-tr.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-uk.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-vi.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-zh-CN.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-zh-TW.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\index.html" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\jquery-ui-sliderAccess.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\jquery-ui-timepicker-addon.css" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\jquery-ui-timepicker-addon.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\jquery-ui-timepicker-addon.min.css" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\jquery-ui-timepicker-addon.min.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\Gruntfile.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\lib\jasmine-1.3.1\jasmine-html.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\lib\jasmine-1.3.1\jasmine.css" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\lib\jasmine-1.3.1\jasmine.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\lib\jasmine-jquery.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\docs\examples.html" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\docs\footer.html" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\docs\formatting.html" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\docs\header.html" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\docs\i18n.html" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\docs\intro.html" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\docs\options.html" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-af.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-am.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-bg.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-ca.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-cs.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-da.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-de.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-el.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-es.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-et.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-eu.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-fa.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-fi.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-fr.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-gl.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-he.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-hr.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-hu.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-id.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-it.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-ja.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-ko.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-lt.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-lv.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-mk.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-nl.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-no.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-pl.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-pt-BR.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-pt.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-ro.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-ru.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-sk.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-sl.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-sr-RS.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-sr-YU.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-sv.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-th.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-tr.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-uk.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-vi.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-zh-CN.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\i18n\jquery-ui-timepicker-zh-TW.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\jquery-ui-sliderAccess.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\jquery-ui-timepicker-addon.css" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\jquery-ui-timepicker-addon.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\test\jquery-ui-timepicker-addon_spec.js" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\test\SpecRunner.html" />
+    <Content Include="Scripts\Lib\jquery-ui-1.10.3.min.js" />
+    <Content Include="Scripts\Lib\jquery.blockUI.js" />
+    <Content Include="Scripts\Lib\jquery.center.js" />
+    <Content Include="Scripts\Lib\jquery.cookie.js" />
+    <Content Include="Scripts\Lib\jquery.jgrowl.min.js" />
+    <Content Include="Scripts\Lib\jquery.placeholder.js" />
+    <Content Include="Scripts\Lib\jquery.ui.datepicker-zh-TW.js" />
+    <Content Include="Scripts\Lib\jQuery-datetimepicker\bower.json" />
+    <Content Include="Scripts\Lib\jQuery-datetimepicker\datetimepicker.jquery.json" />
+    <Content Include="Scripts\Lib\jQuery-datetimepicker\doc.tpl" />
+    <Content Include="Scripts\Lib\jQuery-datetimepicker\jquery插件库.url" />
+    <Content Include="Scripts\Lib\jQuery-datetimepicker\README.md" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\.gitignore" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\.jshintrc" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\bower.json" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\composer.json" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\CONTRIBUTING.md" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\jquery-ui-timepicker-addon.json" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\lib\jasmine-1.3.1\MIT.LICENSE" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\LICENSE-MIT" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\package.json" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\README.md" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\.jshintrc" />
+    <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\test\.jshintrc" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\captcha\fonts\Anorexia.ttf" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\captcha\images\image.php" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\captcha\image_req.php" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\captcha\index.php" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\captcha\newsession.php" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\captcha\process.php" />
+    <Content Include="Scripts\Lib\jquery-validation\demo\captcha\rand.php" />
+    <Content Include="Scripts\Lib\jquery-validation\package.json" />
+    <Content Include="Scripts\Lib\jquery-validation\README.md" />
+    <None Include="Scripts\Lib\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\Lib\jquery.validate.min.js" />
+    <Content Include="Scripts\Lib\jsencrypt.js" />
+    <Content Include="Scripts\Lib\jsencrypt.min.js" />
+    <Content Include="Scripts\Main.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="UserControls\UCGridViewPager.ascx" />
+    <Content Include="UserControls\UCRoleChg.ascx" />
+    <Content Include="UserControls\UCRoleDDL.ascx" />
+    <Content Include="UserControls\UCRoleUnitPositionDDL.ascx" />
+    <Content Include="UserControls\UCSystemModule.ascx" />
+    <Content Include="UserControls\UCRoleUnitDDL.ascx" />
+    <Content Include="UserControls\UCUnitDDL.ascx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Code\WebHelper.cs" />
+    <Compile Include="CommonPages\BasePage.aspx.cs">
+      <DependentUpon>BasePage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CommonPages\BasePage.aspx.designer.cs">
+      <DependentUpon>BasePage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CommonPages\Captcha.aspx.cs">
+      <DependentUpon>Captcha.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CommonPages\Captcha.aspx.designer.cs">
+      <DependentUpon>Captcha.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CommonPages\Error.aspx.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CommonPages\Error.aspx.designer.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DefaultSystemIndex.aspx.cs">
+      <DependentUpon>DefaultSystemIndex.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DefaultSystemIndex.aspx.designer.cs">
+      <DependentUpon>DefaultSystemIndex.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Index.aspx.cs">
+      <DependentUpon>Index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Index.aspx.designer.cs">
+      <DependentUpon>Index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Logout.aspx.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Logout.aspx.designer.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPages\Base.Master.cs">
+      <DependentUpon>Base.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPages\Base.Master.designer.cs">
+      <DependentUpon>Base.Master</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPages\Main.master.cs">
+      <DependentUpon>Main.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPages\Main.master.designer.cs">
+      <DependentUpon>Main.master</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="S01\S01000101.aspx.cs">
+      <DependentUpon>S01000101.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S01\S01000101.aspx.designer.cs">
+      <DependentUpon>S01000101.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="S01\S01000301.aspx.cs">
+      <DependentUpon>S01000301.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S01\S01000301.aspx.designer.cs">
+      <DependentUpon>S01000301.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="S01\S01000401.aspx.cs">
+      <DependentUpon>S01000401.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S01\S01000401.aspx.designer.cs">
+      <DependentUpon>S01000401.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="S01\S01000501.aspx.cs">
+      <DependentUpon>S01000501.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S01\S01000501.aspx.designer.cs">
+      <DependentUpon>S01000501.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="S01\S01000601.aspx.cs">
+      <DependentUpon>S01000601.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S01\S01000601.aspx.designer.cs">
+      <DependentUpon>S01000601.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="S01\S01000701.aspx.cs">
+      <DependentUpon>S01000701.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S01\S01000701.aspx.designer.cs">
+      <DependentUpon>S01000701.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="S01\UCAccountManager.ascx.cs">
+      <DependentUpon>UCAccountManager.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S01\UCAccountManager.ascx.designer.cs">
+      <DependentUpon>UCAccountManager.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="S01\UCAccountRoleManager.ascx.cs">
+      <DependentUpon>UCAccountRoleManager.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S01\UCAccountRoleManager.ascx.designer.cs">
+      <DependentUpon>UCAccountRoleManager.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="S01\UCProcessAuthManager.ascx.cs">
+      <DependentUpon>UCProcessAuthManager.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S01\UCProcessAuthManager.ascx.designer.cs">
+      <DependentUpon>UCProcessAuthManager.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="S01\S01000901.aspx.cs">
+      <DependentUpon>S01000901.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S01\S01000901.aspx.designer.cs">
+      <DependentUpon>S01000901.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="S01\UCProcessSubFuncAuthManager.ascx.cs">
+      <DependentUpon>UCProcessSubFuncAuthManager.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S01\UCProcessSubFuncAuthManager.ascx.designer.cs">
+      <DependentUpon>UCProcessSubFuncAuthManager.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="S01\UCProcessSubFuncAuthManagerDialog.ascx.cs">
+      <DependentUpon>UCProcessSubFuncAuthManagerDialog.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S01\UCProcessSubFuncAuthManagerDialog.ascx.designer.cs">
+      <DependentUpon>UCProcessSubFuncAuthManagerDialog.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="S01\UCProcessSubFuncAuthManagerAuthView.ascx.cs">
+      <DependentUpon>UCProcessSubFuncAuthManagerAuthView.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S01\UCProcessSubFuncAuthManagerAuthView.ascx.designer.cs">
+      <DependentUpon>UCProcessSubFuncAuthManagerAuthView.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="S01\UCRoleUnitManager.ascx.cs">
+      <DependentUpon>UCRoleUnitManager.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S01\UCRoleUnitManager.ascx.designer.cs">
+      <DependentUpon>UCRoleUnitManager.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="S01\UCRoleUnitPositionManager.ascx.cs">
+      <DependentUpon>UCRoleUnitPositionManager.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S01\UCRoleUnitPositionManager.ascx.designer.cs">
+      <DependentUpon>UCRoleUnitPositionManager.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="S01\UCRoleUnitPositionManagerDialog.ascx.cs">
+      <DependentUpon>UCRoleUnitPositionManagerDialog.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S01\UCRoleUnitPositionManagerDialog.ascx.designer.cs">
+      <DependentUpon>UCRoleUnitPositionManagerDialog.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="S01\S01001001.aspx.cs">
+      <DependentUpon>S01001001.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S01\S01001001.aspx.designer.cs">
+      <DependentUpon>S01001001.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="S01\UCAccountManagerDialog.ascx.cs">
+      <DependentUpon>UCAccountManagerDialog.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S01\UCAccountManagerDialog.ascx.designer.cs">
+      <DependentUpon>UCAccountManagerDialog.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="S02\S02010101.aspx.cs">
+      <DependentUpon>S02010101.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S02\S02010101.aspx.designer.cs">
+      <DependentUpon>S02010101.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="S02\S02010102.aspx.cs">
+      <DependentUpon>S02010102.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S02\S02010102.aspx.designer.cs">
+      <DependentUpon>S02010102.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="S02\S02010103.aspx.cs">
+      <DependentUpon>S02010103.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S02\S02010103.aspx.designer.cs">
+      <DependentUpon>S02010103.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="S02\S02010201.aspx.cs">
+      <DependentUpon>S02010201.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S02\S02010201.aspx.designer.cs">
+      <DependentUpon>S02010201.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="S02\WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S02\WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\UCGridViewPager.ascx.cs">
+      <DependentUpon>UCGridViewPager.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserControls\UCGridViewPager.ascx.designer.cs">
+      <DependentUpon>UCGridViewPager.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\UCRoleChg.ascx.cs">
+      <DependentUpon>UCRoleChg.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserControls\UCRoleChg.ascx.designer.cs">
+      <DependentUpon>UCRoleChg.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\UCRoleDDL.ascx.cs">
+      <DependentUpon>UCRoleDDL.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserControls\UCRoleDDL.ascx.designer.cs">
+      <DependentUpon>UCRoleDDL.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\UCRoleUnitPositionDDL.ascx.cs">
+      <DependentUpon>UCRoleUnitPositionDDL.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserControls\UCRoleUnitPositionDDL.ascx.designer.cs">
+      <DependentUpon>UCRoleUnitPositionDDL.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\UCSystemModule.ascx.cs">
+      <DependentUpon>UCSystemModule.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserControls\UCSystemModule.ascx.designer.cs">
+      <DependentUpon>UCSystemModule.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\UCRoleUnitDDL.ascx.cs">
+      <DependentUpon>UCRoleUnitDDL.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserControls\UCRoleUnitDDL.ascx.designer.cs">
+      <DependentUpon>UCRoleUnitDDL.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\UCUnitDDL.ascx.cs">
+      <DependentUpon>UCUnitDDL.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserControls\UCUnitDDL.ascx.designer.cs">
+      <DependentUpon>UCUnitDDL.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MasterPages\Base.Master" />
+    <Content Include="Scripts\Lib\jquery-1.9.1.min.map" />
+    <Content Include="Scripts\Lib\jquery.jgrowl.map" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessLayer\BusinessLayer.csproj">
+      <Project>{8b48ceec-fcba-426c-8b17-352e2b2f8bd4}</Project>
+      <Name>BusinessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
+      <Project>{325923b1-8f4c-409e-893e-4ac498645f48}</Project>
+      <Name>DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{f329b74b-b11c-45d4-b145-abfaa1cf99d5}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Util\Util.csproj">
+      <Project>{6ba52742-5e43-4c2b-baf0-574059a51fc0}</Project>
+      <Name>Util</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Template\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>33210</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:33206/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

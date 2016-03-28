@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{325923B1-8F4C-409E-893E-4AC498645F48}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DataAccess</RootNamespace>
+    <AssemblyName>DataAccess</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DataAccessBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\DataAccessBase.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UtilBase">
+      <HintPath>..\Util\Lib\UtilBase.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActivityData.cs" />
+    <Compile Include="Activity_applyData.cs" />
+    <Compile Include="Activity_sectionData.cs" />
+    <Compile Include="Activity_columnData.cs" />
+    <Compile Include="Activity_sessionData.cs" />
+    <Compile Include="Common\CommonData.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="S01\S010003Data.cs" />
+    <Compile Include="S01\S010004Data.cs" />
+    <Compile Include="S01\S010005Data.cs" />
+    <Compile Include="S01\S010006Data.cs" />
+    <Compile Include="S01\S010007Data.cs" />
+    <Compile Include="S01\S010009Data.cs" />
+    <Compile Include="S01\S010010Data.cs" />
+    <Compile Include="S01\UCAccountManagerData.cs" />
+    <Compile Include="S01\UCAccountRoleManagerData.cs" />
+    <Compile Include="S01\UCProcessAuthManagerData.cs" />
+    <Compile Include="S01\UCProcessSubFuncAuthManagerData.cs" />
+    <Compile Include="S01\UCRoleUnitManagerData.cs" />
+    <Compile Include="S01\UCRoleUnitManagerPositionData.cs" />
+    <Compile Include="S02\S020101Data.cs" />
+    <Compile Include="Sys_accountData.cs" />
+    <Compile Include="Sys_account_roleData.cs" />
+    <Compile Include="Sys_announceData.cs" />
+    <Compile Include="Sys_configData.cs" />
+    <Compile Include="Sys_logData.cs" />
+    <Compile Include="Sys_loginldapData.cs" />
+    <Compile Include="Sys_login_logData.cs" />
+    <Compile Include="Sys_moduleData.cs" />
+    <Compile Include="Sys_processcontrolData.cs" />
+    <Compile Include="Sys_processcontrol_roleData.cs" />
+    <Compile Include="Sys_processData.cs" />
+    <Compile Include="Sys_process_roleData.cs" />
+    <Compile Include="Sys_roleData.cs" />
+    <Compile Include="Sys_role_positionData.cs" />
+    <Compile Include="Sys_role_unitData.cs" />
+    <Compile Include="Sys_systemData.cs" />
+    <Compile Include="Sys_unitData.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{f329b74b-b11c-45d4-b145-abfaa1cf99d5}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Util\Util.csproj">
+      <Project>{6ba52742-5e43-4c2b-baf0-574059a51fc0}</Project>
+      <Name>Util</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Lib\DataAccessBase.dll" />
+    <Content Include="Lib\DataAccessBase.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

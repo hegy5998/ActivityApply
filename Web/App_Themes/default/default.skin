@@ -1,0 +1,28 @@
+﻿<%--
+預設面板範本。下列面板僅提供做為範例的用途。
+
+1. 具名控制面板。SkinId 應為唯一定義，因為在相同主題中，一個控制項型別不能具有重複的 SkinId。
+
+<asp:GridView runat="server" SkinId="gridviewSkin" BackColor="White" >
+   <AlternatingRowStyle BackColor="Blue" />
+</asp:GridView>
+
+2. 預設面板。SkinId 未定義。在相同主題中，每個控制項型別只能有一個預設控制面板。
+
+<asp:Image runat="server" ImageUrl="~/images/image1.jpg" />
+--%>
+ <%-- 預設樣式--%>
+<asp:GridView runat="server" CssClass="grv" PageSize="10"  
+    AutoGenerateColumns="False" GridLines="None"  AllowSorting="True"  AllowPaging="True" ShowHeaderWhenEmpty="true" >
+    <HeaderStyle CssClass="grvHeaderRow" />
+    <RowStyle CssClass="grvDataRow odd"/>
+    <AlternatingRowStyle CssClass="grvDataRow even"/> 
+    <SelectedRowStyle CssClass="grvDataRow select" />
+    <EditRowStyle CssClass="grvDataRow edit" />
+    <FooterStyle CssClass="grvDataRow footer" />
+    <PagerStyle CssClass="grvPageRow.empty" />
+    <PagerTemplate></PagerTemplate>
+</asp:GridView>
+<asp:FormView runat="server" Width="100%">
+</asp:FormView>
+   
