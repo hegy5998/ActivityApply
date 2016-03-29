@@ -657,16 +657,6 @@
                 //抓到要新增問題、描述以及新增問題的區塊
                 var temp_change_Qus_Way_div = $("#change_Qus_Way_div_" + chooseId);
                 var temp_change_Qus_Content_div = $("#change_Qus_Content_div_" + chooseId);
-                //判斷如果是選、多選、選單則要禁用資料驗證
-                if (qus_Way == "單選" || qus_Way == "多選" || qus_Way == "選單") {
-                    $('#select_Validation_' + chooseId).attr('disabled', true);
-                    $('#select_Validation_' + chooseId).val("");
-                    //判斷原來是否存在最大最小值的DIV，如果存在要刪除
-                    if ($("#add_Validation_div_" + chooseId).children().length > 0)
-                        $("#add_Validation_div_" + chooseId).children().remove();
-                }
-                else
-                    $('#select_Validation_' + chooseId).attr('disabled', false);
                 switch (qus_Way) {
                     //單選問題
                     case "單選":
@@ -723,6 +713,16 @@
             }
             else
                 var option_Value = "value";
+            //判斷如果是選、多選、選單則要禁用資料驗證
+            if (qus_way_int == "單選" || qus_way_int == "多選" || qus_way_int == "選單") {
+                $('#select_Validation_' + chooseId).attr('disabled', true);
+                $('#select_Validation_' + chooseId).val("");
+                //判斷原來是否存在最大最小值的DIV，如果存在要刪除
+                if ($("#add_Validation_div_" + chooseId).children().length > 0)
+                    $("#add_Validation_div_" + chooseId).children().remove();
+            }
+            else
+                $('#select_Validation_' + chooseId).attr('disabled', false);
             //移除選擇問題類型區塊內容
             temp_change_Qus_Way_div.children().remove();
             //移除問題內容
