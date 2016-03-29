@@ -28,3 +28,8 @@ C:\Users\Saki\Desktop\1050322ActivityApply\Model\bin\Debug\Model.pdb
 C:\Users\Saki\Desktop\1050322ActivityApply\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache
 C:\Users\Saki\Desktop\1050322ActivityApply\Model\obj\Debug\Model.dll
 C:\Users\Saki\Desktop\1050322ActivityApply\Model\obj\Debug\Model.pdb
+C:\Users\Saki\Desktop\1050327ActivityApply\Model\bin\Debug\Model.dll
+C:\Users\Saki\Desktop\1050327ActivityApply\Model\bin\Debug\Model.pdb
+C:\Users\Saki\Desktop\1050327ActivityApply\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache
+C:\Users\Saki\Desktop\1050327ActivityApply\Model\obj\Debug\Model.dll
+C:\Users\Saki\Desktop\1050327ActivityApply\Model\obj\Debug\Model.pdb

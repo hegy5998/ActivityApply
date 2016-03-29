@@ -76,12 +76,6 @@ namespace Model
         /// <summary>
         ///  
         /// </summary>
-        [Column("act_isopen")]
-        public Byte? Act_isopen { get; set; }
-
-        /// <summary>
-        ///  
-        /// </summary>
         [Column("act_class")]
         public Int32? Act_class { get; set; }
 

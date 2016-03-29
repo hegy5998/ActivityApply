@@ -103,5 +103,11 @@ namespace Model
         /// </summary>
         [Column("as_title")]
         public String As_title { get; set; }
+
+        /// <summary>
+        ///  
+        /// </summary>
+        [Column("as_isopen")]
+        public Byte? As_isopen { get; set; }
     }
 }

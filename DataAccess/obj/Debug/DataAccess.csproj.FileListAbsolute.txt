@@ -76,3 +76,16 @@ C:\Users\Saki\Desktop\1050322ActivityApply\DataAccess\bin\Debug\UtilBase.xml
 C:\Users\Saki\Desktop\1050322ActivityApply\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
 C:\Users\Saki\Desktop\1050322ActivityApply\DataAccess\obj\Debug\DataAccess.dll
 C:\Users\Saki\Desktop\1050322ActivityApply\DataAccess\obj\Debug\DataAccess.pdb
+C:\Users\Saki\Desktop\1050327ActivityApply\DataAccess\bin\Debug\DataAccess.dll
+C:\Users\Saki\Desktop\1050327ActivityApply\DataAccess\bin\Debug\DataAccess.pdb
+C:\Users\Saki\Desktop\1050327ActivityApply\DataAccess\bin\Debug\DataAccessBase.dll
+C:\Users\Saki\Desktop\1050327ActivityApply\DataAccess\bin\Debug\Model.dll
+C:\Users\Saki\Desktop\1050327ActivityApply\DataAccess\bin\Debug\Util.dll
+C:\Users\Saki\Desktop\1050327ActivityApply\DataAccess\bin\Debug\UtilBase.dll
+C:\Users\Saki\Desktop\1050327ActivityApply\DataAccess\bin\Debug\Model.pdb
+C:\Users\Saki\Desktop\1050327ActivityApply\DataAccess\bin\Debug\Util.pdb
+C:\Users\Saki\Desktop\1050327ActivityApply\DataAccess\bin\Debug\DataAccessBase.xml
+C:\Users\Saki\Desktop\1050327ActivityApply\DataAccess\bin\Debug\UtilBase.xml
+C:\Users\Saki\Desktop\1050327ActivityApply\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
+C:\Users\Saki\Desktop\1050327ActivityApply\DataAccess\obj\Debug\DataAccess.dll
+C:\Users\Saki\Desktop\1050327ActivityApply\DataAccess\obj\Debug\DataAccess.pdb
