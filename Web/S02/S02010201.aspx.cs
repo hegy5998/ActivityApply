@@ -69,7 +69,6 @@ namespace Web.S02
             }
             #endregion
 
-
             S020102BL _bl = new S020102BL();
             Dictionary<String, Object> save_Activity_Section = new Dictionary<string, object>();
             for (int count = 0; count < activity_Section.Count; count++)
