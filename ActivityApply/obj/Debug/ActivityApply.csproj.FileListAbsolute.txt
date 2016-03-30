@@ -1,0 +1,10 @@
+D:\Oit\報名系統\ActivityApply\ActivityApply\bin\Register.dll
+D:\Oit\報名系統\ActivityApply\ActivityApply\bin\Register.pdb
+D:\Oit\報名系統\ActivityApply\ActivityApply\obj\Debug\Register.dll
+D:\Oit\報名系統\ActivityApply\ActivityApply\obj\Debug\Register.pdb
+D:\Kris\ActivityApply\ActivityApply\bin\Register.dll.config
+D:\Kris\ActivityApply\ActivityApply\bin\Register.dll
+D:\Kris\ActivityApply\ActivityApply\bin\Register.pdb
+D:\Kris\ActivityApply\ActivityApply\obj\Debug\ActivityApply.csprojResolveAssemblyReference.cache
+D:\Kris\ActivityApply\ActivityApply\obj\Debug\Register.dll
+D:\Kris\ActivityApply\ActivityApply\obj\Debug\Register.pdb

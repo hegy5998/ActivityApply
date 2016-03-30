@@ -1,0 +1,171 @@
+﻿<%@ Master Language="C#" MasterPageFile="Base.Master" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="Register.MasterPages.Main" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <asp:ContentPlaceHolder ID="mainHead" runat="server"></asp:ContentPlaceHolder>
+
+    
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <section id="container">
+        <!-- **********************************************************************************************************************************************************
+            TOP BAR CONTENT & NOTIFICATIONS
+            *********************************************************************************************************************************************************** -->
+        <!--header start-->
+        <header class="header black-bg">
+            <div class="sidebar-toggle-box">
+                <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+            </div>
+            <!--logo start-->
+            <a href="../index.aspx" class="logo">
+                <img src="../assets/img/12767525_955825364513665_1121294852_n.jpg" /></a>
+            <!--logo end-->
+            <div class="row"></div>
+            <div>
+                <div class="breadcrumb">
+                    <ol class="breadcrumb">
+                            <li><a href="../index.aspx">首頁</a></li>
+                    </ol>
+                </div>
+            </div>
+
+        </header>
+        <!--header end-->
+
+        <!-- **********************************************************************************************************************************************************
+            MAIN SIDEBAR MENU
+            *********************************************************************************************************************************************************** -->
+        <!--sidebar start-->
+        <aside>
+            <div id="sidebar" class="nav-collapse">
+                <!-- sidebar menu start-->
+                <ul class="sidebar-menu" id="nav-accordion">
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-desktop"></i>
+                            <span>教育訓練</span>
+                        </a>
+
+                        <ul class="sub">
+                            <li><a href="../index.aspx">分類一</a></li>
+                            <li><a href="../index.aspx">分類二</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="mt">
+                        <a href="../SignSearch.aspx">
+                            <i class="fa fa-dashboard"></i>
+                            <span>報名查詢</span>
+                        </a>
+                    </li>
+
+                    <!-- CALENDAR-->
+                    <li id="calendar">
+                        <div class="panel green-panel no-margin">
+                            <div class="panel-body">
+                                <div id="date-popover" class="popover top" style="cursor: pointer; disadding: block; margin-left: 33%; margin-top: -50px; width: 175px;">
+                                    <div class="arrow"></div>
+                                    <h3 class="popover-title" style="disadding: none;"></h3>
+                                    <div id="date-popover-content" class="popover-content"></div>
+                                </div>
+                                <div id="my-calendar"></div>
+                            </div>
+                        </div>
+                        <!-- / calendar -->
+                    </li>
+                </ul>
+                <!-- sidebar menu end-->
+                <!-- 側欄內容 -->
+                <asp:ContentPlaceHolder ID="sideCon" runat="server">
+                </asp:ContentPlaceHolder>
+
+            </div>
+
+        </aside>
+        <!--sidebar end-->
+
+        <div id="body">
+            <section class="content-wrapper main-content clear-fix">
+                <!-- 主欄內容 -->
+                <asp:ContentPlaceHolder ID="mainCon" runat="server">
+                </asp:ContentPlaceHolder>
+            </section>
+        </div>
+    </section>
+
+    <!--footer start-->
+    <footer class="site-footer">
+        <div class="text-center">
+            <!-- 設定每頁標題與單元名稱CSS的結尾標籤 -->
+        <asp:ContentPlaceHolder ID="pageUnitEnd" runat="server">
+        </asp:ContentPlaceHolder>
+            2016  逢甲大學資訊處 - 資訊技術服務中心
+        </div>        
+    </footer>
+    <!--footer end-->
+
+     <!-- js placed at the end of the document so the pages load faster -->
+    <script src="../assets/js/jquery.js"></script>
+    <script src="../assets/js/jquery-1.8.3.min.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script class="include" type="text/javascript" src="../assets/js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="../assets/js/jquery.scrollTo.min.js"></script>
+    <script src="../assets/js/jquery.nicescroll.js" type="../text/javascript"></script>
+    <script src="../assets/js/jquery.sparkline.js"></script>
+
+    <!--common script for all pages-->
+    <script src="../assets/js/common-scripts.js"></script>
+    <script type="text/javascript" src="../assets/js/gritter/js/jquery.gritter.js"></script>
+    <script type="text/javascript" src="../assets/js/gritter-conf.js"></script>
+
+    <!--script for this page-->
+    <!-- calender -->
+    <script src="../assets/js/sparkline-chart.js"></script>
+    <script src="../assets/js/zabuto_calendar.js"></script>
+   
+    <!-- dialog -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script type="text/javascript" src="http://mybidrobot.allalla.com/jquery/jquery.ui.datepicker-zh-TW.js"></script>
+    <link rel="stylesheet" href="/resources/demos/style.css"/>
+
+    <!-- datetimepicker -->
+    <link href="jquery/jquery-ui-timepicker-addon.css" rel="stylesheet"/>
+    <script src="jquery/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
+    <script src="jquery/jquery-ui-sliderAccess.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="../jQuery-datetimepicker/jquery.datetimepicker.css"/>
+    <script src="../jQuery-datetimepicker/jquery.datetimepicker.js"></script>   
+
+    <script type="application/javascript">
+        $(document).ready(function () {
+            $("#date-popover").popover({ html: true, trigger: "manual" });
+            $("#date-popover").hide();
+            $("#date-popover").click(function (e) {
+                $(this).hide();
+            });
+
+            $("#my-calendar").zabuto_calendar({
+                action: function () {
+                    return myDateFunction(this.id, false);
+                },
+                action_nav: function () {
+                    return myNavFunction(this.id);
+                },
+                ajax: {
+                    url: "show_data.php?action=1",
+                    modal: true
+                },
+                legend: [
+                    { type: "text", label: "Special event", badge: "00" },
+                    { type: "block", label: "Regular event", }
+                ]
+            });
+        });
+
+        function myNavFunction(id) {
+            $("#date-popover").hide();
+            var nav = $("#" + id).data("navigation");
+            var to = $("#" + id).data("to");
+            console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
+        }
+    </script>
+</asp:Content>

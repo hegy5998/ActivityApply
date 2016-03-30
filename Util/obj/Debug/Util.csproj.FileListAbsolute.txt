@@ -61,3 +61,12 @@ C:\Users\Saki\Desktop\1050327ActivityApply\Util\bin\Debug\UtilBase.xml
 C:\Users\Saki\Desktop\1050327ActivityApply\Util\obj\Debug\Util.csprojResolveAssemblyReference.cache
 C:\Users\Saki\Desktop\1050327ActivityApply\Util\obj\Debug\Util.dll
 C:\Users\Saki\Desktop\1050327ActivityApply\Util\obj\Debug\Util.pdb
+D:\Kris\ActivityApply\Util\bin\Debug\Util.dll
+D:\Kris\ActivityApply\Util\bin\Debug\Util.pdb
+D:\Kris\ActivityApply\Util\bin\Debug\Model.dll
+D:\Kris\ActivityApply\Util\bin\Debug\UtilBase.dll
+D:\Kris\ActivityApply\Util\bin\Debug\Model.pdb
+D:\Kris\ActivityApply\Util\bin\Debug\UtilBase.xml
+D:\Kris\ActivityApply\Util\obj\Debug\Util.csprojResolveAssemblyReference.cache
+D:\Kris\ActivityApply\Util\obj\Debug\Util.dll
+D:\Kris\ActivityApply\Util\obj\Debug\Util.pdb
