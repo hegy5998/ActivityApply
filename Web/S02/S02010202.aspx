@@ -57,7 +57,6 @@
                 }
             });
         }
-
         function get_Json_Data() {
             var json = $("#save_Json_Data", window.opener.document).val();
             var json_object = eval("(" + json + ")");
