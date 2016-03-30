@@ -48,8 +48,6 @@
                 success: function (result) {
                     var a = eval("(" + result.d + ")");
                     alert(a["Acc_title"]);
-                   
-                   
                 },
                 //失敗時
                 error: function () {
