@@ -82,9 +82,10 @@ namespace Web.S02
             }
 
 
-            Dictionary<string, Object> save_Activity_Form = new Dictionary<string, object>();
+            
             for (int count = 0; count < activity_Form.Count; count++)
             {
+                Dictionary<string, Object> save_Activity_Form = new Dictionary<string, object>();
                 save_Activity_Form["acc_asc"] = activity_Form[count].Acc_asc;
                 save_Activity_Form["acc_act"] = as_act;
                 save_Activity_Form["acc_title"] = activity_Form[count].Acc_title;
@@ -92,10 +93,10 @@ namespace Web.S02
                 save_Activity_Form["acc_seq"] = activity_Form[count].Acc_seq;
                 save_Activity_Form["acc_type"] = activity_Form[count].Acc_type;
                 if(activity_Form[count].Acc_option!=null)
-                save_Activity_Form["acc_option"] = activity_Form[count].Acc_option;
+                    save_Activity_Form["acc_option"] = activity_Form[count].Acc_option;
                 save_Activity_Form["acc_validation"] = activity_Form[count].Acc_validation;
                 save_Activity_Form["acc_required"] = activity_Form[count].Acc_required;
-                _bl.InsertData_Activity_Column(save_Activity_Form);
+                CommonResult result = _bl.InsertData_Activity_Column(save_Activity_Form);
             }
             return "成功";
         }

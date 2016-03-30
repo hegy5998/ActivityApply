@@ -237,6 +237,7 @@
     <Content Include="S02\S02010102.aspx" />
     <Content Include="S02\S02010103.aspx" />
     <Content Include="S02\S02010201.aspx" />
+    <Content Include="S02\S02010202.aspx" />
     <Content Include="S02\WebForm1.aspx" />
     <Content Include="Scripts\ITCFunctions.js" />
     <Content Include="Scripts\Lib\assets\css\style-responsive.css" />
@@ -1680,6 +1681,13 @@
     </Compile>
     <Compile Include="S02\S02010201.aspx.designer.cs">
       <DependentUpon>S02010201.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="S02\S02010202.aspx.cs">
+      <DependentUpon>S02010202.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S02\S02010202.aspx.designer.cs">
+      <DependentUpon>S02010202.aspx</DependentUpon>
     </Compile>
     <Compile Include="S02\WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>

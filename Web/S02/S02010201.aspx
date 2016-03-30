@@ -146,7 +146,6 @@
                                                         '/',
                                                         ['Styles', 'Format', 'Font', 'FontSize', 'JustifyLeft', '-', 'JustifyCenter', '-', 'JustifyRight', '-', 'JustifyBlock']
                                                     ]
-                                      
                                                 });
                                         </script>
                                 </div>
@@ -210,7 +209,7 @@
                     <input type="text" id="block_Description_txt_1" class="form-control" placeholder="區塊描述">
                     <!-- 新增問題地方 START-->  
                     <div class="form-horizontal style-form column " id="add_Qus_div_1" style="min-height:50px">
-
+                        
                        <%-- <div id="qus_div_1" class="form-group portlet showback" style="border: 0px; background: #ffffff;padding: 15px;margin-bottom: 15px;box-shadow: 0px 0px 2px #272727;border-radius: 20px;margin: 20px 0px 0px 1px;">
                                         <div class="col-sm-1 portlet-header center" style="background-color: #F1F2F7;height:100px; width:35px">
                                             <img src="../Images/drag_pic.jpg" alt="拖移" height="24px" style="transform: translateY(-50%);top: 50%;position: relative;"/> 
@@ -331,13 +330,14 @@
                         <a type="submit" class="btn btn-theme " onclick="getText()">載入範本</a>
                         <br />
                         <!-- 檢視 -->
-                        <a type="submit" class="btn btn-theme ">檢視</a>
+                        <a type="submit" class="btn btn-theme" onclick="view_Activity()">檢視</a>
                     </div>                     
                 </div>
                 <!-- 功能列_END -->
             </div>        
             <!-- 新增區塊地方_END-->  
         </div>
+        
         <!-- 活動報名表標籤_END--> 
     </div>
     <!-- 標籤內容_END -->
@@ -444,7 +444,7 @@
       </div>
     </div>
     <!-- 常用欄位_Modal_END-->
-
+    <input type="hidden" id="save_Json_Data" />
     <!-- JavaScript_START-->
     <script type="text/javascript">
 
@@ -1342,7 +1342,7 @@
                         //依照問題排序陣列來獲得這個block裡面有幾個問題
                         for (var qus_count = 0; qus_count < $qus_sortable.length; qus_count++)
                         {
-                            var activity_Column_Json_Data = {};
+                            var activity_Column_Json_Data = new Object;
                             //獲得這個問題的純數字ID
                             var chooseId_temp = $("#" + $qus_sortable[qus_count]).attr("id");
                             var chooseId = chooseId_temp.split("_")[chooseId_temp.split("_").length - 1];
@@ -1451,6 +1451,9 @@
                     block_asc++;
                 }
             }
+            //var json = JSON.stringify(jsondata);
+            //$("#save_Json_Data").val(json);
+            //window.open("S02010202.aspx?sys_id=S01&sys_pid=S02010202");
             //使用ajax傳送
             if (checkData === true)
             {
@@ -1478,6 +1481,25 @@
             }
         }
         //#endregion 
+
+        function view_Activity() {
+            
+            //$.ajax({
+            //    type: 'POST',
+            //    url: "S02010202.aspx?sys_id=S01&sys_pid=S02010202/get_Activity",
+            //    data: {"as":"as"},
+            //    success: function (result) {
+            //        window.open("S02010202.aspx?sys_id=S01&sys_pid=S02010202");
+            //    },
+            //    contentType: "application/json; charset=utf-8",
+            //    dataType: "json",
+            //    error: function (a) {
+            //        alert("失敗!!!!");
+            //    }
+            //});
+
+            $("#txt").val("123");
+        }
     </script>
     <!-- JavaScript_END-->
 </asp:Content>
