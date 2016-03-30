@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Model;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using System.Reflection;
+using System.Text;
 
 namespace Web.S02
 {
@@ -13,12 +12,20 @@ namespace Web.S02
         {
 
         }
-
-        public static string get()
+        [System.Web.Services.WebMethod]
+        public static string get(string ID)
         {
-            string response = "123";
-            return response;
+            List<Activity_columnInfo> activity_Form = new List<Activity_columnInfo>();
+
+            Activity_columnInfo a = new Activity_columnInfo();
+
+            a.Acc_title = "123";
+            //string szRtnJSON = activity_Form.t
+            activity_Form.Add(a);
+            string response = "Acc_title";
+            return activity_Form.ToString();
         }
+
     }
 
     

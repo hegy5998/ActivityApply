@@ -10,7 +10,7 @@
 
     <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
     <input type="text" id="txt1"/>
-    <input type="button" id="Button1" value="123" onclick="aaa()"/>
+    <input type="button" id="Button1" value="123" onclick="get_Json_Data()"/>
     <script type="text/javascript">
 
         $(document).ready(function () {
@@ -22,18 +22,34 @@
             test();
 
         });
-
+        var jsondata = { "subject": "Math", "score": 80 };
         function test() {
+
+            var jsondata = { activity_Form: [] };
+            var activity_Column_Json_Data = {};
+            activity_Column_Json_Data.Acc_asc = "1";
+            activity_Column_Json_Data.Acc_option = "123";
+            jsondata.activity_Form.push(activity_Column_Json_Data);
+
+            var paramJSON = '{ "ID": "10"}';
+
+            var json = window.opener.document.getElementById("save_Json_Data").value;
+            var json_object = eval("(" + json + ")");
+            var t = json_object["activity_Form"];
             $.ajax({
-                type: 'get',
+                type: 'post',
                 traditional: true,
                 //傳送資料到後台為save_Activity_Form的function
+                data: paramJSON,
                 url: '/S02/S02010202.aspx/get',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 //成功時
-                success: function (response) {
-                    alert(response.d);
+                success: function (result) {
+                    var a = eval("(" + result.d + ")");
+                    alert(a["Acc_title"]);
+                   
+                   
                 },
                 //失敗時
                 error: function () {
@@ -43,7 +59,7 @@
         }
 
         function get_Json_Data() {
-            var json = window.opener.document.getElementById("save_Json_Data").value;
+            var json = $("#save_Json_Data", window.opener.document).val();
             var json_object = eval("(" + json + ")");
                 if (json_object["activity_Form"][0]["Acc_asc"] == 1) {
                     $("#add_Session_div").append('<input type="text" value="成功!!!"/>');

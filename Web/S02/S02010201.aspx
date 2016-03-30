@@ -1451,34 +1451,34 @@
                     block_asc++;
                 }
             }
-            //var json = JSON.stringify(jsondata);
-            //$("#save_Json_Data").val(json);
-            //window.open("S02010202.aspx?sys_id=S01&sys_pid=S02010202");
+            var json = JSON.stringify(jsondata);
+            $("#save_Json_Data").val(json);
+            window.open("S02010202.aspx?sys_id=S01&sys_pid=S02010202");
             //使用ajax傳送
-            if (checkData === true)
-            {
-                $.ajax({
-                    type: 'post',
-                    traditional: true,
-                    //傳送資料到後台為save_Activity_Form的function
-                    url: '/S02/S02010201.aspx/save_Activity_Form',
-                    data: JSON.stringify(jsondata),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    //成功時
-                    success: function (result) {
-                        alert(result.d);
-                    },
-                    //失敗時
-                    error: function () {
-                        alert("失敗!!!!");
-                    }
-                });
-            }
-            else if (checkData === false)
-            {
-                alert("您有資料尚未填寫!!")
-            }
+            //if (checkData === true)
+            //{
+            //    $.ajax({
+            //        type: 'post',
+            //        traditional: true,
+            //        //傳送資料到後台為save_Activity_Form的function
+            //        url: '/S02/S02010201.aspx/save_Activity_Form',
+            //        data: JSON.stringify(jsondata),
+            //        contentType: "application/json; charset=utf-8",
+            //        dataType: "json",
+            //        //成功時
+            //        success: function (result) {
+            //            alert(result.d);
+            //        },
+            //        //失敗時
+            //        error: function () {
+            //            alert("失敗!!!!");
+            //        }
+            //    });
+            //}
+            //else if (checkData === false)
+            //{
+            //    alert("您有資料尚未填寫!!")
+            //}
         }
         //#endregion 
 
