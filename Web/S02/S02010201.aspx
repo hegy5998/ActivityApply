@@ -28,6 +28,11 @@
       <h4>Firefox : 工具 -> 網頁開發者 -> 網頁工具箱 -> 選項 -> 取消打勾「停用JavaScript」</h4>
       <h4>IChrome : 設定 -> 顯示進階設定 -> 隱私權 -> 內容定... -> JavaScript -> 選擇「允許所有網站執行JavaScript」</h4>
     </noscript>
+
+    <div class="alert alert-danger" role="alert" style="margin-bottom: 0px;"><h4 style="margin-bottom:0px;text-align: center;">請注意：為因應個資法，活動超過『活動日期』後３０天，系統將會自動移除此相關報名資訊！請審慎使用！</h4></div>
+    <div class="alert alert-warning" role="alert" style="margin-bottom: 0px;"><h4 style="margin-bottom:0px;text-align: center;">請在建立完成活動頁面後，接著建立活動報名表 !</h4></div>
+    
+
 <div id="Tabs" role="tabpanel">
     <!-- 建立活動標籤_START-->
     <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
@@ -146,6 +151,7 @@
                                                         '/',
                                                         ['Styles', 'Format', 'Font', 'FontSize', 'JustifyLeft', '-', 'JustifyCenter', '-', 'JustifyRight', '-', 'JustifyBlock']
                                                     ]
+                                      
                                                 });
                                         </script>
                                 </div>
@@ -209,7 +215,7 @@
                     <input type="text" id="block_Description_txt_1" class="form-control" placeholder="區塊描述">
                     <!-- 新增問題地方 START-->  
                     <div class="form-horizontal style-form column " id="add_Qus_div_1" style="min-height:50px">
-                        
+
                        <%-- <div id="qus_div_1" class="form-group portlet showback" style="border: 0px; background: #ffffff;padding: 15px;margin-bottom: 15px;box-shadow: 0px 0px 2px #272727;border-radius: 20px;margin: 20px 0px 0px 1px;">
                                         <div class="col-sm-1 portlet-header center" style="background-color: #F1F2F7;height:100px; width:35px">
                                             <img src="../Images/drag_pic.jpg" alt="拖移" height="24px" style="transform: translateY(-50%);top: 50%;position: relative;"/> 
@@ -337,7 +343,6 @@
             </div>        
             <!-- 新增區塊地方_END-->  
         </div>
-        
         <!-- 活動報名表標籤_END--> 
     </div>
     <!-- 標籤內容_END -->
@@ -444,7 +449,7 @@
       </div>
     </div>
     <!-- 常用欄位_Modal_END-->
-    <input type="hidden" id="save_Json_Data" />
+
     <!-- JavaScript_START-->
     <script type="text/javascript">
 
@@ -1104,6 +1109,7 @@
 
         //#region 儲存活動頁面
         function Save_btn_Click() {
+            var date_txt = "";
             //判斷資料是否正確 1:正確 0:錯誤
             var checkData = true;
             //錯誤訊息
@@ -1221,6 +1227,10 @@
                         $("#datetimepicker_Activity_Sign_End_txt_" + temp).css({ "box-shadow": "" });
                         $("#datetimepicker_Activity_Sign_End_txt_error_" + temp).remove();
                     }
+                    //判斷活動報名結束日期是否有超過活動開始日期，如超過要詢問是否要儲存
+                    if ($("#datetimepicker_Activity_Sign_End_txt_" + temp).val() > $("#datetimepicker_Activity_Start_txt_" + temp).val()) {
+                        date_txt += date_txt + "場次名 : \"" + $("#session_Name_txt_" + temp).val() + "\"的活名結束時間超過活動開始時間\n";
+                    }
 
                     if (checkData === false) alert_txt_all += "場次" + temp + "\n" + alert_txt;
                     
@@ -1261,25 +1271,30 @@
                 $("#activity_Name_txt").css({ "box-shadow": "" });
                 $("#activity_Name_txt_error" + temp).remove();
             }
+            
+
             //如果資料正確，使用jQuery ajax傳送資料
             if (checkData === true) {
-                $.ajax({
-                    type: 'post',
-                    traditional: true,
-                    //將資料傳到後台save_Activity這個function
-                    url: '/S02/S02010201.aspx/save_Activity',
-                    data: JSON.stringify(jsondata),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    //成功時
-                    success: function (result) {
-                        alert(result.d);
-                    },
-                    //失敗時
-                    error: function () {
-                        alert("失敗");
-                    }
-                });
+                date_txt += "確定要儲存活動?";
+                if (confirm(date_txt)) {
+                    $.ajax({
+                        type: 'post',
+                        traditional: true,
+                        //將資料傳到後台save_Activity這個function
+                        url: '/S02/S02010201.aspx/save_Activity',
+                        data: JSON.stringify(jsondata),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        //成功時
+                        success: function (result) {
+                            alert(result.d);
+                        },
+                        //失敗時
+                        error: function () {
+                            alert("失敗");
+                        }
+                    });
+                }
             }
             else {
                 alert("資料有誤");
@@ -1342,7 +1357,7 @@
                         //依照問題排序陣列來獲得這個block裡面有幾個問題
                         for (var qus_count = 0; qus_count < $qus_sortable.length; qus_count++)
                         {
-                            var activity_Column_Json_Data = new Object;
+                            var activity_Column_Json_Data = {};
                             //獲得這個問題的純數字ID
                             var chooseId_temp = $("#" + $qus_sortable[qus_count]).attr("id");
                             var chooseId = chooseId_temp.split("_")[chooseId_temp.split("_").length - 1];
@@ -1451,54 +1466,64 @@
                     block_asc++;
                 }
             }
-            var json = JSON.stringify(jsondata);
-            $("#save_Json_Data").val(json);
-            window.open("S02010202.aspx?sys_id=S01&sys_pid=S02010202");
             //使用ajax傳送
-            //if (checkData === true)
-            //{
-            //    $.ajax({
-            //        type: 'post',
-            //        traditional: true,
-            //        //傳送資料到後台為save_Activity_Form的function
-            //        url: '/S02/S02010201.aspx/save_Activity_Form',
-            //        data: JSON.stringify(jsondata),
-            //        contentType: "application/json; charset=utf-8",
-            //        dataType: "json",
-            //        //成功時
-            //        success: function (result) {
-            //            alert(result.d);
-            //        },
-            //        //失敗時
-            //        error: function () {
-            //            alert("失敗!!!!");
-            //        }
-            //    });
-            //}
-            //else if (checkData === false)
-            //{
-            //    alert("您有資料尚未填寫!!")
-            //}
+            if (checkData === true)
+            {
+                $.ajax({
+                    type: 'post',
+                    traditional: true,
+                    //傳送資料到後台為save_Activity_Form的function
+                    url: '/S02/S02010201.aspx/save_Activity_Form',
+                    data: JSON.stringify(jsondata),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    //成功時
+                    success: function (result) {
+                        alert(result.d);
+                    },
+                    //失敗時
+                    error: function () {
+                        alert("失敗!!!!");
+                    }
+                });
+            }
+            else if (checkData === false)
+            {
+                alert("您有資料尚未填寫!!")
+            }
         }
         //#endregion 
 
+
         function view_Activity() {
-            
+            //var myData = '{"name1":1,"name2":2,"name3":"value3"}';
             //$.ajax({
-            //    type: 'POST',
-            //    url: "S02010202.aspx?sys_id=S01&sys_pid=S02010202/get_Activity",
-            //    data: {"as":"as"},
-            //    success: function (result) {
-            //        window.open("S02010202.aspx?sys_id=S01&sys_pid=S02010202");
-            //    },
+            //    type: 'post',
+            //    traditional: true,
+            //    //傳送資料到後台為save_Activity_Form的function
+            //    url: '/S02/S02010202.aspx?sys_id=S01&sys_pid=S02010202',
+            //    data: myData,
             //    contentType: "application/json; charset=utf-8",
             //    dataType: "json",
-            //    error: function (a) {
+            //    //成功時
+            //    success: function (result) {
+            //        window.open('S02010202.aspx?sys_id=S01&sys_pid=S02010202');
+            //    },
+            //    //失敗時
+            //    error: function () {
             //        alert("失敗!!!!");
             //    }
             //});
-
-            $("#txt").val("123");
+            var test = window.open('S02010202.aspx?sys_id=S01&sys_pid=S02010202');
+            test.$("#add_Session_div").append('<div class="col-lg-11 col-md-11 col-sm-11 col-xs-12 dexc showback" id="block_div_3">' +
+                                            '<div class="col-sm-1" style="left: 95%;height: 40px;">' +
+                                                '<a class="btn" style="color: #768094;" onclick="del_block_click(3)">X</a>' +
+                                            '</div>' +
+	                                            '<h3><input type="text" id ="block_title_txt_3" class="form-control" placeholder="區塊名稱"></h3>' +
+                                                '<input type="text" id="block_Description_txt_3" class="form-control" placeholder="區塊描述">' +
+	                                            '<div class="form-horizontal style-form column" id="add_Qus_div_3" style="min-height:50px">' +
+	                                            '</div>' +
+                                            '</div>');
         }
     </script>
     <!-- JavaScript_END-->
