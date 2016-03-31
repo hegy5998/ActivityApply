@@ -963,61 +963,78 @@
                     '</div>');
             //場次名稱是否填寫的判斷
             $("#session_Name_txt_" + sessionId).blur(function () {
-                
+                var choose_Session_Name_temp = $(this).attr("id");
+                var choose_Session_Name_txtId = choose_Session_Name_temp.split("_")[choose_Session_Name_temp.split("_").length - 1];
                 if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
-                    var choose_Session_Name_temp = $(this).attr("id");
-                    var choose_Session_Name_txtId = choose_Session_Name_temp.split("_")[choose_Session_Name_temp.split("_").length - 1];
                     if ($("#session_Name_txt_error_" + choose_Session_Name_txtId).length == 0)
                         $(this).after('<em id="session_Name_txt_error_' + choose_Session_Name_txtId + '" class="error help-block red" style="width: 52px;margin-bottom: 5px;">必須填寫</em>');
                 }
                 else {
                     $(this).css({ "box-shadow": "" });
-                    $(this).parent().find("[id^=session_Name_txt_error]").remove();
+                    $("#session_Name_txt_error_" + choose_Session_Name_txtId).remove();
                 }
             })
             //活動地點
             $("#activity_Location_txt_" + sessionId).blur(function () {
+                var activity_Location_txt_temp = $(this).attr("id");
+                var activity_Location_txtId = activity_Location_txt_temp.split("_")[activity_Location_txt_temp.split("_").length - 1];
                 if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
-                    var activity_Location_txt_temp = $(this).attr("id");
-                    var activity_Location_txtId = activity_Location_txt_temp.split("_")[activity_Location_txt_temp.split("_").length - 1];
                     if ($("#activity_Location_txt_error_" + activity_Location_txtId).length == 0)
                         $(this).after('<em id="activity_Location_txt_error_' + activity_Location_txtId + '" class="error help-block red" style="width: 52px;margin-bottom: 5px;">必須填寫</em>');
                 }
                 else {
                     $(this).css({ "box-shadow": "" });
-                    $(this).parent().find("[id^=activity_Location_txt_error]").remove();
+                    $("#activity_Location_txt_error_" + activity_Location_txtId).remove();
                 }
             })
             //人數限制
             $("#activity_Limit_Num_txt_" + sessionId).blur(function () {
                 var if_int = /^[0-9]*[1-9][0-9]*$/;
+                var activity_Limit_Num_txt_temp = $(this).attr("id");
+                var activity_Limit_Num_txtId = activity_Limit_Num_txt_temp.split("_")[activity_Limit_Num_txt_temp.split("_").length - 1];
                 if ($.trim($(this).val()) == ""|| isNaN($.trim($(this).val())) || !if_int.test($.trim($(this).val())) ) {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
-                    var activity_Limit_Num_txt_temp = $(this).attr("id");
-                    var activity_Limit_Num_txtId = activity_Limit_Num_txt_temp.split("_")[activity_Limit_Num_txt_temp.split("_").length - 1];
+                    
                     if ($("#activity_Limit_Num_txt_error_" + activity_Limit_Num_txtId).length == 0)
                         $(this).after('<em id="activity_Limit_Num_txt_error_' + activity_Limit_Num_txtId + '" class="error help-block red" style="width: 105px;margin-bottom: 5px;">必須填寫整數數字</em>');
                 }
                 else {
                     $(this).css({ "box-shadow": "" });
-                    $(this).parent().find("[id^=activity_Limit_Num_txt_error]").remove();
+                    $("#activity_Limit_Num_txt_error_" + activity_Limit_Num_txtId).remove();
                 } 
             })
+            //活動開始日期
+            $("#datetimepicker_Activity_Start_txt_" + sessionId).blur(function () {
+                var datetimepicker_Activity_Start_txt_temp = $(this).attr("id");
+                var datetimepicker_Activity_Start_txtId = datetimepicker_Activity_Start_txt_temp.split("_")[datetimepicker_Activity_Start_txt_temp.split("_").length - 1];
+                if ($.trim($(this).val()) > $("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Start_txtId).val()) {
+                    $(this).css({ "box-shadow": "0px 0px 9px red" });
+                    if ($("#activity_Limit_Num_txt_error_" + datetimepicker_Activity_Start_txtId).length == 0)
+                        $(this).after('<em id="activity_Limit_Num_txt_error_' + datetimepicker_Activity_Start_txtId + '" class="error help-block red" style="width: 208px;margin-bottom: 5px;">活動開始日期必須小於活動結束日期</em>');
+                }
+                else {
+                    $(this).css({ "box-shadow": "" });
+                    $("#activity_Limit_Num_txt_error_" + datetimepicker_Activity_Start_txtId).remove();
+                }
+            })
             //場次ID加一
-            sessionId++;
+            
             //再次呼叫日期時間選擇器
             $(function () {
-                $('.datetimepicker').datetimepicker({ lang: 'ch' });
+                $('.datetimepicker').datetimepicker({
+                    lang: 'ch',
+                });
             });
-
+            sessionId++;
         };
         //移除場次
         function del_Session_click(chooseId) {
             $('#delete_Session_div_' + chooseId).remove();
         };
         //#endregion
+        
 
         //#region 日期時間選擇器
         $(function () {
