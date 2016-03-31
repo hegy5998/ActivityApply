@@ -902,6 +902,10 @@
 
         //#region 新增場次
         function add_Session_click() {
+            if (sessionId == 1) 
+                var display = "display:none";
+            else
+                var display = "";
             //講場次新增至預設好的div裡面
             $('#add_Session_div').append('<div class="showback" id="delete_Session_div_' + sessionId + '">' +
                         '<div class="form-horizontal style-form">' +
@@ -910,7 +914,7 @@
                             '<div class="col-sm-3">' +
                             '<h4 class="red">*為必填</h4>' +
                             '</div>' +
-                                '<div class="col-sm-1" style="left: 68%;height: 40px;">' +
+                                '<div class="col-sm-1" style="left: 68%;height: 40px;' + display + ';" >' +
                                     '<a class="btn" style="color: #768094;" onclick="del_Session_click(' + sessionId + ')">X</a>' +
                                 '</div>' +
                             '</div>' +
