@@ -66,7 +66,7 @@
                     <h3><i class="fa fa-angle-right"></i>活動場次</h3>
                     <!-- 活動名稱 -->
                     <input type="text" class="form-control"  placeholder="活動名稱" id="activity_Name_txt"/><br />
-                    <div class="showback" id="delete_Session_div_1">
+                    <%--<div class="showback" id="delete_Session_div_1">
                         <div class="form-horizontal style-form">
                             <h4 class="red">*為必填</h4>
                             <!-- 場次名稱 -->
@@ -121,7 +121,7 @@
                                 <a style="float: right;" class="btn btn-theme" onclick="add_Session_click()">增加場次</a>
                             </div>
                         </div>
-                    </div>
+                    </div>--%>
                     <!-- 活動場次區塊_END -->
                 </div>
                 <!-- 增加活動區塊地方_END -->
@@ -462,10 +462,11 @@
         //區塊ID
         var blockId = 3;
         //場次ID
-        var sessionId = 2;
+        var sessionId = 1;
 
         //#region 頁面載入時自動產生問題
         $(document).ready(function () {
+            add_Session_click();
             //add_Preset_Qus_Click(題目名稱 , 題目描述 , 欲加入的區塊 , 題目模式 , 資料驗證 ,選項內容 , 是否必填)
             add_Preset_Qus_Click("姓名", "請填寫完整名字", 1, "text" , "" , [], true);
             add_Preset_Qus_Click("出生年月日", "ex:83/07/08", 1, "text", "", [], true);
@@ -479,6 +480,19 @@
             add_Preset_Qus_Click("傳真", null, 1, "text", "", [], false);
             add_Preset_Qus_Click("用餐", null, 1, "singleSelect","", ["葷", "素", "不用餐"], true);
             add_Preset_Qus_Click("備註", "若您有其他的問題,可以在此說明 ", 2, "text", "", [], false);
+
+
+            $("#activity_Name_txt").blur(function () {
+                if ($.trim($(this).val()) == "") {
+                    $(this).css({ "box-shadow": "0px 0px 9px red" });
+                    if ($("#activity_Name_txt_error").length == 0)
+                        $(this).after('<em id="activity_Name_txt_error" class="error help-block red" style="width: 52px;margin-bottom: 5px;">必須填寫</em>');
+                }
+                else {
+                    $(this).css({ "box-shadow": "" });
+                    $("#activity_Name_txt_error").remove();
+                }
+            })
         });
         //#endregion
 
@@ -547,7 +561,7 @@
                     add_Qus_Options_Click(qusId, qus_Option[count]);
                 }
             }
-            $('#qus_txt_' + qusId).focus();
+            //$('#qus_txt_' + qusId).focus();
             //產生完問題之後問題ID加一
             qusId++;
         };
@@ -732,11 +746,11 @@
                                                 '<input type="text" ID="qus_txt_' + chooseId + '"  placeholder="' + qus_title + '" class="form-control" style="width: 100%;"' + title_Value + '=' + qus_Title_Value + '>' +
                                             '</div>' +
                                             '<div class="col-sm-10" style="width: 100%">' +
-                                                '<input type="text" ID="qus_context_txt_' + chooseId + '" ' + qus_Desc_Value + ' = "' + qus_Desc + '" placeholder="問題描述" class="form-control" style="width: 100%;margin-top: 15px;" >' +
+                                                '<input type="text" ID="qus_context_txt_' + chooseId + '" ' + qus_Desc_Value + ' = "' + qus_Desc + '" placeholder="問題描述" class="form-control" style="width: 100%;margin-top: 15px" >' +
                                             '</div>');
             //將問題地方改單選、多選、選單問題，如果為文字問題則不用加
             if (qus_way_int != "text") {
-                temp_change_Qus_Content_div.append('<div class="panel-group" id="panel_group_' + chooseId + '" role="tablist" aria-multiselectable="true" style="width: 350px;margin-left: 50px;">' +
+                temp_change_Qus_Content_div.append('<div class="panel-group" id="panel_group_' + chooseId + '" role="tablist" aria-multiselectable="true" style="width: 350px;margin-left: 50px;margin-top: 5px;">' +
                                                   '<div class="panel panel-default">' +
                                                     '<div class="panel-heading" role="tab" id="heading_' + chooseId + '">' +
                                                       '<h4 class="panel-title">' +
@@ -749,7 +763,7 @@
                                                       '<div class="panel-body">' +
                                                         '<div class="col-sm-11" id="add_Qus_Options_div_' + chooseId + '">' +
                                                             '<div class="col-sm-4" >' +
-                                                                    '<input name="qus_Options" type="text" ' + option_Value + '="' + present_Qus_Option + '" class="form-control" style="margin-top: 8px;margin-bottom: 8px;width: 244px;">' +
+                                                                    '<input id="qus_Option_' + chooseId + '1" name="qus_Options" type="text" ' + option_Value + '="' + present_Qus_Option + '" class="form-control" style="margin-top: 8px;margin-bottom: 8px;width: 244px;">' +
                                                             '</div>' +
                                                             '<div class="col-sm-11 "  id="newOption_' + chooseId + '" style="margin-bottom: 8px;">' +
                                                                     '<a onclick="add_Qus_Options_Click(' + chooseId + ',' + null + ')">新增選項</a>' +
@@ -760,6 +774,33 @@
                                                   '</div>' +
                                                 '</div>');
             }
+            $("#qus_txt_" + chooseId).focus();
+            //當焦點離開時判斷如果沒有填寫則警號
+            $("#qus_txt_" + chooseId).blur(function () {
+                if ($.trim($(this).val()) == "") {
+                    $(this).css({ "box-shadow": "0px 0px 9px red", "margin-bottom": "0px" });
+                    if ($("#qus_txt_error_" + chooseId).length == 0)
+                        $(this).after('<em id="qus_txt_error_' + chooseId + '" class="error help-block red">必須填寫</em>');
+                }
+                else {
+                    $(this).css({ "box-shadow": "" });
+                    $("#qus_txt_error_" + chooseId).remove();
+                }
+                
+            })
+            //當焦點離開時判斷如果沒有填寫則警號
+            $("#qus_Option_" + chooseId + "1").blur(function () {
+                if ($.trim($(this).val()) == "") {
+                    $(this).css({ "box-shadow": "0px 0px 9px red" });
+                    if ($("#qus_Option_error_" + chooseId+"1").length==0)
+                        $(this).after('<em id="qus_Option_error_' + chooseId + '1" class="error help-block red" style="width: 52px;margin-left: 16px;margin-bottom: 5px;">必須填寫</em>');
+                }
+                else {
+                    $(this).css({ "box-shadow": "" });
+                    $("#qus_Option_error_" + chooseId + 1).remove();
+                }
+
+            })
         }
         //#endregion
 
@@ -778,7 +819,7 @@
             //將選項加入預設好的div裡面
             $('#add_Qus_Options_div_' + id).append('<div class="col-sm-11 " id="del_Qus_Options_' + id + (count) + '">' +
                                              '<div class="col-sm-4" >' +
-                                                '<input name="qus_Options" type="text" class="form-control" style="width: 244px;margin-bottom: 8px;margin-left: -15px" ' + value + '="' + option_value + '">' +
+                                                '<input id="qus_Option_' + id + (count+1) + '" name="qus_Options" type="text" class="form-control" style="width: 244px;margin-bottom: 8px;margin-left: -15px" ' + value + '="' + option_value + '">' +
                                             '</div>' +
                                             '<div class="col-sm-2 col-sm-push-3" style="margin-top:10px;margin-bottom: 5px;margin-left: 100px;">' +
                                              '<a onclick="del_Qus_Options_Click(' + id + (count) + ')">X</a>' +
@@ -788,6 +829,19 @@
                                     '<div class="col-sm-11" id="newOption_' + id + '" style="margin-bottom: 8px;">' +
                                         '<a onclick="add_Qus_Options_Click(' + id + ',' + null + ')">新增選項</a>' +
                                     '</div>');
+            $("#qus_Option_" + id + (count + 1)).focus();
+            //當焦點離開時判斷如果沒有填寫則警號
+            $("#qus_Option_" + id + (count+1)).blur(function () {
+                if($.trim($(this).val())==""){
+                    $(this).css({ "box-shadow": "0px 0px 9px red" });
+                    if ($("#qus_Option_error_" + id + (count+1)).length == 0)
+                        $(this).after('<em id="qus_Option_error_' + id + (count + 1) + '" class="error help-block red" style="width: 52px;margin-bottom: 5px;">必須填寫</em>');
+                }
+                else{
+                    $(this).css({ "box-shadow": "" });
+                    $("#qus_Option_error_" + id + (count+1)).remove();
+                }
+            })
         };
         //刪除單多選選項
         function del_Qus_Options_Click(id) {
@@ -895,7 +949,7 @@
                             '<div class="form-group">' +
                                 '<label class="col-sm-2 control-label">人數限制<b class="red">*</b></label>' +
                                 '<div class="col-sm-10">' +
-                                    '<input type="text" class="form-control" id="activity_Limit_Num_txt_' + sessionId + '">' +
+                                    '<input type="text" class="form-control" placeholder="請填寫數字" id="activity_Limit_Num_txt_' + sessionId + '">' +
                                 '</div>' +
                             '</div>' +
                             '<div class="form-group" style="padding-right: 10px;">' +
@@ -903,6 +957,50 @@
                             '</div>' +
                         '</div>' +
                     '</div>');
+            //場次名稱是否填寫的判斷
+            $("#session_Name_txt_" + sessionId).blur(function () {
+                
+                if ($.trim($(this).val()) == "") {
+                    $(this).css({ "box-shadow": "0px 0px 9px red" });
+                    var choose_Session_Name_temp = $(this).attr("id");
+                    var choose_Session_Name_txtId = choose_Session_Name_temp.split("_")[choose_Session_Name_temp.split("_").length - 1];
+                    if ($("#session_Name_txt_error_" + choose_Session_Name_txtId).length == 0)
+                        $(this).after('<em id="session_Name_txt_error_' + choose_Session_Name_txtId + '" class="error help-block red" style="width: 52px;margin-bottom: 5px;">必須填寫</em>');
+                }
+                else {
+                    $(this).css({ "box-shadow": "" });
+                    $(this).parent().find("[id^=session_Name_txt_error]").remove();
+                }
+            })
+            //活動地點
+            $("#activity_Location_txt_" + sessionId).blur(function () {
+                if ($.trim($(this).val()) == "") {
+                    $(this).css({ "box-shadow": "0px 0px 9px red" });
+                    var activity_Location_txt_temp = $(this).attr("id");
+                    var activity_Location_txtId = activity_Location_txt_temp.split("_")[activity_Location_txt_temp.split("_").length - 1];
+                    if ($("#activity_Location_txt_error_" + activity_Location_txtId).length == 0)
+                        $(this).after('<em id="activity_Location_txt_error_' + activity_Location_txtId + '" class="error help-block red" style="width: 52px;margin-bottom: 5px;">必須填寫</em>');
+                }
+                else {
+                    $(this).css({ "box-shadow": "" });
+                    $(this).parent().find("[id^=activity_Location_txt_error]").remove();
+                }
+            })
+            //人數限制
+            $("#activity_Limit_Num_txt_" + sessionId).blur(function () {
+                var if_int = /^[0-9]*[1-9][0-9]*$/;
+                if ($.trim($(this).val()) == ""|| isNaN($.trim($(this).val())) || !if_int.test($.trim($(this).val())) ) {
+                    $(this).css({ "box-shadow": "0px 0px 9px red" });
+                    var activity_Limit_Num_txt_temp = $(this).attr("id");
+                    var activity_Limit_Num_txtId = activity_Limit_Num_txt_temp.split("_")[activity_Limit_Num_txt_temp.split("_").length - 1];
+                    if ($("#activity_Limit_Num_txt_error_" + activity_Limit_Num_txtId).length == 0)
+                        $(this).after('<em id="activity_Limit_Num_txt_error_' + activity_Limit_Num_txtId + '" class="error help-block red" style="width: 105px;margin-bottom: 5px;">必須填寫整數數字</em>');
+                }
+                else {
+                    $(this).css({ "box-shadow": "" });
+                    $(this).parent().find("[id^=activity_Limit_Num_txt_error]").remove();
+                } 
+            })
             //場次ID加一
             sessionId++;
             //再次呼叫日期時間選擇器
@@ -1139,7 +1237,7 @@
                         alert_txt += "場次名稱不可為空!!\n";
                         $("#session_Name_txt_" + temp).css({ "box-shadow": "0px 0px 9px red" });
                         if ($("#session_Name_txt_error_" + temp).length == 0)
-                        $("#session_Name_txt_" + temp).after('<em id="session_Name_txt_error_' + temp + '" class="error help-block red">必須填寫</em>');
+                            $("#session_Name_txt_" + temp).after('<em id="session_Name_txt_error_' + temp + '" class="error help-block red">必須填寫</em>');
                         checkData = false;
                     }
                     else {
@@ -1151,8 +1249,8 @@
                         //alert("活動地點不可為空!!");
                         alert_txt += "活動地點不可為空!!\n";
                         $("#activity_Location_txt_" + temp).css({ "box-shadow": "0px 0px 9px red" });
-                        if ($("#sactivity_Location_txt_error_" + temp).length == 0)
-                            $("#activity_Location_txt_" + temp).after('<em id="sactivity_Location_txt_error_' + temp + '" class="error help-block red">必須填寫</em>');
+                        if ($("#activity_Location_txt_error_" + temp).length == 0)
+                            $("#activity_Location_txt_" + temp).after('<em id="activity_Location_txt_error_' + temp + '" class="error help-block red">必須填寫</em>');
                         checkData = false;
                     }
                     else {
