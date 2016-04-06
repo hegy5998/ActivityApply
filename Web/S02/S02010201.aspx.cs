@@ -1,18 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using Model;
 using Util;
 using BusinessLayer.S02;
 using System.Data;
-using System.Collections;
-using AjaxControlToolkit;
-using System.IO;
-using System.Design;
-using System.Web.Services;
 using System.Data.SqlClient;
 using System.Web.Configuration;
 

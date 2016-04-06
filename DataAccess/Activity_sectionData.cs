@@ -62,8 +62,7 @@ namespace DataAccess
             return res;
         }
         #endregion
-
-
+        
         #region 單筆更新
         /// <summary>
         /// 單筆更新
@@ -134,6 +133,17 @@ namespace DataAccess
             return res;
         }
         #endregion
+        #endregion
+
+        #region 查詢
+        public List<Activity_sectionInfo> GetList(int acs_act)
+        {
+            string sql = @" SELECT activity_section.*
+                            FROM activity_section
+                            WHERE acs_act = @acs_act;";
+            IDataParameter[] param = { Db.GetParam("@acs_act", acs_act) };
+            return Db.GetEnumerable<Activity_sectionInfo>(sql, param).ToList();
+        }
         #endregion
     }
 }

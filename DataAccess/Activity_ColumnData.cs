@@ -135,5 +135,17 @@ namespace DataAccess
         }
         #endregion
         #endregion
+
+
+        #region 查詢
+        public List<Activity_columnInfo> GetList(int acc_act)
+        {
+            string sql = @" SELECT activity_column.*
+                            FROM activity_column
+                            WHERE acc_act = @acc_act;";
+            IDataParameter[] param = { Db.GetParam("@acc_act", acc_act) };
+            return Db.GetEnumerable<Activity_columnInfo>(sql, param).ToList();
+        }
+        #endregion
     }
 }

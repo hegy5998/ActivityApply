@@ -201,10 +201,6 @@ D:\Kris\ActivityApply\Web\bin\BusinessLayer.pdb
 D:\Kris\ActivityApply\Web\bin\DataAccess.pdb
 D:\Kris\ActivityApply\Web\bin\Model.pdb
 D:\Kris\ActivityApply\Web\bin\Util.pdb
-D:\Kris\ActivityApply\Web\bin\BusinessLayerBase.xml
-D:\Kris\ActivityApply\Web\bin\CKEditor.NET.pdb
-D:\Kris\ActivityApply\Web\bin\DataAccessBase.xml
-D:\Kris\ActivityApply\Web\bin\UtilBase.xml
 D:\Kris\ActivityApply\Web\obj\Debug\Web.csprojResolveAssemblyReference.cache
 D:\Kris\ActivityApply\Web\obj\Debug\Web.dll
 D:\Kris\ActivityApply\Web\obj\Debug\Web.pdb
