@@ -463,6 +463,8 @@
         var blockId = 3;
         //場次ID
         var sessionId = 1;
+        //判斷填寫資料是否正確
+        var checkData = true;
 
         //#region 頁面載入時自動產生問題
         $(document).ready(function () {
@@ -961,6 +963,12 @@
                             '</div>' +
                         '</div>' +
                     '</div>');
+            //呼叫日期時間選擇器
+            $(function () {
+                $('.datetimepicker').datetimepicker({
+                    lang: 'ch',
+                });
+            });
             //場次名稱是否填寫的判斷
             $("#session_Name_txt_" + sessionId).blur(function () {
                 var choose_Session_Name_temp = $(this).attr("id");
@@ -1007,26 +1015,141 @@
             })
             //活動開始日期
             $("#datetimepicker_Activity_Start_txt_" + sessionId).blur(function () {
+                //取得ID
                 var datetimepicker_Activity_Start_txt_temp = $(this).attr("id");
                 var datetimepicker_Activity_Start_txtId = datetimepicker_Activity_Start_txt_temp.split("_")[datetimepicker_Activity_Start_txt_temp.split("_").length - 1];
-                if ($.trim($(this).val()) > $("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Start_txtId).val()) {
+                //判斷在活動結束日期之前
+                if ($.trim($(this).val()) >= $.trim($("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Start_txtId).val()) && $.trim($("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Start_txtId).val()) != "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
-                    if ($("#activity_Limit_Num_txt_error_" + datetimepicker_Activity_Start_txtId).length == 0)
-                        $(this).after('<em id="activity_Limit_Num_txt_error_' + datetimepicker_Activity_Start_txtId + '" class="error help-block red" style="width: 208px;margin-bottom: 5px;">活動開始日期必須小於活動結束日期</em>');
+                    if ($("#datetimepicker_Activity_Start_txt_error_" + datetimepicker_Activity_Start_txtId).length == 0)
+                        $(this).after('<em id="datetimepicker_Activity_Start_txt_error_' + datetimepicker_Activity_Start_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">活動開始日期必須在活動結束日期之前</em>');
+                    checkData = false;
                 }
                 else {
                     $(this).css({ "box-shadow": "" });
-                    $("#activity_Limit_Num_txt_error_" + datetimepicker_Activity_Start_txtId).remove();
+                    $("#datetimepicker_Activity_Start_txt_error_" + datetimepicker_Activity_Start_txtId).remove();
+                    $("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Start_txtId).css({ "box-shadow": "" });
+                    $("#datetimepicker_Activity_End_txt_error_" + datetimepicker_Activity_Start_txtId).remove();
+                }
+                //判斷在活動報名開始日期之後
+                if ($.trim($(this).val()) <= $.trim($("#datetimepicker_Activity_Sign_Start_txt_" + datetimepicker_Activity_Start_txtId).val()) && $.trim($("#datetimepicker_Activity_Sign_Start_txt_" + datetimepicker_Activity_Start_txtId).val()) != "") {
+                    $(this).css({ "box-shadow": "0px 0px 9px red" });
+                    if ($("#datetimepicker_Activity_Start_txt_error_WithSignStart_" + datetimepicker_Activity_Start_txtId).length == 0)
+                        $(this).after('<em id="datetimepicker_Activity_Start_txt_error_WithSignStart_' + datetimepicker_Activity_Start_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">活動開始日期必須在報名開始日期之後</em>');
+                    checkData = false;
+                }
+                else {
+                    if ($("#datetimepicker_Activity_Start_txt_error_WithSignStart" + datetimepicker_Activity_Start_txtId).length == 0 && $("#datetimepicker_Activity_Start_txt_error_" + datetimepicker_Activity_Start_txtId).length == 0 && $.trim($("#datetimepicker_Activity_Sign_Start_txt_" + datetimepicker_Activity_Start_txtId).val()) != "" && $.trim($("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Start_txtId).val()) != "")
+                        $(this).css({ "box-shadow": "" });
+                    $("#datetimepicker_Activity_Sign_Start_txt_error_WithActStart_" + datetimepicker_Activity_Start_txtId).remove();
+                    $("#datetimepicker_Activity_Start_txt_error_WithSignStart_" + datetimepicker_Activity_Start_txtId).remove();
+                    if ($("#datetimepicker_Activity_Sign_Start_txt_error_WithActStart_" + datetimepicker_Activity_Start_txtId).length == 0 && $("#datetimepicker_Activity_Sign_Start_txt_error_" + datetimepicker_Activity_Start_txtId).length == 0)
+                        $("#datetimepicker_Activity_Sign_Start_txt_" + datetimepicker_Activity_Start_txtId).css({ "box-shadow": "" });
+                }
+            })
+            //活動結束日期
+            $("#datetimepicker_Activity_End_txt_" + sessionId).blur(function () {
+                //取得ID
+                var datetimepicker_Activity_End_txt_temp = $(this).attr("id");
+                var datetimepicker_Activity_End_txtId = datetimepicker_Activity_End_txt_temp.split("_")[datetimepicker_Activity_End_txt_temp.split("_").length - 1];
+                //判斷在活動開始日期之前
+                if ($.trim($(this).val()) < $.trim($("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_End_txtId).val()) && $.trim($("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_End_txtId).val()) != "") {
+                    $(this).css({ "box-shadow": "0px 0px 9px red" });
+                    if ($("#datetimepicker_Activity_End_txt_error_" + datetimepicker_Activity_End_txtId).length == 0)
+                        $(this).after('<em id="datetimepicker_Activity_End_txt_error_' + datetimepicker_Activity_End_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">活動結束日期必須在活動開始日期之後</em>');
+                    checkData = false;
+                }
+                else {
+                    $(this).css({ "box-shadow": "" });
+                    $("#datetimepicker_Activity_End_txt_error_" + datetimepicker_Activity_End_txtId).remove();
+                    $("#datetimepicker_Activity_Start_txt_error_" + datetimepicker_Activity_End_txtId).remove();
+                    if ($("#datetimepicker_Activity_Start_txt_error_WithSignStart_" + datetimepicker_Activity_End_txtId).length == 0 && $("#datetimepicker_Activity_Start_txt_error_" + datetimepicker_Activity_End_txtId).length == 0)
+                        $("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_End_txtId).css({ "box-shadow": "" });
+                }
+                //判斷在活動報名結束之前
+                if ($.trim($(this).val()) < $.trim($("#datetimepicker_Activity_Sign_End_txt_" + datetimepicker_Activity_End_txtId).val()) && $.trim($("#datetimepicker_Activity_Sign_End_txt_" + datetimepicker_Activity_End_txtId).val()) != "" ) { 
+                    $(this).css({ "box-shadow": "0px 0px 9px red" });
+                    if ($("#datetimepicker_Activity_End_txt_error_withSignEnd_" + datetimepicker_Activity_End_txtId).length == 0)
+                        $(this).after('<em id="datetimepicker_Activity_End_txt_error_withSignEnd_' + datetimepicker_Activity_End_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">活動結束日期必須在報名結束日期之後</em>');
+                    checkData = false;
+                }
+                else {
+                    if ($("#datetimepicker_Activity_End_txt_error_withSignEnd_" + datetimepicker_Activity_End_txtId).length == 0 && $("#datetimepicker_Activity_End_txt_error_" + datetimepicker_Activity_End_txtId).length == 0)
+                        $(this).css({ "box-shadow": "" });
+                    $("#datetimepicker_Activity_End_txt_error_withSignEnd_" + datetimepicker_Activity_End_txtId).remove();
+                    $("#datetimepicker_Activity_Sign_End_txt_error_withActEnd_" + datetimepicker_Activity_End_txtId).remove();
+                    if ($("#datetimepicker_Activity_Sign_End_txt_error_withActEnd_" + datetimepicker_Activity_End_txtId).length == 0 && $("#datetimepicker_Activity_Sign_End_txt_error_" + datetimepicker_Activity_End_txtId).length == 0)
+                        $("#datetimepicker_Activity_Sign_End_txt_" + datetimepicker_Activity_End_txtId).css({ "box-shadow": "" });
+                }
+            })
+            //報名開始日期
+            $("#datetimepicker_Activity_Sign_Start_txt_" + sessionId).blur(function () {
+                //取得ID
+                var datetimepicker_Activity_Sign_Start_txt_temp = $(this).attr("id");
+                var datetimepicker_Activity_Sign_Start_txt_temp_txtId = datetimepicker_Activity_Sign_Start_txt_temp.split("_")[datetimepicker_Activity_Sign_Start_txt_temp.split("_").length - 1];
+                //判斷在活動報名結束日期之前
+                if ($.trim($(this).val()) >= $.trim($("#datetimepicker_Activity_Sign_End_txt_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).val()) && $.trim($("#datetimepicker_Activity_Sign_End_txt_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).val()) != "") {
+                    $(this).css({ "box-shadow": "0px 0px 9px red" });
+                    if ($("#datetimepicker_Activity_Sign_Start_txt_error_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).length == 0)
+                        $(this).after('<em id="datetimepicker_Activity_Sign_Start_txt_error_' + datetimepicker_Activity_Sign_Start_txt_temp_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">報名開始日期必須在報名結束日期之前</em>');
+                    checkData = false;
+                }
+                else {
+                    $(this).css({ "box-shadow": "" });
+                    $("#datetimepicker_Activity_Sign_Start_txt_error_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).remove();
+                    if ($("#datetimepicker_Activity_Sign_End_txt_error_withActEnd_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).length == 0)
+                        $("#datetimepicker_Activity_Sign_End_txt_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).css({ "box-shadow": "" });
+                    $("#datetimepicker_Activity_Sign_End_txt_error_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).remove();
+                }
+                //判斷在活動開始日期之前
+                if ($.trim($(this).val()) >= $.trim($("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).val()) && $.trim($("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).val()) != "") {
+                    $(this).css({ "box-shadow": "0px 0px 9px red" });
+                    if ($("#datetimepicker_Activity_Sign_Start_txt_error_WithActStart_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).length == 0)
+                        $(this).after('<em id="datetimepicker_Activity_Sign_Start_txt_error_WithActStart_' + datetimepicker_Activity_Sign_Start_txt_temp_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">報名開始日期必須在活動開始日期之前</em>');
+                    checkData = false;
+                }
+                else {
+                    if ($("#datetimepicker_Activity_Sign_Start_txt_error_WithActStart_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).length == 0 && $("#datetimepicker_Activity_Sign_Start_txt_error_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).length == 0)
+                        $(this).css({ "box-shadow": "" });
+                    $("#datetimepicker_Activity_Sign_Start_txt_error_WithActStart_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).remove();
+                    $("#datetimepicker_Activity_Start_txt_error_WithSignStart_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).remove();
+                    if ($("#datetimepicker_Activity_Start_txt_error_WithSignStart_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).length == 0 && $("#datetimepicker_Activity_Start_txt_error_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).length == 0)
+                        $("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).css({ "box-shadow": "" });
+                }
+            })
+            //報名結束日期
+            $("#datetimepicker_Activity_Sign_End_txt_" + sessionId).blur(function () {
+                //取得ID
+                var datetimepicker_Activity_Sign_End_txt_temp = $(this).attr("id");
+                var datetimepicker_Activity_Sign_End_txt_temp_txtId = datetimepicker_Activity_Sign_End_txt_temp.split("_")[datetimepicker_Activity_Sign_End_txt_temp.split("_").length - 1];
+                //判斷在活動報名開始日期之後
+                if ($.trim($(this).val()) <= $.trim($("#datetimepicker_Activity_Sign_Start_txt_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).val()) && $.trim($("#datetimepicker_Activity_Sign_Start_txt_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).val()) != "") {
+                    $(this).css({ "box-shadow": "0px 0px 9px red" });
+                    if ($("#datetimepicker_Activity_Sign_End_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0)
+                        $(this).after('<em id="datetimepicker_Activity_Sign_End_txt_error_' + datetimepicker_Activity_Sign_End_txt_temp_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">報名結束日期必須在報名開始日期之後</em>');
+                    checkData = false;
+                }
+                else {
+                    $(this).css({ "box-shadow": "" });
+                    $("#datetimepicker_Activity_Sign_End_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).remove();
+                    if ($("#datetimepicker_Activity_Sign_Start_txt_error_WithActStart_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0 && $("#datetimepicker_Activity_Sign_Start_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0)
+                        $("#datetimepicker_Activity_Sign_Start_txt_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).css({ "box-shadow": "" });
+                    $("#datetimepicker_Activity_Sign_Start_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).remove();
+                }
+                //判斷在活動結束日期之前
+                if ($.trim($(this).val()) >= $.trim($("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).val()) && $.trim($("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).val()) != "") {
+                    $(this).css({ "box-shadow": "0px 0px 9px red" });
+                    if ($("#datetimepicker_Activity_Sign_End_txt_error_withActEnd_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0)
+                        $(this).after('<em id="datetimepicker_Activity_Sign_End_txt_error_withActEnd_' + datetimepicker_Activity_Sign_End_txt_temp_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">報名結束日期必須在活動結束日期之前</em>');
+                    checkData = false;
+                }
+                else {
+                    if ($("#datetimepicker_Activity_Sign_End_txt_error_withActEnd_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0 && $("#datetimepicker_Activity_Sign_End_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0)
+                        $(this).css({ "box-shadow": "" });
+                    $("#datetimepicker_Activity_Sign_End_txt_error_withActEnd_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).remove();
                 }
             })
             //場次ID加一
-            
-            //再次呼叫日期時間選擇器
-            $(function () {
-                $('.datetimepicker').datetimepicker({
-                    lang: 'ch',
-                });
-            });
             sessionId++;
         };
         //移除場次
@@ -1035,14 +1158,13 @@
         };
         //#endregion
         
-
-        //#region 日期時間選擇器
-        $(function () {
-            $('.datetimepicker').datetimepicker({
-                lang: 'ch',
-            });
-        });
-        //#endregion
+        ////#region 日期時間選擇器
+        //$(function () {
+        //    $('.datetimepicker').datetimepicker({
+        //        lang: 'ch',
+        //    });
+        //});
+        ////#endregion
 
         //#region 報名表問題拖拉 
         $(function () {
@@ -1225,6 +1347,8 @@
         function Save_btn_Click() {
             //判斷資料是否正確 1:正確 0:錯誤
             var checkData = true;
+            //判斷活動報名結束日期是否在活動開始日期之後
+            var checkDataSignEnd = false;
             //錯誤訊息
             var alert_txt = '';
             var alert_txt_all = '';
@@ -1292,54 +1416,58 @@
                         $("#activity_Limit_Num_txt_" + temp).css({ "box-shadow": "" });
                         $("#activity_Limit_Num_txt_error_" + temp).remove();
                     }
-                    //判斷活動開始日期不能大於活動結束日期 活動開始報名日期也不能大於活動開始日期
-                    if (!session_Json_Data.As_date_start || session_Json_Data.As_date_start > session_Json_Data.As_date_end || session_Json_Data.As_date_start < session_Json_Data.As_apply_start) {
-                        alert_txt += "活動開始日期不可為空!!\n";
+                    //判斷活動開始日期不能為空
+                    if (!session_Json_Data.As_date_start) {
                         $("#datetimepicker_Activity_Start_txt_" + temp).css({ "box-shadow": "0px 0px 9px red" });
                         if ($("#datetimepicker_Activity_Start_txt_error_" + temp).length == 0)
-                            $("#datetimepicker_Activity_Start_txt_" + temp).after('<em id="datetimepicker_Activity_Start_txt_error_' + temp + '" class="error help-block red">日期有誤</em>');
+                            $("#datetimepicker_Activity_Start_txt_" + temp).after('<em id="datetimepicker_Activity_Start_txt_error_' + temp + '" class="error help-block red">必需填寫</em>');
                         checkData = false;
                     }
-                    else {
-                        $("#datetimepicker_Activity_Start_txt_" + temp).css({ "box-shadow": "" });
-                        $("#datetimepicker_Activity_Start_txt_error_" + temp).remove();
-                    }
-                    //判斷活動結束日期要大於活動開始日期 活動結束日期要大於活動報名開始日期以及結束日期
-                    if (!session_Json_Data.As_date_end || session_Json_Data.As_date_start > session_Json_Data.As_date_end || session_Json_Data.As_date_end < session_Json_Data.As_apply_start || session_Json_Data.As_date_end < session_Json_Data.As_apply_end) {
-                        alert_txt += "活動結束日期不可為空!!\n";
+                    //判斷活動結束日期不能為空
+                    if (!session_Json_Data.As_date_end) {
                         $("#datetimepicker_Activity_End_txt_" + temp).css({ "box-shadow": "0px 0px 9px red" });
                         if ($("#datetimepicker_Activity_End_txt_error_" + temp).length == 0)
-                            $("#datetimepicker_Activity_End_txt_" + temp).after('<em id="datetimepicker_Activity_End_txt_error_' + temp + '" class="error help-block red">日期有誤</em>');
+                            $("#datetimepicker_Activity_End_txt_" + temp).after('<em id="datetimepicker_Activity_End_txt_error_' + temp + '" class="error help-block red">必需填寫</em>');
                         checkData = false;
                     }
-                    else {
-                        $("#datetimepicker_Activity_End_txt_" + temp).css({ "box-shadow": "" });
-                        $("#datetimepicker_Activity_End_txt_error_" + temp).remove();
-                    }
-                    //判斷活動報名開始日期要小於活動報名結束日期 以及要小於活動開始日期以及活動結束日期
-                    if (!session_Json_Data.As_apply_start || session_Json_Data.As_apply_start > session_Json_Data.As_apply_end || session_Json_Data.As_apply_start > session_Json_Data.As_date_start || session_Json_Data.As_apply_start > session_Json_Data.As_date_end) {
-                        alert_txt += "報名開始日期不可為空!!\n";
+                    //判斷活動報名開始日期不能為空
+                    if (!session_Json_Data.As_apply_start) {
                         $("#datetimepicker_Activity_Sign_Start_txt_" + temp).css({ "box-shadow": "0px 0px 9px red" });
                         if ($("#datetimepicker_Activity_Sign_Start_txt_error_" + temp).length == 0)
-                            $("#datetimepicker_Activity_Sign_Start_txt_" + temp).after('<em id="datetimepicker_Activity_Sign_Start_txt_error_' + temp + '" class="error help-block red">日期有誤</em>');
+                            $("#datetimepicker_Activity_Sign_Start_txt_" + temp).after('<em id="datetimepicker_Activity_Sign_Start_txt_error_' + temp + '" class="error help-block red">必需填寫</em>');
                         checkData = false;
                     }
-                    else {
-                        $("#datetimepicker_Activity_Sign_Start_txt_" + temp).css({ "box-shadow": "" });
-                        $("#datetimepicker_Activity_Sign_Start_txt_error_" + temp).remove();
-                    }
-                    //判斷活動報名結束日期要大於活動報名開始日期 活動結束報名日期要小於活動結束日期
-                    if (!session_Json_Data.As_apply_end || session_Json_Data.As_apply_start > session_Json_Data.As_apply_end || session_Json_Data.As_apply_end > session_Json_Data.As_date_end) {
+                    //判斷活動報名結束日期不能為空
+                    if (!session_Json_Data.As_apply_end) {
                         alert_txt += "報名結束日期不可為空!!\n";
                         $("#datetimepicker_Activity_Sign_End_txt_" + temp).css({ "box-shadow": "0px 0px 9px red" });
                         if ($("#datetimepicker_Activity_Sign_End_txt_error_" + temp).length == 0)
-                            $("#datetimepicker_Activity_Sign_End_txt_" + temp).after('<em id="datetimepicker_Activity_Sign_End_txt_error_' + temp + '" class="error help-block red">日期有誤</em>');
+                            $("#datetimepicker_Activity_Sign_End_txt_" + temp).after('<em id="datetimepicker_Activity_Sign_End_txt_error_' + temp + '" class="error help-block red">必需填寫</em>');
                         checkData = false;
                     }
-                    else {
-                        $("#datetimepicker_Activity_Sign_End_txt_" + temp).css({ "box-shadow": "" });
-                        $("#datetimepicker_Activity_Sign_End_txt_error_" + temp).remove();
+                    //判斷活動開始日期是否與活動報名開始日期一樣
+                    if (session_Json_Data.As_apply_start >= session_Json_Data.As_date_start && session_Json_Data.As_apply_start && session_Json_Data.As_date_start) {
+                        $("#datetimepicker_Activity_Start_txt_" + temp).css({ "box-shadow": "0px 0px 9px red" });
+                        if ($("#datetimepicker_Activity_Start_txt_error_WithSignStart_" + temp).length == 0)
+                            $("#datetimepicker_Activity_Start_txt_" + temp).after('<em id="datetimepicker_Activity_Start_txt_error_WithSignStart_' + temp + '" class="error help-block red">活動開始時間不能相同於報名開始時間</em>');
+                        $("#datetimepicker_Activity_Sign_Start_txt_" + temp).css({ "box-shadow": "0px 0px 9px red" });
+                        if ($("#datetimepicker_Activity_Sign_Start_txt_error_WithActStart_" + temp).length == 0)
+                            $("#datetimepicker_Activity_Sign_Start_txt_" + temp).after('<em id="datetimepicker_Activity_Sign_Start_txt_error_WithActStart_' + temp + '" class="error help-block red">報名開始時間不能相同於活動開始時間</em>');
+                        checkData = false;
                     }
+                    if (session_Json_Data.As_date_start != "" && session_Json_Data.As_date_end != "" && session_Json_Data.As_apply_start != "" && session_Json_Data.As_apply_end != ""){
+                        if (session_Json_Data.As_date_start < session_Json_Data.As_date_end && session_Json_Data.As_date_start > session_Json_Data.As_apply_start && session_Json_Data.As_apply_start < session_Json_Data.As_apply_end && session_Json_Data.As_apply_start < session_Json_Data.As_date_end && session_Json_Data.As_apply_end < session_Json_Data.As_date_end) {
+                            checkData = true;
+                        }
+                        else
+                            checkData = false;
+                    }
+                    else
+                        checkData = false;
+
+                    if (session_Json_Data.As_apply_end > session_Json_Data.As_date_start)
+                        checkDataSignEnd = true;
+
 
                     if (checkData === false) alert_txt_all += "場次" + temp + "\n" + alert_txt;
                     
@@ -1381,29 +1509,57 @@
                 $("#activity_Name_txt_error" + temp).remove();
             }
             //如果資料正確，使用jQuery ajax傳送資料
-            if (checkData === true) {
-                $.ajax({
-                    type: 'post',
-                    traditional: true,
-                    //將資料傳到後台save_Activity這個function
-                    url: '/S02/S02010201.aspx/save_Activity',
-                    data: JSON.stringify(jsondata),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    //成功時
-                    success: function (result) {
-                        alert(result.d);
-                    },
-                    //失敗時
-                    error: function () {
-                        alert("失敗");
+            if (checkDataSignEnd == true) {
+                var if_Save = confirm("您的報名結束日期在活動開始日期之後，確定要儲存嗎?");
+                if (if_Save == true) {
+                    if (checkData === true) {
+                        $.ajax({
+                            type: 'post',
+                            traditional: true,
+                            //將資料傳到後台save_Activity這個function
+                            url: '/S02/S02010201.aspx/save_Activity',
+                            data: JSON.stringify(jsondata),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            //成功時
+                            success: function (result) {
+                                alert(result.d);
+                            },
+                            //失敗時
+                            error: function () {
+                                alert("失敗");
+                            }
+                        });
                     }
-                });
+                    else {
+                        alert("資料有誤");
+                    }
+                }
             }
             else {
-                alert("資料有誤");
+                if (checkData === true) {
+                    $.ajax({
+                        type: 'post',
+                        traditional: true,
+                        //將資料傳到後台save_Activity這個function
+                        url: '/S02/S02010201.aspx/save_Activity',
+                        data: JSON.stringify(jsondata),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        //成功時
+                        success: function (result) {
+                            alert(result.d);
+                        },
+                        //失敗時
+                        error: function () {
+                            alert("失敗");
+                        }
+                    });
+                }
+                else {
+                    alert("資料有誤");
+                }
             }
-                
         };
         //#endregion
 
@@ -1602,20 +1758,6 @@
         //#endregion 
 
         function view_Activity() {
-            
-            //$.ajax({
-            //    type: 'POST',
-            //    url: "S02010202.aspx?sys_id=S01&sys_pid=S02010202/get_Activity",
-            //    data: {"as":"as"},
-            //    success: function (result) {
-            //        window.open("S02010202.aspx?sys_id=S01&sys_pid=S02010202");
-            //    },
-            //    contentType: "application/json; charset=utf-8",
-            //    dataType: "json",
-            //    error: function (a) {
-            //        alert("失敗!!!!");
-            //    }
-            //});
 
             $("#txt").val("123");
         }
