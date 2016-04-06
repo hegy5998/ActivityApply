@@ -8,6 +8,7 @@
             });
         });
     </script>
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="mainContentSubFunction_cph" runat="server">
     <!-- 儲存活動頁面 -->
@@ -175,7 +176,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 col-sm-2 control-label">附加檔案</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="addition_File_link" >
+                                    <input type="file" id="fileupload" name="files" multiple/>
                                 </div>
                             </div>
                             <!-- 相關連結 -->
@@ -191,7 +192,6 @@
                 <!-- 活動資訊區塊_END -->
             </div>
             <!-- 活動頁面內容_END -->
-            <label id="asd"></label>
         </div>
         <!-- 活動頁面標籤_END -->  
 
@@ -495,6 +495,66 @@
                     $("#activity_Name_txt_error").remove();
                 }
             })
+
+
+            $('#fileupload').fileupload({
+                dropZone: $('#drop'),	//拖曳上傳區域
+                url: '../Scripts/Lib/jQuery-File-Upload-9.12.1/upload.php',		//上傳處理的PHP
+                dataType: 'json',
+
+                //將要上傳的資料顯示
+                add: function (e, data) {
+                    var tpl = $('<div class="working"><span class="pro" /><span class="info"></span><span class="ctrl">取消</span></div>');
+                    tpl.find('.info').text(data.files[0].name);
+                    data.context = tpl.appendTo($(".item"));
+
+                    tpl.find('.ctrl').click(function () {
+                        //if(tpl.hasClass('working')){
+                        //    jqXHR.abort();  //取消上傳
+                        //}
+
+                        tpl.fadeOut(function () {
+                            tpl.remove();
+                        });
+                    });
+                    //執行 data.submit() 開始上傳
+                    $("#start").click(function () {
+                        var jqXHR = data.submit();
+                    });
+                },
+
+                //單一檔案進度
+                progress: function (e, data) {
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    data.context.find('.pro').text(progress + "%　　").change();
+                    if (progress == 100) {
+                        data.context.removeClass('working');
+                    }
+                },
+
+                //整體進度
+                progressall: function (e, data) {
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('#progress .bar').css('width', progress + '%');
+                    $('#progress .bar').text(progress + '%');
+                },
+
+                //上傳失敗
+                fail: function (e, data) {
+                    data.context.addClass('error');
+                },
+
+                //單一檔案上傳完成
+                done: function (e, data) {
+                    var tmp = data.context.find('.pro').text();
+                    data.context.find('.pro').text(tmp + data.result.status + "　　");
+                },
+
+                //全部上傳完畢
+                stop: function (e) {
+                    alert("上傳完畢");
+                }
+            });
         });
         //#endregion
 
@@ -566,6 +626,34 @@
             //$('#qus_txt_' + qusId).focus();
             //產生完問題之後問題ID加一
             qusId++;
+            $(".column").sortable({
+                connectWith: ".column",
+                handle: ".portlet-header",
+                cancel: ".portlet-toggle",
+                placeholder: "portlet-placeholder ui-corner-all",
+                cancel: ".portlet-state-disabled",
+                axis: "y",
+                cursor: 'move',
+                opacity: 0.6,//拖動時透明度 
+                //revert: true,
+                start: function (event, ui) {
+                    var start_pos = ui.item.index();
+                    ui.item.data('start_pos', start_pos);
+                },
+                update: function (event, ui) {
+                }
+            });
+            $(".portlet")
+                .addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all")
+                .find(".portlet-header")
+                .addClass("ui-widget-header ui-corner-all");
+            //.prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
+
+            $(".portlet-toggle").click(function () {
+                var icon = $(this);
+                icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
+                icon.closest(".portlet").find(".portlet-content").toggle();
+            });
         };
         //#endregion
 
@@ -1053,7 +1141,7 @@
                 var datetimepicker_Activity_End_txt_temp = $(this).attr("id");
                 var datetimepicker_Activity_End_txtId = datetimepicker_Activity_End_txt_temp.split("_")[datetimepicker_Activity_End_txt_temp.split("_").length - 1];
                 //判斷在活動開始日期之前
-                if ($.trim($(this).val()) < $.trim($("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_End_txtId).val()) && $.trim($("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_End_txtId).val()) != "") {
+                if ($.trim($(this).val()) <= $.trim($("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_End_txtId).val()) && $.trim($("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_End_txtId).val()) != "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#datetimepicker_Activity_End_txt_error_" + datetimepicker_Activity_End_txtId).length == 0)
                         $(this).after('<em id="datetimepicker_Activity_End_txt_error_' + datetimepicker_Activity_End_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">活動結束日期必須在活動開始日期之後</em>');
@@ -1067,7 +1155,7 @@
                         $("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_End_txtId).css({ "box-shadow": "" });
                 }
                 //判斷在活動報名結束之前
-                if ($.trim($(this).val()) < $.trim($("#datetimepicker_Activity_Sign_End_txt_" + datetimepicker_Activity_End_txtId).val()) && $.trim($("#datetimepicker_Activity_Sign_End_txt_" + datetimepicker_Activity_End_txtId).val()) != "" ) { 
+                if ($.trim($(this).val()) <= $.trim($("#datetimepicker_Activity_Sign_End_txt_" + datetimepicker_Activity_End_txtId).val()) && $.trim($("#datetimepicker_Activity_Sign_End_txt_" + datetimepicker_Activity_End_txtId).val()) != "" ) { 
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#datetimepicker_Activity_End_txt_error_withSignEnd_" + datetimepicker_Activity_End_txtId).length == 0)
                         $(this).after('<em id="datetimepicker_Activity_End_txt_error_withSignEnd_' + datetimepicker_Activity_End_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">活動結束日期必須在報名結束日期之後</em>');
@@ -1244,104 +1332,6 @@
             }
         });
         //#endregion
-
-        ////#region jquery validate 資料驗證
-        ////$.validator.setDefaults({
-        ////    submitHandler: function () {
-        ////        alert("報名表建立成功!!");
-        ////    }
-        ////});
-        //$(document).ready(function () {
-        //    $("#form1").validate({
-        //        rules: {
-        //            activity_Name: {
-        //                required:true,
-        //            },
-        //            activity_location:{
-        //                required:true,
-        //            },
-        //            session_Name:{
-        //                required:true,
-        //            },
-        //            firstname: "required",
-        //            lastname: "required",
-        //            username: {
-        //                required: true,
-        //                minlength: 2
-        //            },
-        //            password: {
-        //                required: true,
-        //                minlength: 5
-        //            },
-        //            confirm_password: {
-        //                required: true,
-        //                minlength: 5,
-        //                equalTo: "#password"
-        //            },
-        //            email: {
-        //                required: true,
-        //                email: true
-        //            },
-        //            digital:{
-        //                required: true,
-        //                digits: true,
-        //                min:1,
-        //            },
-        //            url:{
-        //                url:true,
-        //            },
-        //            telephone:{
-        //                minlength: 10,
-        //                maxlength:10,
-        //            },
-        //            invalidHandler: function () {
-        //                $('#total').text("尚有 "+validator.numberOfInvalids() + " 項目未填"); 
-        //            },
-        //            agree: "required"
-        //        },
-        //        messages: {
-        //            firstname: "請輸入姓氏",
-        //            lastname: "請輸入名",
-        //            username: {
-        //                required: "Please enter a username",
-        //                minlength: "Your username must consist of at least 2 characters"
-        //            },
-        //            password: {
-        //                required: "Please provide a password",
-        //                minlength: "Your password must be at least 5 characters long"
-        //            },
-        //            confirm_password: {
-        //                required: "Please provide a password",
-        //                minlength: "Your password must be at least 5 characters long",
-        //                equalTo: "Please enter the same password as above"
-        //            },
-        //            email: "Please enter a valid email address",
-        //            digital: "請輸入正確的數字(請勿小於1)",
-        //            url: "請輸入合法網址",
-        //            telephone: "請輸入正確電話號碼",
-        //            agree: "Please accept our policy"
-        //        },
-        //        errorElement: "em",
-        //        errorPlacement: function (error, element) {
-        //            // Add the `help-block` class to the error element
-        //            error.addClass("help-block");
-
-        //            if (element.prop("type") === "checkbox") {
-        //                error.insertAfter(element.parent("label"));
-        //            } else {
-        //                error.insertAfter(element);
-        //            }
-        //        },
-        //        highlight: function (element, errorClass, validClass) {
-        //            $(element).parents(".col-sm-10").addClass("has-error").removeClass("has-success");
-        //        },
-        //        unhighlight: function (element, errorClass, validClass) {
-        //            $(element).parents(".col-sm-10").addClass("has-success").removeClass("has-error");
-        //        }
-        //    });
-
-        //});
-        ////#endregion
 
         //#region 儲存活動頁面
         function Save_btn_Click() {
@@ -1565,170 +1555,8 @@
 
         //#region 儲存報名表
         function Save_Activity_btn_Click() {
-            var checkData = true;
-            var jsondata = { activity_Form: [], activity_Section: [] };
-            //區塊順序初始化
-            var block_asc = 1;
-            //迴圈依照blockID 判斷要跑幾次
-            for (var add_Qus_count = 1 ; add_Qus_count < blockId ; add_Qus_count++)
-            {
-                //抓取現在block的資訊
-                var $block_div = $("#block_div_" + add_Qus_count);
-                //抓取新增問題地方的資訊
-                var $add_Qus_div = $("#add_Qus_div_" + add_Qus_count);
-                //判斷block是否存在
-                if ($block_div.length > 0)
-                {
-                    //問題順序初始化
-                    var qus_seq = 1;
-                    //將目前block內的問題進行排序並存成陣列
-                    var $qus_sortable = $add_Qus_div.sortable("toArray");
-                    //抓取現在的block的ID並進行切割取得純數字ID
-                    var choose_blockId_temp = $block_div.attr("id");
-                    var choose_blockId = choose_blockId_temp.split("_")[choose_blockId_temp.split("_").length - 1];
-                    //依照陣列長度判斷是否有問題存在
-                    if ($qus_sortable.length > 0)
-                    {
-                        //如果陣列裡有問題則把紅色陰影去掉
-                        $("#block_div_" + choose_blockId).css({ "box-shadow": "" });
-                        var activity_Section_Json_Data = {};
-                        //判斷block是否有標題
-                        if ($.trim($("#block_title_txt_" + choose_blockId).val()) == "")
-                        {
-                            $("#block_title_txt_" + choose_blockId).css({ "box-shadow": "0px 0px 9px red" });
-                            if ($("#block_title_txt_error_" + choose_blockId).length == 0)
-                                $("#block_title_txt_" + choose_blockId).after('<em id="block_title_txt_error_' + choose_blockId + '" class="error help-block red"><h6>必須填寫</h6></em>');
-                            checkData = false;
-                        }
-                        else
-                        {
-                            $("#block_title_txt_" + choose_blockId).css({ "box-shadow": "" });
-                            $("#block_title_txt_error_" + choose_blockId).remove();
-                            //if (checkData != 0) checkData = 1;
-                        }
-                        //儲存block名稱
-                        activity_Section_Json_Data.Acs_title = $("#block_div_" + choose_blockId).find("#block_title_txt_" + choose_blockId).val();
-                        //儲存block描述
-                        activity_Section_Json_Data.Acs_desc = $("#block_div_" + choose_blockId).find("#block_Description_txt_" + choose_blockId).val();
-                        //儲存block順序
-                        activity_Section_Json_Data.Acs_seq = block_asc;
-                        //將block資料push到jsondata的activity_Section[]裡面
-                        jsondata.activity_Section.push(activity_Section_Json_Data);
-                        //依照問題排序陣列來獲得這個block裡面有幾個問題
-                        for (var qus_count = 0; qus_count < $qus_sortable.length; qus_count++)
-                        {
-                            var activity_Column_Json_Data = new Object;
-                            //獲得這個問題的純數字ID
-                            var chooseId_temp = $("#" + $qus_sortable[qus_count]).attr("id");
-                            var chooseId = chooseId_temp.split("_")[chooseId_temp.split("_").length - 1];
-                            //判斷問題是否有標題
-                            if ($.trim($("#qus_txt_" + chooseId).val()) == "")
-                            {
-                                $("#qus_txt_" + chooseId).css({ "box-shadow": "0px 0px 9px red" });
-                                if ($("#qus_txt_error_" + chooseId).length == 0)
-                                    $("#qus_txt_" + chooseId).after('<em id="qus_txt_error_' + chooseId + '" class="error help-block red">必須填寫</em>');
-                                checkData = false;
-                            }
-                            else
-                            {
-                                $("#qus_txt_" + chooseId).css({ "box-shadow": "" });
-                                $("#qus_txt_error_" + chooseId).remove();
-                            }
-                            //儲存題目名稱
-                            activity_Column_Json_Data.Acc_title = $("#" + $qus_sortable[qus_count]).find("#qus_txt_" + chooseId).val();
-                            //儲存題目描述
-                            activity_Column_Json_Data.Acc_desc = $("#" + $qus_sortable[qus_count]).find("#qus_context_txt_" + chooseId).val();
-                            //儲存題目順序
-                            activity_Column_Json_Data.Acc_seq = qus_seq;
-                            //判斷是否必填
-                            if ($("#" + $qus_sortable[qus_count]).find("#required_checkbox_" + chooseId).is(":checked") === false)
-                                //沒有必填存0
-                                activity_Column_Json_Data.Acc_required = 0;
-                            else if ($("#" + $qus_sortable[qus_count]).find("#required_checkbox_" + chooseId).is(":checked") === true)
-                                //必填存1
-                                activity_Column_Json_Data.Acc_required = 1;
-                            //儲存問題模式
-                            //activity_Column_Json_Data.Acc_type = $("#" + $qus_sortable[qus_count]).find("#select_" + chooseId).val();
-                            activity_Column_Json_Data.Acc_type = $("#select_" + chooseId).val();
-                            //儲存資料驗證方式
-                            if ($("#select_Validation_" + chooseId).val() == "Int")
-                            {
-                                if ($.trim($("#min_Num_" + chooseId).val()) == "")
-                                    var min_Num = "N";
-                                else
-                                    var min_Num = $.trim($("#min_Num_" + chooseId).val());
-                                if ($.trim($("#max_Num_" + chooseId).val()) == "")
-                                    var max_Num = "N";
-                                else
-                                    var max_Num = $.trim($("#max_Num_" + chooseId).val());
-                                if (max_Num != "N" && min_Num != "N")
-                                {
-                                    if (max_Num < min_Num) {
-                                        $("#max_Num_" + chooseId).css({ "box-shadow": "0px 0px 9px red" });
-                                        $("#max_Num_" + chooseId).after('<em id="max_Num_error_' + chooseId + '" class="error help-block red" style="width: 91px;margin-left: -57px;">必須大於最小值</em>');
-                                        checkData = false;
-                                    }
-                                    else {
-                                        $("#max_Num_" + chooseId).css({ "box-shadow": "" });
-                                        $("#max_Num_error_" + chooseId).remove();
-                                    }
-                                        
-                                }
-                                else
-                                activity_Column_Json_Data.Acc_validation = $("#select_Validation_" + chooseId).val() + ',' + min_Num + ',' + max_Num;
-                            }
-                            else
-                                activity_Column_Json_Data.Acc_validation = $("#select_Validation_" + chooseId).val();
-                            //判斷問題模式如果不為文字則要存選項內容
-                            if ($("#" + $qus_sortable[qus_count]).find("select").val() != "文字") {
-                                //抓取ID為add_Qus_Options_div_的div
-                                var $option_div = $("#" + $qus_sortable[qus_count]).find("[id^=add_Qus_Options_div_]");
-                                //判斷是否每個選項都有填寫
-                                $option_div.find($('[name="qus_Options"]')).each(function () {
-                                    if ($.trim($(this).val()) == "") {
-                                        //this.focus();
-                                        $(this).css({ "box-shadow": "0px 0px 9px red" });
-                                        checkData = false;
-                                    }
-                                    else
-                                    {
-                                        $(this).css({ "box-shadow": "" });
-                                    }
-                                        
-                                });
-                                //將上面抓到的div裡面所有的input轉成序列儲存
-                                var $option = $option_div.find($('[name="qus_Options"]')).serialize();
-                                //var $option = $.map($option_div.find($('[name="qus_Options"]')), function ($op) {
-                                //    return $($op).val();
-                                //})
-                                //儲存選項序列
-                                activity_Column_Json_Data.Acc_option = $option;
-                                
-                            }
-                            //問題順序加一
-                            qus_seq++;
-                            //儲存block順序
-                            activity_Column_Json_Data.Acc_asc = block_asc;
-                            //將問題資料push到jsondata裡面
-                            jsondata.activity_Form.push(activity_Column_Json_Data);
-                        }
-                        $("#block_div_error_" + choose_blockId).remove();
-                    }
-                    else
-                    {
-                        $("#block_div_" + choose_blockId).css({ "box-shadow": "0px 0px 9px red" });
-                        if ($("#block_div_error_" + choose_blockId).length == 0)
-                            $("#block_div_" + choose_blockId).prepend('<em id="block_div_error_' + choose_blockId + '" class="error help-block red"><h3>內無問題，請刪除或是新增問題</h3></em>');
-                        checkData = false;
-                        alert("您有空白區塊，請新增問題或是刪除區塊!!");
-                    }
-                    //區塊順序加一
-                    block_asc++;
-                }
-            }
-            //var json = JSON.stringify(jsondata);
-            //$("#save_Json_Data").val(json);
-            //window.open("S02010202.aspx?sys_id=S01&sys_pid=S02010202");
+            //var checkData = true;
+            var jsondata = save_Activity_Column();
             //使用ajax傳送
             if (checkData === true)
             {
@@ -1757,10 +1585,167 @@
         }
         //#endregion 
 
-        function view_Activity() {
+        //#region 儲存報名表成JSON
+        function save_Activity_Column() {
+            var jsondata = { activity_Form: [], activity_Section: [] };
+            //區塊順序初始化
+            var block_asc = 1;
+            //迴圈依照blockID 判斷要跑幾次
+            for (var add_Qus_count = 1 ; add_Qus_count < blockId ; add_Qus_count++) {
+                //抓取現在block的資訊
+                var $block_div = $("#block_div_" + add_Qus_count);
+                //抓取新增問題地方的資訊
+                var $add_Qus_div = $("#add_Qus_div_" + add_Qus_count);
+                //判斷block是否存在
+                if ($block_div.length > 0) {
+                    //問題順序初始化
+                    var qus_seq = 1;
+                    //將目前block內的問題進行排序並存成陣列
+                    var $qus_sortable = $add_Qus_div.sortable("toArray");
+                    //抓取現在的block的ID並進行切割取得純數字ID
+                    var choose_blockId_temp = $block_div.attr("id");
+                    var choose_blockId = choose_blockId_temp.split("_")[choose_blockId_temp.split("_").length - 1];
+                    //依照陣列長度判斷是否有問題存在
+                    if ($qus_sortable.length > 0) {
+                        //如果陣列裡有問題則把紅色陰影去掉
+                        $("#block_div_" + choose_blockId).css({ "box-shadow": "" });
+                        var activity_Section_Json_Data = {};
+                        //判斷block是否有標題
+                        if ($.trim($("#block_title_txt_" + choose_blockId).val()) == "") {
+                            $("#block_title_txt_" + choose_blockId).css({ "box-shadow": "0px 0px 9px red" });
+                            if ($("#block_title_txt_error_" + choose_blockId).length == 0)
+                                $("#block_title_txt_" + choose_blockId).after('<em id="block_title_txt_error_' + choose_blockId + '" class="error help-block red"><h6>必須填寫</h6></em>');
+                            checkData = false;
+                        }
+                        else {
+                            $("#block_title_txt_" + choose_blockId).css({ "box-shadow": "" });
+                            $("#block_title_txt_error_" + choose_blockId).remove();
+                            //if (checkData != 0) checkData = 1;
+                        }
+                        //儲存block名稱
+                        activity_Section_Json_Data.Acs_title = $("#block_div_" + choose_blockId).find("#block_title_txt_" + choose_blockId).val();
+                        //儲存block描述
+                        activity_Section_Json_Data.Acs_desc = $("#block_div_" + choose_blockId).find("#block_Description_txt_" + choose_blockId).val();
+                        //儲存block順序
+                        activity_Section_Json_Data.Acs_seq = block_asc;
+                        //將block資料push到jsondata的activity_Section[]裡面
+                        jsondata.activity_Section.push(activity_Section_Json_Data);
+                        //依照問題排序陣列來獲得這個block裡面有幾個問題
+                        for (var qus_count = 0; qus_count < $qus_sortable.length; qus_count++) {
+                            var activity_Column_Json_Data = new Object;
+                            //獲得這個問題的純數字ID
+                            var chooseId_temp = $("#" + $qus_sortable[qus_count]).attr("id");
+                            var chooseId = chooseId_temp.split("_")[chooseId_temp.split("_").length - 1];
+                            //判斷問題是否有標題
+                            if ($.trim($("#qus_txt_" + chooseId).val()) == "") {
+                                $("#qus_txt_" + chooseId).css({ "box-shadow": "0px 0px 9px red" });
+                                if ($("#qus_txt_error_" + chooseId).length == 0)
+                                    $("#qus_txt_" + chooseId).after('<em id="qus_txt_error_' + chooseId + '" class="error help-block red">必須填寫</em>');
+                                checkData = false;
+                            }
+                            else {
+                                $("#qus_txt_" + chooseId).css({ "box-shadow": "" });
+                                $("#qus_txt_error_" + chooseId).remove();
+                            }
+                            //儲存題目名稱
+                            activity_Column_Json_Data.Acc_title = $("#" + $qus_sortable[qus_count]).find("#qus_txt_" + chooseId).val();
+                            //儲存題目描述
+                            activity_Column_Json_Data.Acc_desc = $("#" + $qus_sortable[qus_count]).find("#qus_context_txt_" + chooseId).val();
+                            //儲存題目順序
+                            activity_Column_Json_Data.Acc_seq = qus_seq;
+                            //判斷是否必填
+                            if ($("#" + $qus_sortable[qus_count]).find("#required_checkbox_" + chooseId).is(":checked") === false)
+                                //沒有必填存0
+                                activity_Column_Json_Data.Acc_required = 0;
+                            else if ($("#" + $qus_sortable[qus_count]).find("#required_checkbox_" + chooseId).is(":checked") === true)
+                                //必填存1
+                                activity_Column_Json_Data.Acc_required = 1;
+                            //儲存問題模式
+                            //activity_Column_Json_Data.Acc_type = $("#" + $qus_sortable[qus_count]).find("#select_" + chooseId).val();
+                            activity_Column_Json_Data.Acc_type = $("#select_" + chooseId).val();
+                            //儲存資料驗證方式
+                            if ($("#select_Validation_" + chooseId).val() == "Int") {
+                                if ($.trim($("#min_Num_" + chooseId).val()) == "")
+                                    var min_Num = "N";
+                                else
+                                    var min_Num = $.trim($("#min_Num_" + chooseId).val());
+                                if ($.trim($("#max_Num_" + chooseId).val()) == "")
+                                    var max_Num = "N";
+                                else
+                                    var max_Num = $.trim($("#max_Num_" + chooseId).val());
+                                if (max_Num != "N" && min_Num != "N") {
+                                    if (max_Num < min_Num) {
+                                        $("#max_Num_" + chooseId).css({ "box-shadow": "0px 0px 9px red" });
+                                        $("#max_Num_" + chooseId).after('<em id="max_Num_error_' + chooseId + '" class="error help-block red" style="width: 91px;margin-left: -57px;">必須大於最小值</em>');
+                                        checkData = false;
+                                    }
+                                    else {
+                                        $("#max_Num_" + chooseId).css({ "box-shadow": "" });
+                                        $("#max_Num_error_" + chooseId).remove();
+                                    }
 
-            $("#txt").val("123");
+                                }
+                                else
+                                    activity_Column_Json_Data.Acc_validation = $("#select_Validation_" + chooseId).val() + ',' + min_Num + ',' + max_Num;
+                            }
+                            else
+                                activity_Column_Json_Data.Acc_validation = $("#select_Validation_" + chooseId).val();
+                            //判斷問題模式如果不為文字則要存選項內容
+                            if ($("#" + $qus_sortable[qus_count]).find("select").val() != "文字") {
+                                //抓取ID為add_Qus_Options_div_的div
+                                var $option_div = $("#" + $qus_sortable[qus_count]).find("[id^=add_Qus_Options_div_]");
+                                //判斷是否每個選項都有填寫
+                                $option_div.find($('[name="qus_Options"]')).each(function () {
+                                    if ($.trim($(this).val()) == "") {
+                                        //this.focus();
+                                        $(this).css({ "box-shadow": "0px 0px 9px red" });
+                                        checkData = false;
+                                    }
+                                    else {
+                                        $(this).css({ "box-shadow": "" });
+                                    }
+
+                                });
+                                //將上面抓到的div裡面所有的input轉成序列儲存
+                                var $option = $option_div.find($('[name="qus_Options"]')).serialize();
+                                //var $option = $.map($option_div.find($('[name="qus_Options"]')), function ($op) {
+                                //    return $($op).val();
+                                //})
+                                //儲存選項序列
+                                activity_Column_Json_Data.Acc_option = $option;
+
+                            }
+                            //問題順序加一
+                            qus_seq++;
+                            //儲存block順序
+                            activity_Column_Json_Data.Acc_asc = block_asc;
+                            //將問題資料push到jsondata裡面
+                            jsondata.activity_Form.push(activity_Column_Json_Data);
+                        }
+                        $("#block_div_error_" + choose_blockId).remove();
+                    }
+                    else {
+                        $("#block_div_" + choose_blockId).css({ "box-shadow": "0px 0px 9px red" });
+                        if ($("#block_div_error_" + choose_blockId).length == 0)
+                            $("#block_div_" + choose_blockId).prepend('<em id="block_div_error_' + choose_blockId + '" class="error help-block red"><h3>內無問題，請刪除或是新增問題</h3></em>');
+                        checkData = false;
+                        alert("您有空白區塊，請新增問題或是刪除區塊!!");
+                    }
+                    //區塊順序加一
+                    block_asc++;
+                }
+            }
+            return jsondata;
         }
+        //#endregion
+
+        //#region 檢視報名表
+        function view_Activity() {
+            var json = JSON.stringify(save_Activity_Column());
+            $("#save_Json_Data").val(json);
+            window.open("S02010202.aspx?sys_id=S01&sys_pid=S02010202");
+        }
+        //#endregion
     </script>
-    <!-- JavaScript_END-->
+
 </asp:Content>

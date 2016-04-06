@@ -126,6 +126,10 @@
 
     <link rel="stylesheet" type="text/css" href="<%=ResolveUrl("~/Css/Lib/titatoggle-dist.css") %>" />
 
+
+    <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/jQuery-File-Upload-9.12.1/js/jquery.fileupload.js") %>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/jQuery-File-Upload-9.12.1/js/vendor/jquery.ui.widget.js") %>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/jQuery-File-Upload-9.12.1/js/jquery.iframe-transport.js") %>"></script>
     <asp:ContentPlaceHolder ID="baseHead_cph" runat="server"></asp:ContentPlaceHolder>
 </head>
 <body>

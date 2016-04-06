@@ -238,6 +238,7 @@
     <Content Include="S02\S02010103.aspx" />
     <Content Include="S02\S02010201.aspx" />
     <Content Include="S02\S02010202.aspx" />
+    <Content Include="S02\UploadProgress.aspx" />
     <Content Include="S02\WebForm1.aspx" />
     <Content Include="Scripts\ITCFunctions.js" />
     <Content Include="Scripts\Lib\assets\css\style-responsive.css" />
@@ -780,6 +781,44 @@
     <Content Include="Scripts\Lib\jQuery-datetimepicker\screen\3.1.png" />
     <Content Include="Scripts\Lib\jQuery-datetimepicker\screen\3.png" />
     <Content Include="Scripts\Lib\jQuery-datetimepicker\www.jq22.com.txt" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\angularjs.html" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\basic-plus.html" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\basic.html" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\cors\postmessage.html" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\cors\result.html" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\css\demo-ie8.css" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\css\demo.css" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\css\jquery.fileupload-noscript.css" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\css\jquery.fileupload-ui-noscript.css" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\css\jquery.fileupload-ui.css" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\css\jquery.fileupload.css" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\css\style.css" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\Gruntfile.js" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\img\loading.gif" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\img\progressbar.gif" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\index.html" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\jquery-ui.html" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\js\app.js" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\js\cors\jquery.postmessage-transport.js" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\js\cors\jquery.xdr-transport.js" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\js\jquery.fileupload-angular.js" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\js\jquery.fileupload-audio.js" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\js\jquery.fileupload-image.js" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\js\jquery.fileupload-jquery-ui.js" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\js\jquery.fileupload-process.js" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\js\jquery.fileupload-ui.js" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\js\jquery.fileupload-validate.js" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\js\jquery.fileupload-video.js" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\js\jquery.fileupload.js" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\js\jquery.iframe-transport.js" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\js\main.js" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\js\vendor\jquery.ui.widget.js" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\server\gae-go\static\favicon.ico" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\server\gae-go\static\robots.txt" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\server\gae-python\static\favicon.ico" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\server\gae-python\static\robots.txt" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\test\index.html" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\test\test.js" />
     <Content Include="Scripts\Lib\jquery-sortable-0.9.13.js" />
     <Content Include="Scripts\Lib\angular-1.0.7.min.js" />
     <Content Include="Scripts\Lib\angular-1.2.1.min.js" />
@@ -1442,6 +1481,20 @@
     <Content Include="Scripts\Lib\jquery-validation\demo\captcha\rand.php" />
     <Content Include="Scripts\Lib\jquery-validation\package.json" />
     <Content Include="Scripts\Lib\jquery-validation\README.md" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\.gitignore" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\.jshintrc" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\bower.json" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\CONTRIBUTING.md" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\package.json" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\README.md" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\server\gae-go\app.yaml" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\server\gae-go\app\main.go" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\server\gae-python\app.yaml" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\server\gae-python\main.py" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\server\php\files\.gitignore" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\server\php\files\.htaccess" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\server\php\index.php" />
+    <Content Include="Scripts\Lib\jQuery-File-Upload-master\server\php\UploadHandler.php" />
     <None Include="Scripts\Lib\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\Lib\jquery.validate.min.js" />
     <Content Include="Scripts\Lib\jsencrypt.js" />
@@ -1689,6 +1742,13 @@
     <Compile Include="S02\S02010202.aspx.designer.cs">
       <DependentUpon>S02010202.aspx</DependentUpon>
     </Compile>
+    <Compile Include="S02\UploadProgress.aspx.cs">
+      <DependentUpon>UploadProgress.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S02\UploadProgress.aspx.designer.cs">
+      <DependentUpon>UploadProgress.aspx</DependentUpon>
+    </Compile>
     <Compile Include="S02\WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1784,6 +1844,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Template\" />
+    <Folder Include="Uploads\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
