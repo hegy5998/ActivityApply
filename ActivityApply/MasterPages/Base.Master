@@ -13,15 +13,15 @@
     <meta name="author" content="Dashboard" />
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina" />
 
-     <!-- js placed at the end of the document so the pages load faster -->
+    <!-- js placed at the end of the document so the pages load faster -->
     <script src="../assets/js/jquery.js"></script>
-    <script src="../assets/js/jquery-1.8.3.min.js"></script>
+    <script src="../assets/js/jquery-1.9.1.js"></script>
     <script src="../assets/js/bootstrap.min.js"></script>
     <script class="include" type="text/javascript" src="../assets/js/jquery.dcjqaccordion.2.7.js"></script>
     <script src="../assets/js/jquery.scrollTo.min.js"></script>
     <script src="../assets/js/jquery.nicescroll.js" type="../text/javascript"></script>
-    <script src="../assets/js/jquery.sparkline.js"></script>
-
+    <script src="../assets/js/jquery.sparkline.js"></script>    
+    <script src="assets/js/validation/jquery.metadata.js"></script>
     <!--common script for all pages-->
     <script src="../assets/js/common-scripts.js"></script>
     <script type="text/javascript" src="../assets/js/gritter/js/jquery.gritter.js"></script>
@@ -29,6 +29,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="../assets/css/bootstrap.css" rel="stylesheet" />
+
 
     <!--external css-->
     <link href="../assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
@@ -44,15 +45,14 @@
     <!-- calender -->
     <script src="../assets/js/sparkline-chart.js"></script>
     <script src="../assets/js/zabuto_calendar.js"></script>
-   
+
     <!-- dialog -->
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script type="text/javascript" src="http://mybidrobot.allalla.com/jquery/jquery.ui.datepicker-zh-TW.js"></script>
-   <%-- <link rel="stylesheet" href="/resources/demos/style.css"/>--%>
 
     <!-- datetimepicker -->
-<%--    <link href="jquery/jquery-ui-timepicker-addon.css" rel="stylesheet"/>
+    <%--    <link href="jquery/jquery-ui-timepicker-addon.css" rel="stylesheet"/>
     <script src="jquery/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
     <script src="jquery/jquery-ui-sliderAccess.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="../jQuery-datetimepicker/jquery.datetimepicker.css"/>
@@ -90,12 +90,12 @@
             var to = $("#" + id).data("to");
             console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
         }
-    </script>    
-    
+    </script>
+
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
-<body>                
+<body>
     <form id="form1" runat="server">
         <div>
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">

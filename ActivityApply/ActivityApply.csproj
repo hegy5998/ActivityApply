@@ -144,6 +144,7 @@
     <Content Include="assets\js\gritter\images\ie-spacer.gif" />
     <Content Include="assets\js\gritter\js\jquery.gritter.js" />
     <Content Include="assets\js\jquery-1.8.3.min.js" />
+    <Content Include="assets\js\jquery-1.9.1.js" />
     <Content Include="assets\js\jquery-easy-pie-chart\jquery.easy-pie-chart.css" />
     <Content Include="assets\js\jquery-easy-pie-chart\jquery.easy-pie-chart.js" />
     <Content Include="assets\js\jquery-ui-1.9.2.custom.min.js" />
@@ -158,6 +159,10 @@
     <Content Include="assets\js\morris-conf.js" />
     <Content Include="assets\js\sparkline-chart.js" />
     <Content Include="assets\js\tasks.js" />
+    <Content Include="assets\js\validation\additional-methods.js" />
+    <Content Include="assets\js\validation\jquery.metadata.js" />
+    <Content Include="assets\js\validation\jquery.validate.js" />
+    <Content Include="assets\js\validation\messages_zh_TW.js" />
     <Content Include="assets\js\zabuto_calendar.js" />
     <Content Include="assets\lineicons\fonts\linecons.svg" />
     <Content Include="assets\lineicons\index.html" />

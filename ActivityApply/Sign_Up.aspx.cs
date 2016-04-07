@@ -14,7 +14,7 @@ namespace ActivityApply
     public partial class Sign_Up : System.Web.UI.Page
     {
         
-        static int ACTIVITY = 2058;
+        static int ACTIVITY = 2073;
         protected void Page_Load(object sender, EventArgs e)
         {
            
