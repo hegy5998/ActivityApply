@@ -53,8 +53,17 @@
                     <div class="project">
                         <div class="photo-wrapper">
                             <div class="photo">
-                                <a data-toggle="modal" href="#pictureModal">
-                                    <img class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" alt=""></a>
+                                <%--<a data-toggle="modal" href="#pictureModal">--%>
+                                <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
+                                        <ContentTemplate>
+                                            <asp:FileUpload ID="imgUpload" runat="server"/>
+                                            <asp:Button ID="imageUpload_btn" runat="server" Style="display: none" OnClick="imageUpload_btn_Click"/>
+                                        </ContentTemplate>
+                                        <Triggers>
+                                           <asp:postbacktrigger controlid="imageUpload_btn"></asp:postbacktrigger>
+                                        </Triggers>
+                                </asp:UpdatePanel>
+                                <img class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" alt="">
                             </div>     
                             <div class="overlay"></div>
                         </div>
@@ -181,7 +190,7 @@
                                 <div class="col-sm-10">
                                     <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
                                         <ContentTemplate>
-                                            <asp:FileUpload ID="FileUpload1" runat="server"/>
+                                            <asp:FileUpload ID="FileUpload" runat="server"/>
                                             <asp:Button ID="btnUpload" runat="server" OnClick="btnUpload_Click1" Style="display: none"/>
                                             <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
                                         </ContentTemplate>
@@ -663,7 +672,7 @@
                                                               '<option value="email">電子信箱</option>' +
                                                               '<option value="idNumber">身份證</option>' +
                                                               '<option value="int">數字</option>' +
-                                                              '<option value="data">日期</option>' +
+                                                              '<option value="date">日期</option>' +
                                                             '</select>' +
                                                         '<a onclick="del_Qus_click(' + qusId + ')" type="submit" class="btn btn-theme" style="margin-left: 5px;">刪除</a>' +
                                                     '</div>' +
@@ -1448,8 +1457,19 @@
                 $("#activity_Name_txt").css({ "box-shadow": "" });
                 $("#activity_Name_txt_error" + temp).remove();
             }
-           
+            var imgFileName = document.getElementById("<%=this.imgUpload.ClientID %>").value.split(".")[document.getElementById("<%=this.imgUpload.ClientID %>").value.split(".").length - 1];
+            var FileName = document.getElementById("<%=this.FileUpload.ClientID %>").value.split(".")[document.getElementById("<%=this.FileUpload.ClientID %>").value.split(".").length - 1];
+
             //如果資料正確，使用jQuery ajax傳送資料
+            if (imgFileName != "jpg" && imgFileName != "jpeg" && imgFileName != "png" && imgFileName) {
+                alert("圖片只能上傳jpg、jpeg、png格式");
+                checkData = false;
+            }
+            if (FileName != "jpg" && FileName != "jpeg" && FileName != "png" && FileName != "gif" && FileName != "doc" && FileName != "docx" && FileName != "txt" && FileName != "ppt" && FileName != "pptx" && FileName != "xls" && FileName != "xlsx" && FileName != "pdf" && FileName != "rar" && FileName != "zip" && FileName != "7z" && FileName) {
+                alert("附加檔案只能上傳jpg、png、jpeg、gif、doc、docx、txt、ppt、pptx、xls、xlsx、pdf、rar、zip、7z格式");
+                checkData = false;
+            }
+            
             if (checkDataSignEnd == true) {
                 var if_Save = confirm("您的報名結束日期在活動開始日期之後，確定要儲存嗎?");
                 if (if_Save == true) {
@@ -1617,7 +1637,7 @@
                             //activity_Column_Json_Data.Acc_type = $("#" + $qus_sortable[qus_count]).find("#select_" + chooseId).val();
                             activity_Column_Json_Data.Acc_type = $("#select_" + chooseId).val();
                             //儲存資料驗證方式
-                            if ($("#select_Validation_" + chooseId).val() == "Int") {
+                            if ($("#select_Validation_" + chooseId).val() == "int") {
                                 if ($.trim($("#min_Num_" + chooseId).val()) == "")
                                     var min_Num = "N";
                                 else
@@ -1638,8 +1658,8 @@
                                     }
 
                                 }
-                                else
-                                    activity_Column_Json_Data.Acc_validation = $("#select_Validation_" + chooseId).val() + ',' + min_Num + ',' + max_Num;
+                                
+                                activity_Column_Json_Data.Acc_validation = $("#select_Validation_" + chooseId).val() + ',' + min_Num + ',' + max_Num;
                             }
                             else
                                 activity_Column_Json_Data.Acc_validation = $("#select_Validation_" + chooseId).val();
@@ -1696,11 +1716,15 @@
         function upload_File() {
             //抓取上傳檔案的按鈕，藉此可以由前端呼叫後端的function
             document.getElementById("<%=this.btnUpload.ClientID %>").click();
+            document.getElementById("<%=this.imageUpload_btn.ClientID %>").click();
         }
         //#endregion
 
         //#region 檢視報名表
         function view_Activity() {
+            
+            var a = document.getElementById("<%=this.imgUpload.ClientID %>").value.split(".")[document.getElementById("<%=this.imgUpload.ClientID %>").value.split(".").length - 1];
+            alert(a);
             //var json = JSON.stringify(save_Activity_Column());
             //$("#save_Json_Data").val(json);
             //window.open("S02010202.aspx?sys_id=S01&sys_pid=S02010202");
