@@ -15,6 +15,9 @@
     <input type="submit" onclick="Save_btn_Click()" value="儲存活動頁面"/>
     <!-- 儲存報名表 -->
     <input type="submit" onclick="Save_Activity_btn_Click()" value="儲存報名表"/>
+    <input type="submit" onclick="upload()" value="上傳檔案"/>
+    <!-- 檢視 -->
+    <input type="submit" onclick="view_Activity()" value="檢視報名表"/>
     <!-- 儲存活動 -->
     <asp:Button runat="server" ID="Save_btn" Text="儲存活動" OnClick="Save_btn_Click" CssClass="Distancebtn" />
     <!-- 返回列表 -->
@@ -176,7 +179,17 @@
                             <div class="form-group">
                                 <label class="col-sm-2 col-sm-2 control-label">附加檔案</label>
                                 <div class="col-sm-10">
-                                    <input type="file" id="fileupload" name="files" multiple/>
+                                    <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
+                                        <ContentTemplate>
+                                            <asp:FileUpload ID="FileUpload1" runat="server"/>
+                                            <asp:Button ID="btnUpload" runat="server" OnClick="btnUpload_Click1" Style="display: none"/>
+                                            <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+                                        </ContentTemplate>
+                                        <Triggers>
+                                           <asp:postbacktrigger controlid="btnUpload"></asp:postbacktrigger>
+                                        </Triggers>
+                                    </asp:UpdatePanel>
+                                    
                                 </div>
                             </div>
                             <!-- 相關連結 -->
@@ -325,12 +338,9 @@
                         <br />
                         <!-- 常用欄位 -->
                         <a data-toggle="modal" data-target="#myModal" data-backdrop="static" role="group"  class="btn btn-theme">常用欄位</a>
-                        <br />
+                        <%--<br />
                         <!-- 載入範本 -->
-                        <a type="submit" class="btn btn-theme " onclick="getText()">載入範本</a>
-                        <br />
-                        <!-- 檢視 -->
-                        <a type="submit" class="btn btn-theme" onclick="view_Activity()">檢視</a>
+                        <a type="submit" class="btn btn-theme " onclick="getText()">載入範本</a>--%>
                     </div>                     
                 </div>
                 <!-- 功能列_END -->
@@ -495,66 +505,6 @@
                     $("#activity_Name_txt_error").remove();
                 }
             })
-
-
-            $('#fileupload').fileupload({
-                dropZone: $('#drop'),	//拖曳上傳區域
-                url: '../Scripts/Lib/jQuery-File-Upload-9.12.1/upload.php',		//上傳處理的PHP
-                dataType: 'json',
-
-                //將要上傳的資料顯示
-                add: function (e, data) {
-                    var tpl = $('<div class="working"><span class="pro" /><span class="info"></span><span class="ctrl">取消</span></div>');
-                    tpl.find('.info').text(data.files[0].name);
-                    data.context = tpl.appendTo($(".item"));
-
-                    tpl.find('.ctrl').click(function () {
-                        //if(tpl.hasClass('working')){
-                        //    jqXHR.abort();  //取消上傳
-                        //}
-
-                        tpl.fadeOut(function () {
-                            tpl.remove();
-                        });
-                    });
-                    //執行 data.submit() 開始上傳
-                    $("#start").click(function () {
-                        var jqXHR = data.submit();
-                    });
-                },
-
-                //單一檔案進度
-                progress: function (e, data) {
-                    var progress = parseInt(data.loaded / data.total * 100, 10);
-                    data.context.find('.pro').text(progress + "%　　").change();
-                    if (progress == 100) {
-                        data.context.removeClass('working');
-                    }
-                },
-
-                //整體進度
-                progressall: function (e, data) {
-                    var progress = parseInt(data.loaded / data.total * 100, 10);
-                    $('#progress .bar').css('width', progress + '%');
-                    $('#progress .bar').text(progress + '%');
-                },
-
-                //上傳失敗
-                fail: function (e, data) {
-                    data.context.addClass('error');
-                },
-
-                //單一檔案上傳完成
-                done: function (e, data) {
-                    var tmp = data.context.find('.pro').text();
-                    data.context.find('.pro').text(tmp + data.result.status + "　　");
-                },
-
-                //全部上傳完畢
-                stop: function (e) {
-                    alert("上傳完畢");
-                }
-            });
         });
         //#endregion
 
@@ -1498,6 +1448,7 @@
                 $("#activity_Name_txt").css({ "box-shadow": "" });
                 $("#activity_Name_txt_error" + temp).remove();
             }
+           
             //如果資料正確，使用jQuery ajax傳送資料
             if (checkDataSignEnd == true) {
                 var if_Save = confirm("您的報名結束日期在活動開始日期之後，確定要儲存嗎?");
@@ -1513,6 +1464,7 @@
                             dataType: "json",
                             //成功時
                             success: function (result) {
+                                upload_File();
                                 alert(result.d);
                             },
                             //失敗時
@@ -1538,6 +1490,7 @@
                         dataType: "json",
                         //成功時
                         success: function (result) {
+                            upload_File();
                             alert(result.d);
                         },
                         //失敗時
@@ -1739,11 +1692,18 @@
         }
         //#endregion
 
+        //#region 上傳檔案
+        function upload_File() {
+            //抓取上傳檔案的按鈕，藉此可以由前端呼叫後端的function
+            document.getElementById("<%=this.btnUpload.ClientID %>").click();
+        }
+        //#endregion
+
         //#region 檢視報名表
         function view_Activity() {
-            var json = JSON.stringify(save_Activity_Column());
-            $("#save_Json_Data").val(json);
-            window.open("S02010202.aspx?sys_id=S01&sys_pid=S02010202");
+            //var json = JSON.stringify(save_Activity_Column());
+            //$("#save_Json_Data").val(json);
+            //window.open("S02010202.aspx?sys_id=S01&sys_pid=S02010202");
         }
         //#endregion
     </script>
