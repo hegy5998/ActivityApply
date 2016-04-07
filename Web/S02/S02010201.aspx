@@ -192,7 +192,7 @@
                                         <ContentTemplate>
                                             <asp:FileUpload ID="FileUpload" runat="server"/>
                                             <asp:Button ID="btnUpload" runat="server" OnClick="btnUpload_Click1" Style="display: none"/>
-                                            <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+                                            <asp:Label ID="Label1" runat="server" Text="Label"  Style="display: none"></asp:Label>
                                         </ContentTemplate>
                                         <Triggers>
                                            <asp:postbacktrigger controlid="btnUpload"></asp:postbacktrigger>
@@ -1205,14 +1205,6 @@
         };
         //#endregion
         
-        ////#region 日期時間選擇器
-        //$(function () {
-        //    $('.datetimepicker').datetimepicker({
-        //        lang: 'ch',
-        //    });
-        //});
-        ////#endregion
-
         //#region 報名表問題拖拉 
         $(function () {
             $(".column").sortable({
@@ -1457,6 +1449,7 @@
                 $("#activity_Name_txt").css({ "box-shadow": "" });
                 $("#activity_Name_txt_error" + temp).remove();
             }
+            //儲存上傳圖片以及附加檔案的副檔名，用來判斷是否符合格式
             var imgFileName = document.getElementById("<%=this.imgUpload.ClientID %>").value.split(".")[document.getElementById("<%=this.imgUpload.ClientID %>").value.split(".").length - 1];
             var FileName = document.getElementById("<%=this.FileUpload.ClientID %>").value.split(".")[document.getElementById("<%=this.FileUpload.ClientID %>").value.split(".").length - 1];
 
@@ -1523,7 +1516,7 @@
                     alert("資料有誤");
                 }
             }
-        };
+        }
         //#endregion
 
         //#region 儲存報名表
@@ -1722,12 +1715,11 @@
 
         //#region 檢視報名表
         function view_Activity() {
-            
             var a = document.getElementById("<%=this.imgUpload.ClientID %>").value.split(".")[document.getElementById("<%=this.imgUpload.ClientID %>").value.split(".").length - 1];
             alert(a);
-            //var json = JSON.stringify(save_Activity_Column());
-            //$("#save_Json_Data").val(json);
-            //window.open("S02010202.aspx?sys_id=S01&sys_pid=S02010202");
+            var json = JSON.stringify(save_Activity_Column());
+            $("#save_Json_Data").val(json);
+            window.open("S02010202.aspx?sys_id=S01&sys_pid=S02010202&act_idn=1");
         }
         //#endregion
     </script>

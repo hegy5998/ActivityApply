@@ -10,7 +10,8 @@ namespace Web.S02
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            string rawId = Request["act_idn"];
+            Response.Write(rawId);
         }
         [System.Web.Services.WebMethod]
         public static string get(string ID)

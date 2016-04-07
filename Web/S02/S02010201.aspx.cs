@@ -20,11 +20,10 @@ namespace Web.S02
 {
     public partial class S02010201 : CommonPages.BasePage
     {
-        
-        string a = null;
-        
         protected void Page_Load(object sender, EventArgs e)
         {
+            string rawId = Request["sys_id"];
+            Response.Write(rawId);
             if (!IsPostBack)
             {
                 //GetData();  
