@@ -157,10 +157,11 @@
         function TextCol_Code(question, seq) {
             var qusId = "qus_div_" + seq;
             var txtId = "qus_txt_" + seq;
+            var qusName = "qus_txt_" + seq;
             var code = '<div id="' + qusId + '" class="form-group">\
                             <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
                             <div class="col-sm-10">\
-                                <input type="text" id="' + txtId + '" class="form-control' + Validate(question.Acc_required, question.Acc_validation) + '>\
+                                <input type="text" id="' + txtId + '" name="' + qusName + '" class="form-control' + Validate(question.Acc_required, question.Acc_validation) + '>\
                                 <span class="help-block">' + question.Acc_desc + '</span>\
                             </div>\
                         </div>';
@@ -226,10 +227,11 @@
         function DropDownListCol_Code(question, seq) {
             var qusId = "qus_div_" + seq;
             var txtId = "qus_txt_" + seq;
+            var qusName = "qus_ddl_" + seq;
             var code = '<div id="' + qusId + '" class="form-group">\
                             <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
                             <div class="col-sm-10">\
-                                <select class="form-control' + Validate(question.Acc_required, question.Acc_validation) + '>\
+                                <select name="' + qusName + '" class="form-control' + Validate(question.Acc_required, question.Acc_validation) + '>\
                                     <option value=""></option>';
 
             //反序列化
