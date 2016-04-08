@@ -140,7 +140,8 @@ namespace DataAccess
         {
             string sql = @" SELECT activity_section.*
                             FROM activity_section
-                            WHERE acs_act = @acs_act;";
+                            WHERE acs_act = @acs_act
+                            ORDER BY acs_seq;";
             IDataParameter[] param = { Db.GetParam("@acs_act", acs_act) };
             return Db.GetEnumerable<Activity_sectionInfo>(sql, param).ToList();
         }

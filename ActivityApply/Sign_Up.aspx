@@ -2,6 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead" runat="server">
     <!-- Jquery Validation -->
+    <script src="assets/js/validation/jquery.metadata.js"></script>
     <script src="assets/js/validation/jquery.validate.js"></script>
     <script src="assets/js/validation/messages_zh_TW.js"></script>
     <script src="assets/js/validation/additional-methods.js"></script>
@@ -29,11 +30,13 @@
         .control-label {
             font-weight: bold;
         }
-        input.error{
+        /* 驗證錯誤欄位 */
+        input[type="text"].error {
             box-shadow: 0px 0px 9px red;
         }
-        .required::after {
-            content:"*";
+        /* 驗證錯誤訊息文字 */
+        label.error {
+            color: red;
         }
     </style>
 
@@ -48,13 +51,7 @@
                 <h3><i class="fa fa-angle-right"></i>活動報名</h3>
                 <!-- 放置區塊區域 -->
                 <div id="sections_div">
-                    <div id="thrth" class="form-group">
-                            <label class="col-sm-2 control-label">rthtrhrt</label>
-                            <div class="col-sm-10">
-                                <input type="text" id="rthrthrtb" class="form-control {validate:{required:true, minlength:2}}">
-                                <span class="help-block">rbhetbhetb</span>
-                            </div>
-                        </div>
+                    <!-- 放置問題區域 -->
                 </div>
                 <!-- 送出按鈕 -->
                 <div class="row col-sm-12">
@@ -68,15 +65,6 @@
         $(document).ready(function () {
             getSectionList();
             getQuestionList();
-            
-            //var a = getSectionList();
-            //alert(a);
-            //$("input").focus(function () {
-
-            //})
-            //$("input").blur(function () {
-            //    $("#text1").css({ "box-shadow": "0px 0px 9px red" });
-            //})
         })
 
         // #region 取得區塊列表
@@ -91,7 +79,7 @@
                 //成功時
                 success: function (result) {
                     // 加入區塊
-                    Add_Section(result.d)
+                    Add_Section(result.d);
                 },
                 //失敗時
                 error: function () {
@@ -114,7 +102,7 @@
                 //成功時
                 success: function (result) {
                     // 加入區塊
-                    Add_Question(result.d)
+                    Add_Question(result.d);
                 },
                 //失敗時
                 error: function () {
@@ -170,9 +158,9 @@
             var qusId = "qus_div_" + seq;
             var txtId = "qus_txt_" + seq;
             var code = '<div id="' + qusId + '" class="form-group">\
-                            <label class="col-sm-2 control-label">' + question.Acc_title + '</label>\
+                            <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
                             <div class="col-sm-10">\
-                                <input type="text" id="' + txtId + '" class="form-control' + Validate(question.Acc_validation) + '">\
+                                <input type="text" id="' + txtId + '" class="form-control' + Validate(question.Acc_required, question.Acc_validation) + '>\
                                 <span class="help-block">' + question.Acc_desc + '</span>\
                             </div>\
                         </div>';
@@ -186,17 +174,17 @@
             var txtId = "qus_txt_" + seq;
             var qusName = "qus_radio_" + seq;
             var code = '<div id="' + qusId + '" class="form-group">\
-                            <label class="col-sm-2 control-label">' + question.Acc_title + '</label>\
+                            <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
                             <div class="col-sm-10">\
                                 <span class="help-block">' + question.Acc_desc + '</span>';
 
             //反序列化
-            question.Acc_option.split('&').forEach(function (param) {
+            question.Acc_option.split('&').forEach(function (param, index) {
                 param = param.split('=');
                 var val = param[1];
                 code += '<div class="radio">\
                             <label>\
-                                <input type="radio" name="' + qusName + '">\
+                                <input type="radio" name="' + qusName + '"' + (index == 0 ? ' class="' + Validate(question.Acc_required, question.Acc_validation) : '') + '>\
                                 ' + val + '\
                             </label>\
                         </div>';
@@ -212,18 +200,19 @@
         function MultiSelCol_Code(question, seq) {
             var qusId = "qus_div_" + seq;
             var txtId = "qus_txt_" + seq;
+            var qusName = "qus_checkbox_" + seq;
             var code = '<div id="' + qusId + '" class="form-group">\
-                            <label class="col-sm-2 control-label">' + question.Acc_title + '</label>\
+                            <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
                             <div class="col-sm-10">\
                                 <span class="help-block">' + question.Acc_desc + '</span>';
 
             //反序列化
-            question.Acc_option.split('&').forEach(function (param) {
+            question.Acc_option.split('&').forEach(function (param, index) {
                 param = param.split('=');
                 var val = param[1];
                 code += '<div class="checkbox">\
                             <label>\
-                                <input type="checkbox">' + val + '\
+                                <input type="checkbox" name="' + qusName + '"' + (index == 0 && question.Acc_required == "1" ? 'class="' + Validate(question.Acc_required, "length,1,N") : '') + '>' + val + '\
                             </label>\
                          </div>';
             })
@@ -238,16 +227,16 @@
             var qusId = "qus_div_" + seq;
             var txtId = "qus_txt_" + seq;
             var code = '<div id="' + qusId + '" class="form-group">\
-                            <label class="col-sm-2 control-label">' + question.Acc_title + '</label>\
+                            <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
                             <div class="col-sm-10">\
-                                <select class="form-control">';
-
+                                <select class="form-control' + Validate(question.Acc_required, question.Acc_validation) + '>\
+                                    <option value=""></option>';
 
             //反序列化
-            question.Acc_option.split('&').forEach(function (param) {
+            question.Acc_option.split('&').forEach(function (param, index) {
                 param = param.split('=');
                 var val = param[1];
-                code += '<option>' + val + '</option>';
+                code += '<option value="' + val + '">' + val + '</option>';
             })
             code += '</select>\
                      <span class="help-block">' + question.Acc_desc + '</span>\
@@ -257,20 +246,51 @@
         }
         //#endregion
 
+        //#region 必填符號
+        function RequiredMark(isRequired) {
+            if (isRequired == "1")
+                return '<label style="color:red">*</label>';
+            else
+                return '';
+        }
+        //#endregion
+
         //#region 資料驗證
-        function Validate(mode) {
+        function Validate(required, validation) {
             var code = '';
-            switch (mode.split(",")[0]) {
-                case 'required': code += ' required';
-                case 'email': code += ' email';
-                case 'idNumber': code += ' TWIDCheck';
-                case 'cellPhone': code += ' mobileTW';
-                case 'date': code += ' date';
-                case 'url': code += ' url';
+
+            if (required != "0")
+                code += ' required';
+
+            validation = validation.split(",");
+
+            switch (validation[0]) {
+                case 'email': code += ' email"'; break;
+                case 'idNumber': code += ' TWIDCheck"'; break;
+                case 'cellPhone': code += ' mobileTW"'; break;
+                case 'date': code += ' date"'; break;
+                case 'url': code += ' url"'; break;
+                case 'int': code += ' number"' + (validation[1] != 'N' ? ' min="' + validation[1] + '"' : '') + (validation[2] != 'N' ? ' max="' + validation[2] + '"' : ''); break;
+                case 'length': code += '"' + (validation[1] != 'N' ? ' minlength="' + validation[1] + '"' : '') + (validation[2] != 'N' ? ' maxlength="' + validation[2] + '"' : ''); break;
+                default: code += '"'; break;
             }
             return code;
         }
         //#endregion
+
+        //#region 修正 radio 及 checkbox 錯誤訊息顯示位置
+        $('#form1').validate({
+            errorPlacement: function (label, element) {
+                if (element.attr('type') == 'radio' || element.attr('type') == 'checkbox') {
+                    label.appendTo(element.parent().parent().parent());
+                }
+                else {
+                    label.insertAfter(element);
+                }
+            }
+        });
+        //#endregion
+
     </script>
 
 </asp:Content>

@@ -142,7 +142,8 @@ namespace DataAccess
         {
             string sql = @" SELECT activity_column.*
                             FROM activity_column
-                            WHERE acc_act = @acc_act;";
+                            WHERE acc_act = @acc_act
+                            ORDER BY acc_seq;";
             IDataParameter[] param = { Db.GetParam("@acc_act", acc_act) };
             return Db.GetEnumerable<Activity_columnInfo>(sql, param).ToList();
         }
