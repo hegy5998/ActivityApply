@@ -33,8 +33,8 @@
     <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/assets/js/gritter-conf.js") %>"></script>
 
     <%-- jquery_validation --%>
-    <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/jquery-validation/dist/jquery.validate.js") %>"></script>
-    <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/jquery-validation/dist/localization/messages_zh_TW.js")%>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/validation/jquery.validate.js") %>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/validation/messages_zh_TW.js")%>"></script>
     <script type="text/javascript">
         var sessionTimeOutMsg = "登入逾時，請重新登入!";
 

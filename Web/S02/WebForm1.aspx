@@ -5,40 +5,28 @@
 <head>
   <meta charset="utf-8">
 <title></title>
+    <link href="../Css/Lib/jquery.pagepiling.css" rel="stylesheet" />
+    <script src="../Scripts/Lib/jquery-1.9.1.min.js"></script>
+    <script src="../Scripts/Lib/jquery.pagepiling.js"></script>
 </head>
 
 <body>
-    <form runat="server">
-        <%--<asp:ScriptManager runat="server"></asp:ScriptManager>
-        <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
-            <ContentTemplate>--%>
-                <asp:FileUpload ID="FileUpload1" runat="server"  />
-                <%--<asp:Button ID="Button1" runat="server" Text="上傳檔案" OnClick="Button1_Click" />--%>
-               <%-- <asp:LinkButton ID="Button1" runat="server">上傳檔案</asp:LinkButton>--%>
-                <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
-           <%-- </ContentTemplate>
-            <Triggers>
-                <asp:postbacktrigger controlid="Button1"></asp:postbacktrigger>
-            </Triggers>
-        </asp:UpdatePanel>--%>
+<ul id="myMenu">
+    <li data-menuanchor="firstPage" class="active"><a href="#firstPage">First section</a></li>
+    <li data-menuanchor="secondPage"><a href="#secondPage">Second section</a></li>
 
-        <asp:ImageButton ID="Button1" runat="server" OnClick="Button1_Click" Style="display: none"></asp:ImageButton>
-
-
-    </form>
-
-    <input type="submit" onclick="ClickAll()" value="檢視報名表"/>
+</ul>
+  <div id="pagepiling">
+    <div class="section" ><img class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" alt=""></div>
+    <div class="section" > <img class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" alt=""></div>
+</div>
     <script>
-        function ClickAll() {
-            //綜合
-            document.getElementById("Button1").click();
-        }
-        function view_Activity() {
-            __doPostBack('Button1', '');
-            //var json = JSON.stringify(save_Activity_Column());
-            //$("#save_Json_Data").val(json);
-            //window.open("S02010202.aspx?sys_id=S01&sys_pid=S02010202");
-        }
+        $(document).ready(function () {
+            $('#pagepiling').pagepiling({
+                anchors: ['firstPage', 'secondPage'],
+                menu: '#myMenu'
+            });
+        });
     </script>
 </body> 
 </html>

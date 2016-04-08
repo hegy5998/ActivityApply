@@ -22,13 +22,7 @@ namespace Web.S02
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string rawId = Request["sys_id"];
-            Response.Write(rawId);
-            if (!IsPostBack)
-            {
-                //GetData();  
-            }
-            btnUpload.Attributes.Add("onclick", "btnUpload_Click1()");
+            int a = 0;
         }
 
         #region Control權限管理
@@ -38,10 +32,9 @@ namespace Web.S02
         }
         #endregion
 
-        [System.Web.Services.WebMethod]
-        public static string save_Activity_Form(List<Activity_columnInfo> activity_Form , List<Activity_sectionInfo> activity_Section)
+        public static int get_Act_idn()
         {
-            int as_act=0;
+            int as_act = 0;
             #region --- 抓取活動序號 ---
             //連線到資料庫
             string connString = WebConfigurationManager.ConnectionStrings["DbConn"].ConnectionString;
@@ -67,7 +60,15 @@ namespace Web.S02
                 conn.Dispose();
             }
             #endregion
+            return as_act;
+        }
 
+        //儲存報名表
+        [System.Web.Services.WebMethod]
+        public static string save_Activity_Form(List<Activity_columnInfo> activity_Form , List<Activity_sectionInfo> activity_Section)
+        {
+            int as_act=0;
+            as_act = get_Act_idn();
 
             S020102BL _bl = new S020102BL();
             Dictionary<String, Object> save_Activity_Section = new Dictionary<string, object>();
@@ -100,7 +101,7 @@ namespace Web.S02
             return "成功";
         }
 
-
+        //儲存活動頁面
         [System.Web.Services.WebMethod]
         public static string save_Activity(List<ActivityInfo> activity_List,List<Activity_sessionInfo> activity_Session_List)
         {
@@ -113,36 +114,12 @@ namespace Web.S02
             save_Activity_Information["act_contact_name"] = activity_List[0].Act_contact_name;
             save_Activity_Information["act_contact_phone"] = activity_List[0].Act_contact_phone;
             save_Activity_Information["act_relate_link"] = activity_List[0].Act_relate_link;
-            //save_Activity_Information["act_isopen"] = 0;
             _bl.InsertData(save_Activity_Information);
             //將活動場次資料insert到資料庫
             Dictionary<string, Object> save_Session_Information = new Dictionary<string, Object>();
 
-            #region --- 抓取活動序號 ---
-            //連線到資料庫
-            string connString = WebConfigurationManager.ConnectionStrings["DbConn"].ConnectionString;
-            SqlConnection conn = new SqlConnection(connString);
-            //判斷與資料庫的連線是否正常，正常才開啟連線
-            if (conn.State != ConnectionState.Open) conn.Open();
-            //搜尋activity中剛insert的資料的自動編號欄位
-            using (SqlCommand cmd_data = new SqlCommand(@"SELECT  MAX(act_idn) AS act_din FROM  activity", conn))
-            {
-                SqlDataReader dr = cmd_data.ExecuteReader();
-                if (dr.HasRows)
-                {
-                    while (dr.Read())
-                    {
-                        //取得自動編號值
-                        save_Session_Information["as_act"] = Int32.Parse(dr[0].ToString());
-                    }
-                }
-                //中斷連線以及釋放資源
-                dr.Close();
-                cmd_data.Dispose();
-                conn.Close();
-                conn.Dispose();
-            }
-            #endregion
+            save_Session_Information["as_act"] = get_Act_idn();
+
             //多筆場次insert到資料庫
             for (int count = 0; count < activity_Session_List.Count ; count++)
             {
@@ -159,11 +136,6 @@ namespace Web.S02
             return "成功";
         }
 
-        protected void Back(object sender, EventArgs e)
-        {
-            
-        }
-        [System.Web.Services.WebMethod]
         protected void Save_btn_Click(object sender, EventArgs e)
         {
 
@@ -204,24 +176,19 @@ namespace Web.S02
             //}
         }
 
-
-
+        //返回首頁
         protected void Back_btn_Click(object sender, EventArgs e)
         {
-            //Response.Redirect("S02010201.aspx?sys_id=S01&sys_pid=S02010201");
-            //Response.End();
-            //Label1.Text = CKEditorControl1.Text;
+            Response.Redirect("DefaultSystemIndex.aspx?sys_id=S01");
+            Response.End();
         }
 
-        protected void q_query_btn_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-
-
+        //儲存檔案
         protected void btnUpload_Click1(object sender, EventArgs e)
         {
+            int as_act = 0;
+            as_act = get_Act_idn();
+
             if (FileUpload.HasFile == false) return;
 
             // FU1.FileName 只有 "檔案名稱.附檔名"，並沒有 Client 端的完整理路徑
@@ -245,23 +212,24 @@ namespace Web.S02
             }
 
             // 檢查 Server 上該資料夾是否存在，不存在就自動建立
-            string serverDir = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads";
-            if (Directory.Exists(serverDir) == false) Directory.CreateDirectory(serverDir);
-
+            //string serverDir = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/"+as_act;
+            //if (Directory.Exists(serverDir) == false) Directory.CreateDirectory(serverDir);
+            string serverDirRelate = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act+"/relateFile";
+            if (Directory.Exists(serverDirRelate) == false) Directory.CreateDirectory(serverDirRelate);
             // 判斷 Server 上檔案名稱是否有重覆情況，有的話必須進行更名
             // 使用 Path.Combine 來集合路徑的優點
             //  以前發生過儲存 Table 內的是 \\ServerName\Dir（最後面沒有 \ 符號），
             //  直接跟 FileName 來進行結合，會變成 \\ServerName\DirFileName 的情況，
             //  資料夾路徑的最後面有沒有 \ 符號變成還需要判斷，但用 Path.Combine 來結合的話，
             //  資料夾路徑沒有 \ 符號，會自動補上，有的話，就直接結合
-            string serverFilePath = Path.Combine(serverDir, filename);
+            string serverFilePath = Path.Combine(serverDirRelate, filename);
             string fileNameOnly = Path.GetFileNameWithoutExtension(filename);
             int fileCount = 1;
             while (File.Exists(serverFilePath))
             {
                 // 重覆檔案的命名規則為 檔名_1、檔名_2 以此類推
                 filename = string.Concat(fileNameOnly, "_", fileCount, extension);
-                serverFilePath = Path.Combine(serverDir, filename);
+                serverFilePath = Path.Combine(serverDirRelate, filename);
                 fileCount++;
             }
 
@@ -275,11 +243,17 @@ namespace Web.S02
             {
                 Label1.Text = ex.Message;
             }
+
+            imageUpload_btn_Click(sender,e);
         }
 
+        
 
+        //儲存照片
         protected void imageUpload_btn_Click(object sender, EventArgs e)
         {
+            int as_act = 0;
+            as_act = get_Act_idn();
             if (imgUpload.HasFile == false) return;
 
             // FU1.FileName 只有 "檔案名稱.附檔名"，並沒有 Client 端的完整理路徑
@@ -304,8 +278,10 @@ namespace Web.S02
             }
 
             // 檢查 Server 上該資料夾是否存在，不存在就自動建立
-            string serverDir = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads";
-            if (Directory.Exists(serverDir) == false) Directory.CreateDirectory(serverDir);
+            //string serverDir = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act;
+            //if (Directory.Exists(serverDir) == false) Directory.CreateDirectory(serverDir);
+            string serverDirImg = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/Img";
+            if (Directory.Exists(serverDirImg) == false) Directory.CreateDirectory(serverDirImg);
 
             // 判斷 Server 上檔案名稱是否有重覆情況，有的話必須進行更名
             // 使用 Path.Combine 來集合路徑的優點
@@ -313,14 +289,14 @@ namespace Web.S02
             //  直接跟 FileName 來進行結合，會變成 \\ServerName\DirFileName 的情況，
             //  資料夾路徑的最後面有沒有 \ 符號變成還需要判斷，但用 Path.Combine 來結合的話，
             //  資料夾路徑沒有 \ 符號，會自動補上，有的話，就直接結合
-            string serverFilePath = Path.Combine(serverDir, filename);
+            string serverFilePath = Path.Combine(serverDirImg, filename);
             string fileNameOnly = Path.GetFileNameWithoutExtension(filename);
             int fileCount = 1;
             while (File.Exists(serverFilePath))
             {
                 // 重覆檔案的命名規則為 檔名_1、檔名_2 以此類推
                 filename = string.Concat(fileNameOnly, "_", fileCount, extension);
-                serverFilePath = Path.Combine(serverDir, filename);
+                serverFilePath = Path.Combine(serverDirImg, filename);
                 fileCount++;
             }
 
