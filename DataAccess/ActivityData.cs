@@ -54,6 +54,16 @@ namespace DataAccess
         }
         #endregion
 
+
+        public List<ActivityInfo> GetActivityList(int act_idn)
+        {
+            string sql = @"SELECT   activity.*
+                           FROM    activity
+                           WHERE   (act_idn = @act_idn) ";
+            IDataParameter[] param = { Db.GetParam("@act_idn", act_idn) };
+            return Db.GetEnumerable<ActivityInfo>(sql, param).ToList();
+        }
+
         #region 單筆資料維護
         #region 單筆新增
         /// <summary>
