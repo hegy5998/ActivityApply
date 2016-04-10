@@ -10,26 +10,17 @@ using System.Data;
 
 namespace DataAccess.Web
 {
-    public class activityData : BaseData
+    public class indexData : BaseData
     {
         CommonDbHelper Db = DAH.Db;
         ActivityData _ActivityData = new ActivityData();
-        Activity_sessionData _sessionData = new Activity_sessionData();
 
         #region 查詢
-        public List<ActivityInfo> GetActivityList(int act_idn)
+        public DataTable GetActivityAllList()
         {
-            return _ActivityData.GetActivityList(act_idn);
+            return _ActivityData.GetActivityAllList();
         }
-        public List<Activity_sessionInfo> GetSessionList(int as_act)
-        {
-            return _sessionData.GetList(as_act);
-        }
-
         #endregion
-
-
-
 
     }
 }

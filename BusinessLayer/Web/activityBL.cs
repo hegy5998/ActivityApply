@@ -14,7 +14,7 @@ namespace BusinessLayer.Web
         #region 取得活動列表
         public List<ActivityInfo> GetActivityList(int act_idn)
         {
-            return _data.GetQuestionList(act_idn);
+            return _data.GetActivityList(act_idn);
         }
         #endregion
 

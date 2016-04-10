@@ -14,11 +14,11 @@ namespace ActivityApply
     public partial class Sign_Up : System.Web.UI.Page
     {
         
-        static int ACTIVITY = 2073;
+        static int ACTIVITY ;
         protected void Page_Load(object sender, EventArgs e)
         {
-           
-
+            ACTIVITY = Int32.Parse(Request["act_idn"]);
+            
         }
         
         [System.Web.Services.WebMethod]

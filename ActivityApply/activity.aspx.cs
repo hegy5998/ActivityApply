@@ -9,9 +9,11 @@ namespace Register
     public partial class activity : System.Web.UI.Page
     {
         //static int ACTIVITY = 2037;
-        static int ACTIVITY = 2085;
+        //static int ACTIVITY = 2085;
+        static int ACTIVITY ;
         protected void Page_Load(object sender, EventArgs e)
         {
+            ACTIVITY = Int32.Parse(Request["act_idn"]);
             activityBL _bl = new activityBL();
             List<ActivityInfo> AvtivityList = _bl.GetActivityList(ACTIVITY);
             Label1.Text = AvtivityList[0].Act_desc;

@@ -6,12 +6,12 @@
         .control-label {
             font-weight: bold;
         }
-
+        /*場次標題*/
         .session-control-label {
             font-weight: bold;
             font-size: xx-large;
         }
-
+        /*場次內容*/
         .session-control-label-context {
             font-size: large;
         }
@@ -53,23 +53,19 @@
                             <br />
                             <label id="unit"></label>
                             <hr />
-
                             <label class="control-label">聯絡資訊</label>
                             <br />
                             <label id="contact_name"></label>
                             <br />
                             <label id="contact_phone"></label>
                             <hr />
-
                             <label class="control-label">活動簡介</label>
                             <br />
                             <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
                             <hr />
-
                             <label class="control-label">附加檔案</label>
                             <h5>我是附加檔案</h5>
                             <hr />
-
                             <label class="control-label">相關連結</label>
                             <br />
                             <a id="relate_link" href="#" target="_blank">點我</a>
@@ -130,7 +126,6 @@
                 },
                 //失敗時
                 error: function () {
-                    alert("失敗!!!!");
                     return false;
                 }
             });
@@ -144,9 +139,9 @@
             //設定主辦單位
             $("#unit").text(ActivityInfo[0].Act_unit);
             //設定聯絡人
-            $("#contact_name").text("聯絡人:"+ActivityInfo[0].Act_contact_name);
+            $("#contact_name").text("聯絡人:" + ActivityInfo[0].Act_contact_name);
             //設定聯絡人電話
-            $("#contact_phone").text("聯絡電話:"+ActivityInfo[0].Act_contact_phone);
+            $("#contact_phone").text("聯絡電話:" + ActivityInfo[0].Act_contact_phone);
             //$("#desc").append(decodeURI(ActivityInfo[0].Act_desc));
             //設定相關連結
             $("#relate_link").attr("href", ActivityInfo[0].Act_relate_link);
@@ -174,12 +169,15 @@
             }
             //後臺轉換DateTime格式時會把他轉成字串，使用JSON.parse會把它當成子串解析，需要在做轉換與切割成我們要的格式
             function dateReviver(datavalue) {
-                var datavalue = datavalue.split("T");
-                return datavalue[0] + " " + datavalue[1].substring(0,5);
+                if (datavalue != null) {
+                    var datavalue = datavalue.split("T");
+                    return datavalue[0] + " " + datavalue[1].substring(0, 5);
+                }
+                else
+                    return "";
             };
         }
     </script>
-
     <!-- Modal -->
     <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade text-center">
         <div class="modal-dialog" style="display: inline-block; width: auto;">
