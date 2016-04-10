@@ -1,6 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true" CodeBehind="Sign_Up.aspx.cs" Inherits="ActivityApply.Sign_Up" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead" runat="server">
+    <link href="../assets/css/jquery.steps.css" rel="stylesheet" />
+    <script src="../assets/js/jquery.steps.js"></script>
     <!-- Jquery Validation -->
     <script src="assets/js/validation/jquery.metadata.js"></script>
     <script src="assets/js/validation/jquery.validate.js"></script>
@@ -47,25 +49,56 @@
     <section id="container">
         <section id="main-content">
             <section class="wrapper">
-                <div class="row"></div>
-                <h3><i class="fa fa-angle-right"></i>活動報名</h3>
-                <!-- 放置區塊區域 -->
-                <div id="sections_div">
-                    <!-- 放置問題區域 -->
-                </div>
-                <!-- 送出按鈕 -->
-                <div class="row col-sm-12">
-                    <a href="../Sign_Up_Check.aspx" role="button" type="submit" class="btn btn-theme btn-lg btn-block">送出</a>
+                <div class="advanced-form row">
+                    <h3>活動報名</h3>
+                    <fieldset>
+                        <h3><i class="fa fa-angle-right"></i>活動報名</h3>
+                        <!-- 放置區塊區域 -->
+                        <div id="sections_div">
+                            <!-- 放置問題區域 -->
+                        </div>
+                        <!-- 送出按鈕 -->
+                        <div class="col-sm-12">
+                        </div>
+                    </fieldset>
+
+                    <h3>資料確認</h3>
+                    <fieldset>
+                        <h3><i class="fa fa-angle-right"></i>資料確認</h3>
+                        <div id="check_div" class="col-sm-8 form-panel table-responsive">
+                            <table id="checkData_table" class="table table-condensed">
+                                <tbody>
+                                    <!-- 放置使用者資料確認欄位 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </fieldset>
+
+                    <h3>報名完成</h3>
+                    <fieldset>
+                        <h3><i class="fa fa-angle-right"></i>報名完成</h3>
+                        <div id="finish_div" class="col-sm-8 form-panel">
+                            <label>報名完成，請至電子信箱查看報名成功確認信！</label>
+                        </div>
+                    </fieldset>
                 </div>
             </section>
         </section>
     </section>
 
     <script type="text/javascript">
+        var sectionList;
+        var questionList;
+
         $(document).ready(function () {
-            getSectionList();
-            getQuestionList();
+            var funcList = [getSectionList,
+                            getQuestionList,
+                            resizeJquerySteps];
+            $(document).queue("myQueue", funcList);
+            $(document).dequeue("myQueue");
         })
+
+        /* 活動報名 */
 
         // #region 取得區塊列表
         function getSectionList() {
@@ -101,7 +134,7 @@
                 dataType: "json",
                 //成功時
                 success: function (result) {
-                    // 加入區塊
+                    // 加入問題
                     Add_Question(result.d);
                 },
                 //失敗時
@@ -115,16 +148,17 @@
 
         //#region 新增區塊
         function Add_Section(sectionInfo) {
-            var sectionInfo = JSON.parse(sectionInfo);
+            sectionInfo = sectionList = JSON.parse(sectionInfo);
             for (var i = 0; i < sectionInfo.length; i++) {
                 $("#sections_div").append(Section_Code(sectionInfo[i]));
             }
+            $(document).dequeue("myQueue");
         }
         //#endregion
 
         //#region 新增問題
         function Add_Question(questionInfo) {
-            var questionInfo = JSON.parse(questionInfo);
+            questionInfo = questionList = JSON.parse(questionInfo);
             for (var i = 0; i < questionInfo.length; i++) {
                 var code = "";
                 switch (questionInfo[i].Acc_type) {
@@ -134,8 +168,8 @@
                     case "dropDownList": code = DropDownListCol_Code(questionInfo[i], i); break;
                 }
                 $("#question_div_" + questionInfo[i].Acc_asc).append(decodeURI(code));
-
             }
+            $(document).dequeue("myQueue");
         }
         //#endregion
 
@@ -143,7 +177,7 @@
         function Section_Code(section) {
             var sectionId = "sec_div_" + section.Acs_seq;
             var questionId = "question_div_" + section.Acs_seq;
-            var code = '<div id="' + sectionId + '" class="row col-sm-12 form-panel">\
+            var code = '<div id="' + sectionId + '" class="col-sm-12 form-panel">\
                             <h4 class="mb"><i class="fa fa-angle-right"></i>' + section.Acs_title + '</h4>\
                             <label class="desc">' + section.Acs_desc + '</label>\
                             <div id="' + questionId + '" class="form-horizontal style-form">\
@@ -156,12 +190,11 @@
         //#region 文字欄位程式碼
         function TextCol_Code(question, seq) {
             var qusId = "qus_div_" + seq;
-            var txtId = "qus_txt_" + seq;
-            var qusName = "qus_txt_" + seq;
+            var qusName = questionList[seq].Input_name = "qus_txt_" + seq;
             var code = '<div id="' + qusId + '" class="form-group">\
                             <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
                             <div class="col-sm-10">\
-                                <input type="text" id="' + txtId + '" name="' + qusName + '" class="form-control' + Validate(question.Acc_required, question.Acc_validation) + '>\
+                                <input type="text" name="' + qusName + '" class="form-control' + Validate(question.Acc_required, question.Acc_validation) + '>\
                                 <span class="help-block">' + question.Acc_desc + '</span>\
                             </div>\
                         </div>';
@@ -172,8 +205,7 @@
         //#region 單選欄位程式碼
         function SingleSelCol_Code(question, seq) {
             var qusId = "qus_div_" + seq;
-            var txtId = "qus_txt_" + seq;
-            var qusName = "qus_radio_" + seq;
+            var qusName = questionList[seq].Input_name = "qus_radio_" + seq;
             var code = '<div id="' + qusId + '" class="form-group">\
                             <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
                             <div class="col-sm-10">\
@@ -185,7 +217,7 @@
                 var val = param[1];
                 code += '<div class="radio">\
                             <label>\
-                                <input type="radio" name="' + qusName + '"' + (index == 0 ? ' class="' + Validate(question.Acc_required, question.Acc_validation) : '') + '>\
+                                <input type="radio" name="' + qusName + '" value="' + val + '"' + (index == 0 ? ' class="' + Validate(question.Acc_required, question.Acc_validation) : '') + '>\
                                 ' + val + '\
                             </label>\
                         </div>';
@@ -200,8 +232,7 @@
         //#region 多選欄位程式碼
         function MultiSelCol_Code(question, seq) {
             var qusId = "qus_div_" + seq;
-            var txtId = "qus_txt_" + seq;
-            var qusName = "qus_checkbox_" + seq;
+            var qusName = questionList[seq].Input_name = "qus_checkbox_" + seq;
             var code = '<div id="' + qusId + '" class="form-group">\
                             <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
                             <div class="col-sm-10">\
@@ -213,7 +244,7 @@
                 var val = param[1];
                 code += '<div class="checkbox">\
                             <label>\
-                                <input type="checkbox" name="' + qusName + '"' + (index == 0 && question.Acc_required == "1" ? 'class="' + Validate(question.Acc_required, "length,1,N") : '') + '>' + val + '\
+                                <input type="checkbox" name="' + qusName + '" value="' + val + '"' + (index == 0 && question.Acc_required == "1" ? ' class="' + Validate(question.Acc_required, "length,1,N") : '') + '>' + val + '\
                             </label>\
                          </div>';
             })
@@ -226,8 +257,7 @@
         //#region 下拉式選單欄位程式碼
         function DropDownListCol_Code(question, seq) {
             var qusId = "qus_div_" + seq;
-            var txtId = "qus_txt_" + seq;
-            var qusName = "qus_ddl_" + seq;
+            var qusName = questionList[seq].Input_name = "qus_ddl_" + seq;
             var code = '<div id="' + qusId + '" class="form-group">\
                             <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
                             <div class="col-sm-10">\
@@ -278,7 +308,6 @@
             }
             return code;
         }
-        //#endregion
 
         //#region 修正 radio 及 checkbox 錯誤訊息顯示位置
         $('#form1').validate({
@@ -291,6 +320,97 @@
                 }
             }
         });
+        //#endregion
+
+        //#endregion        
+
+        //#region 寫入使用者輸入資料
+        function setUserData() {
+            for (var i = 0; i < questionList.length; i++) {
+                switch (questionList[i].Acc_type) {
+                    case "text":
+                        questionList[i].Aad_val = $('input[name="' + questionList[i].Input_name + '"]').val();
+                        break;
+                    case "singleSelect":
+                        questionList[i].Aad_val = $('input:radio:checked[name="' + questionList[i].Input_name + '"]').val();
+                        break;
+                    case "multiSelect":
+                        questionList[i].Aad_val = $('input:checkbox:checked[name="' + questionList[i].Input_name + '"]').map(function () { return $(this).val(); }).get();
+                        break;
+                    case "dropDownList":
+                        questionList[i].Aad_val = $('select[name="' + questionList[i].Input_name + '"]').val();
+                        break;
+                }
+            }
+        }
+        //#endregion
+
+        /* 資料確認 */
+
+        //#region 新增使用者資料確認欄位
+        function Add_Check() {            
+            for (var i = 0; i < questionList.length; i++) {
+                $('tbody').append(Check_Code(questionList[i]));
+            }
+        }
+        //#endregion
+
+        //#region 使用者資料確認欄位程式碼
+        function Check_Code(checkCol) {
+            var code = '<tr>\
+                            <td>' + checkCol.Acc_title + '</td>\
+                            <td>' + checkCol.Aad_val + '</td>\
+                        </tr>';
+            return code;
+        }
+        //#endregion
+
+        //#region jQuery steps
+        $(".advanced-form").steps({
+            headerTag: "h3",
+            bodyTag: "fieldset",
+            contentContainerTag: "div",
+            actionContainerTag: "div",
+            stepsContainerTag: "div",
+            transitionEffect: "slideLeft",
+            onStepChanging: function (event, currentIndex, newIndex) {
+                // Allways allow previous action even if the current form is not valid!
+                if (currentIndex > newIndex) {
+                    return true;
+                }
+                if (currentIndex === 0) {
+                    if ($("#form1").valid()) {
+                        setUserData();
+                        $('tbody').html("");    //清空表格
+                        Add_Check();
+                        return true;
+                    }
+                    return false;
+                }
+                return true;
+            },
+            onStepChanged: function (event, currentIndex, priorIndex) {
+                resizeJquerySteps();
+                return true;
+            },
+            onFinishing: function (event, currentIndex) {
+                return true;
+            },
+            onFinished: function (event, currentIndex) {
+                return true;
+            },
+            labels: {
+                cancel: "取消",
+                finish: "完成",
+                next: "下一步",
+                previous: "返回",
+                loading: "載入中"
+            }
+        });
+        //調整 jQuery steps 高度
+        function resizeJquerySteps() {
+            $('.wizard .content').animate({ height: $('.body.current').outerHeight() }, "slow");
+        }
         //#endregion
 
     </script>
