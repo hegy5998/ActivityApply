@@ -69,10 +69,6 @@ F:\Desktop\ActivityApply\Web\bin\BusinessLayer.pdb
 F:\Desktop\ActivityApply\Web\bin\DataAccess.pdb
 F:\Desktop\ActivityApply\Web\bin\Model.pdb
 F:\Desktop\ActivityApply\Web\bin\Util.pdb
-F:\Desktop\ActivityApply\Web\bin\BusinessLayerBase.xml
-F:\Desktop\ActivityApply\Web\bin\CKEditor.NET.pdb
-F:\Desktop\ActivityApply\Web\bin\DataAccessBase.xml
-F:\Desktop\ActivityApply\Web\bin\UtilBase.xml
 F:\Desktop\ActivityApply\Web\obj\Debug\Web.csprojResolveAssemblyReference.cache
 F:\Desktop\ActivityApply\Web\obj\Debug\Web.dll
 F:\Desktop\ActivityApply\Web\obj\Debug\Web.pdb

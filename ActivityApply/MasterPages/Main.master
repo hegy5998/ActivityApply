@@ -2,10 +2,9 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <asp:ContentPlaceHolder ID="mainHead" runat="server"></asp:ContentPlaceHolder>
-
-    
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    
     <section id="container">
         <!-- **********************************************************************************************************************************************************
             TOP BAR CONTENT & NOTIFICATIONS
@@ -23,7 +22,7 @@
             <div>
                 <div class="breadcrumb">
                     <ol class="breadcrumb">
-                            <li><a href="../index.aspx">首頁</a></li>
+                        <li><a href="../index.aspx">首頁</a></li>
                     </ol>
                 </div>
             </div>
@@ -59,7 +58,7 @@
                     </li>
 
                     <!-- CALENDAR-->
-                    <li id="calendar">
+                    <!--                    <li id="calendar">
                         <div class="panel green-panel no-margin">
                             <div class="panel-body">
                                 <div id="date-popover" class="popover top" style="cursor: pointer; disadding: block; margin-left: 33%; margin-top: -50px; width: 175px;">
@@ -70,8 +69,7 @@
                                 <div id="my-calendar"></div>
                             </div>
                         </div>
-                        <!-- / calendar -->
-                    </li>
+                    </li>-->
                 </ul>
                 <!-- sidebar menu end-->
                 <!-- 側欄內容 -->
@@ -95,9 +93,9 @@
     <footer class="site-footer">
         <div class="text-center">
             <!-- 設定每頁標題與單元名稱CSS的結尾標籤 -->
-        <asp:ContentPlaceHolder ID="pageUnitEnd" runat="server">
-        </asp:ContentPlaceHolder>
+            <asp:ContentPlaceHolder ID="pageUnitEnd" runat="server">
+            </asp:ContentPlaceHolder>
             2016  逢甲大學資訊處 - 資訊技術服務中心
-        </div>        
+        </div>
     </footer>
 </asp:Content>
