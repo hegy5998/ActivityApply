@@ -75,6 +75,8 @@
   <ItemGroup>
     <Content Include="activity.aspx" />
     <Content Include="assets\css\bootstrap.css" />
+    <Content Include="assets\css\jquery-ui.css" />
+    <Content Include="assets\css\jquery.steps.css" />
     <Content Include="assets\css\style-responsive.css" />
     <Content Include="assets\css\style.css" />
     <Content Include="assets\css\table-responsive.css" />
@@ -129,6 +131,7 @@
     <Content Include="assets\js\chart-master\Chart.js" />
     <Content Include="assets\js\chartjs-conf.js" />
     <Content Include="assets\js\common-scripts.js" />
+    <Content Include="assets\js\datepicker-zh-TW.js" />
     <Content Include="assets\js\easy-pie-chart.js" />
     <Content Include="assets\js\fancybox\jquery.fancybox.css" />
     <Content Include="assets\js\fancybox\jquery.fancybox.js" />
@@ -145,15 +148,17 @@
     <Content Include="assets\js\gritter\js\jquery.gritter.js" />
     <Content Include="assets\js\jquery-1.8.3.min.js" />
     <Content Include="assets\js\jquery-1.9.1.js" />
+    <Content Include="assets\js\jquery-2.2.3.min.js" />
     <Content Include="assets\js\jquery-easy-pie-chart\jquery.easy-pie-chart.css" />
     <Content Include="assets\js\jquery-easy-pie-chart\jquery.easy-pie-chart.js" />
     <Content Include="assets\js\jquery-ui-1.9.2.custom.min.js" />
+    <Content Include="assets\js\jquery-ui.js" />
     <Content Include="assets\js\jquery.backstretch.min.js" />
     <Content Include="assets\js\jquery.dcjqaccordion.2.7.js" />
     <Content Include="assets\js\jquery.js" />
-    <Content Include="assets\js\jquery.nicescroll.js" />
     <Content Include="assets\js\jquery.scrollTo.min.js" />
     <Content Include="assets\js\jquery.sparkline.js" />
+    <Content Include="assets\js\jquery.steps.js" />
     <Content Include="assets\js\jquery.tagsinput.js" />
     <Content Include="assets\js\jquery.ui.touch-punch.min.js" />
     <Content Include="assets\js\morris-conf.js" />
@@ -161,6 +166,7 @@
     <Content Include="assets\js\tasks.js" />
     <Content Include="assets\js\validation\additional-methods.js" />
     <Content Include="assets\js\validation\jquery.metadata.js" />
+    <Content Include="assets\js\jquery.nicescroll.js" />
     <Content Include="assets\js\validation\jquery.validate.js" />
     <Content Include="assets\js\validation\messages_zh_TW.js" />
     <Content Include="assets\js\zabuto_calendar.js" />

@@ -114,32 +114,6 @@
 <script src="assets/js/jquery.scrollTo.min.js"></script>
 <script src="assets/js/jquery.nicescroll.js" type="text/javascript"></script>--%>
 
-<!--script for this page-->
-<script src="../assets/js/sparkline-chart.js"></script>    
-    
-<script>
-    //custom select box
-
-    $(function () {
-        $('select.styled').customSelect();
-    });
-</script>
-
-<!--script for this page-->
-<script type="text/javascript">
-    $(function () {
-        //    fancybox
-        jQuery(".fancybox").fancybox();
-    });
-</script>
-  
-<script>
-    //custom select box
-
-    $(function () {
-        $("select.styled").customSelect();
-    });
-</script>
 
 <!-- Modal -->
 <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade text-center">
@@ -151,6 +125,29 @@
         </div>    
     </div>
 </div>
+
+    <!--script for this page-->
+<script src="../assets/js/sparkline-chart.js"></script>    
+    
+<script>
+    //custom select box
+
+    $(function () {
+        $('select.styled').customSelect();
+    });
+
+    //script for this page
+    $(function () {
+        //    fancybox
+        jQuery(".fancybox").fancybox();
+    });
+
+    //custom select box
+
+    $(function () {
+        $("select.styled").customSelect();
+    });
+</script>
 <!-- modal -->
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="pageUnitEnd" runat="server">
