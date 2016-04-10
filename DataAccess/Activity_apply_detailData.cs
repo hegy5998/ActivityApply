@@ -1,5 +1,5 @@
-/*
- * 檔案位置: DataAccess\Activity_ColumnData.cs
+﻿/*
+ * 檔案位置: DataAccess\Activity_apply_detailData.cs
  */
 
 using Model;
@@ -12,12 +12,12 @@ using Util;
 
 namespace DataAccess
 {
-    public class Activity_columnData : BaseData
+    public class Activity_apply_detailData : BaseData
     {
         /// <summary>
         /// 對應的Model型別
         /// </summary>
-        private Type _modelType = typeof(Activity_columnInfo);
+        private Type _modelType = typeof(Activity_apply_detailInfo);
 
         /// <summary>
         /// 對應的資料庫
@@ -54,15 +54,14 @@ namespace DataAccess
             {
                 string sql = @"
                     insert into [" + _modelType.GetTableName() + @"] 
-                        (" + Db.GetSqlInsertField(_modelType, data_dict) + @", [createid], [createtime], [updid], [updtime]) 
-                    values (" + Db.GetSqlInsertValue(data_dict) + ", '" + loginUser.Act_id + "'" + ", (" + Db.DbNowTimeSQL + ")" + ", '" + loginUser.Act_id + "'" + ", (" + Db.DbNowTimeSQL + ")" + ")";
+                        (" + Db.GetSqlInsertField(_modelType, data_dict) + @") 
+                    values (" + Db.GetSqlInsertValue(data_dict) + ")";
                 res.AffectedRows = Db.ExecuteNonQuery(trans, sql, Db.GetParam(_modelType, data_dict));
                 if (res.AffectedRows <= 0) res.IsSuccess = false;
             }
             return res;
         }
         #endregion
-
 
         #region 單筆更新
         /// <summary>
@@ -93,7 +92,7 @@ namespace DataAccess
             {
                 string sql = @"
                     update [" + _modelType.GetTableName() + @"] 
-                    set " + Db.GetSqlSet(_modelType, newData_dict, "new_") + ", [updid] = '" + loginUser.Act_id + "'" + ", [updtime] = (" + Db.DbNowTimeSQL + ")" + @"
+                    set " + Db.GetSqlSet(_modelType, newData_dict, "new_") + @"
                     where " + Db.GetSqlWhere(_modelType, oldData_dict, "old_");
 
                 res.AffectedRows = Db.ExecuteNonQuery(trans, sql, Db.GetParam(_modelType, oldData_dict, "old_").Concat(Db.GetParam(_modelType, newData_dict, "new_")).ToArray());
@@ -134,19 +133,6 @@ namespace DataAccess
             return res;
         }
         #endregion
-        #endregion
-
-
-        #region 查詢
-        public List<Activity_columnInfo> GetList(int acc_act)
-        {
-            string sql = @" SELECT activity_column.*
-                            FROM activity_column
-                            WHERE acc_act = @acc_act
-                            ORDER BY acc_idn;";
-            IDataParameter[] param = { Db.GetParam("@acc_act", acc_act) };
-            return Db.GetEnumerable<Activity_columnInfo>(sql, param).ToList();
-        }
         #endregion
     }
 }

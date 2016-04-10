@@ -73,6 +73,8 @@
     <Compile Include="S02\S020102BL.cs" />
     <Compile Include="SystemMenuBL.cs" />
     <Compile Include="UserControls\UCSystemModuleBL.cs" />
+    <Compile Include="Web\activityBL.cs" />
+    <Compile Include="Web\indexBL.cs" />
     <Compile Include="Web\Sign_UpBL.cs" />
   </ItemGroup>
   <ItemGroup>

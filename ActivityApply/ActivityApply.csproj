@@ -77,6 +77,7 @@
     <Content Include="assets\css\bootstrap.css" />
     <Content Include="assets\css\jquery-ui.css" />
     <Content Include="assets\css\jquery.steps.css" />
+    <Content Include="assets\css\pagination.css" />
     <Content Include="assets\css\style-responsive.css" />
     <Content Include="assets\css\style.css" />
     <Content Include="assets\css\table-responsive.css" />
@@ -156,12 +157,14 @@
     <Content Include="assets\js\jquery.backstretch.min.js" />
     <Content Include="assets\js\jquery.dcjqaccordion.2.7.js" />
     <Content Include="assets\js\jquery.js" />
+    <Content Include="assets\js\jquery.pagination.js" />
     <Content Include="assets\js\jquery.scrollTo.min.js" />
     <Content Include="assets\js\jquery.sparkline.js" />
     <Content Include="assets\js\jquery.steps.js" />
     <Content Include="assets\js\jquery.tagsinput.js" />
     <Content Include="assets\js\jquery.ui.touch-punch.min.js" />
     <Content Include="assets\js\morris-conf.js" />
+    <Content Include="assets\js\purl.js" />
     <Content Include="assets\js\sparkline-chart.js" />
     <Content Include="assets\js\tasks.js" />
     <Content Include="assets\js\validation\additional-methods.js" />
@@ -177,6 +180,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="index.aspx" />
+    <Content Include="index.html" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

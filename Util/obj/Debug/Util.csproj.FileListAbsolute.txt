@@ -70,3 +70,12 @@ D:\Kris\ActivityApply\Util\bin\Debug\UtilBase.xml
 D:\Kris\ActivityApply\Util\obj\Debug\Util.csprojResolveAssemblyReference.cache
 D:\Kris\ActivityApply\Util\obj\Debug\Util.dll
 D:\Kris\ActivityApply\Util\obj\Debug\Util.pdb
+G:\School\Oit\ActivityApply\Util\bin\Debug\Util.dll
+G:\School\Oit\ActivityApply\Util\bin\Debug\Util.pdb
+G:\School\Oit\ActivityApply\Util\bin\Debug\Model.dll
+G:\School\Oit\ActivityApply\Util\bin\Debug\UtilBase.dll
+G:\School\Oit\ActivityApply\Util\bin\Debug\Model.pdb
+G:\School\Oit\ActivityApply\Util\bin\Debug\UtilBase.xml
+G:\School\Oit\ActivityApply\Util\obj\Debug\Util.csprojResolveAssemblyReference.cache
+G:\School\Oit\ActivityApply\Util\obj\Debug\Util.dll
+G:\School\Oit\ActivityApply\Util\obj\Debug\Util.pdb

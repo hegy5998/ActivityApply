@@ -9,7 +9,7 @@ namespace BusinessLayer.Web
     public class Sign_UpBL : BaseBL
     {
 
-        Sign_UpData _data = new Sign_UpData();
+        Sign_UpData _data = new Sign_UpData();        
 
         #region 取得區塊列表
         public List<Activity_sectionInfo> GetSectionList(int acs_act)
@@ -24,5 +24,27 @@ namespace BusinessLayer.Web
             return _data.GetQuestionList(acc_act);
         }
         #endregion
+
+        public CommonResult InsertData_Activity_apply(Dictionary<string, object> dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_applyInfo>(dict);
+
+            if (res.IsSuccess)
+            {
+                res = _data.InsertData_apply(dict);
+            }
+            return res;
+        }
+
+        public CommonResult InsertData_Activity_apply_detail(Dictionary<string, object> dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_apply_detailInfo>(dict);
+
+            if (res.IsSuccess)
+            {
+                res = _data.InsertData_apply_detail(dict);
+            }
+            return res;
+        }
     }
 }

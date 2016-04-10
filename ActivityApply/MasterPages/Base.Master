@@ -105,5 +105,6 @@
     <script src="../assets/js/datepicker-zh-TW.js"></script>
 
     <script src="../assets/js/chart-master/Chart.js"></script>
+    <script src="../assets/js/purl.js"></script>
 </body>
 </html>
