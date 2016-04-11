@@ -329,16 +329,16 @@
             for (var i = 0; i < questionList.length; i++) {
                 switch (questionList[i].Acc_type) {
                     case "text":
-                        questionList[i].Aad_val = $('input[name="' + questionList[i].Input_name + '"]').val();
+                        questionList[i].Acc_val = $('input[name="' + questionList[i].Input_name + '"]').val();
                         break;
                     case "singleSelect":
-                        questionList[i].Aad_val = $('input:radio:checked[name="' + questionList[i].Input_name + '"]').val();
+                        questionList[i].Acc_val = $('input:radio:checked[name="' + questionList[i].Input_name + '"]').val();
                         break;
                     case "multiSelect":
-                        questionList[i].Aad_val = $('input:checkbox:checked[name="' + questionList[i].Input_name + '"]').map(function () { return $(this).val(); }).get();
+                        questionList[i].Acc_val = $('input:checkbox:checked[name="' + questionList[i].Input_name + '"]').map(function () { return $(this).val(); }).get();
                         break;
                     case "dropDownList":
-                        questionList[i].Aad_val = $('select[name="' + questionList[i].Input_name + '"]').val();
+                        questionList[i].Acc_val = $('select[name="' + questionList[i].Input_name + '"]').val();
                         break;
                 }
             }
@@ -359,9 +359,40 @@
         function Check_Code(checkCol) {
             var code = '<tr>\
                             <td>' + checkCol.Acc_title + '</td>\
-                            <td>' + checkCol.Aad_val + '</td>\
+                            <td>' + checkCol.Acc_val + '</td>\
                         </tr>';
             return code;
+        }
+        //#endregion
+
+        //#region 儲存使用者資料(POST)
+        function SaveUserData() {
+            var detailList = { userData: [] };
+            
+            for (var i = 0; i < questionList.length; i++) {
+                var detailJson = {}
+                detailJson.Aad_col_id = questionList[i].Acc_idn;
+                detailJson.Aad_title = questionList[i].Acc_title;
+                detailJson.Aad_val = questionList[i].Acc_val;
+                detailList.userData.push(detailJson);
+            }
+            $.ajax({
+                type: 'post',
+                traditional: true,
+                //傳送資料到後台為saveUserData的function
+                url: '/Sign_Up.aspx/saveUserData',
+                data: JSON.stringify(detailList),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                //成功時
+                success: function (result) {                    
+                },
+                //失敗時
+                error: function () {
+                    alert("失敗!!!!");
+                    return false;
+                }
+            });
         }
         //#endregion
 
@@ -374,12 +405,11 @@
             stepsContainerTag: "div",
             transitionEffect: "slideLeft",
             onStepChanging: function (event, currentIndex, newIndex) {
-                // Allways allow previous action even if the current form is not valid!
-                if (currentIndex > newIndex) {
-                    return true;
+                if (currentIndex === 2 && newIndex === 1) {
+                    return false;
                 }
                 if (currentIndex === 0) {
-                    if ($("#form1").valid()) {
+                    if ($("#form1").valid() || 1) {
                         setUserData();
                         $('tbody').html("");    //清空表格
                         Add_Check();
@@ -387,6 +417,9 @@
                     }
                     return false;
                 }
+                if (newIndex === 2) {
+                    SaveUserData();                
+                }                
                 return true;
             },
             onStepChanged: function (event, currentIndex, priorIndex) {
@@ -394,9 +427,10 @@
                 return true;
             },
             onFinishing: function (event, currentIndex) {
+                window.location.replace("../index.aspx");
                 return true;
             },
-            onFinished: function (event, currentIndex) {
+            onFinished: function (event, currentIndex) {                
                 return true;
             },
             labels: {

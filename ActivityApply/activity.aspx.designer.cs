@@ -13,12 +13,20 @@ namespace Register {
     public partial class activity {
         
         /// <summary>
+<<<<<<< HEAD
         /// Label1 控制項。
+=======
+        /// Act_desc_lbl 控制項。
+>>>>>>> refs/remotes/origin/Web
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
+<<<<<<< HEAD
         protected global::System.Web.UI.WebControls.Label Label1;
+=======
+        protected global::System.Web.UI.WebControls.Label Act_desc_lbl;
+>>>>>>> refs/remotes/origin/Web
     }
 }

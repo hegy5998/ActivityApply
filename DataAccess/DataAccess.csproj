@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="ActivityData.cs" />
     <Compile Include="Activity_applyData.cs" />
+    <Compile Include="Activity_apply_detailData.cs" />
     <Compile Include="Activity_sectionData.cs" />
     <Compile Include="Activity_columnData.cs" />
     <Compile Include="Activity_sessionData.cs" />
@@ -85,8 +86,13 @@
     <Compile Include="Sys_role_unitData.cs" />
     <Compile Include="Sys_systemData.cs" />
     <Compile Include="Sys_unitData.cs" />
+<<<<<<< HEAD
     <Compile Include="Web\indexData.cs" />
     <Compile Include="Web\activityData.cs" />
+=======
+    <Compile Include="Web\activityData.cs" />
+    <Compile Include="Web\indexData.cs" />
+>>>>>>> refs/remotes/origin/Web
     <Compile Include="Web\Sign_UpData.cs" />
   </ItemGroup>
   <ItemGroup>

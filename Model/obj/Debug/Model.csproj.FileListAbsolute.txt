@@ -37,3 +37,8 @@ D:\Kris\ActivityApply\Model\bin\Debug\Model.dll
 D:\Kris\ActivityApply\Model\bin\Debug\Model.pdb
 D:\Kris\ActivityApply\Model\obj\Debug\Model.dll
 D:\Kris\ActivityApply\Model\obj\Debug\Model.pdb
+G:\School\Oit\ActivityApply\Model\bin\Debug\Model.dll
+G:\School\Oit\ActivityApply\Model\bin\Debug\Model.pdb
+G:\School\Oit\ActivityApply\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache
+G:\School\Oit\ActivityApply\Model\obj\Debug\Model.dll
+G:\School\Oit\ActivityApply\Model\obj\Debug\Model.pdb
