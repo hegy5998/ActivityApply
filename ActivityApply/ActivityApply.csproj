@@ -75,16 +75,9 @@
   <ItemGroup>
     <Content Include="activity.aspx" />
     <Content Include="assets\css\bootstrap.css" />
-
-    <Content Include="assets\css\pagination.css" />
-
     <Content Include="assets\css\jquery-ui.css" />
     <Content Include="assets\css\jquery.steps.css" />
-<<<<<<< HEAD
-
-=======
     <Content Include="assets\css\pagination.css" />
->>>>>>> refs/remotes/origin/Web
     <Content Include="assets\css\style-responsive.css" />
     <Content Include="assets\css\style.css" />
     <Content Include="assets\css\table-responsive.css" />
@@ -164,14 +157,7 @@
     <Content Include="assets\js\jquery.backstretch.min.js" />
     <Content Include="assets\js\jquery.dcjqaccordion.2.7.js" />
     <Content Include="assets\js\jquery.js" />
-<<<<<<< HEAD
-
-    <Content Include="assets\js\jquery.nicescroll.js" />
     <Content Include="assets\js\jquery.pagination.js" />
-
-=======
-    <Content Include="assets\js\jquery.pagination.js" />
->>>>>>> refs/remotes/origin/Web
     <Content Include="assets\js\jquery.scrollTo.min.js" />
     <Content Include="assets\js\jquery.sparkline.js" />
     <Content Include="assets\js\jquery.steps.js" />

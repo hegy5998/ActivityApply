@@ -409,7 +409,7 @@
                     return false;
                 }
                 if (currentIndex === 0) {
-                    if ($("#form1").valid() || 1) {
+                    if ($("#form1").valid()) {
                         setUserData();
                         $('tbody').html("");    //清空表格
                         Add_Check();

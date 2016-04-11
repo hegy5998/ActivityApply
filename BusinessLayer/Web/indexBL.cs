@@ -12,9 +12,9 @@ namespace BusinessLayer.Web
         indexData _data = new indexData();
 
         #region 取得活動列表
-        public DataTable GetActivityAllList()
+        public DataTable GetActivityAllList(string act_title,string act_class)
         {
-            return _data.GetActivityAllList();
+            return _data.GetActivityAllList(act_title, act_class);
         }
         #endregion
 

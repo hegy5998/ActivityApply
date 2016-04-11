@@ -13,21 +13,12 @@ namespace ActivityApply
 {
     public partial class Sign_Up : System.Web.UI.Page
     {
-<<<<<<< HEAD
-        
-        static int ACTIVITY ;
-        protected void Page_Load(object sender, EventArgs e)
-        {
-            ACTIVITY = Int32.Parse(Request["act_idn"]);
-            
-=======
         static int ACT_IDN;
         static int AS_IDN;
         protected void Page_Load(object sender, EventArgs e)
         {
             ACT_IDN = Int32.Parse(Request["act_idn"]);
             AS_IDN = Int32.Parse(Request["as_idn"]);
->>>>>>> refs/remotes/origin/Web
         }
         
         [System.Web.Services.WebMethod]

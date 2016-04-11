@@ -15,23 +15,26 @@
                         <div class="push-down-30">
                             <div class="banners-big">
                                 <!--活動查詢：活動名稱包含 <strong></strong> 。-->
-                                <div method="get">
+                                <div <%--method="get"--%>>
                                     <div class="input-group">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true">活動查詢</span></button>
-                                        </span>
-                                        <div class="input-group-btn">
-                                            <button type="button" class="btn btn-theme03">分類</button>
-                                            <button type="button" class="btn btn-theme03 dropdown-toggle" data-toggle="dropdown" style="padding-left: 5px; padding-right: 5px">
-                                                <span class="caret"></span>
-                                                <span class="sr-only">Toggle Dropdown</span>
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li><a href="#">分類一</a></li>
-                                                <li><a href="#">分類二</a></li>
-                                            </ul>
+                                        <!-- 搜尋按鈕 -->
+                                        <div class="col-sm-1">
+                                            <span class="input-group-btn">
+                                                <button id="search_btn" type="button" class="btn btn-theme03" style="border-radius: 4px;"><span class="glyphicon glyphicon-search" aria-hidden="true">活動查詢</span></button>
+                                            </span>
                                         </div>
-                                        <input type="text" name="search" class="form-control" placeholder="請輸入活動名稱">
+                                        <!-- 下拉是選單選擇分類 -->
+                                        <div class="col-sm-1">
+                                            <select class="select" id="act_class" style="width: 66px; height: 34px; border-radius: 4px;">
+                                                <option selected="selected" value="0">全部</option>
+                                                <option value="1">分類一</option>
+                                                <option value="2">分類二</option>
+                                            </select>
+                                        </div>
+                                        <!-- 輸入框 -->
+                                        <div class="col-sm-10" style="padding-left: 0px;margin-left: -13px;">
+                                            <input id="search_txt" type="text" name="search" class="form-control" placeholder="請輸入活動名稱" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -50,12 +53,25 @@
             </section>
         </section>
     </section>
-
     <script type="text/javascript">
+
+        //#region 初始化
+        $(document).ready(function () {
+            //判斷搜尋列輸入完後如果按ENTER則要執行搜尋功能
+            $("#search_txt").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    $("#search_btn").click();
+                    return false;
+                }
+            });
+        })
+        //#endregion
+
+        //#region 分頁事件
         $(function () {
             var initPagination = function () {
                 //設定有幾個分頁，要除以你一個分頁要顯示幾筆資料
-                var num_entries = $("#hiddenresult div.result").length/8;
+                var num_entries = $("#hiddenresult div.result").length / 8;
                 // 創建分頁
                 $("#Pagination").pagination(num_entries, {
                     items_per_page: 1, //每頁顯示幾項
@@ -66,7 +82,6 @@
                     next_text: "下一頁"
                 });
             };
-
             function pageselectCallback(page_index, jq) {
                 //var new_content = $("#hiddenresult div.result:eq(" + page_index + ")").clone();
                 //$("#Searchresult").empty().append(new_content); //装载对应分页的内容
@@ -83,6 +98,13 @@
             //載入index.html  load( url, [data], [callback] )
             $("#hiddenresult").load("index.html", null, initPagination);
         });
+        //#endregion
+
+        //#region 調整 jQuery steps 高度
+        function resizeJquerySteps() {
+            $('#Searchresult').animate({ height: $('#Searchresult').outerHeight() }, "slow");
+        }
+        //#endregion
     </script>
     <!--引用jquery分頁-->
     <script src="assets/js/jquery.pagination.js"></script>

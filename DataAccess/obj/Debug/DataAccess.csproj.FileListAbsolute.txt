@@ -102,3 +102,16 @@ D:\Kris\ActivityApply\DataAccess\bin\Debug\UtilBase.xml
 D:\Kris\ActivityApply\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
 D:\Kris\ActivityApply\DataAccess\obj\Debug\DataAccess.dll
 D:\Kris\ActivityApply\DataAccess\obj\Debug\DataAccess.pdb
+G:\School\Oit\ActivityApply\DataAccess\bin\Debug\DataAccess.dll
+G:\School\Oit\ActivityApply\DataAccess\bin\Debug\DataAccess.pdb
+G:\School\Oit\ActivityApply\DataAccess\bin\Debug\DataAccessBase.dll
+G:\School\Oit\ActivityApply\DataAccess\bin\Debug\Model.dll
+G:\School\Oit\ActivityApply\DataAccess\bin\Debug\Util.dll
+G:\School\Oit\ActivityApply\DataAccess\bin\Debug\UtilBase.dll
+G:\School\Oit\ActivityApply\DataAccess\bin\Debug\Model.pdb
+G:\School\Oit\ActivityApply\DataAccess\bin\Debug\Util.pdb
+G:\School\Oit\ActivityApply\DataAccess\bin\Debug\DataAccessBase.xml
+G:\School\Oit\ActivityApply\DataAccess\bin\Debug\UtilBase.xml
+G:\School\Oit\ActivityApply\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
+G:\School\Oit\ActivityApply\DataAccess\obj\Debug\DataAccess.dll
+G:\School\Oit\ActivityApply\DataAccess\obj\Debug\DataAccess.pdb

@@ -16,11 +16,7 @@ namespace Register
             ACTIVITY = Int32.Parse(Request["act_idn"]);
             activityBL _bl = new activityBL();
             List<ActivityInfo> AvtivityList = _bl.GetActivityList(ACTIVITY);
-<<<<<<< HEAD
-            Label1.Text = AvtivityList[0].Act_desc;
-=======
             Act_desc_lbl.Text = AvtivityList[0].Act_desc;
->>>>>>> refs/remotes/origin/Web
         }
         [System.Web.Services.WebMethod]
         public static string getActivityList()

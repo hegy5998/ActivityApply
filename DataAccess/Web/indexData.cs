@@ -16,9 +16,9 @@ namespace DataAccess.Web
         ActivityData _ActivityData = new ActivityData();
 
         #region 查詢
-        public DataTable GetActivityAllList()
+        public DataTable GetActivityAllList(string act_title,string act_class)
         {
-            return _ActivityData.GetActivityAllList();
+            return _ActivityData.GetActivityAllList(act_title, act_class);
         }
         #endregion
 

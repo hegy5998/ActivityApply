@@ -45,8 +45,8 @@
                         </a>
 
                         <ul class="sub">
-                            <li><a href="../index.aspx">分類一</a></li>
-                            <li><a href="../index.aspx">分類二</a></li>
+                            <li><a href="../index.aspx?act_class=1">分類一</a></li>
+                            <li><a href="../index.aspx?act_class=2">分類二</a></li>
                         </ul>
                     </li>
 

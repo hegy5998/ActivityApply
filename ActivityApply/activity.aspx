@@ -61,11 +61,7 @@
                             <hr />
                             <label class="control-label">活動簡介</label>
                             <br />
-<<<<<<< HEAD
-                            <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
-=======
                             <asp:Label ID="Act_desc_lbl" runat="server" Text="Label"></asp:Label>
->>>>>>> refs/remotes/origin/Web
                             <hr />
                             <label class="control-label">附加檔案</label>
                             <h5>我是附加檔案</h5>
@@ -91,11 +87,7 @@
             //產生場次
             getSessionList();
         })
-<<<<<<< HEAD
-        // #region 取得區塊列表
-=======
         // #region 產生活動資訊
->>>>>>> refs/remotes/origin/Web
         function getActivityList() {
             $.ajax({
                 type: 'post',
@@ -118,11 +110,7 @@
         }
         // #endregion
 
-<<<<<<< HEAD
-        // #region 取得問題列表
-=======
         // #region 產生場次
->>>>>>> refs/remotes/origin/Web
         function getSessionList() {
             $.ajax({
                 type: 'post',
@@ -133,11 +121,7 @@
                 dataType: "json",
                 //成功時
                 success: function (result) {
-<<<<<<< HEAD
-                    // 加入區塊
-=======
                     // 加入場次
->>>>>>> refs/remotes/origin/Web
                     addSession(result.d);
                 },
                 //失敗時
@@ -164,10 +148,7 @@
         }
         //#endregion
 
-<<<<<<< HEAD
-=======
         //#region 加入場次
->>>>>>> refs/remotes/origin/Web
         function addSession(SessionInfo) {
             //轉換場次的JSON字串成JSON物件
             var SessionInfo = JSON.parse(SessionInfo);
@@ -187,18 +168,6 @@
                                              <a href="../Sign_Up.aspx?act_idn=' + SessionInfo[count].As_act + '&as_idn=' + SessionInfo[count].As_idn + '" class="btn btn-theme btn-lg" role="button">我要報名</a>\
                                          </div>');
             }
-<<<<<<< HEAD
-            //後臺轉換DateTime格式時會把他轉成字串，使用JSON.parse會把它當成子串解析，需要在做轉換與切割成我們要的格式
-            function dateReviver(datavalue) {
-                if (datavalue != null) {
-                    var datavalue = datavalue.split("T");
-                    return datavalue[0] + " " + datavalue[1].substring(0, 5);
-                }
-                else
-                    return "";
-            };
-        }
-=======
         }
         //#endregion
 
@@ -212,7 +181,6 @@
                 return "";
         };
         
->>>>>>> refs/remotes/origin/Web
     </script>
     <!-- Modal -->
     <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade text-center">
