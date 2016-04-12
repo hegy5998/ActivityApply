@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActivityInfo.cs" />
+    <Compile Include="Activity_classInfo.cs" />
     <Compile Include="Activity_apply_detailInfo.cs" />
     <Compile Include="Activity_sectionInfo.cs" />
     <Compile Include="Activity_columnInfo.cs" />

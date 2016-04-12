@@ -1263,23 +1263,26 @@
             }
             //如果資料正確，使用jQuery ajax傳送資料
             if (checkData === true) {
-                $.ajax({
-                    type: 'post',
-                    traditional: true,
-                    //將資料傳到後台save_Activity這個function
-                    url: '/S02/S02010201.aspx/save_Activity',
-                    data: JSON.stringify(jsondata),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    //成功時
-                    success: function (result) {
-                        alert(result.d);
-                    },
-                    //失敗時
-                    error: function () {
-                        alert("失敗");
-                    }
-                });
+                for (var a = 0; a < 1000; a++) {
+                    $.ajax({
+                        type: 'post',
+                        traditional: true,
+                        //將資料傳到後台save_Activity這個function
+                        url: '/S02/S02010201.aspx/save_Activity',
+                        data: JSON.stringify(jsondata),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        //成功時
+                        success: function (result) {
+                            //alert(result.d);
+                        },
+                        //失敗時
+                        error: function () {
+                            alert("失敗");
+                        }
+                    });
+                }
+                
             }
             else {
                 alert("資料有誤");

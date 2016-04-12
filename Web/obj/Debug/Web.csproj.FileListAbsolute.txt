@@ -53,10 +53,6 @@ C:\Users\Saki\Desktop\ActivityApply\Web\bin\BusinessLayer.pdb
 C:\Users\Saki\Desktop\ActivityApply\Web\bin\DataAccess.pdb
 C:\Users\Saki\Desktop\ActivityApply\Web\bin\Model.pdb
 C:\Users\Saki\Desktop\ActivityApply\Web\bin\Util.pdb
-C:\Users\Saki\Desktop\ActivityApply\Web\bin\BusinessLayerBase.xml
-C:\Users\Saki\Desktop\ActivityApply\Web\bin\DataAccessBase.xml
-C:\Users\Saki\Desktop\ActivityApply\Web\bin\UtilBase.xml
-C:\Users\Saki\Desktop\ActivityApply\Web\bin\CKEditor.NET.pdb
 F:\Desktop\ActivityApply\Web\bin\Web.dll.config
 F:\Desktop\ActivityApply\Web\bin\Web.dll
 F:\Desktop\ActivityApply\Web\bin\Web.pdb
