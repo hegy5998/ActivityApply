@@ -64,6 +64,13 @@ namespace DataAccess
             return Db.GetEnumerable<ActivityInfo>(sql, param).ToList();
         }
 
+        public List<Activity_classInfo> GetClassList()
+        {
+            string sql = @"SELECT ac_idn, ac_title, ac_desc, ac_seq
+                           FROM   activity_class ";
+            return Db.GetEnumerable<Activity_classInfo>(sql).ToList();
+        }
+
         public DataTable GetActivityAllList(string act_title,string act_class)
         {
             string actclass = "";

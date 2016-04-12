@@ -10,7 +10,6 @@ D:\WebSource\ActivityApply\Model\obj\Debug\Model.pdb
 D:\WebSource\ActivityApply\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache
 C:\Users\Saki\Desktop\ActivityApply\Model\bin\Debug\Model.dll
 C:\Users\Saki\Desktop\ActivityApply\Model\bin\Debug\Model.pdb
-C:\Users\Saki\Desktop\ActivityApply\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache
 C:\Users\Saki\Desktop\ActivityApply\Model\obj\Debug\Model.dll
 C:\Users\Saki\Desktop\ActivityApply\Model\obj\Debug\Model.pdb
 F:\Desktop\ActivityApply\Model\bin\Debug\Model.dll
@@ -42,3 +41,4 @@ G:\School\Oit\ActivityApply\Model\bin\Debug\Model.pdb
 G:\School\Oit\ActivityApply\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache
 G:\School\Oit\ActivityApply\Model\obj\Debug\Model.dll
 G:\School\Oit\ActivityApply\Model\obj\Debug\Model.pdb
+C:\Users\Saki\Desktop\ActivityApply\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache

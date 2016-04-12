@@ -8,7 +8,8 @@
         //抓取網址列設定值
         //alert($.url().param("act_class"));
         //抓取要搜尋的分類
-        var act_class = $("#act_class").val();
+        //var act_class = $("#act_class").val();
+        var act_class = $.url().param("act_class");
         //產生所有活動
         searchActivityAllList(search_title, act_class);
     })
@@ -18,6 +19,7 @@
     $("#search_btn").click(function () {
         //抓取要搜尋的分類
         var act_class = $("#act_class").val();
+        setbread("",act_class);
         //抓取要搜尋的字串
         var searct_txt = $("#search_txt").val();
         //以空白切割字串
@@ -72,7 +74,7 @@
             traditional: true,
             data: JSON.stringify(jsondata),
             //傳送資料到後台為getActivityAllList的function
-            url: '/index.aspx/getActivityAllList',
+            url: '/activity_List.aspx/getActivityAllList',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             async: false,

@@ -1,9 +1,5 @@
-﻿using BusinessLayer.Web;
-using Model;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -15,17 +11,11 @@ namespace Register
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
-        }
-
-        //接從前台傳過來想要搜尋活動的資料，並回傳JSON字串
-        [System.Web.Services.WebMethod]
-        public static string getActivityAllList(string act_title,string act_class)
-        {
-            indexBL _bl = new indexBL();
-            DataTable ActivityAllList = _bl.GetActivityAllList(act_title, act_class);
-            string json_data = JsonConvert.SerializeObject(ActivityAllList);
-            return json_data;
+            if (!IsPostBack)
+            {
+                Response.Redirect("activity_List.aspx?act_class=0");
+                Response.End();
+            }
         }
     }
 }

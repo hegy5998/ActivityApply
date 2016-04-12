@@ -87,7 +87,7 @@
     <Compile Include="Sys_systemData.cs" />
     <Compile Include="Sys_unitData.cs" />
     <Compile Include="Web\activityData.cs" />
-    <Compile Include="Web\indexData.cs" />
+    <Compile Include="Web\activity_ListData.cs" />
     <Compile Include="Web\Sign_UpData.cs" />
   </ItemGroup>
   <ItemGroup>
