@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{B080F039-AFAA-4283-A620-E89E1D972190}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util", "Util\Util.csproj", "{6BA52742-5E43-4C2B-BAF0-574059A51FC0}"
@@ -10,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{325923B1-8F4C-409E-893E-4AC498645F48}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLayer", "BusinessLayer\BusinessLayer.csproj", "{8B48CEEC-FCBA-426C-8B17-352E2B2F8BD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivityApply", "ActivityApply\ActivityApply.csproj", "{8DE0213B-9F7C-40D9-9F01-212BD376B7DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +41,10 @@ Global
 		{8B48CEEC-FCBA-426C-8B17-352E2B2F8BD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B48CEEC-FCBA-426C-8B17-352E2B2F8BD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B48CEEC-FCBA-426C-8B17-352E2B2F8BD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DE0213B-9F7C-40D9-9F01-212BD376B7DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DE0213B-9F7C-40D9-9F01-212BD376B7DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DE0213B-9F7C-40D9-9F01-212BD376B7DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DE0213B-9F7C-40D9-9F01-212BD376B7DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

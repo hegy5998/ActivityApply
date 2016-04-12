@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="ActivityData.cs" />
     <Compile Include="Activity_applyData.cs" />
+    <Compile Include="Activity_apply_detailData.cs" />
     <Compile Include="Activity_sectionData.cs" />
     <Compile Include="Activity_columnData.cs" />
     <Compile Include="Activity_sessionData.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="S01\UCProcessSubFuncAuthManagerData.cs" />
     <Compile Include="S01\UCRoleUnitManagerData.cs" />
     <Compile Include="S01\UCRoleUnitManagerPositionData.cs" />
+    <Compile Include="S02\S020103Data.cs" />
     <Compile Include="S02\S020101Data.cs" />
     <Compile Include="Sys_accountData.cs" />
     <Compile Include="Sys_account_roleData.cs" />
@@ -85,6 +87,9 @@
     <Compile Include="Sys_role_unitData.cs" />
     <Compile Include="Sys_systemData.cs" />
     <Compile Include="Sys_unitData.cs" />
+    <Compile Include="Web\activityData.cs" />
+    <Compile Include="Web\activity_ListData.cs" />
+    <Compile Include="Web\Sign_UpData.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">

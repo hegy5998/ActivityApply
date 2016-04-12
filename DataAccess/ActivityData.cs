@@ -54,6 +54,52 @@ namespace DataAccess
         }
         #endregion
 
+
+        public List<ActivityInfo> GetActivityList(int act_idn)
+        {
+            string sql = @"SELECT   activity.*
+                           FROM    activity
+                           WHERE   (act_idn = @act_idn) ";
+            IDataParameter[] param = { Db.GetParam("@act_idn", act_idn) };
+            return Db.GetEnumerable<ActivityInfo>(sql, param).ToList();
+        }
+
+        public List<Activity_classInfo> GetClassList()
+        {
+            string sql = @"SELECT ac_idn, ac_title, ac_desc, ac_seq
+                           FROM   activity_class ";
+            return Db.GetEnumerable<Activity_classInfo>(sql).ToList();
+        }
+
+        public DataTable GetActivityAllList(string act_title,string act_class)
+        {
+            string actclass = "";
+            if (act_class != "0")
+            {
+                actclass = "AND (activity.act_class = @act_class  OR 0 = @act_class)" + act_class;
+            }
+            else
+                actclass = "";
+            string sql = @"SELECT activity.act_idn,activity.act_title,activity.act_isopen, act_class,
+                            ac_session.as_date_start,
+                            ac_session.as_date_end, 
+                            ac_session.as_apply_start, 
+                            ac_session.as_apply_end
+                            FROM activity
+                            cross apply 
+                                 (select top 1 *
+                                  from activity_session 
+                                  where   as_act = act_idn 
+                                          AND act_isopen = 1 
+                                          AND as_isopen = 1
+                                          AND act_title LIKE @act_title 
+                                          AND (act_class = @act_class  OR 0 = @act_class) 
+                                  order by as_date_start) as ac_session
+                            ORDER BY   activity.updtime DESC";
+            IDataParameter[] param = { Db.GetParam("@act_title", act_title),Db.GetParam("@act_class", act_class) };
+            return Db.GetDataTable(sql,param);
+        }
+
         #region 單筆資料維護
         #region 單筆新增
         /// <summary>

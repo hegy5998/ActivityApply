@@ -15,6 +15,7 @@ using System.Design;
 using System.Web.Services;
 using System.Data.SqlClient;
 using System.Web.Configuration;
+using Newtonsoft.Json;
 
 namespace Web.S02
 {
@@ -113,6 +114,7 @@ namespace Web.S02
             save_Activity_Information["act_unit"] = activity_List[0].Act_unit;
             save_Activity_Information["act_contact_name"] = activity_List[0].Act_contact_name;
             save_Activity_Information["act_contact_phone"] = activity_List[0].Act_contact_phone;
+            save_Activity_Information["act_class"] = activity_List[0].Act_class;
             save_Activity_Information["act_relate_link"] = activity_List[0].Act_relate_link;
             _bl.InsertData(save_Activity_Information);
             //將活動場次資料insert到資料庫
@@ -134,6 +136,15 @@ namespace Web.S02
                 _bl.InsertData_session(save_Session_Information);
             }
             return "成功";
+        }
+
+        [System.Web.Services.WebMethod]
+        public static string getClassList()
+        {
+            S020102BL _bl = new S020102BL();
+            List<Activity_classInfo> ClassList = _bl.GetClassList();
+            string json_data = JsonConvert.SerializeObject(ClassList);
+            return json_data;
         }
 
         protected void Save_btn_Click(object sender, EventArgs e)

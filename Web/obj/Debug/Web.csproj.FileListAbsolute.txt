@@ -189,3 +189,5 @@ C:\Users\Saki\Desktop\1050327ActivityApply\Web\bin\UtilBase.xml
 C:\Users\Saki\Desktop\1050327ActivityApply\Web\obj\Debug\Web.csprojResolveAssemblyReference.cache
 C:\Users\Saki\Desktop\1050327ActivityApply\Web\obj\Debug\Web.dll
 C:\Users\Saki\Desktop\1050327ActivityApply\Web\obj\Debug\Web.pdb
+C:\Users\Saki\Desktop\ActivityApply\Web\bin\Newtonsoft.Json.dll
+C:\Users\Saki\Desktop\ActivityApply\Web\bin\Newtonsoft.Json.xml

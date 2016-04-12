@@ -24,6 +24,16 @@ namespace DataAccess
         /// </summary>
         public CommonDbHelper Db = DAH.Db;
 
+        public List<Activity_sessionInfo> GetList(int as_act)
+        {
+            string sql = @"SELECT   activity_session.*
+                           FROM    activity_session
+                           WHERE   (as_act = @as_act) AND (as_isopen = 1)
+                           ORDER BY   as_idn";
+            IDataParameter[] param = { Db.GetParam("@as_act", as_act) };
+            return Db.GetEnumerable<Activity_sessionInfo>(sql, param).ToList();
+        }
+
         #region 單筆資料維護
         #region 單筆新增
         /// <summary>

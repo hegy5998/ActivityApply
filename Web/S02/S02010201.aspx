@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true" CodeBehind="S02010201.aspx.cs" Inherits="Web.S02.S02010201" %>
+
 <%@ Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor" %>
 <%@ Register Src="~/UserControls/UCGridViewPager.ascx" TagPrefix="uc1" TagName="UCGridViewPager" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead_cph" runat="server">
@@ -11,15 +12,15 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="mainContentSubFunction_cph" runat="server">
     <!-- 儲存活動頁面 -->
-    <input type="button" onclick="Save_btn_Click()" value="儲存活動頁面"/>
+    <input type="button" onclick="Save_btn_Click()" value="儲存活動頁面" />
     <!-- 儲存報名表 -->
-    <input type="button" onclick="Save_Activity_btn_Click()" value="儲存報名表"/>
+    <input type="button" onclick="Save_Activity_btn_Click()" value="儲存報名表" />
     <!-- 上傳檔案 -->
-    <input type="button" onclick="upload_File()" value="上傳檔案"/>
+    <input type="button" onclick="upload_File()" value="上傳檔案" />
     <!-- 檢視 -->
-    <input type="button" onclick="view_Activity()" value="檢視報名表"/>
+    <input type="button" onclick="view_Activity()" value="檢視報名表" />
     <!-- 檢視 -->
-    <input type="button" onclick="save()" value="儲存整個活動"/>
+    <input type="button" onclick="save()" value="儲存整個活動" />
     <!-- 儲存活動 -->
     <asp:Button runat="server" ID="Save_btn" Text="儲存活動" OnClick="Save_btn_Click" CssClass="Distancebtn" />
     <!-- 返回列表 -->
@@ -34,66 +35,72 @@
       <h4>Firefox : 工具 -> 網頁開發者 -> 網頁工具箱 -> 選項 -> 取消打勾「停用JavaScript」</h4>
       <h4>IChrome : 設定 -> 顯示進階設定 -> 隱私權 -> 內容定... -> JavaScript -> 選擇「允許所有網站執行JavaScript」</h4>
     </noscript>
-<div id="Tabs" role="tabpanel">
-    <!-- 建立活動標籤_START-->
-    <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
-        <li class="tab-pane active">
-            <a data-toggle="tab" href="#activityMenu">活動頁面</a>
-        </li>
-        <li class="tab-pane">
-            <a data-toggle="tab" href="#activityQus">活動報名表</a>
-        </li>
-    </ul>
-    <!-- 建立活動標籤_END-->
+    <div id="Tabs" role="tabpanel">
+        <!-- 建立活動標籤_START-->
+        <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+            <li class="tab-pane active">
+                <a data-toggle="tab" href="#activityMenu">活動頁面</a>
+            </li>
+            <li class="tab-pane">
+                <a data-toggle="tab" href="#activityQus">活動報名表</a>
+            </li>
+        </ul>
+        <!-- 建立活動標籤_END-->
 
-    <!-- 標籤內容_START -->
-    <div class="tab-content">
-        <!-- 活動頁面標籤 START -->  
-        <div class="row mt tab-pane active" id="activityMenu" role="tabpanel">
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 desc" runat="server">
-                <div class="project-wrapper">
-                    <div class="project">
-                        <div class="photo-wrapper">
-                            <div class="photo">
-                                <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
+        <!-- 標籤內容_START -->
+        <div class="tab-content">
+            <!-- 活動頁面標籤 START -->
+            <div class="row mt tab-pane active" id="activityMenu" role="tabpanel">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 desc" runat="server">
+                    <div class="project-wrapper">
+                        <div class="project">
+                            <div class="photo-wrapper">
+                                <div class="photo">
+                                    <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
                                         <ContentTemplate>
-                                            <asp:FileUpload ID="imgUpload" runat="server"/>
-                                            <asp:Button ID="imageUpload_btn" runat="server" Style="display: none" OnClick="imageUpload_btn_Click"/>
+                                            <asp:FileUpload ID="imgUpload" runat="server" />
+                                            <asp:Button ID="imageUpload_btn" runat="server" Style="display: none" OnClick="imageUpload_btn_Click" />
                                         </ContentTemplate>
                                         <Triggers>
-                                           <asp:postbacktrigger controlid="imageUpload_btn"></asp:postbacktrigger>
+                                            <asp:PostBackTrigger ControlID="imageUpload_btn"></asp:PostBackTrigger>
                                         </Triggers>
-                                </asp:UpdatePanel>
-                                <img class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" alt=""/>
-                            </div>     
-                            <div class="overlay"></div>
+                                    </asp:UpdatePanel>
+                                    <img class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" alt="" />
+                                </div>
+                                <div class="overlay"></div>
+                            </div>
                         </div>
                     </div>
+                    <div class="row"></div>
                 </div>
-                <div class="row"></div>
-            </div>
-            <!-- 活動頁面內容_START -->
-            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 dexc">
-                <!-- 增加活動區塊地方_START -->
-                <div class="row" id="add_Session_div">
-                    <!-- 活動場次區塊_START -->
-                    <h3><i class="fa fa-angle-right"></i>活動場次</h3>
-                    <!-- 活動名稱 -->
-                    <input type="text" class="form-control"  placeholder="活動名稱" id="activity_Name_txt"/><br />
-                </div>
-                <!-- 增加活動區塊地方_END -->
+                <!-- 活動頁面內容_START -->
+                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 dexc">
+                    <!-- 增加活動區塊地方_START -->
+                    <div class="row" id="add_Session_div">
+                        <!-- 活動場次區塊_START -->
+                        <h3><i class="fa fa-angle-right"></i>活動分類</h3>
+                        
+                            <select class="select" id="select_class" style="width:876.75px; height: 30px; border-radius: 4px; margin-bottom: 15px;;">
+                            </select>
+                        
+                        <!-- 活動名稱 -->
+                        <h3><i class="fa fa-angle-right"></i>活動名稱</h3>
+                        <input type="text" class="form-control" placeholder="活動名稱" id="activity_Name_txt" /><br />
+                        
+                    </div>
+                    <!-- 增加活動區塊地方_END -->
 
-                <!-- 活動資訊區塊_START -->
-                <div class="row">
-                    <h3><i class="fa fa-angle-right"></i>活動資訊</h3>
-                    <div class="showback">
-                        <div class="form-horizontal style-form">
-                            <!-- 活動簡介 -->
-                            <div class="form-group">
-                                <label class="col-sm-2 col-sm-2 control-label">活動簡介</label>
-                                <div class="col-sm-10">
-                                    <!-- 活動簡介，使用CKeditor -->
-                                    <textarea cols="80" id="editor1" name="editor1" rows="10"></textarea>
+                    <!-- 活動資訊區塊_START -->
+                    <div class="row">
+                        <h3><i class="fa fa-angle-right"></i>活動資訊</h3>
+                        <div class="showback">
+                            <div class="form-horizontal style-form">
+                                <!-- 活動簡介 -->
+                                <div class="form-group">
+                                    <label class="col-sm-2 col-sm-2 control-label">活動簡介</label>
+                                    <div class="col-sm-10">
+                                        <!-- 活動簡介，使用CKeditor -->
+                                        <textarea cols="80" id="editor1" name="editor1" rows="10"></textarea>
                                         <script type="text/javascript">
                                             CKEDITOR.replace('editor1',
                                                 {
@@ -105,202 +112,280 @@
                                                     ]
                                                 });
                                         </script>
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- 主辦單位 -->
-                            <div class="form-group">
-                                <label class="col-sm-2 col-sm-2 control-label">主辦單位</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id ="unit_txt">
+                                <!-- 主辦單位 -->
+                                <div class="form-group">
+                                    <label class="col-sm-2 col-sm-2 control-label">主辦單位</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="unit_txt">
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- 聯絡人 -->
-                            <div class="form-group">
-                                <label class="col-sm-2 col-sm-2 control-label">聯絡人</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="contact_Person_txt" />
+                                <!-- 聯絡人 -->
+                                <div class="form-group">
+                                    <label class="col-sm-2 col-sm-2 control-label">聯絡人</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="contact_Person_txt" />
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- 聯絡人電話 -->
-                            <div class="form-group">
-                                <label class="col-sm-2 col-sm-2 control-label">聯絡人電話</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="contact_Person_Phone_txt" />
+                                <!-- 聯絡人電話 -->
+                                <div class="form-group">
+                                    <label class="col-sm-2 col-sm-2 control-label">聯絡人電話</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="contact_Person_Phone_txt" />
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- 附加檔案 -->
-                            <div class="form-group">
-                                <label class="col-sm-2 col-sm-2 control-label">附加檔案</label>
-                                <div class="col-sm-10">
-                                    <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
-                                        <ContentTemplate>
-                                            <asp:FileUpload ID="FileUpload" runat="server"/>
-                                            <asp:Button ID="btnUpload" runat="server" OnClick="btnUpload_Click1" Style="display: none"/>
-                                            <asp:Label ID="Label1" runat="server" Text="Label" ></asp:Label>
-                                        </ContentTemplate>
-                                        <Triggers>
-                                           <asp:postbacktrigger controlid="btnUpload"></asp:postbacktrigger>
-                                        </Triggers>
-                                    </asp:UpdatePanel>
-                                    
+                                <!-- 附加檔案 -->
+                                <div class="form-group">
+                                    <label class="col-sm-2 col-sm-2 control-label">附加檔案</label>
+                                    <div class="col-sm-10">
+                                        <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
+                                            <ContentTemplate>
+                                                <asp:FileUpload ID="FileUpload" runat="server" />
+                                                <asp:Button ID="btnUpload" runat="server" OnClick="btnUpload_Click1" Style="display: none" />
+                                                <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+                                            </ContentTemplate>
+                                            <Triggers>
+                                                <asp:PostBackTrigger ControlID="btnUpload"></asp:PostBackTrigger>
+                                            </Triggers>
+                                        </asp:UpdatePanel>
+
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- 相關連結 -->
-                            <div class="form-group" >
-                                <label class="col-sm-2 col-sm-2 control-label">相關連結</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control"  value="http://" id="relate_Link"/>
+                                <!-- 相關連結 -->
+                                <div class="form-group">
+                                    <label class="col-sm-2 col-sm-2 control-label">相關連結</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="https://" id="relate_Link" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- 活動資訊區塊_END -->
                 </div>
-                <!-- 活動資訊區塊_END -->
+                <!-- 活動頁面內容_END -->
             </div>
-            <!-- 活動頁面內容_END -->
-        </div>
-        <!-- 活動頁面標籤_END -->  
+            <!-- 活動頁面標籤_END -->
 
-        <!-- 活動報名表標籤_START-->  
-        <div class="row mt tab-pane fade" id="activityQus" role="tabpanel">
-            <!-- 新增區塊地方_START-->  
-            <div class="row mt " id="add_Block_div">
-                <!-- 預設區塊一_START -->
-                <div class="col-lg-11 col-md-11 col-sm-11 col-xs-12 dexc showback" id="block_div_1">
-                    <!-- 預設區塊一名稱_基本資料 -->
-                    <h3><input type="text" id ="block_title_txt_1" class="form-control" placeholder="區塊名稱" value="基本資料"/></h3>
-                    <input type="text" id="block_Description_txt_1" class="form-control" placeholder="區塊描述"/>
-                    <!-- 新增問題地方 START-->  
-                    <div class="form-horizontal style-form column " id="add_Qus_div_1" style="min-height:50px">
+            <!-- 活動報名表標籤_START-->
+            <div class="row mt tab-pane fade" id="activityQus" role="tabpanel">
+                <!-- 新增區塊地方_START-->
+                <div class="row mt " id="add_Block_div">
+                    <!-- 預設區塊一_START -->
+                    <div class="col-lg-11 col-md-11 col-sm-11 col-xs-12 dexc showback" id="block_div_1">
+                        <!-- 預設區塊一名稱_基本資料 -->
+                        <h3>
+                            <input type="text" id="block_title_txt_1" class="form-control" placeholder="區塊名稱" value="基本資料" /></h3>
+                        <input type="text" id="block_Description_txt_1" class="form-control" placeholder="區塊描述" />
+                        <!-- 新增問題地方 START-->
+                        <div class="form-horizontal style-form column " id="add_Qus_div_1" style="min-height: 50px">
+                            <div id="qus_div_1" class="form-group portlet showback" style="border: 0px; background: #ffffff; padding: 15px; margin-bottom: 15px; box-shadow: 0px 0px 2px #272727; border-radius: 20px; margin: 20px 0px 0px 1px;">
+                                <div class="col-sm-1 portlet-header center" style="background-color: #F1F2F7; height: 100px; width: 35px">
+                                    <img src="../Images/drag_pic.jpg" alt="拖移" style="height: 24px; transform: translateY(-50%); top: 50%; position: relative;" />
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-10" id="change_Qus_Way_div_1">
+                                        <div class="col-sm-10" style="width: 100%">
+                                            <input type="text" id="qus_txt_1" class="form-control" style="width: 100%;" value="姓名" disabled="" />
+                                        </div>
+                                        <div class="col-sm-10" style="width: 100%">
+                                            <input type="text" id="qus_context_txt_1" placeholder="問題描述" class="form-control" style="width: 100%; margin-top: 15px" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <select class="select" id="select_1" disabled="" style="width: 56px; height: 34px; border-radius: 4px; margin-left: 50px; background-color: #EEEEEE;">
+                                            <option selected="selected" value="text">文字</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6" id="change_Qus_Content_div_1">
+                                    </div>
+                                    <div class="col-sm-3 col-sm-push-3 " style="margin-left: 22px;">
+                                        <div class="row">
+                                            <div class="checkbox checkbox-slider--b-flat checkbox-slider-md" style="float: left; padding-right: 10px;">
+                                                <label>
+                                                    <input id="required_checkbox_1" type="checkbox" checked="checked" disabled="" /><span><a style="font-size: 16px; margin-left: -126px;">必填</a></span>
+                                                </label>
+                                            </div>
+                                            <select class="select_Validation" id="select_Validation_1" disabled="" style="width: 100px; height: 34px; border-radius: 4px; margin-left: 22px; margin-top: 5px; background-color: #EEEEEE;">
+                                                <option selected="selected" value="">資料驗證(無)</option>
+                                            </select>
+                                        </div>
+                                        <div class="row" id="add_Validation_div_1" style="margin-left: -25px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="qus_div_2" class="form-group portlet showback" style="border: 0px; background: #ffffff; padding: 15px; margin-bottom: 15px; box-shadow: 0px 0px 2px #272727; border-radius: 20px; margin: 20px 0px 0px 1px;">
+                                <div class="col-sm-1 portlet-header center" style="background-color: #F1F2F7; height: 100px; width: 35px">
+                                    <img src="../Images/drag_pic.jpg" alt="拖移" style="height: 24px; transform: translateY(-50%); top: 50%; position: relative;" />
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-10" id="change_Qus_Way_div_2">
+                                        <div class="col-sm-10" style="width: 100%">
+                                            <input type="text" id="qus_txt_2" class="form-control" style="width: 100%;" value="電子信箱Email" disabled="" />
+                                        </div>
+                                        <div class="col-sm-10" style="width: 100%">
+                                            <input type="text" id="qus_context_txt_2" placeholder="問題描述" class="form-control" style="width: 100%; margin-top: 15px" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <select class="select" id="select_2" disabled="" style="width: 56px; height: 34px; border-radius: 4px; margin-left: 50px; background-color: #EEEEEE;">
+                                            <option selected="selected" value="text">文字</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6" id="change_Qus_Content_div_2">
+                                    </div>
+                                    <div class="col-sm-3 col-sm-push-3 " style="margin-left: 22px;">
+                                        <div class="row">
+                                            <div class="checkbox checkbox-slider--b-flat checkbox-slider-md" style="float: left; padding-right: 10px;">
+                                                <label>
+                                                    <input id="required_checkbox_2" type="checkbox" checked="checked" disabled="" /><span><a style="font-size: 16px; margin-left: -126px;">必填</a></span>
+                                                </label>
+                                            </div>
+                                            <select class="select_Validation" id="select_Validation_2" disabled="" style="width: 100px; height: 34px; border-radius: 4px; margin-left: 22px; margin-top: 5px; background-color: #EEEEEE;">
+                                                <option selected="selected" value="email">電子信箱</option>
+                                            </select>
+                                        </div>
+                                        <div class="row" id="add_Validation_div_2" style="margin-left: -25px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 新增問題地方_END-->
                     </div>
-                    <!-- 新增問題地方_END-->  
-                </div>
-                <!-- 預設區塊一_END -->
+                    <!-- 預設區塊一_END -->
 
-                <!-- 預設區塊二_START -->
-                <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 dexc showback" id="block_div_2" >
-                    <div class="col-sm-1" style="left: 95%;height: 40px;">
-                        <a class="btn" style="color: #768094;" onclick="del_block_click(2)">X</a>
+                    <!-- 預設區塊二_START -->
+                    <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 dexc showback" id="block_div_2">
+                        <div class="col-sm-1" style="left: 95%; height: 40px;">
+                            <a class="btn" style="color: #768094;" onclick="del_block_click(2)">X</a>
+                        </div>
+                        <h3>
+                            <input type="text" id="block_title_txt_2" class="form-control" placeholder="區塊名稱" value="其他" /></h3>
+                        <input type="text" id="block_Description_txt_2" class="form-control" placeholder="區塊描述" />
+                        <div class="column form-horizontal style-form" id="add_Qus_div_2" style="min-height: 50px">
+                        </div>
                     </div>
-                    <h3><input type="text" id ="block_title_txt_2" class="form-control" placeholder="區塊名稱" value="其他"/></h3>
-                    <input type="text" id="block_Description_txt_2" class="form-control" placeholder="區塊描述"/>
-                    <div class="column form-horizontal style-form" id="add_Qus_div_2" style="min-height:50px">
-                    </div>
-                </div>
-                <!-- 預設區塊二_END -->
+                    <!-- 預設區塊二_END -->
 
-                <!-- 功能列_START -->
-                <div class="nav nav-pills nav-stacked"  id="suspension_div" data-spy="affix" data-offset-top="60" data-offset-bottom="200">
-                    <div class="btn-group-vertical" role="group" aria-label="...">
-                        <!-- 新增問題 -->
-                        <a class="btn btn-theme " onclick="add_Preset_Qus_Click(null , null , null , 'text' , '' , false)" >新增問題</a>
-                        <br />
-                        <!-- 新增區塊 -->
-                        <a class="btn btn-theme " onclick="add_Block_Click()">新增區塊</a>
-                        <br />
-                        <!-- 常用欄位 -->
-                        <a data-toggle="modal" data-target="#myModal" data-backdrop="static" role="group"  class="btn btn-theme">常用欄位</a>
-                        <%--<br />
+                    <!-- 功能列_START -->
+                    <div class="nav nav-pills nav-stacked" id="suspension_div" data-spy="affix" data-offset-top="60" data-offset-bottom="200">
+                        <div class="btn-group-vertical" role="group" aria-label="...">
+                            <!-- 新增問題 -->
+                            <a class="btn btn-theme " onclick="add_Preset_Qus_Click(null , null , null , 'text' , '' , false)">新增問題</a>
+                            <br />
+                            <!-- 新增區塊 -->
+                            <a class="btn btn-theme " onclick="add_Block_Click()">新增區塊</a>
+                            <br />
+                            <!-- 常用欄位 -->
+                            <a data-toggle="modal" data-target="#myModal" data-backdrop="static" role="group" class="btn btn-theme">常用欄位</a>
+                            <%--<br />
                         <!-- 載入範本 -->
                         <a type="submit" class="btn btn-theme " onclick="getText()">載入範本</a>--%>
-                    </div>                     
+                        </div>
+                    </div>
+                    <!-- 功能列_END -->
                 </div>
-                <!-- 功能列_END -->
-            </div>        
-            <!-- 新增區塊地方_END-->  
-        </div>  
-        <!-- 活動報名表標籤_END--> 
+                <!-- 新增區塊地方_END-->
+            </div>
+            <!-- 活動報名表標籤_END-->
+        </div>
+        <!-- 標籤內容_END -->
     </div>
-    <!-- 標籤內容_END -->
-</div>
     <!-- 常用欄位_Modal_START-->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog" style="margin: 2% 30%;padding:0px 0px;border-radius: 6px;">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title" id="myModalLabel">常用欄位</h4>
-          </div>
-          <div class="modal-body">
-            <div class="checkbox">
-                <label>
-                    <input name="check_usually_Column" type="checkbox" value="姓名"/>
-                    姓名
-                </label>
+        <div class="modal-dialog" style="margin: 2% 30%; padding: 0px 0px; border-radius: 6px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">常用欄位</h4>
+                </div>
+                <div class="modal-body">
+                    <%--                    <div class="checkbox">
+                        <label>
+                            <input name="check_usually_Column" type="checkbox" value="姓名" />
+                            姓名
+                        </label>
+                    </div>--%>
+                    <div class="checkbox">
+                        <label>
+                            <input name="check_usually_Column" type="checkbox" value="出生年月日" />
+                            出生年月日
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input name="check_usually_Column" type="checkbox" value="身份證字號" />
+                            身份證字號
+                        </label>
+                    </div>
+                    <%--                    <div class="checkbox">
+                        <label>
+                            <input name="check_usually_Column" type="checkbox" value="信箱Email" />
+                            信箱Email
+                        </label>
+                    </div>--%>
+                    <div class="checkbox">
+                        <label>
+                            <input name="check_usually_Column" type="checkbox" value="聯絡電話" />
+                            聯絡電話
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input name="check_usually_Column" type="checkbox" value="聯絡地址" />
+                            聯絡地址
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input name="check_usually_Column" type="checkbox" value="公司電話" />
+                            公司電話
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input name="check_usually_Column" type="checkbox" value="服務單位" />
+                            服務單位
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input name="check_usually_Column" type="checkbox" value="職稱" />
+                            職稱
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input name="check_usually_Column" type="checkbox" value="傳真" />
+                            傳真
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input name="check_usually_Column" type="checkbox" value="用餐" />
+                            用餐
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input name="check_usually_Column" type="checkbox" value="備註" />
+                            備註
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="add_Usually_Column()">增加</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+                </div>
             </div>
-            <div class="checkbox">
-                <label>
-                    <input name="check_usually_Column" type="checkbox" value="出生年月日"/>
-                    出生年月日
-                </label>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input name="check_usually_Column" type="checkbox" value="身份證字號"/>
-                    身份證字號
-                </label>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input name="check_usually_Column" type="checkbox" value="信箱Email"/>
-                    信箱Email
-                </label>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input name="check_usually_Column" type="checkbox" value="聯絡電話"/>
-                    聯絡電話
-                </label>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input name="check_usually_Column" type="checkbox" value="聯絡地址"/>
-                    聯絡地址
-                </label>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input name="check_usually_Column" type="checkbox" value="公司電話"/>
-                    公司電話
-                </label>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input name="check_usually_Column" type="checkbox" value="服務單位"/>
-                    服務單位
-                </label>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input name="check_usually_Column" type="checkbox" value="職稱"/>
-                    職稱
-                </label>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input name="check_usually_Column" type="checkbox" value="傳真"/>
-                    傳真
-                </label>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input name="check_usually_Column" type="checkbox" value="用餐"/>
-                    用餐
-                </label>
-            </div>
-              <div class="checkbox">
-                <label>
-                    <input name="check_usually_Column" type="checkbox" value="備註"/>
-                    備註
-                </label>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="add_Usually_Column()">增加</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
-          </div>
         </div>
-      </div>
     </div>
     <!-- 常用欄位_Modal_END-->
     <!-- 隱藏欄位儲存報名表JSON字串-->
@@ -318,7 +403,7 @@
         //#endregion
 
         //問題ID
-        var qusId = 1;
+        var qusId = 3;
         //區塊ID
         var blockId = 3;
         //場次ID
@@ -332,22 +417,25 @@
 
         //#region 頁面載入時自動產生問題
         $(document).ready(function () {
+            //設定分類下拉選單資料
+            getClass();
+            //載入預設場次
             add_Session_click();
             //add_Preset_Qus_Click(題目名稱 , 題目描述 , 欲加入的區塊 , 題目模式 , 資料驗證 ,選項內容 , 是否必填)
-            add_Preset_Qus_Click("姓名", "請填寫完整名字", 1, "text" , "" , [], true);
+            //add_Preset_Qus_Click("姓名", "請填寫完整名字", 1, "text", "", [], true);
             add_Preset_Qus_Click("出生年月日", "ex:83/07/08", 1, "text", "", [], true);
             add_Preset_Qus_Click("服務單位", "請填寫完整名稱", 1, "text", "", [], true);
             add_Preset_Qus_Click("職稱", null, 1, "text", "", [], true);
             add_Preset_Qus_Click("身份證字號", "英文字母請大寫", 1, "text", "idNumber", [], true);
-            add_Preset_Qus_Click("信箱Email", "請填寫正確格式", 1, "text", "email", [], true);
+            //add_Preset_Qus_Click("信箱Email", "請填寫正確格式", 1, "text", "email", [], true);
             add_Preset_Qus_Click("連絡電話", "可填手機或是家裡電話", 1, "text", "", [], true);
             add_Preset_Qus_Click("聯絡地址", "請填寫您收的到信的地址", 1, "text", "", [], true);
             add_Preset_Qus_Click("公司電話", null, 1, "text", "", [], false);
             add_Preset_Qus_Click("傳真", null, 1, "text", "", [], false);
-            add_Preset_Qus_Click("用餐", null, 1, "singleSelect","", ["葷", "素", "不用餐"], true);
+            add_Preset_Qus_Click("用餐", null, 1, "singleSelect", "", ["葷", "素", "不用餐"], true);
             add_Preset_Qus_Click("備註", "若您有其他的問題,可以在此說明 ", 2, "text", "", [], false);
 
-
+            //活動名稱判斷是否填寫
             $("#activity_Name_txt").blur(function () {
                 if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
@@ -360,6 +448,39 @@
                 }
             })
         });
+        //#endregion
+
+        //#region 獲取分類資料
+        function getClass() {
+            $.ajax({
+                type: 'post',
+                traditional: true,
+                //傳送資料到後台為getActivityAllList的function
+                url: '/S02/S02010201.aspx/getClassList',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                //成功時
+                success: function (result) {
+                    //設定搜尋下拉選單內容
+                    setSelect(result.d);
+                },
+                //失敗時
+                error: function () {
+                    return false;
+                }
+            });
+        }
+        //#endregion
+
+        //#region 設定分類下拉選單內容
+        function setSelect(act_classInfo) {
+            var act_classInfo = JSON.parse(act_classInfo);
+            $("#select_class").children().remove();
+            for (var count = 0 ; count < act_classInfo.length ; count++) {
+                $("#select_class").append('<option value="' + act_classInfo[count].Ac_idn + '">' + act_classInfo[count].Ac_title + '</option>');
+            }
+        }
         //#endregion
 
         //#region 新增常用欄位
@@ -412,16 +533,15 @@
         //#endregion
 
         //#region 新增問題分發
-        function add_Preset_Qus_Click(qus_Title , qus_Desc , add_Block , preset_Qus_Way ,preset_Qus_validation , qus_Option , required) {
-            add_Qus_Click(add_Block,required);
+        function add_Preset_Qus_Click(qus_Title, qus_Desc, add_Block, preset_Qus_Way, preset_Qus_validation, qus_Option, required) {
+            add_Qus_Click(add_Block, required);
             //增加問題內容 change_Qus_Way(問題模式,欲加入題目名稱的地方,欲加入選項的地方,欲加入題目名稱的內容,欲加入選項的第一個內容)
-            change_Qus_Way(preset_Qus_Way , qusId , $("#change_Qus_Way_div_" + qusId) , $("#change_Qus_Content_div_" + qusId) , qus_Title , qus_Desc , qus_Option[0]);
+            change_Qus_Way(preset_Qus_Way, qusId, $("#change_Qus_Way_div_" + qusId), $("#change_Qus_Content_div_" + qusId), qus_Title, qus_Desc, qus_Option[0]);
             //將選單改為預設所選的
             $("#select_" + qusId).val(preset_Qus_Way);
             $("#select_Validation_" + qusId).val(preset_Qus_validation);
             //將預設文字加入選項中
-            if (preset_Qus_Way != "text")
-            {
+            if (preset_Qus_Way != "text") {
                 var qus_Option_length = qus_Option.length;
                 for (var count = 1; count < qus_Option_length; count++) {
                     add_Qus_Options_Click(qusId, qus_Option[count]);
@@ -504,7 +624,7 @@
                                             '<div class="col-sm-6"  id="change_Qus_Content_div_' + qusId + '">' +
                                             '</div>' +
                                                 '<div class="col-sm-3 col-sm-push-3 " style="margin-left: 22px;">' +
-                                                    '<div class="row" >'+
+                                                    '<div class="row" >' +
                                                         '<div class="checkbox checkbox-slider--b-flat checkbox-slider-md" style="float: left; padding-right: 10px;">' +
                                                             '<label>' +
                                                             '<input id="required_checkbox_' + qusId + '" type="checkbox" ' + check + '="' + check + '"><span><a style="font-size:16px;margin-left: -126px;">必填</a></span>' +
@@ -526,10 +646,9 @@
                                                     '</div>' +
                                                 '</div>' +
                                         '</div>' +
-                                        
-                            '</div>');
+                                '</div>');
             //資料驗證選單
-            $('#select_Validation_'+qusId).change(function () {
+            $('#select_Validation_' + qusId).change(function () {
                 //抓取現在要更改問題模式的ID
                 var str = $(this).attr("id");
                 //切割字串抓最後一個陣列即為ID
@@ -555,7 +674,7 @@
                 }
             });
             //題目模式選單
-            $('#select_'+qusId).change(function () {
+            $('#select_' + qusId).change(function () {
                 //抓取現在要更改問題模式的ID
                 var str = $(this).attr("id");
                 //切割字串抓最後一個陣列即為ID
@@ -570,15 +689,15 @@
                     case "singleSelect":
                         change_Qus_Way("singleSelect", chooseId, temp_change_Qus_Way_div, temp_change_Qus_Content_div, $("#qus_txt_" + chooseId).val(), $("#qus_context_txt_" + chooseId).val(), null);
                         break;
-                    //多選問題
+                        //多選問題
                     case "multiSelect":
                         change_Qus_Way("multiSelect", chooseId, temp_change_Qus_Way_div, temp_change_Qus_Content_div, $("#qus_txt_" + chooseId).val(), $("#qus_context_txt_" + chooseId).val(), null);
                         break;
-                    //文字
+                        //文字
                     case "text":
                         change_Qus_Way("text", chooseId, temp_change_Qus_Way_div, temp_change_Qus_Content_div, $("#qus_txt_" + chooseId).val(), $("#qus_context_txt_" + chooseId).val(), null);
                         break;
-                    //選單
+                        //選單
                     case "dropDownList":
                         change_Qus_Way("dropDownList", chooseId, temp_change_Qus_Way_div, temp_change_Qus_Content_div, $("#qus_txt_" + chooseId).val(), $("#qus_context_txt_" + chooseId).val(), null);
                         break;
@@ -594,7 +713,7 @@
         //#endregion
 
         //#region 更改問題模式 change_Qus_Way(問題模式 , 選的ID , 欲加入題目名稱的地方 , 欲加入選項的地方 , 欲加入題目名稱的內容 , 欲加入的問題描述 , 欲加入選項的第一個內容)
-        function change_Qus_Way(qus_way_int, chooseId , temp_change_Qus_Way_div , temp_change_Qus_Content_div , qus_Title_Value , qus_Desc , present_Qus_Option) {
+        function change_Qus_Way(qus_way_int, chooseId, temp_change_Qus_Way_div, temp_change_Qus_Content_div, qus_Title_Value, qus_Desc, present_Qus_Option) {
             //判斷題目模式
             if (qus_way_int == "singleSelect")
                 var qus_title = "單選問題";
@@ -681,13 +800,13 @@
                     $(this).css({ "box-shadow": "" });
                     $("#qus_txt_error_" + chooseId).remove();
                 }
-                
+
             })
             //當焦點離開時判斷如果沒有填寫則警號
             $("#qus_Option_" + chooseId + "1").blur(function () {
                 if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
-                    if ($("#qus_Option_error_" + chooseId+"1").length==0)
+                    if ($("#qus_Option_error_" + chooseId + "1").length == 0)
                         $(this).after('<em id="qus_Option_error_' + chooseId + '1" class="error help-block red" style="width: 52px;margin-left: 16px;margin-bottom: 5px;">必須填寫</em>');
                     check_Activity_Column_Data = false;
                 }
@@ -715,7 +834,7 @@
             //將選項加入預設好的div裡面
             $('#add_Qus_Options_div_' + id).append('<div class="col-sm-11 " id="del_Qus_Options_' + id + (count) + '">' +
                                              '<div class="col-sm-4" >' +
-                                                '<input id="qus_Option_' + id + (count+1) + '" name="qus_Options" type="text" class="form-control" style="width: 244px;margin-bottom: 8px;margin-left: -15px" ' + value + '="' + option_value + '">' +
+                                                '<input id="qus_Option_' + id + (count + 1) + '" name="qus_Options" type="text" class="form-control" style="width: 244px;margin-bottom: 8px;margin-left: -15px" ' + value + '="' + option_value + '">' +
                                             '</div>' +
                                             '<div class="col-sm-2 col-sm-push-3" style="margin-top:10px;margin-bottom: 5px;margin-left: 100px;">' +
                                              '<a onclick="del_Qus_Options_Click(' + id + (count) + ')">X</a>' +
@@ -727,16 +846,16 @@
                                     '</div>');
             $("#qus_Option_" + id + (count + 1)).focus();
             //當焦點離開時判斷如果沒有填寫則警號
-            $("#qus_Option_" + id + (count+1)).blur(function () {
-                if($.trim($(this).val())==""){
+            $("#qus_Option_" + id + (count + 1)).blur(function () {
+                if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
-                    if ($("#qus_Option_error_" + id + (count+1)).length == 0)
+                    if ($("#qus_Option_error_" + id + (count + 1)).length == 0)
                         $(this).after('<em id="qus_Option_error_' + id + (count + 1) + '" class="error help-block red" style="width: 52px;margin-bottom: 5px;">必須填寫</em>');
                     check_Activity_Column_Data = false;
                 }
-                else{
+                else {
                     $(this).css({ "box-shadow": "" });
-                    $("#qus_Option_error_" + id + (count+1)).remove();
+                    $("#qus_Option_error_" + id + (count + 1)).remove();
                 }
             })
         };
@@ -799,7 +918,7 @@
 
         //#region 新增場次
         function add_Session_click() {
-            if (sessionId == 1) 
+            if (sessionId == 1)
                 var display = "display:none";
             else
                 var display = "";
@@ -899,9 +1018,9 @@
                 var if_int = /^[0-9]*[1-9][0-9]*$/;
                 var activity_Limit_Num_txt_temp = $(this).attr("id");
                 var activity_Limit_Num_txtId = activity_Limit_Num_txt_temp.split("_")[activity_Limit_Num_txt_temp.split("_").length - 1];
-                if ($.trim($(this).val()) == ""|| isNaN($.trim($(this).val())) || !if_int.test($.trim($(this).val())) ) {
+                if ($.trim($(this).val()) == "" || isNaN($.trim($(this).val())) || !if_int.test($.trim($(this).val()))) {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
-                    
+
                     if ($("#activity_Limit_Num_txt_error_" + activity_Limit_Num_txtId).length == 0)
                         $(this).after('<em id="activity_Limit_Num_txt_error_' + activity_Limit_Num_txtId + '" class="error help-block red" style="width: 105px;margin-bottom: 5px;">必須填寫整數數字</em>');
                     check_Activity_Data = false;
@@ -909,7 +1028,7 @@
                 else {
                     $(this).css({ "box-shadow": "" });
                     $("#activity_Limit_Num_txt_error_" + activity_Limit_Num_txtId).remove();
-                } 
+                }
             })
             //活動開始日期
             $("#datetimepicker_Activity_Start_txt_" + sessionId).blur(function () {
@@ -965,7 +1084,7 @@
                         $("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_End_txtId).css({ "box-shadow": "" });
                 }
                 //判斷在活動報名結束之前
-                if ($.trim($(this).val()) <= $.trim($("#datetimepicker_Activity_Sign_End_txt_" + datetimepicker_Activity_End_txtId).val()) && $.trim($("#datetimepicker_Activity_Sign_End_txt_" + datetimepicker_Activity_End_txtId).val()) != "" ) { 
+                if ($.trim($(this).val()) <= $.trim($("#datetimepicker_Activity_Sign_End_txt_" + datetimepicker_Activity_End_txtId).val()) && $.trim($("#datetimepicker_Activity_Sign_End_txt_" + datetimepicker_Activity_End_txtId).val()) != "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#datetimepicker_Activity_End_txt_error_withSignEnd_" + datetimepicker_Activity_End_txtId).length == 0)
                         $(this).after('<em id="datetimepicker_Activity_End_txt_error_withSignEnd_' + datetimepicker_Activity_End_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">活動結束日期必須在報名結束日期之後</em>');
@@ -1055,7 +1174,7 @@
             $('#delete_Session_div_' + chooseId).remove();
         };
         //#endregion
-        
+
         //#region 報名表問題拖拉 
         $(function () {
             $(".column").sortable({
@@ -1092,36 +1211,36 @@
         //#region 回到頂端按鈕 
         (function () {
             $("body").append("<img id='goTopButton' style='display: none; z-index: 5; cursor: pointer;' title='回到頂端'/>");
-                var img = "../Images/go-top.png",
-                locatioin = 9/10, // 按鈕出現在螢幕的高度
-                right = 10, // 距離右邊 px 值
-                opacity = 0.8, // 透明度
-                speed = 500, // 捲動速度
-                $button = $("#goTopButton"),
-                $body = $(document),
-                $win = $(window);
-                $button.attr("src", img);
-                $button.on({
-                mouseover: function() {$button.css("opacity", 1);},
-                mouseout: function() {$button.css("opacity", opacity);},
-                click: function() {$("html, body").animate({scrollTop: 0}, speed);}
-                });
-                window.goTopMove = function () {
-                    var scrollH = $body.scrollTop(),
-                    winH = $win.height(),
-                    css = {"top": winH * locatioin + "px", "position": "fixed", "right": right, "opacity": opacity};
-                    if(scrollH > 20) {
-                        $button.css(css);
-                        $button.fadeIn("slow");
-                    } else {
-                        $button.fadeOut("slow");
-                    }
-                };
-                $win.on({
-                    scroll: function() {goTopMove();},
-                    resize: function() {goTopMove();}
+            var img = "../Images/go-top.png",
+            locatioin = 9 / 10, // 按鈕出現在螢幕的高度
+            right = 10, // 距離右邊 px 值
+            opacity = 0.8, // 透明度
+            speed = 500, // 捲動速度
+            $button = $("#goTopButton"),
+            $body = $(document),
+            $win = $(window);
+            $button.attr("src", img);
+            $button.on({
+                mouseover: function () { $button.css("opacity", 1); },
+                mouseout: function () { $button.css("opacity", opacity); },
+                click: function () { $("html, body").animate({ scrollTop: 0 }, speed); }
             });
-        } )();
+            window.goTopMove = function () {
+                var scrollH = $body.scrollTop(),
+                winH = $win.height(),
+                css = { "top": winH * locatioin + "px", "position": "fixed", "right": right, "opacity": opacity };
+                if (scrollH > 20) {
+                    $button.css(css);
+                    $button.fadeIn("slow");
+                } else {
+                    $button.fadeOut("slow");
+                }
+            };
+            $win.on({
+                scroll: function () { goTopMove(); },
+                resize: function () { goTopMove(); }
+            });
+        })();
         //#endregion
 
         //#region 懸浮區塊
@@ -1293,7 +1412,7 @@
                             $("#datetimepicker_Activity_Sign_Start_txt_" + temp).after('<em id="datetimepicker_Activity_Sign_Start_txt_error_WithActStart_' + temp + '" class="error help-block red">報名開始時間不能相同於活動開始時間</em>');
                         check_Activity_Data = false;
                     }
-                    if (session_Json_Data.As_date_start != "" && session_Json_Data.As_date_end != "" && session_Json_Data.As_apply_start != "" && session_Json_Data.As_apply_end != ""){
+                    if (session_Json_Data.As_date_start != "" && session_Json_Data.As_date_end != "" && session_Json_Data.As_apply_start != "" && session_Json_Data.As_apply_end != "") {
                         if (session_Json_Data.As_date_start < session_Json_Data.As_date_end && session_Json_Data.As_date_start > session_Json_Data.As_apply_start && session_Json_Data.As_apply_start < session_Json_Data.As_apply_end && session_Json_Data.As_apply_start < session_Json_Data.As_date_end && session_Json_Data.As_apply_end < session_Json_Data.As_date_end) {
                             check_Activity_Data = true;
                         }
@@ -1305,7 +1424,7 @@
                     //判斷活動結束報名時間是否在活動開始時間之後
                     if (session_Json_Data.As_apply_end > session_Json_Data.As_date_start)
                         checkDataSignEnd = true;
-                    
+
                     jsondata.activity_Session_List.push(session_Json_Data);
                 }
             }
@@ -1327,6 +1446,8 @@
             activity_Json_Data.Act_contact_phone = $("#contact_Person_Phone_txt").val();
             //儲存相關連結
             activity_Json_Data.Act_relate_link = $("#relate_Link").val();
+            //儲存活動分類
+            activity_Json_Data.Act_class = $("#select_class").val();
             jsondata.activity_List.push(activity_Json_Data);
             //判斷活動名稱不能為空
             if (!activity_Json_Data.Act_title) {
@@ -1361,8 +1482,7 @@
             //var checkData = true;
             var jsondata = Save_Activity_Column_Json();
             //使用ajax傳送
-            if (check_Activity_Column_Data == true)
-            {
+            if (check_Activity_Column_Data == true) {
                 $.ajax({
                     type: 'post',
                     traditional: true,
@@ -1381,8 +1501,7 @@
                     }
                 });
             }
-            else if (check_Activity_Column_Data === false)
-            {
+            else if (check_Activity_Column_Data === false) {
                 alert("您有資料尚未填寫!!")
             }
         }
@@ -1489,7 +1608,7 @@
                                     }
 
                                 }
-                                
+
                                 activity_Column_Json_Data.Acc_validation = $("#select_Validation_" + chooseId).val() + ',' + min_Num + ',' + max_Num;
                             }
                             else
@@ -1569,7 +1688,7 @@
             //    alert("活動頁面以及報名表尚有資料未填寫或有錯誤");
         }
         // #endregion
-        
+
         function save() {
             Save_btn_Click();
             Save_Activity_btn_Click();

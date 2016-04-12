@@ -57,6 +57,10 @@
       <HintPath>..\DataAccess\Lib\DataAccessBase.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Design" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -239,6 +243,7 @@
     <Content Include="S02\S02010103.aspx" />
     <Content Include="S02\S02010201.aspx" />
     <Content Include="S02\S02010202.aspx" />
+    <Content Include="S02\S02010301.aspx" />
     <Content Include="S02\WebForm1.aspx" />
     <Content Include="Scripts\ITCFunctions.js" />
     <Content Include="Scripts\Lib\assets\css\style-responsive.css" />
@@ -793,6 +798,7 @@
     <Content Include="Scripts\Lib\validation\jquery.metadata.js" />
     <Content Include="Scripts\Lib\validation\jquery.validate.js" />
     <Content Include="Scripts\Lib\validation\messages_zh_TW.js" />
+    <Content Include="Uploads\2084\Img\2016-01-19 20_52_17-localhost_49917_WebForm1.png" />
     <Content Include="WebForm1.aspx" />
     <None Include="bin\Web.dll.config" />
     <Content Include="Scripts\Lib\ckeditor\.htaccess" />
@@ -855,6 +861,7 @@
     <Content Include="Scripts\Lib\assets\lineicons\fonts\linecons.ttf" />
     <Content Include="Scripts\Lib\assets\lineicons\fonts\linecons.woff" />
     <Content Include="Css\Lib\_titatoggle.less" />
+    <Content Include="packages.config" />
     <None Include="Scripts\Lib\jquery-1.9.1.min.intellisense.js" />
     <Content Include="Scripts\Lib\jquery-1.9.1.min.js" />
     <Content Include="Scripts\Lib\jquery-migrate-1.2.1.min.js" />
@@ -1240,6 +1247,13 @@
     <Compile Include="S02\S02010202.aspx.designer.cs">
       <DependentUpon>S02010202.aspx</DependentUpon>
     </Compile>
+    <Compile Include="S02\S02010301.aspx.cs">
+      <DependentUpon>S02010301.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S02\S02010301.aspx.designer.cs">
+      <DependentUpon>S02010301.aspx</DependentUpon>
+    </Compile>
     <Compile Include="S02\WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1335,7 +1349,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Template\" />
-    <Folder Include="Uploads\" />
+    <Folder Include="Uploads\2077\Img\" />
+    <Folder Include="Uploads\2077\relateFile\" />
+    <Folder Include="Uploads\2079\" />
+    <Folder Include="Uploads\2080\" />
+    <Folder Include="Uploads\2082\Img\" />
+    <Folder Include="Uploads\2082\relateFile\" />
+    <Folder Include="Uploads\2084\relateFile\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
