@@ -30,7 +30,7 @@
                                 <div class="photo-wrapper">
                                     <div class="photo">
                                         <a data-toggle="modal" href="#myModal">
-                                            <img class="img-responsive" src="assets/img/fcu.jpg" alt=""/></a>
+                                            <img class="img-responsive" src="assets/img/fcu.jpg" alt="" /></a>
                                     </div>
                                     <div class="overlay"></div>
                                 </div>
@@ -61,7 +61,11 @@
                             <hr />
                             <label class="control-label">活動簡介</label>
                             <br />
-                            <asp:Label ID="Act_desc_lbl" runat="server" Text="Label"></asp:Label>
+                            <!-- 設定活動簡介大小，超出變成卷軸 -->
+                            <div style="width:auto;height:400px;overflow-x:auto;overflow-y:auto;background-color:white;">
+                                <asp:Label ID="Act_desc_lbl" runat="server" Text="Label" ></asp:Label>
+                            </div>
+
                             <hr />
                             <label class="control-label">附加檔案</label>
                             <h5>我是附加檔案</h5>
@@ -82,6 +86,7 @@
 
     <script>
         $(document).ready(function () {
+            $(".label").ellipsis(true);
             //產生活動資訊
             getActivityList();
             //產生場次
@@ -158,7 +163,7 @@
             //轉換活動資訊的JSON字串成JSON物件
             var ActivityInfo = JSON.parse(ActivityInfo);
             var act_title = ActivityInfo[0].Act_title;
-            
+
             //設定主辦單位
             $("#unit").text(ActivityInfo[0].Act_unit);
             //設定聯絡人
@@ -213,7 +218,7 @@
         <div class="modal-dialog" style="display: inline-block; width: auto;">
             <div class="modal-content">
                 <div class="modal-body">
-                    <img class="img-responsive" src="assets/img/fcu.jpg" alt=""/>
+                    <img class="img-responsive" src="assets/img/fcu.jpg" alt="" />
                 </div>
             </div>
         </div>

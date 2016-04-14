@@ -35,6 +35,14 @@
       <h4>Firefox : 工具 -> 網頁開發者 -> 網頁工具箱 -> 選項 -> 取消打勾「停用JavaScript」</h4>
       <h4>IChrome : 設定 -> 顯示進階設定 -> 隱私權 -> 內容定... -> JavaScript -> 選擇「允許所有網站執行JavaScript」</h4>
     </noscript>
+    <!-- 統一公告事項 START -->
+    <div class="alert alert-danger" role="alert" style="margin-bottom: 0px;">
+        <h4 style="margin-bottom: 0px; text-align: center;">請注意：為因應個資法，活動超過『活動日期』後３０天，系統將會自動移除此相關報名資訊！請審慎使用！</h4>
+    </div>
+    <div class="alert alert-warning" role="alert" style="margin-bottom: 0px;">
+        <h4 style="margin-bottom: 0px; text-align: center;">請在建立完成活動頁面後，接著建立活動報名表 !</h4>
+    </div>
+    <!-- 統一公告事項 END -->
     <div id="Tabs" role="tabpanel">
         <!-- 建立活動標籤_START-->
         <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
@@ -79,14 +87,14 @@
                     <div class="row" id="add_Session_div">
                         <!-- 活動場次區塊_START -->
                         <h3><i class="fa fa-angle-right"></i>活動分類</h3>
-                        
-                            <select class="select" id="select_class" style="width:876.75px; height: 30px; border-radius: 4px; margin-bottom: 15px;;">
-                            </select>
-                        
+
+                        <select class="select" id="select_class" style="width: 876.75px; height: 30px; border-radius: 4px; margin-bottom: 15px;">
+                        </select>
+
                         <!-- 活動名稱 -->
                         <h3><i class="fa fa-angle-right"></i>活動名稱</h3>
                         <input type="text" class="form-control" placeholder="活動名稱" id="activity_Name_txt" /><br />
-                        
+
                     </div>
                     <!-- 增加活動區塊地方_END -->
 

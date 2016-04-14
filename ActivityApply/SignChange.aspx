@@ -105,7 +105,7 @@
                 type: 'post',
                 traditional: true,
                 //傳送資料到後台為getSectionList的function
-                url: 'Sign_Up.aspx/getSectionList',
+                url: 'SignChange.aspx/getSectionList',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 //成功時
@@ -128,7 +128,7 @@
                 type: 'post',
                 traditional: true,
                 //傳送資料到後台為getQuestionList的function
-                url: 'Sign_Up.aspx/getQuestionList',
+                url: 'SignChange.aspx/getQuestionList',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 //成功時
@@ -379,7 +379,7 @@
                 type: 'post',
                 traditional: true,
                 //傳送資料到後台為saveUserData的function
-                url: 'Sign_Up.aspx/saveUserData',
+                url: 'SignChange.aspx/saveUserData',
                 data: JSON.stringify(detailList),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",

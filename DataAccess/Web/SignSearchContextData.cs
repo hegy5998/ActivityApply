@@ -33,12 +33,12 @@ namespace DataAccess.Web
         #endregion
 
         #region 查詢
-        public DataTable GetEmailData(string aae_email)
+        public DataTable GetEmailData(string aae_email, string aae_password)
         {
             string sql = @"SELECT  aae_email, aae_password
                            FROM     activity_apply_email
-                           WHERE   (aae_password = @aae_email)";
-            IDataParameter[] param = { Db.GetParam("@aae_email", aae_email) };
+                           WHERE   (aae_password = @aae_password AND aae_email = @aae_email)";
+            IDataParameter[] param = { Db.GetParam("@aae_email", aae_email) ,Db.GetParam("@aae_password", aae_password) };
             return Db.GetDataTable(sql, param);
         }
         #endregion

@@ -19,9 +19,9 @@ namespace BusinessLayer.Web
         #endregion
 
         #region 取得email密碼
-        public DataTable GetEmailData(string aae_email)
+        public DataTable GetEmailData(string aae_email,string aae_password)
         {
-            return _data.GetEmailData(aae_email);
+            return _data.GetEmailData(aae_email, aae_password);
         }
         #endregion
 
