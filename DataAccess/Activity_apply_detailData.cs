@@ -12,7 +12,7 @@ using Util;
 
 namespace DataAccess
 {
-    public class Activity_apply_detailData : BaseData
+    public class Activity_apply_emailData : BaseData
     {
         /// <summary>
         /// 對應的Model型別

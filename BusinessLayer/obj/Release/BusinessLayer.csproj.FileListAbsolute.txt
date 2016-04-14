@@ -1,0 +1,17 @@
+C:\Users\Saki\Desktop\ActivityApply\BusinessLayer\bin\Release\BusinessLayer.dll
+C:\Users\Saki\Desktop\ActivityApply\BusinessLayer\bin\Release\BusinessLayer.pdb
+C:\Users\Saki\Desktop\ActivityApply\BusinessLayer\bin\Release\BusinessLayerBase.dll
+C:\Users\Saki\Desktop\ActivityApply\BusinessLayer\bin\Release\DataAccess.dll
+C:\Users\Saki\Desktop\ActivityApply\BusinessLayer\bin\Release\DataAccessBase.dll
+C:\Users\Saki\Desktop\ActivityApply\BusinessLayer\bin\Release\Model.dll
+C:\Users\Saki\Desktop\ActivityApply\BusinessLayer\bin\Release\Util.dll
+C:\Users\Saki\Desktop\ActivityApply\BusinessLayer\bin\Release\UtilBase.dll
+C:\Users\Saki\Desktop\ActivityApply\BusinessLayer\bin\Release\DataAccess.pdb
+C:\Users\Saki\Desktop\ActivityApply\BusinessLayer\bin\Release\Model.pdb
+C:\Users\Saki\Desktop\ActivityApply\BusinessLayer\bin\Release\Util.pdb
+C:\Users\Saki\Desktop\ActivityApply\BusinessLayer\bin\Release\BusinessLayerBase.xml
+C:\Users\Saki\Desktop\ActivityApply\BusinessLayer\bin\Release\DataAccessBase.xml
+C:\Users\Saki\Desktop\ActivityApply\BusinessLayer\bin\Release\UtilBase.xml
+C:\Users\Saki\Desktop\ActivityApply\BusinessLayer\obj\Release\BusinessLayer.csprojResolveAssemblyReference.cache
+C:\Users\Saki\Desktop\ActivityApply\BusinessLayer\obj\Release\BusinessLayer.dll
+C:\Users\Saki\Desktop\ActivityApply\BusinessLayer\obj\Release\BusinessLayer.pdb

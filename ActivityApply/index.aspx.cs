@@ -11,11 +11,7 @@ namespace Register
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-            {
-                Response.Redirect("activity_List.aspx?act_class=0");
-                Response.End();
-            }
+
         }
     }
 }

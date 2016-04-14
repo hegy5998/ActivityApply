@@ -1,0 +1,1812 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UtilBase</name>
+    </assembly>
+    <members>
+        <member name="T:Util.CommonConvert">
+            <summary>
+            数据转换工具类，包括数值数据、引用数据各种转换的公用方法
+            添加新方法时请注意该方法是否多项目可用
+            </summary>
+        </member>
+        <member name="M:Util.CommonConvert.GetIntQueryString(System.String)">
+            <summary>
+            从QueryString中获取int类型数据，如果为空返回0，调用时请注意检查
+            </summary>
+            <param name="name">QueryString的key</param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonConvert.GetStringQueryString(System.String)">
+            <summary>
+            从QueryString中获取string类型数据，如果为空返回string.Empty，调用时请注意检查
+            </summary>
+            <param name="name">QueryString的key</param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonConvert.GetDateTimeOrMin(System.Object)">
+            <summary>
+            把object对象转换成DateTime?，如果目标为空返回"1900-1-1"
+            适用于从页面对象中获取DateTime?
+            如果转换失败将返回null，请在调用时进行检查并给予相应处理
+            </summary>
+            <param name="objValue">需要进行转换的对象</param>
+            <returns>时间格式的对象</returns>
+        </member>
+        <member name="M:Util.CommonConvert.GetDateTimeOrNull(System.Object)">
+            <summary>
+            把object对象转换成DateTime?，如果目标为空返回null
+            适用于从数据源中获取DateTime?
+            如果出现异常将抛出异常，请在调用时进行异常处理
+            </summary>
+            <param name="objValue">需要进行转换的对象</param>
+            <returns>时间格式的对象</returns>
+        </member>
+        <member name="M:Util.CommonConvert.GetDateTimeOrNullAll(System.Object)">
+            <summary>
+            不抛出异常
+            </summary>
+            <param name="objValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonConvert.ConvertDateTimeToShortStr(System.DateTime)">
+            <summary>
+            把日期类型转换成短日期字符串，如果其值为"1900-1-1"，则返回空值
+            </summary>
+            <param name="dateTime"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonConvert.ConvertDateTimeToStr(System.DateTime,System.String)">
+            <summary>
+            把日期类型按格式转换成日期字符串，如果其值为"1900-1-1"，返回空值，如果format参数为空值或者为空，返回短日期字符串
+            </summary>
+            <param name="dateTime">要进行转换的日期数据</param>
+            <param name="strFormat">返回字符串的格式，如"yyyy/MM/dd"</param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonConvert.ConvertDateTimeToStr(System.Nullable{System.DateTime},System.String)">
+            <summary>
+            如果dateTime 在db里是null, 返回string.empty.
+            </summary>
+            <param name="dateTime"></param>
+            <param name="strFormat"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonConvert.GetRoc7DateTimeOrMin(System.Object)">
+            <summary>
+            轉換成 7 碼民國年月日（ex. 1020127）
+            </summary>
+            <param name="date"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonConvert.GetRoc7DateTimeOrMax(System.Object)">
+            <summary>
+            轉換成 7 碼民國年月日（ex. 1020127）
+            </summary>
+            <param name="date"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonConvert.ConvertAdTo6DRoc(System.String)">
+            <summary>
+            轉換西元日期成 6 碼沒有連接符號的民國日期(ex. 021124)
+            </summary>
+            <param name="AdDateTime"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonConvert.ConvertAdTo7DRoc(System.String)">
+            <summary>
+            轉換西元日期成 7 碼沒有連接符號的民國日期(ex. 1021124)
+            </summary>
+            <param name="AdDateTime"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonConvert.ConvertArrayToStrArray``1(``0[])">
+            <summary>
+            将目标数组转换成string[]
+            调用时请注意定义范型T
+            </summary>
+            <typeparam name="T">源数组的数据类型</typeparam>
+            <param name="sourceArray">源数组</param>
+            <returns>返回string[]</returns>
+        </member>
+        <member name="M:Util.CommonConvert.ConvertArrayToStrList``1(``0[])">
+            <summary>
+            将目标数据转换成List of string
+            </summary>
+            <typeparam name="T">源数组的数据类型</typeparam>
+            <param name="sourceArray">源数组</param>
+            <returns>返回List of string</returns>
+        </member>
+        <member name="M:Util.CommonConvert.GetIntOrZero(System.Object)">
+            <summary>
+            将object转换成int
+            强处理方法，如果目标为空或者转换异常都将返回0，请注意处理
+            </summary>
+            <param name="objValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonConvert.GetLongOrZero(System.Object)">
+            <summary>
+            将object转换成Long
+            强处理方法，如果目标为空或者转换异常都将返回0，请注意处理
+            </summary>
+            <param name="objValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonConvert.GetDecimalOrZero(System.Object,System.Double)">
+            <summary>
+            取得Decimal數值或0
+            </summary>
+            <param name="objValue">要轉換的資料</param>
+            <param name="degit">小數取到第X位(無條件捨去)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonConvert.GetHtmlDecodeStr(System.Web.UI.WebControls.TextBox)">
+            <summary>
+            從頁面中獲取字符串，附加HTMLDeCode
+            </summary>
+            <param name="txt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonConvert.InsertSubstrIntoStrByDirectionAndNum(System.String,System.Boolean,System.Int32,System.String)">
+            <summary>
+            对字符串str，从前向后(或从后想前)，每隔pos个字符，在str插入一个substr，返回strResult
+            </summary>
+            <param name="str">str</param>
+            <param name="strartToend">strartToend</param>
+            <param name="pos">pos</param>
+            <param name="substr">substr</param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonConvert.GetValueOrDBNull(System.Object)">
+            <summary>
+            獲取參數或者DBNull
+            </summary>
+            <param name="objValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonConvert.GetBytesHasLength(System.IO.Stream)">
+            <summary>
+            如果Stream的 Length属性可读使用该访问将Stream转换成byte[]
+            </summary>
+            <param name="stream"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonConvert.GetBytes(System.IO.Stream)">
+            <summary>
+            如果Stream的 Length属性不可读使用该访问将Stream转换成byte[]
+            </summary>
+            <param name="stream"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonConvert.GetStream(System.Byte[])">
+            <summary>
+            将byte[]转换成Stream
+            </summary>
+            <param name="bytes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonConvert.ConvertYYYMMDDToCh(System.String,System.Boolean)">
+            <summary>
+            轉換YYYMMDD為"YYY年MM月DD日"
+            </summary>
+            <param name="yyymmdd">須轉換的字串(須為7碼yyymmdd)</param>
+            <param name="includeSpace">中文跟數字間是否插入空白</param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonConvert.ConvertYYYMMDDToDateTime(System.String)">
+            <summary>
+            轉換YYYMMDD為Datetime物件
+            </summary>
+            <param name="yyymmdd">須轉換的字串(須為7碼yyymmdd)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonConvert.ConvertJSONRequestBodyToDict(System.Web.HttpRequest)">
+            <summary>
+            轉換Request中JSON格式的Body為Dictionary
+            </summary>
+            <param name="r"></param>
+            <returns></returns>
+        </member>
+        <member name="F:Util.CommonHelper.SysConfigUpdtime">
+            <summary>
+            系統參數AP更新時間
+            </summary>
+        </member>
+        <member name="M:Util.CommonHelper.GetSysConfig(System.Boolean)">
+            <summary>
+            取得系統參數(Application["SysConfig"])
+            </summary>
+            <param name="refresh">是否重新從DB讀取參數</param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonHelper.GetLoginUser">
+            <summary>
+            取得目前登入的使用者帳號資料(Session["LoginUser"])
+            <para>※ 若查無資料，則回傳空的Model.Common.LoginUserInfo</para>
+            </summary>
+            <returns>使用者帳號資料</returns>
+        </member>
+        <member name="M:Util.CommonHelper.GetDBDateTime">
+            <summary>
+            取得DB時間
+            </summary>
+            <returns>DB時間(yyyy/MM/dd HH:mm:ss)</returns>
+        </member>
+        <member name="M:Util.CommonHelper.GetDBDateTimeRoc7">
+            <summary>
+            取得7碼(ex.0931114)DB時間
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonHelper.GetCurSysId">
+            <summary>
+            取得目前登入系統代碼
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonHelper.GetCurSysPid">
+            <summary>
+            取得目前登入作業代碼
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonHelper.GetServerIP">
+            <summary>
+            取得伺服器IP
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonHelper.GetClientOS">
+            <summary>
+            取得使用者的作業系統名稱
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonHelper.GetClientBrowser">
+            <summary>
+            取得使用者的瀏覽器名稱
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonHelper.GetClientIP">
+            <summary>
+            取得使用者IP
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonHelper.IsCompanySerialNumber(System.String)">
+            <summary>
+            驗證統一編號格式
+            </summary>
+            <param name="sn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonHelper.GetChtYear">
+            <summary>
+            取得現在的民國年
+            </summary>
+            <returns>現在的民國年</returns>
+        </member>
+        <member name="M:Util.CommonHelper.GetChtYear(System.Int32)">
+            <summary>
+            取得西元年對應的民國年
+            </summary>
+            <param name="year">西元年</param>
+            <returns>民國年</returns>
+        </member>
+        <member name="M:Util.CommonHelper.Encrypt(System.String,System.String)">
+            <summary>
+            加密
+            </summary>
+            <param name="stringToEncrypt">要加密的文字</param>
+            <param name="sKey">salted value</param>
+            <returns>加密後的文字</returns>
+        </member>
+        <member name="M:Util.CommonHelper.Decrypt(System.String,System.String)">
+            <summary>
+            解密
+            </summary>
+            <param name="stringToDecrypt">要解密的字串</param>
+            <param name="sKey">salted value</param>
+            <returns>解密後的字串</returns>
+        </member>
+        <member name="M:Util.CommonHelper.GetMD5StrWithSaltValue(System.String,System.String)">
+            <summary>
+            不可逆的md5加密算法
+            </summary>
+            <param name="sourceStr">要加密的字串</param>
+            <param name="saltedStr">salted value</param>
+            <returns>加密後的字串</returns>
+        </member>
+        <member name="M:Util.CommonHelper.SetCache(System.String,System.Object,System.Double)">
+            <summary>
+            建立快取
+            </summary>
+            <param name="cacheMenuKey">cache key</param>
+            <param name="data_obj">要存入Cache的資料</param>
+            <param name="validDuration">有效時間(分)</param>
+        </member>
+        <member name="M:Util.CommonHelper.ValidateModel``1(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Model驗證
+            </summary>
+            <typeparam name="T">Model型別</typeparam>
+            <param name="dict">資料</param>
+            <returns></returns>
+        </member>
+        <member name="T:Util.CommonHelper.InitSysConfigHandler">
+            <summary>
+            設定系統參數 delegate 
+            </summary>
+        </member>
+        <member name="T:Util.CommonResult">
+            <summary>
+            Function執行的結果結構
+            </summary>
+        </member>
+        <member name="M:Util.CommonResult.#ctor(System.Boolean,System.String,System.Int32)">
+            <summary>
+            建構子
+            </summary>
+            <param name="isSuccess">是否執行成功</param>
+            <param name="message">回傳的訊息</param>
+            <param name="affectedRows">影響的資料筆數</param>
+        </member>
+        <member name="P:Util.CommonResult.IsSuccess">
+            <summary>
+            是否執行成功
+            </summary>
+        </member>
+        <member name="P:Util.CommonResult.Message">
+            <summary>
+            回傳的訊息
+            </summary>
+        </member>
+        <member name="P:Util.CommonResult.MessageList">
+            <summary>
+            回傳的訊息列表
+            </summary>
+        </member>
+        <member name="P:Util.CommonResult.AffectedRows">
+            <summary>
+            影響的資料筆數
+            </summary>
+        </member>
+        <member name="T:Util.CommonResult`1">
+            <summary>
+            Function執行的結果結構
+            </summary>
+        </member>
+        <member name="M:Util.CommonResult`1.#ctor(System.Boolean,System.String,System.Int32)">
+            <summary>
+            建構子
+            </summary>
+            <param name="isSuccess">是否執行成功</param>
+            <param name="message">回傳的訊息</param>
+            <param name="affectedRows">影響的資料筆數</param>
+        </member>
+        <member name="P:Util.CommonResult`1.IsSuccess">
+            <summary>
+            是否執行成功
+            </summary>
+        </member>
+        <member name="P:Util.CommonResult`1.Message">
+            <summary>
+            回傳的訊息
+            </summary>
+        </member>
+        <member name="P:Util.CommonResult`1.MessageList">
+            <summary>
+            回傳的訊息列表
+            </summary>
+        </member>
+        <member name="P:Util.CommonResult`1.AffectedRows">
+            <summary>
+            影響的資料筆數
+            </summary>
+        </member>
+        <member name="P:Util.CommonResult`1.CustomItem">
+            <summary>
+            要回傳的物件
+            </summary>
+        </member>
+        <member name="M:Util.DataConvert.DataTableToList``1(System.Data.DataTable)">
+            <summary>
+            DataTable轉List
+            </summary>
+            <typeparam name="T">List物件的型別</typeparam>
+            <param name="DataTable">DataTable</param>
+            <returns>List</returns>
+        </member>
+        <member name="M:Util.DataConvert.ListToDataTable``1(System.Collections.Generic.List{``0})">
+            <summary>
+            List轉DataTable
+            </summary>
+            <typeparam name="T">List物件型別</typeparam>
+            <param name="DataList">List</param>
+            <returns>DataTable</returns>
+        </member>
+        <member name="M:Util.IDbHelper.ExecuteNonQuery(System.String,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行非查詢的SQL語句
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>影響的資料列筆數</returns>
+        </member>
+        <member name="M:Util.IDbHelper.ExecuteNonQuery(System.Data.IDbTransaction,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行非查詢的SQL語句
+            </summary>
+            <param name="trans">Transaction物件</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>影響的資料列筆數</returns>
+        </member>
+        <member name="M:Util.IDbHelper.ExecuteReader(System.String,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行查詢SQL語句
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>IDataReader資料庫讀取的資料流</returns>
+        </member>
+        <member name="M:Util.IDbHelper.ExecuteReader(System.Data.IDbTransaction,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行查詢SQL語句
+            </summary>
+            <param name="trans">Transaction物件</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>IDataReader資料庫讀取的資料流</returns>
+        </member>
+        <member name="M:Util.IDbHelper.ExecuteScalar(System.String,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行查詢SQL語句，並回傳第一列第一行的資料
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>第一列第一行的資料</returns>
+        </member>
+        <member name="M:Util.IDbHelper.ExecuteScalar(System.Data.IDbTransaction,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行查詢SQL語句，並回傳第一列第一行的資料
+            </summary>
+            <param name="trans">Transaction物件</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>第一列第一行的資料</returns>
+        </member>
+        <member name="M:Util.IDbHelper.GetTransaction(System.String)">
+            <summary>
+            取得Transaction物件
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <returns>Transaction物件</returns>
+        </member>
+        <member name="M:Util.IDbHelper.Commit(System.Data.IDbTransaction)">
+            <summary>
+            Commit Transaction，並關閉connection
+            </summary>
+            <param name="trans">transaction物件</param>
+        </member>
+        <member name="M:Util.IDbHelper.Rollback(System.Data.IDbTransaction)">
+            <summary>
+            Rollback Transaction，並關閉connection
+            </summary>
+            <param name="trans">transaction物件</param>
+        </member>
+        <member name="M:Util.IDbHelper.GetDbConnection(System.String)">
+            <summary>
+            取得資料庫連線物件
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <returns>連線物件</returns>
+        </member>
+        <member name="M:Util.IDbHelper.GetParam(System.String,System.Object,System.Nullable{System.Data.DbType})">
+            <summary>
+            取得參數物件(若輸入的value為null，則會轉換為DBNull.Value)
+            </summary>
+            <param name="parameterName">參數名稱</param>
+            <param name="value">值</param>
+            <param name="dbType">資料庫欄位型態</param>
+            <returns>參數物件</returns>
+        </member>
+        <member name="M:Util.IDbHelper.TryConnection(System.String)">
+            <summary>
+            檢測是否可連線成功
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <returns></returns>
+        </member>
+        <member name="P:Util.IDbHelper.CommandTimeout">
+            <summary>
+            SQL 執行 Timeout 時間(秒)
+            </summary>
+        </member>
+        <member name="P:Util.IDbHelper.DbNowTimeSQL">
+            <summary>
+            取得資料庫時間的SQL
+            </summary>
+            <returns>取得資料庫時間的SQL</returns>
+        </member>
+        <member name="M:Util.Database.OdbcHelper.ExecuteNonQuery(System.String,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行非查詢的SQL語句
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>影響的資料列筆數</returns>
+        </member>
+        <member name="M:Util.Database.OdbcHelper.ExecuteNonQuery(System.Data.IDbTransaction,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行非查詢的SQL語句
+            </summary>
+            <param name="trans">Transaction物件</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>影響的資料列筆數</returns>
+        </member>
+        <member name="M:Util.Database.OdbcHelper.ExecuteReader(System.String,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行查詢SQL語句
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>IDataReader資料庫讀取的資料流</returns>
+        </member>
+        <member name="M:Util.Database.OdbcHelper.ExecuteReader(System.Data.IDbTransaction,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行查詢SQL語句
+            </summary>
+            <param name="trans">Transaction物件</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>IDataReader資料庫讀取的資料流</returns>
+        </member>
+        <member name="M:Util.Database.OdbcHelper.ExecuteScalar(System.String,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行查詢SQL語句，並回傳第一列第一行的資料
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>第一列第一行的資料</returns>
+        </member>
+        <member name="M:Util.Database.OdbcHelper.ExecuteScalar(System.Data.IDbTransaction,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行查詢SQL語句，並回傳第一列第一行的資料
+            </summary>
+            <param name="trans">Transaction物件</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>第一列第一行的資料</returns>
+        </member>
+        <member name="M:Util.Database.OdbcHelper.GetTransaction(System.String)">
+            <summary>
+            取得Transaction物件
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <returns>Transaction物件</returns>
+        </member>
+        <member name="M:Util.Database.OdbcHelper.Commit(System.Data.IDbTransaction)">
+            <summary>
+            Commit Transaction，並關閉connection
+            </summary>
+            <param name="trans">transaction物件</param>
+        </member>
+        <member name="M:Util.Database.OdbcHelper.Rollback(System.Data.IDbTransaction)">
+            <summary>
+            Rollback Transaction，並關閉connection
+            </summary>
+            <param name="trans">Transaction物件</param>
+        </member>
+        <member name="M:Util.Database.OdbcHelper.PrepareCommand(System.Data.IDbCommand,System.Data.IDbConnection,System.Data.IDbTransaction,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行SQL的前置動作(設定Command參數，並開啟Connection)
+            </summary>
+            <param name="cmd">Command物件</param>
+            <param name="conn">Connection物件</param>
+            <param name="trans">Transaction物件</param>
+            <param name="cmdType">CommandType物件</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="cmdParms">參數</param>
+        </member>
+        <member name="M:Util.Database.OdbcHelper.GetDbConnection(System.String)">
+            <summary>
+            取得資料庫連線物件
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <returns>連線物件</returns>
+        </member>
+        <member name="M:Util.Database.OdbcHelper.GetParam(System.String,System.Object,System.Nullable{System.Data.DbType})">
+            <summary>
+            取得參數物件(若輸入的value為null，則會轉換為DBNull.Value)
+            </summary>
+            <param name="parameterName">參數名稱</param>
+            <param name="value">值</param>
+            <param name="dbType">資料庫欄位型態</param>
+            <returns>參數物件</returns>
+        </member>
+        <member name="M:Util.Database.OdbcHelper.TryConnection(System.String)">
+            <summary>
+            檢測是否可連線成功，若連線失敗，則拋出Exception。
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <returns></returns>
+        </member>
+        <member name="P:Util.Database.OdbcHelper.CommandTimeout">
+            <summary>
+            SQL 執行 Timeout 時間(秒)
+            </summary>
+        </member>
+        <member name="P:Util.Database.OdbcHelper.DbNowTimeSQL">
+            <summary>
+            取得資料庫時間SQL，預設使用"select getdate()"
+            </summary>
+            <returns>取得資料庫時間的SQL</returns>
+        </member>
+        <member name="M:Util.Database.OleDbHelper.ExecuteNonQuery(System.String,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行非查詢的SQL語句
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>影響的資料列筆數</returns>
+        </member>
+        <member name="M:Util.Database.OleDbHelper.ExecuteNonQuery(System.Data.IDbTransaction,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行非查詢的SQL語句
+            </summary>
+            <param name="trans">Transaction物件</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>影響的資料列筆數</returns>
+        </member>
+        <member name="M:Util.Database.OleDbHelper.ExecuteReader(System.String,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行查詢SQL語句
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>IDataReader資料庫讀取的資料流</returns>
+        </member>
+        <member name="M:Util.Database.OleDbHelper.ExecuteReader(System.Data.IDbTransaction,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行查詢SQL語句
+            </summary>
+            <param name="trans">Transaction物件</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>IDataReader資料庫讀取的資料流</returns>
+        </member>
+        <member name="M:Util.Database.OleDbHelper.ExecuteScalar(System.String,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行查詢SQL語句，並回傳第一列第一行的資料
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>第一列第一行的資料</returns>
+        </member>
+        <member name="M:Util.Database.OleDbHelper.ExecuteScalar(System.Data.IDbTransaction,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行查詢SQL語句，並回傳第一列第一行的資料
+            </summary>
+            <param name="trans">Transaction物件</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>第一列第一行的資料</returns>
+        </member>
+        <member name="M:Util.Database.OleDbHelper.GetTransaction(System.String)">
+            <summary>
+            取得Transaction物件
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <returns>Transaction物件</returns>
+        </member>
+        <member name="M:Util.Database.OleDbHelper.Commit(System.Data.IDbTransaction)">
+            <summary>
+            Commit Transaction，並關閉connection
+            </summary>
+            <param name="trans">transaction物件</param>
+        </member>
+        <member name="M:Util.Database.OleDbHelper.Rollback(System.Data.IDbTransaction)">
+            <summary>
+            Rollback Transaction，並關閉connection
+            </summary>
+            <param name="trans">Transaction物件</param>
+        </member>
+        <member name="M:Util.Database.OleDbHelper.PrepareCommand(System.Data.IDbCommand,System.Data.IDbConnection,System.Data.IDbTransaction,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行SQL的前置動作(設定Command參數，並開啟Connection)
+            </summary>
+            <param name="cmd">Command物件</param>
+            <param name="conn">Connection物件</param>
+            <param name="trans">Transaction物件</param>
+            <param name="cmdType">CommandType物件</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="cmdParms">參數</param>
+        </member>
+        <member name="M:Util.Database.OleDbHelper.GetDbConnection(System.String)">
+            <summary>
+            取得資料庫連線物件
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <returns>連線物件</returns>
+        </member>
+        <member name="M:Util.Database.OleDbHelper.GetParam(System.String,System.Object,System.Nullable{System.Data.DbType})">
+            <summary>
+            取得參數物件(若輸入的value為null，則會轉換為DBNull.Value)
+            </summary>
+            <param name="parameterName">參數名稱</param>
+            <param name="value">值</param>
+            <param name="dbType">資料庫欄位型態</param>
+            <returns>參數物件</returns>
+        </member>
+        <member name="M:Util.Database.OleDbHelper.TryConnection(System.String)">
+            <summary>
+            檢測是否可連線成功，若連線失敗，則拋出Exception。
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <returns></returns>
+        </member>
+        <member name="P:Util.Database.OleDbHelper.CommandTimeout">
+            <summary>
+            SQL 執行 Timeout 時間(秒)
+            </summary>
+        </member>
+        <member name="P:Util.Database.OleDbHelper.DbNowTimeSQL">
+            <summary>
+            取得資料庫時間SQL，預設使用"select getdate()"
+            </summary>
+            <returns>取得資料庫時間的SQL</returns>
+        </member>
+        <member name="M:Util.Database.Schema.CommonDbSchemaHelper.GetTableNames">
+            <summary>
+            取得所有資料表名稱
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Util.Database.Schema.CommonDbSchemaHelper.GetTableSchema(System.String)">
+            <summary>
+            取得特定資料表的Schema
+            </summary>
+            <param name="tableName">資料表名稱</param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.Database.Schema.IDbSchemaHelper.GetTableNames">
+            <summary>
+            取得所有資料表名稱
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Util.Database.Schema.IDbSchemaHelper.GetTableSchema(System.String)">
+            <summary>
+            取得特定資料表的Schema
+            </summary>
+            <param name="tableName">資料表名稱</param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.Database.Schema.SqlSchemaHelper.GetTableNames">
+            <summary>
+            取得所有資料表名稱
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Util.Database.Schema.SqlSchemaHelper.GetTableSchema(System.String)">
+            <summary>
+            取得特定資料表的Schema
+            </summary>
+            <param name="tableName">資料表名稱</param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.Database.Schema.SybaseASASchemaHelper.GetTableNames">
+            <summary>
+            取得所有資料表名稱
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Util.Database.Schema.SybaseASASchemaHelper.GetTableSchema(System.String)">
+            <summary>
+            取得特定資料表的Schema
+            </summary>
+            <param name="tableName">資料表名稱</param>
+            <returns></returns>
+        </member>
+        <member name="P:Util.Database.Schema.TableColumn.ColumnName">
+            <summary>
+            欄位名稱
+            </summary>
+        </member>
+        <member name="P:Util.Database.Schema.TableColumn.ColumnType">
+            <summary>
+            欄位對應的C#型別
+            </summary>
+        </member>
+        <member name="P:Util.Database.Schema.TableColumn.ColumnNativeType">
+            <summary>
+            欄位資料庫型別
+            </summary>
+        </member>
+        <member name="P:Util.Database.Schema.TableColumn.Length">
+            <summary>
+            長度
+            </summary>
+        </member>
+        <member name="P:Util.Database.Schema.TableColumn.Scale">
+            <summary>
+            小數位數
+            </summary>
+        </member>
+        <member name="P:Util.Database.Schema.TableColumn.AllowNull">
+            <summary>
+            是否可為Null
+            </summary>
+        </member>
+        <member name="P:Util.Database.Schema.TableColumn.IsIdentity">
+            <summary>
+            是否為資料庫自動產生的欄位
+            </summary>
+        </member>
+        <member name="P:Util.Database.Schema.TableColumn.IsPrimaryKey">
+            <summary>
+            是否為PrimaryKey
+            </summary>
+        </member>
+        <member name="P:Util.Database.Schema.TableColumn.Description">
+            <summary>
+            欄位描述
+            </summary>
+        </member>
+        <member name="M:Util.Database.Schema.SybaseASESchemaHelper.GetTableNames">
+            <summary>
+            取得所有資料表名稱
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Util.Database.Schema.SybaseASESchemaHelper.GetTableSchema(System.String)">
+            <summary>
+            取得特定資料表的Schema
+            </summary>
+            <param name="tableName">資料表名稱</param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.ErrorHelper.Init(System.Boolean,System.Boolean,System.String)">
+            <summary>
+            初始化
+            </summary>
+            <param name="writeLogFile">是否在AP端寫入Log檔</param>
+            <param name="mailNotify">是否寄發Email</param>
+            <param name="mails">Email清單(若有多個，則以','區隔)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.ErrorHelper.ErrorProcess(System.Exception)">
+            <summary>
+            呼叫錯誤處理
+            </summary>
+            <param name="ex"></param>
+        </member>
+        <member name="M:Util.ErrorHelper.ErrorProcess(System.Exception,System.Web.HttpRequest,System.Web.HttpServerUtility,System.Web.HttpResponse)">
+            <summary>
+            呼叫錯誤處理
+            </summary>
+            <param name="ex"></param>
+            <param name="Request"></param>
+            <param name="Server"></param>
+            <param name="Response"></param>
+        </member>
+        <member name="P:Util.ErrorHelper.ConfigModel.WriteLogFile">
+            <summary>
+            是否在AP端寫入Log檔
+            </summary>
+        </member>
+        <member name="P:Util.ErrorHelper.ConfigModel.MailNotify">
+            <summary>
+            是否寄發Email
+            </summary>
+        </member>
+        <member name="P:Util.ErrorHelper.ConfigModel.Mails">
+            <summary>
+            Email清單(若有多個，則以','區隔)
+            </summary>
+        </member>
+        <member name="M:Util.DateTimeExt.ToYMDHMS(System.DateTime,System.String)">
+            <summary>
+            將時間輸出為 2015/08/10 17:52:22 的格式
+            </summary>
+            <param name="t">時間</param>
+            <param name="s">日期分格符號(預設為"/")</param>
+            <returns>格式化後的文字</returns>
+        </member>
+        <member name="M:Util.DateTimeExt.ToYMDHM(System.DateTime,System.String)">
+            <summary>
+            將時間輸出為 2015/08/10 17:52 的格式
+            </summary>
+            <param name="t">時間</param>
+            <param name="s">日期分格符號(預設為"/")</param>
+            <returns>格式化後的文字</returns>
+        </member>
+        <member name="M:Util.DateTimeExt.ToYMD(System.DateTime,System.String)">
+            <summary>
+            將時間輸出為 2015/08/10 的格式
+            </summary>
+            <param name="t">時間</param>
+            <param name="s">日期分格符號(預設為"/")</param>
+            <returns>格式化後的文字</returns>
+        </member>
+        <member name="M:Util.DateTimeExt.ToYMD_ROC(System.DateTime,System.String)">
+            <summary>
+            將時間輸出為民國年 104/08/10 的格式
+            </summary>
+            <param name="t">時間</param>
+            <param name="s">日期分格符號(預設為"/")</param>
+            <returns>格式化後的文字</returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.#ctor(System.String,Util.CommonDbHelper.DbConnType)">
+            <summary>
+            建立資料庫連接物件
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <param name="dbConnType">資料庫類型</param>
+            <param name="dbTimeout"></param>
+        </member>
+        <member name="M:Util.CommonDbHelper.ExecuteNonQuery(System.String,System.Data.IDataParameter[])">
+            <summary>
+            ExecuteNonQuery，以CommandType為CommandType.Text的方式取得資料
+            </summary>
+            <param name="cmdText">SQL指令</param>
+            <param name="commandParameters">參數</param>
+            <returns>影響的資料筆數</returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.ExecuteNonQuery(System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            查詢資料
+            </summary>
+            <param name="cmdType">SQL指令類型</param>
+            <param name="cmdText">SQL指令</param>
+            <param name="commandParameters">參數</param>
+            <returns>影響的資料筆數</returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.ExecuteNonQuery(System.Data.IDbTransaction,System.String,System.Data.IDataParameter[])">
+            <summary>
+            查詢資料，使用Transaction，並以CommandType為CommandType.Text的方式取得資料
+            <para>※ 如果Transaction傳入null，則自動以非Transaction方式執行</para>
+            </summary>
+            <param name="trans">Transaction物件</param>
+            <param name="cmdText">SQL指令</param>
+            <param name="commandParameters">參數</param>
+            <returns>影響的資料筆數</returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.ExecuteNonQuery(System.Data.IDbTransaction,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            查詢資料，使用Transaction
+            <para>※ 如果Transaction傳入null，則自動以非Transaction方式執行</para>
+            </summary>
+            <param name="trans">Transaction物件</param>
+            <param name="cmdType">SQL指令類型</param>
+            <param name="cmdText">SQL指令</param>
+            <param name="commandParameters">參數</param>
+            <returns>影響的資料筆數</returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.ExecuteScalar(System.String,System.Data.IDataParameter[])">
+            <summary>
+            ExecuteScaler，以CommandType為CommandType.Text的方式取得資料
+            </summary>
+            <param name="cmdText">SQL指令</param>
+            <param name="commandParameters">參數</param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.ExecuteScalar(System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            查詢資料
+            </summary>
+            <param name="cmdType">SQL指令類型</param>
+            <param name="cmdText">SQL指令</param>
+            <param name="commandParameters">參數</param>
+            <returns>影響的資料筆數</returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.ExecuteScalar(System.Data.IDbTransaction,System.String,System.Data.IDataParameter[])">
+            <summary>
+            查詢資料，使用Transaction，並以CommandType為CommandType.Text的方式取得資料
+            <para>※ 如果Transaction傳入null，則自動以非Transaction方式執行</para>
+            </summary>
+            <param name="trans">Transaction物件</param>
+            <param name="cmdText">SQL指令</param>
+            <param name="commandParameters">參數</param>
+            <returns>影響的資料筆數</returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.ExecuteScalar(System.Data.IDbTransaction,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            查詢資料，使用Transaction
+            <para>※ 如果Transaction傳入null，則自動以非Transaction方式執行</para>
+            </summary>
+            <param name="trans">Transaction物件</param>
+            <param name="cmdType">SQL指令類型</param>
+            <param name="cmdText">SQL指令</param>
+            <param name="commandParameters">參數</param>
+            <returns>影響的資料筆數</returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.GetDataTable(System.String,System.Data.IDataParameter[])">
+            <summary>
+            查詢資料，以CommandType為CommandType.Text的方式取得資料
+            </summary>
+            <param name="cmdText">SQL指令</param>
+            <param name="commandParameters">參數</param>
+            <returns>符合查詢結果的資料</returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.GetDataTable(System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            查詢資料
+            </summary>
+            <param name="cmdType">SQL指令類型</param>
+            <param name="cmdText">SQL指令</param>
+            <param name="commandParameters">參數</param>
+            <returns>符合查詢結果的資料</returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.GetDataTable(System.Data.IDbTransaction,System.String,System.Data.IDataParameter[])">
+            <summary>
+            查詢資料，使用Transaction，並以CommandType為CommandType.Text的方式取得資料
+            </summary>
+            <param name="trans">Transaction物件</param>
+            <param name="cmdText">SQL指令</param>
+            <param name="commandParameters">參數</param>
+            <returns>符合查詢結果的資料</returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.GetDataTable(System.Data.IDbTransaction,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            查詢資料，使用Transaction
+            </summary>
+            <param name="trans">Transaction物件</param>
+            <param name="cmdType">SQL指令類型</param>
+            <param name="cmdText">SQL指令</param>
+            <param name="commandParameters">參數</param>
+            <returns>符合查詢結果的資料</returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.GetEnumerable``1(System.String,System.Data.IDataParameter[])">
+            <summary>
+            查詢資料，以CommandType為CommandType.Text的方式取得資料
+            </summary>
+            <param name="cmdText">SQL指令</param>
+            <param name="commandParameters">參數</param>
+            <returns>符合查詢結果的資料</returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.GetEnumerable``1(System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            查詢資料
+            </summary>
+            <param name="cmdType">SQL指令類型</param>
+            <param name="cmdText">SQL指令</param>
+            <param name="commandParameters">參數</param>
+            <returns>符合查詢結果的資料</returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.GetEnumerable``1(System.Data.IDbTransaction,System.String,System.Data.IDataParameter[])">
+            <summary>
+            查詢資料，使用Transaction
+            </summary>
+            <param name="trans">Transaction物件</param>
+            <param name="cmdText">SQL指令</param>
+            <param name="commandParameters">參數</param>
+            <returns>符合查詢結果的資料</returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.GetEnumerable``1(System.Data.IDbTransaction,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            查詢資料，使用Transaction
+            </summary>
+            <param name="trans">Transaction物件</param>
+            <param name="cmdType">SQL指令類型</param>
+            <param name="cmdText">SQL指令</param>
+            <param name="commandParameters">參數</param>
+            <returns>符合查詢結果的資料</returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.GetEnumerableInjectData``1(System.Data.IDataReader)">
+            <summary>
+            取得IEnumerable資料時，寫入Model的通用method
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="rdr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.GetTransaction">
+            <summary>
+            取得Transaction物件
+            </summary>
+            <returns>Transaction物件</returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.Commit(System.Data.IDbTransaction)">
+            <summary>
+            Commit Transaction，並關閉connection
+            </summary>
+            <param name="trans">transaction物件</param>
+        </member>
+        <member name="M:Util.CommonDbHelper.Rollback(System.Data.IDbTransaction)">
+            <summary>
+            Rollback Transaction，並關閉connection
+            </summary>
+            <param name="trans">transaction物件</param>
+        </member>
+        <member name="M:Util.CommonDbHelper.GetParam(System.String,System.Object,System.Nullable{System.Data.DbType})">
+            <summary>
+            建立參數
+            </summary>
+            <param name="parameterName">參數名稱</param>
+            <param name="value">值</param>
+            <param name="dbType">欄位型別</param>
+            <returns>對應的資料庫參數</returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.GetParam(System.Type,System.Collections.Generic.Dictionary{System.String,System.Object},System.String)">
+            <summary>
+            建立參數陣列
+            </summary>
+            <param name="modelType">Model型別</param>
+            <param name="data_dict">參數資料</param>
+            <param name="prefix">參數名稱前置字串</param>
+            <returns>對應的資料庫參數陣列</returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.GetSqlInsertField(System.Type,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            取得Insert時的欄位SQL(Ex. "f1, f2, f3")
+            </summary>
+            <typeparam name="T">Model型別</typeparam>
+            <param name="dict">要設定的欄位及值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.GetSqlInsertValue(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            取得Insert時Value的SQL(Ex. "@f1, @f2, @f3")
+            </summary>
+            <param name="dict">要設定的欄位及值</param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.GetSqlWhere(System.Type,System.Collections.Generic.Dictionary{System.String,System.Object},System.String)">
+            <summary>
+            取得SQL where 條件字串(不含"where")(Ex. "f1 = @f1 and f2 = @f2")
+            </summary>
+            <typeparam name="T">Model型別</typeparam>
+            <param name="dict">要設定的欄位及值</param>
+            <param name="paramPrefix">SQL參數前置字串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.GetSqlSet(System.Type,System.Collections.Generic.Dictionary{System.String,System.Object},System.String)">
+            <summary>
+            取得SQL update時要set的字串(不包含"set")(Ex. "f1 = @f1, f2 = @f2")
+            </summary>
+            <typeparam name="T">Model型別</typeparam>
+            <param name="dict">要設定的欄位及值</param>
+            <param name="paramPrefix">SQL參數前置字串</param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.ValidatePreInsert(System.Type,System.Data.IDbTransaction,System.Collections.Generic.Dictionary{System.String,System.Object},System.Boolean)">
+            <summary>
+            單筆新增的前置檢查
+            <para>※ 若Transaction為null，則自動以非Transaction方式執行</para>
+            </summary>
+            <param name="modelType">Model型別</param>
+            <param name="trans">Transaction</param>
+            <param name="data_dict">資料</param>
+            <param name="checkDataRepeat">檢查資料是否重複</param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.ValidatePreUpdate(System.Type,System.Data.IDbTransaction,System.Collections.Generic.Dictionary{System.String,System.Object},System.Collections.Generic.Dictionary{System.String,System.Object},System.Boolean)">
+            <summary>
+            單筆更新的前置檢查
+            </summary>
+            <para>※ 若Transaction為null，則自動以非Transaction方式執行</para>
+            <param name="modelType">Model型別</param>
+            <param name="trans">Transaction</param>
+            <param name="oldData_dict">原資料Key</param>
+            <param name="newData_dict">新資料</param>
+            <param name="checkDataRepeat">檢查資料是否重複</param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.ValidatePreDelete(System.Type,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            單筆刪除的前置檢查
+            </summary>
+            <param name="modelType">Model型別</param>
+            <param name="data_dict">資料Key</param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.ChkIsUnique(System.Type,System.Data.IDbTransaction,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            檢查key是否唯一
+            <para>※ Transaction為null時，將會自動以非Transaction方式執行</para>
+            </summary>
+            <param name="modelType">資料類型</param>
+            <param name="trans">Transaction</param>
+            <param name="data_dict">資料</param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.GetDbNowTime">
+            <summary>
+            取得資料庫時間
+            </summary>
+            <returns>資料庫時間</returns>
+        </member>
+        <member name="M:Util.CommonDbHelper.TryConnection">
+            <summary>
+            檢測是否可連線成功，若連線失敗，則拋出Exception。
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <returns></returns>
+        </member>
+        <member name="P:Util.CommonDbHelper.CommandTimeout">
+            <summary>
+            資料庫timout時間(秒)
+            </summary>
+        </member>
+        <member name="P:Util.CommonDbHelper.DbNowTimeSQL">
+            <summary>
+            資料庫取得時間SQL語法
+            </summary>
+        </member>
+        <member name="M:Util.DictionaryExt.GetKeyIgnoreCase(System.Collections.Generic.Dictionary{System.String,System.Object},System.String)">
+            <summary>
+            取得某key(用不分大小寫的方式查詢key值
+            </summary>
+            <param name="dict"></param>
+            <param name="key">key</param>
+            <returns></returns>
+        </member>
+        <!-- 忽略成員 "M:Util.DictionaryExt.ConvertValueTypeToObject(System.Collections.Generic.Dictionary{System.String,System.String})" 中格式錯誤的 XML 註解 -->
+        <member name="M:Util.PropertyInfoExt.IsKey(System.Reflection.PropertyInfo)">
+            <summary>
+            檢查是否為Key
+            </summary>
+            <param name="pi"></param>
+        </member>
+        <member name="M:Util.PropertyInfoExt.IsNoneIdentityKey(System.Reflection.PropertyInfo)">
+            <summary>
+            檢查是否為非Identity的Key
+            </summary>
+            <param name="pi"></param>
+        </member>
+        <member name="M:Util.PropertyInfoExt.GetColumnName(System.Reflection.PropertyInfo)">
+            <summary>
+            取得ColumnName
+            </summary>
+            <param name="pi"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.StringExt.ContainsIgnoreCase(System.String,System.String)">
+            <summary>
+            檢查是否包含字串(不分大小寫)
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.StringExt.EqualsIgnoreCase(System.String,System.String)">
+            <summary>
+            字串是否相同(不分大小寫)
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.StringExt.Upper1stChar(System.String)">
+            <summary>
+            將首字改為大寫
+            </summary>
+            <param name="a"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.StringExt.Crop(System.String,System.Int32)">
+            <summary>
+            裁切字串，只取得maxLength長度的資料
+            </summary>
+            <param name="s"></param>
+            <param name="maxLength"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.StringExt.IsNullOrEmpty(System.String)">
+            <summary>
+            檢查是否為Null、空白的字串
+            </summary>
+            <param name="s"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.StringExt.IsNullOrWhiteSpace(System.String)">
+            <summary>
+            檢查是否為Null、空白、或空格組成的字串
+            </summary>
+            <param name="s"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.StringExt.ToIntOrNull(System.String)">
+            <summary>
+            將字串轉型，若轉換過程發生錯誤，則回傳Null
+            </summary>
+            <param name="s"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.StringExt.ToIntOrZero(System.String)">
+            <summary>
+            將字串轉型，若轉換過程發生錯誤，則回傳0
+            </summary>
+            <param name="s"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.StringExt.ToDecimalOrNull(System.String)">
+            <summary>
+            將字串轉型，若轉換過程發生錯誤，則回傳Null
+            </summary>
+            <param name="s"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.StringExt.ToDecimalOrZero(System.String)">
+            <summary>
+            將字串轉型，若轉換過程發生錯誤，則回傳0
+            </summary>
+            <param name="s"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.TypeExt.GetTableName(System.Type)">
+            <summary>
+            取得TableName
+            </summary>
+            <param name="t"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Util.GridViewHelper.ChgGridViewMode(Util.GridViewHelper.GVMode,System.Web.UI.WebControls.GridView,System.Int32)">
+            <summary>
+            切換GridView狀態
+            </summary>
+            <param name="mode"></param>
+            <param name="gv"></param>
+            <param name="newIndex"></param>
+        </member>
+        <member name="M:Util.GridViewHelper.ChgGridViewMode(Util.GridViewHelper.GVMode,System.Web.UI.WebControls.GridView,System.Object,System.Int32)">
+            <summary>
+            切換GridView狀態，順便重新綁定資料
+            </summary>
+            <param name="Mode"></param>
+            <param name="GridView"></param>
+            <param name="DataSource"></param>
+            <param name="NewIndex"></param>
+        </member>
+        <member name="M:Util.GridViewHelper.SortGridView``1(System.Web.UI.WebControls.GridView,System.Web.UI.WebControls.GridViewSortEventArgs,System.Collections.Generic.List{``0})">
+            <summary>
+            回傳GridView排序後的資料
+            </summary>
+            <typeparam name="T">資料物件型別</typeparam>
+            <param name="gv">GridView物件</param>
+            <param name="e">GridView Sort 事件參數</param>
+            <param name="source_lst">資料</param>
+            <returns>排序後的資料</returns>
+        </member>
+        <member name="T:Util.GridViewHelper.GVMode">
+            <summary>
+             GridView 狀態
+            </summary>
+        </member>
+        <member name="T:Util.ITCEnum.GVMode">
+            <summary>
+             GridView 狀態
+            </summary>
+        </member>
+        <member name="F:Util.ITCEnum.GVMode.Normal">
+            <summary>
+            一般檢視模式
+            </summary>
+        </member>
+        <member name="F:Util.ITCEnum.GVMode.Insert">
+            <summary>
+            新增模式
+            </summary>
+        </member>
+        <member name="F:Util.ITCEnum.GVMode.Edit">
+            <summary>
+            邊及模式
+            </summary>
+        </member>
+        <member name="T:Util.ITCEnum.PopupMessageType">
+            <summary>
+            Popup訊息視窗類型
+            </summary>
+        </member>
+        <member name="F:Util.ITCEnum.PopupMessageType.Success">
+            <summary>
+            成功(背景為綠色)
+            </summary>
+        </member>
+        <member name="F:Util.ITCEnum.PopupMessageType.Warning">
+            <summary>
+            警告(背景為黃色)
+            </summary>
+        </member>
+        <member name="F:Util.ITCEnum.PopupMessageType.Error">
+            <summary>
+            錯誤(背景為紅色)
+            </summary>
+        </member>
+        <member name="F:Util.ITCEnum.PopupMessageType.Info">
+            <summary>
+            資訊(背景為藍色)
+            </summary>
+        </member>
+        <member name="T:Util.ITCEnum.DataActionType">
+            <summary>
+            執行的動作類型
+            </summary>
+        </member>
+        <member name="F:Util.ITCEnum.DataActionType.Insert">
+            <summary>
+            新增
+            </summary>
+        </member>
+        <member name="F:Util.ITCEnum.DataActionType.Update">
+            <summary>
+            更新
+            </summary>
+        </member>
+        <member name="F:Util.ITCEnum.DataActionType.Delete">
+            <summary>
+            刪除
+            </summary>
+        </member>
+        <member name="T:Util.ITCEnum.DropDwonListFirstItemMode">
+            <summary>
+            下拉選單類元件，第一個項目的類型
+            </summary>
+        </member>
+        <member name="F:Util.ITCEnum.DropDwonListFirstItemMode.None">
+            <summary>
+            無(不插入第一個選項)
+            </summary>
+        </member>
+        <member name="F:Util.ITCEnum.DropDwonListFirstItemMode.All">
+            <summary>
+            全部(顯示空白" "選項)
+            </summary>
+        </member>
+        <member name="F:Util.ITCEnum.DropDwonListFirstItemMode.Single">
+            <summary>
+            單選(顯示"--請選擇--"選項)
+            </summary>
+        </member>
+        <member name="T:Util.ITCEnum.NPOIExcelFormat">
+            <summary>
+            NPOI Excel 欄位格式
+            </summary>
+        </member>
+        <member name="F:Util.ITCEnum.NPOIExcelFormat.Integer">
+            <summary>
+            整數
+            </summary>
+        </member>
+        <member name="F:Util.ITCEnum.NPOIExcelFormat.Decimal1">
+            <summary>
+            小數點後一位
+            </summary>
+        </member>
+        <member name="F:Util.ITCEnum.NPOIExcelFormat.Decimal2">
+            <summary>
+            小數點後兩位
+            </summary>
+        </member>
+        <member name="F:Util.ITCEnum.NPOIExcelFormat.Decimal4">
+            <summary>
+            小數點後四位
+            </summary>
+        </member>
+        <member name="F:Util.ITCEnum.NPOIExcelFormat.Decimal6">
+            <summary>
+            小數點後六位
+            </summary>
+        </member>
+        <member name="F:Util.ITCEnum.NPOIExcelFormat.DateTime">
+            <summary>
+            時間 yyyy/MM/dd hh:mm:ss
+            </summary>
+        </member>
+        <member name="F:Util.ITCEnum.NPOIExcelFormat.Formula">
+            <summary>
+            公式
+            </summary>
+        </member>
+        <member name="F:Util.ITCEnum.NPOIExcelFormat.Date">
+            <summary>
+            日期 yyyy/MM/dd
+            </summary>
+        </member>
+        <member name="F:Util.ITCEnum.NPOIExcelFormat.Other">
+            <summary>
+            其他
+            </summary>
+        </member>
+        <member name="T:Util.LogHelper">
+            <summary>
+            寫入本機Log檔
+            </summary>
+        </member>
+        <member name="M:Util.LogHelper.WriteLog(System.String,System.String,System.String)">
+            <summary>
+            寫入Log
+            </summary>
+            <param name="msg">訊息</param>
+            <param name="fileName">Log檔名稱</param>
+            <param name="fileType">類型</param>
+        </member>
+        <member name="M:Util.MailHelper.Init(Util.MailHelper.ConfigModel)">
+            <summary>
+            初始化
+            </summary>
+            <param name="c"></param>
+        </member>
+        <member name="M:Util.MailHelper.SendMail(System.String,System.String,System.String,System.String,System.String,System.Net.Mail.MailPriority)">
+            <summary>
+            寄發E-mail
+            </summary>
+            <param name="fromMail">寄件人mail</param>
+            <param name="fromName">寄件人名稱</param>
+            <param name="toMails">收件者mail(可多筆，以","分隔，例: aaa@aaa.com,bbb@bbb.com)</param>
+            <param name="subject">主旨</param>
+            <param name="mailContnet">信件內容</param>
+            <param name="mailPriority">優先權(預設為Normal</param>
+        </member>
+        <member name="P:Util.MailHelper.ConfigModel.Host">
+            <summary>
+            Smtp 主機位址
+            </summary>
+        </member>
+        <member name="P:Util.MailHelper.ConfigModel.Port">
+            <summary>
+            Smtp Port
+            </summary>
+        </member>
+        <member name="P:Util.MailHelper.ConfigModel.UserId">
+            <summary>
+            登入帳號(若不需要帳密，則保留空白)
+            </summary>
+        </member>
+        <member name="P:Util.MailHelper.ConfigModel.Password">
+            <summary>
+            登入密碼(若不需要帳密，則保留空白)
+            </summary>
+        </member>
+        <member name="P:Util.MailHelper.ConfigModel.SSL">
+            <summary>
+            是否使用SSL
+            </summary>
+        </member>
+        <member name="M:Util.OnlineUserCounter.Init(System.Boolean,System.String,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            設定參數
+            </summary>
+            <param name="ap">AP IP(以逗號區隔)</param>
+            <param name="sessionTimeoutInterval">Session timeout 時間(分)</param>
+            <param name="dropInterval">多少時間(分)內不重複執行移除逾時使用者的動作</param>
+            <param name="syncInterval">多少時間(分)內不重複執行取得其他AP線上人數</param>
+        </member>
+        <member name="M:Util.OnlineUserCounter.UpdateInsertSession">
+            <summary>
+            更新或寫入Session時間
+            </summary>
+        </member>
+        <member name="M:Util.OnlineUserCounter.GetOnlineUserCount">
+            <summary>
+            取得線上人數(含其他AP)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Util.OnlineUserCounter.DropUser">
+            <summary>
+            移除逾時的使用者
+            </summary>
+        </member>
+        <member name="M:Util.OnlineUserCounter.GetRemoteCount">
+            <summary>
+            取得其他AP的線上人數
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Util.OnlineUserCounter.GetLocalOnlineUserCount">
+            <summary>
+            取得本機線上人數
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Util.Database.SqlHelper.ExecuteNonQuery(System.String,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行非查詢的SQL語句
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>影響的資料列筆數</returns>
+        </member>
+        <member name="M:Util.Database.SqlHelper.ExecuteNonQuery(System.Data.IDbTransaction,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行非查詢的SQL語句
+            </summary>
+            <param name="trans">Transaction物件</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>影響的資料列筆數</returns>
+        </member>
+        <member name="M:Util.Database.SqlHelper.ExecuteReader(System.String,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行查詢SQL語句
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>IDataReader資料庫讀取的資料流</returns>
+        </member>
+        <member name="M:Util.Database.SqlHelper.ExecuteReader(System.Data.IDbTransaction,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行查詢SQL語句
+            </summary>
+            <param name="trans">Transaction物件</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>IDataReader資料庫讀取的資料流</returns>
+        </member>
+        <member name="M:Util.Database.SqlHelper.ExecuteScalar(System.String,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行查詢SQL語句，並回傳第一列第一行的資料
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>第一列第一行的資料</returns>
+        </member>
+        <member name="M:Util.Database.SqlHelper.ExecuteScalar(System.Data.IDbTransaction,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行查詢SQL語句，並回傳第一列第一行的資料
+            </summary>
+            <param name="trans">Transaction物件</param>
+            <param name="cmdType">SQL類型</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="commandParameters">SQL參數</param>
+            <returns>第一列第一行的資料</returns>
+        </member>
+        <member name="M:Util.Database.SqlHelper.GetTransaction(System.String)">
+            <summary>
+            取得Transaction物件
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <returns>Transaction物件</returns>
+        </member>
+        <member name="M:Util.Database.SqlHelper.Commit(System.Data.IDbTransaction)">
+            <summary>
+            Commit Transaction，並關閉connection
+            </summary>
+            <param name="trans">transaction物件</param>
+        </member>
+        <member name="M:Util.Database.SqlHelper.Rollback(System.Data.IDbTransaction)">
+            <summary>
+            Rollback Transaction，並關閉connection
+            </summary>
+            <param name="trans">Transaction物件</param>
+        </member>
+        <member name="M:Util.Database.SqlHelper.PrepareCommand(System.Data.IDbCommand,System.Data.IDbConnection,System.Data.IDbTransaction,System.Data.CommandType,System.String,System.Data.IDataParameter[])">
+            <summary>
+            執行SQL的前置動作(設定Command參數，並開啟Connection)
+            </summary>
+            <param name="cmd">Command物件</param>
+            <param name="conn">Connection物件</param>
+            <param name="trans">Transaction物件</param>
+            <param name="cmdType">CommandType物件</param>
+            <param name="cmdText">SQL語句</param>
+            <param name="cmdParms">參數</param>
+        </member>
+        <member name="M:Util.Database.SqlHelper.GetDbConnection(System.String)">
+            <summary>
+            取得資料庫連線物件
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <returns>連線物件</returns>
+        </member>
+        <member name="M:Util.Database.SqlHelper.GetParam(System.String,System.Object,System.Nullable{System.Data.DbType})">
+            <summary>
+            取得參數物件(若輸入的value為null，則會轉換為DBNull.Value)
+            </summary>
+            <param name="parameterName">參數名稱</param>
+            <param name="value">值</param>
+            <param name="dbType">資料庫欄位型態</param>
+            <returns>參數物件</returns>
+        </member>
+        <member name="M:Util.Database.SqlHelper.TryConnection(System.String)">
+            <summary>
+            檢測是否可連線成功，若連線失敗，則拋出Exception。
+            </summary>
+            <param name="connectionString">連線字串</param>
+            <returns></returns>
+        </member>
+        <member name="P:Util.Database.SqlHelper.CommandTimeout">
+            <summary>
+            SQL 執行 Timeout 時間(秒)
+            </summary>
+        </member>
+        <member name="P:Util.Database.SqlHelper.DbNowTimeSQL">
+            <summary>
+            取得資料庫時間SQL，預設使用"select getdate()"
+            </summary>
+            <returns>取得資料庫時間的SQL</returns>
+        </member>
+        <member name="M:Util.RandomPassword.Generate(System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Generates a random password.
+            </summary>
+            <param name="minLength">
+            Minimum password length.
+            </param>
+            <param name="maxLength">
+            Maximum password length.
+            </param>
+            <returns>
+            Randomly generated password.
+            </returns>
+            <remarks>
+            The length of the generated password will be determined at
+            random and it will fall with the range determined by the
+            function parameters.
+            </remarks>
+        </member>
+        <member name="M:Util.SessionHelper.SetSession(System.String,System.Object)">
+            <summary>
+            建立或設定Session
+            </summary>
+            <param name="key">Session Key</param>
+            <param name="obj">要存入的物件</param>
+            <returns>Session物件</returns>
+        </member>
+        <member name="M:Util.SessionHelper.GetSession(System.String,System.Boolean)">
+            <summary>
+            取得Session[key]
+            </summary>
+            <param name="key">Session Key</param>
+            <returns>Session物件</returns>
+        </member>
+        <member name="M:Util.SessionHelper.GetSession">
+            <summary>
+            取得Session物件
+            </summary>
+            <returns>Session物件</returns>
+        </member>
+        <member name="M:Util.SessionHelper.RemoveSession(System.String)">
+            <summary>
+            刪除Session物件
+            </summary>
+            <returns>Session物件</returns>
+        </member>
+        <member name="P:Util.Settings.SystemDb">
+            <summary>
+            系統底層使用的資料庫
+            </summary>
+        </member>
+    </members>
+</doc>

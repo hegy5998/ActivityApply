@@ -13,13 +13,13 @@ namespace Web.S02 {
     public partial class S02010103 {
         
         /// <summary>
-        /// SaveEdit_btn 控制項。
+        /// Save_btn 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button SaveEdit_btn;
+        protected global::System.Web.UI.WebControls.Button Save_btn;
         
         /// <summary>
         /// Back_btn 控制項。
@@ -49,22 +49,22 @@ namespace Web.S02 {
         protected global::System.Web.UI.UpdatePanel UpdatePanel3;
         
         /// <summary>
-        /// TextBox1 控制項。
+        /// test 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox1;
+        protected global::System.Web.UI.WebControls.TextBox test;
         
         /// <summary>
-        /// Button1 控制項。
+        /// aab 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.WebControls.Label aab;
         
         /// <summary>
         /// ucGridViewPager 控制項。

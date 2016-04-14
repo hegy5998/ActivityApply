@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BusinessLayerBase</name>
+    </assembly>
+    <members>
+        <member name="M:BusinessLayer.AuthBL.GetUserRoleUnitPositionAuth">
+            <summary>
+            取得[角色]+[單位]+[職位聯集]的權限資料
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BusinessLayer.AuthBL.GetCurrentProcessAuth(System.String)">
+            <summary>
+            判斷是否具有作業異動權限，或子功能使用權限
+            <para>※ 若子功能代碼空白，則回傳是否有該作業異動的權限</para>
+            <para>※ 若有填寫子功能代碼，則回傳是否有該子功能的使用權限</para>
+            </summary>
+            <param name="sys_cid">子功能代碼</param>
+            <returns></returns>
+        </member>
+        <member name="F:BusinessLayer.BaseBL.Db">
+            <summary>
+            資料庫的存取物件
+            </summary>
+        </member>
+        <member name="M:BusinessLayer.BaseBL.BeginTransaction">
+            <summary>
+            取得Transaction物件(主要DB)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BusinessLayer.BaseBL.Commit">
+            <summary>
+            Commit Transaction(主要DB)
+            </summary>
+        </member>
+        <member name="M:BusinessLayer.BaseBL.Rollback">
+            <summary>
+            Rollback Transaction(主要DB)
+            </summary>
+        </member>
+    </members>
+</doc>

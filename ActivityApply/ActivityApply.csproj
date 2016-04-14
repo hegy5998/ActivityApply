@@ -39,6 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AjaxControlToolkit">
+      <HintPath>..\Web\bin\AjaxControlToolkit.dll</HintPath>
+    </Reference>
     <Reference Include="BusinessLayerBase">
       <HintPath>..\BusinessLayer\Lib\BusinessLayerBase.dll</HintPath>
     </Reference>
@@ -181,46 +184,29 @@
     <Content Include="Global.asax" />
     <Content Include="activity_List.aspx" />
     <Content Include="activity_List.html" />
+    <Content Include="images\Bulletin_Board.jpg" />
     <Content Include="index.aspx" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="assets\.DS_Store" />
-    <Content Include="assets\css\.DS_Store" />
-    <Content Include="assets\font-awesome\.DS_Store" />
-    <Content Include="assets\font-awesome\css\.DS_Store" />
-    <Content Include="assets\font-awesome\fonts\.DS_Store" />
     <Content Include="assets\font-awesome\fonts\fontawesome-webfont.eot" />
     <Content Include="assets\font-awesome\fonts\fontawesome-webfont.ttf" />
     <Content Include="assets\font-awesome\fonts\fontawesome-webfont.woff" />
     <Content Include="assets\font-awesome\fonts\FontAwesome.otf" />
-    <Content Include="assets\fonts\.DS_Store" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="assets\img\.DS_Store" />
-    <Content Include="assets\img\friends\.DS_Store" />
-    <Content Include="assets\img\portfolio\.DS_Store" />
-    <Content Include="assets\js\.DS_Store" />
-    <Content Include="assets\js\bootstrap-inputmask\.DS_Store" />
-    <Content Include="assets\js\chart-master\.DS_Store" />
-    <Content Include="assets\js\fancybox\.DS_Store" />
-    <Content Include="assets\js\fullcalendar\.DS_Store" />
-    <Content Include="assets\js\gritter\.DS_Store" />
-    <Content Include="assets\js\gritter\css\.DS_Store" />
-    <Content Include="assets\js\gritter\images\.DS_Store" />
-    <Content Include="assets\js\gritter\js\.DS_Store" />
-    <Content Include="assets\js\jquery-easy-pie-chart\.DS_Store" />
-    <Content Include="assets\lineicons\.DS_Store" />
-    <Content Include="assets\lineicons\fonts\.DS_Store" />
     <Content Include="assets\lineicons\fonts\linecons.eot" />
     <Content Include="assets\lineicons\fonts\linecons.ttf" />
     <Content Include="assets\lineicons\fonts\linecons.woff" />
     <Content Include="MasterPages\Base.Master" />
     <Content Include="MasterPages\Main.master" />
+    <Content Include="SignSearchContext.aspx" />
+    <Content Include="SignChange.aspx" />
     <Content Include="WebForm1.aspx" />
+    <None Include="Properties\PublishProfiles\activity.pubxml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -272,12 +258,26 @@
       <DependentUpon>Main.master</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SignSearchContext.aspx.cs">
+      <DependentUpon>SignSearchContext.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SignSearchContext.aspx.designer.cs">
+      <DependentUpon>SignSearchContext.aspx</DependentUpon>
+    </Compile>
     <Compile Include="SignSearch.aspx.cs">
       <DependentUpon>SignSearch.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="SignSearch.aspx.designer.cs">
       <DependentUpon>SignSearch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SignChange.aspx.cs">
+      <DependentUpon>SignChange.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SignChange.aspx.designer.cs">
+      <DependentUpon>SignChange.aspx</DependentUpon>
     </Compile>
     <Compile Include="Sign_Up.aspx.cs">
       <DependentUpon>Sign_Up.aspx</DependentUpon>
@@ -326,9 +326,6 @@
       <Project>{6ba52742-5e43-4c2b-baf0-574059a51fc0}</Project>
       <Name>Util</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

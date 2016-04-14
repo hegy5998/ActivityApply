@@ -43,5 +43,7 @@ namespace Model
         /// </summary>
         [Column("updtime")]
         public DateTime? Updtime { get; set; }
+
+
     }
 }
