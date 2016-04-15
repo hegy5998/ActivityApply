@@ -18,6 +18,7 @@ namespace DataAccess.Web
         Activity_applyData _applyData = new Activity_applyData();
         Activity_apply_detailData _apply_detailData = new Activity_apply_detailData();
 
+
         #region 查詢
         public List<Activity_sectionInfo> GetSectionList(int acs_act)
         {
@@ -32,6 +33,88 @@ namespace DataAccess.Web
         public List<Activity_apply_detailInfo> getApplyDetailList(int aad_apply_id)
         {
             return _apply_detailData.getApplyDetailList(aad_apply_id);
+        }
+        #endregion
+
+        #region 單筆更新
+        /// <summary>
+        /// 單筆更新
+        /// </summary>
+        /// <param name="oldData_dict">原資料PK</param>
+        /// <param name="newData_dict">新資料</param>
+        /// <param name="checkDataRepeat">檢查資料是否重複</param>
+        /// <returns></returns>
+        public CommonResult UpdateApplyData(Dictionary<string, object> oldData_dict, Dictionary<string, object> newData_dict, bool checkDataRepeat = true, Sys_accountInfo loginUser = null)
+        {
+            return UpdateApplyData(null, oldData_dict, newData_dict, checkDataRepeat, loginUser);
+        }
+        /// <summary>
+        /// 單筆更新
+        /// </summary>
+        /// <param name="trans">Transaction</param>
+        /// <param name="oldData_dict">原資料PK</param>
+        /// <param name="newData_dict">新資料</param>
+        /// <param name="checkDataRepeat">檢查資料是否重複</param>
+        /// <returns></returns>
+        public CommonResult UpdateApplyData(IDbTransaction trans, Dictionary<string, object> oldData_dict, Dictionary<string, object> newData_dict, bool checkDataRepeat = true, Sys_accountInfo loginUser = null)
+        {
+            Type _modelType = typeof(Activity_applyInfo);
+            if (loginUser == null) loginUser = CommonHelper.GetLoginUser();
+
+            var res = Db.ValidatePreUpdate(_modelType, trans, oldData_dict, newData_dict, checkDataRepeat);
+            if (res.IsSuccess)
+            {
+                string sql = @"
+                    update [" + _modelType.GetTableName() + @"] 
+                    set " + Db.GetSqlSet(_modelType, newData_dict, "new_") + ",  [updtime] = (" + Db.DbNowTimeSQL + ")" + @"
+                    where " + Db.GetSqlWhere(_modelType, oldData_dict, "old_");
+
+                res.AffectedRows = Db.ExecuteNonQuery(trans, sql, Db.GetParam(_modelType, oldData_dict, "old_").Concat(Db.GetParam(_modelType, newData_dict, "new_")).ToArray());
+                if (res.AffectedRows <= 0)
+                    res.IsSuccess = false;
+            }
+            return res;
+        }
+        #endregion
+
+        #region 單筆更新
+        /// <summary>
+        /// 單筆更新
+        /// </summary>
+        /// <param name="oldData_dict">原資料PK</param>
+        /// <param name="newData_dict">新資料</param>
+        /// <param name="checkDataRepeat">檢查資料是否重複</param>
+        /// <returns></returns>
+        public CommonResult UpdateApplyDetailData(Dictionary<string, object> oldData_dict, Dictionary<string, object> newData_dict, bool checkDataRepeat = true, Sys_accountInfo loginUser = null)
+        {
+            return UpdateApplyDetailData(null, oldData_dict, newData_dict, checkDataRepeat, loginUser);
+        }
+        /// <summary>
+        /// 單筆更新
+        /// </summary>
+        /// <param name="trans">Transaction</param>
+        /// <param name="oldData_dict">原資料PK</param>
+        /// <param name="newData_dict">新資料</param>
+        /// <param name="checkDataRepeat">檢查資料是否重複</param>
+        /// <returns></returns>
+        public CommonResult UpdateApplyDetailData(IDbTransaction trans, Dictionary<string, object> oldData_dict, Dictionary<string, object> newData_dict, bool checkDataRepeat = true, Sys_accountInfo loginUser = null)
+        {
+            Type _modelType = typeof(Activity_apply_detailInfo);
+            if (loginUser == null) loginUser = CommonHelper.GetLoginUser();
+
+            var res = Db.ValidatePreUpdate(_modelType, trans, oldData_dict, newData_dict, checkDataRepeat);
+            if (res.IsSuccess)
+            {
+                string sql = @"
+                    update [" + _modelType.GetTableName() + @"] 
+                    set " + Db.GetSqlSet(_modelType, newData_dict, "new_") + @"
+                    where " + Db.GetSqlWhere(_modelType, oldData_dict, "old_");
+
+                res.AffectedRows = Db.ExecuteNonQuery(trans, sql, Db.GetParam(_modelType, oldData_dict, "old_").Concat(Db.GetParam(_modelType, newData_dict, "new_")).ToArray());
+                if (res.AffectedRows <= 0)
+                    res.IsSuccess = false;
+            }
+            return res;
         }
         #endregion
 

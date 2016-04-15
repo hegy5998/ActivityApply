@@ -92,7 +92,7 @@
 
         $(document).ready(function () {
             var funcList = [getSectionList,
-                            getApplyDetailList,
+                            //getApplyDetailList,
                             getQuestionList,
                             resizeJquerySteps];
             $(document).queue("myQueue", funcList);
@@ -183,6 +183,27 @@
         //#region 新增問題
         function Add_Question(questionInfo) {
             questionInfo = questionList = JSON.parse(questionInfo);
+            var applyDetailInfo;
+            $.ajax({
+                type: 'post',
+                traditional: true,
+                //傳送資料到後台為getQuestionList的function
+                url: 'SignChange.aspx/getApplyDetailList',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                //成功時
+                success: function (result) {
+                    // 儲存報名資料
+                    applyDetailInfo = (result.d);
+                },
+                //失敗時
+                error: function () {
+                    alert("失敗!!!!");
+                    return false;
+                }
+            });
+            applyDetailInfo = applyDetailList = JSON.parse(applyDetailInfo);
             for (var i = 0; i < questionInfo.length; i++) {
                 var code = "";
                 switch (questionInfo[i].Acc_type) {
@@ -192,6 +213,15 @@
                     case "dropDownList": code = DropDownListCol_Code(questionInfo[i], i); break;
                 }
                 $("#question_div_" + questionInfo[i].Acc_asc).append(decodeURI(code));
+                //將報名資料填入
+                switch (questionInfo[i].Acc_type) {
+                    case "text": $("[name=qus_txt_" + i + "]").val(applyDetailInfo[i].Aad_val); break;
+                    case "singleSelect": $("[name=qus_radio_" + i + "]" + "[value='" + applyDetailInfo[i].Aad_val + "']").attr('checked', true);break;
+                    case "multiSelect":
+                        //$("[name=qus_checkbox_" + i + "]" + "[value='" + applyDetailInfo[i].Aad_val + "']").attr('checked', true);
+                        break;
+                    case "dropDownList": $("[name=qus_ddl_" + i + "]").val(applyDetailInfo[i].Aad_val); break;
+                }
             }
             $(document).dequeue("myQueue");
         }
@@ -391,10 +421,12 @@
 
         //#region 儲存使用者資料(POST)
         function SaveUserData() {
-            var detailList = { userData: [] };
-
+            var detailList = { userData: [], olduserData: [] };
+            //儲存舊資料
+            detailList.olduserData = applyDetailList;
             for (var i = 0; i < questionList.length; i++) {
                 var detailJson = {}
+                detailJson.Aad_apply_id = applyDetailList[i].Aad_apply_id;
                 detailJson.Aad_col_id = questionList[i].Acc_idn;
                 detailJson.Aad_title = questionList[i].Acc_title;
                 detailJson.Aad_val = questionList[i].Acc_val;

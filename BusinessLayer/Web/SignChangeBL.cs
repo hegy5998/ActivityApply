@@ -3,13 +3,14 @@ using DataAccess.Web;
 using Util;
 using Model;
 using System.Data;
+using DataAccess;
 
 namespace BusinessLayer.Web
 {
     public class SignChangeBL : BaseBL
     {
 
-        SignChangeData _data = new SignChangeData();        
+        SignChangeData _data = new SignChangeData();   
 
         #region 取得區塊列表
         public List<Activity_sectionInfo> GetSectionList(int acs_act)
@@ -32,16 +33,20 @@ namespace BusinessLayer.Web
         }
         #endregion
 
-        public CommonResult InsertData_Activity_apply(Dictionary<string, object> dict)
+        public CommonResult UpdateApplyData(Dictionary<string, object> olddict, Dictionary<string, object> newdict)
         {
-            var res = CommonHelper.ValidateModel<Model.Activity_applyInfo>(dict);
+            
+            return _data.UpdateApplyData(olddict, newdict);
 
-            if (res.IsSuccess)
-            {
-                res = _data.InsertData_apply(dict);
-            }
-            return res;
         }
+
+        public CommonResult UpdateApplyDetailData(Dictionary<string, object> olddict, Dictionary<string, object> newdict)
+        {
+
+            return _data.UpdateApplyDetailData(olddict, newdict);
+
+        }
+
 
         public CommonResult InsertData_Activity_apply_detail(Dictionary<string, object> dict)
         {

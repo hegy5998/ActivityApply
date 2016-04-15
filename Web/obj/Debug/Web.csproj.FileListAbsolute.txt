@@ -191,3 +191,5 @@ C:\Users\Saki\Desktop\1050327ActivityApply\Web\obj\Debug\Web.dll
 C:\Users\Saki\Desktop\1050327ActivityApply\Web\obj\Debug\Web.pdb
 C:\Users\Saki\Desktop\ActivityApply\Web\bin\Newtonsoft.Json.dll
 C:\Users\Saki\Desktop\ActivityApply\Web\bin\Newtonsoft.Json.xml
+F:\Desktop\ActivityApply\Web\bin\Newtonsoft.Json.dll
+F:\Desktop\ActivityApply\Web\bin\Newtonsoft.Json.xml
