@@ -41,7 +41,7 @@
                     <li class="sub-menu">
                         <a href="javascript:;">
                             <i class="fa fa-desktop"></i>
-                            <span>教育訓練</span>
+                            <span>活動分類</span>
                         </a>
 
                         <ul id="add_sub" class="sub">

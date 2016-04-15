@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true" CodeBehind="SignChange.aspx.cs" Inherits="ActivityApply.SignChange" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead" runat="server">
-    <link href="<%=ResolveUrl("~/assets/css/jquery.steps.css")%>" rel="stylesheet" type="text/css"/>
+    <link href="<%=ResolveUrl("~/assets/css/jquery.steps.css")%>" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery.steps.js") %>"></script>
     <!-- Jquery Validation -->
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/validation/jquery.metadata.js") %>"></script>
@@ -88,9 +88,11 @@
     <script type="text/javascript">
         var sectionList;
         var questionList;
+        var applyDetailList;
 
         $(document).ready(function () {
             var funcList = [getSectionList,
+                            getApplyDetailList,
                             getQuestionList,
                             resizeJquerySteps];
             $(document).queue("myQueue", funcList);
@@ -135,6 +137,29 @@
                 success: function (result) {
                     // 加入問題
                     Add_Question(result.d);
+                },
+                //失敗時
+                error: function () {
+                    alert("失敗!!!!");
+                    return false;
+                }
+            });
+        }
+        // #endregion
+
+        // #region 取得報名資料
+        function getApplyDetailList() {
+            $.ajax({
+                type: 'post',
+                traditional: true,
+                //傳送資料到後台為getQuestionList的function
+                url: 'SignChange.aspx/getApplyDetailList',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                //成功時
+                success: function (result) {
+                    // 儲存報名資料
+                    applyDetailList = (result.d);
                 },
                 //失敗時
                 error: function () {
@@ -347,7 +372,7 @@
         /* 資料確認 */
 
         //#region 新增使用者資料確認欄位
-        function Add_Check() {            
+        function Add_Check() {
             for (var i = 0; i < questionList.length; i++) {
                 $('tbody').append(Check_Code(questionList[i]));
             }
@@ -367,7 +392,7 @@
         //#region 儲存使用者資料(POST)
         function SaveUserData() {
             var detailList = { userData: [] };
-            
+
             for (var i = 0; i < questionList.length; i++) {
                 var detailJson = {}
                 detailJson.Aad_col_id = questionList[i].Acc_idn;
@@ -384,7 +409,7 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 //成功時
-                success: function (result) {                    
+                success: function (result) {
                 },
                 //失敗時
                 error: function () {
@@ -417,8 +442,8 @@
                     return false;
                 }
                 if (newIndex === 2) {
-                    SaveUserData();                
-                }                
+                    SaveUserData();
+                }
                 return true;
             },
             onStepChanged: function (event, currentIndex, priorIndex) {
@@ -429,7 +454,7 @@
                 window.location.replace("index.aspx");
                 return true;
             },
-            onFinished: function (event, currentIndex) {                
+            onFinished: function (event, currentIndex) {
                 return true;
             },
             labels: {

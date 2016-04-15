@@ -86,7 +86,6 @@
 
     <script>
         $(document).ready(function () {
-            $(".label").ellipsis(true);
             //產生活動資訊
             getActivityList();
             //產生場次

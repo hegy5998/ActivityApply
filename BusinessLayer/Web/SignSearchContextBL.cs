@@ -3,6 +3,7 @@ using DataAccess.Web;
 using Util;
 using Model;
 using System.Data;
+using DataAccess;
 
 namespace BusinessLayer.Web
 {
@@ -10,6 +11,9 @@ namespace BusinessLayer.Web
     {
 
         SignSearchContextData _data = new SignSearchContextData();
+        Activity_applyData _applydata = new Activity_applyData();
+        Activity_apply_detailData _detaildata = new Activity_apply_detailData();
+        Activity_apply_emailData _emaildata = new Activity_apply_emailData();
 
         #region 取得報名資訊
         public DataTable GetActivityData(string aa_email)
@@ -19,16 +23,37 @@ namespace BusinessLayer.Web
         #endregion
 
         #region 取得email密碼
-        public DataTable GetEmailData(string aae_email,string aae_password)
+        public DataTable GetEmailData(string aae_email)
         {
-            return _data.GetEmailData(aae_email, aae_password);
+            return _data.GetEmailData(aae_email);
         }
         #endregion
 
-        #region 取得email密碼
-        public CommonResult DeleteData(Dictionary<string,object> data_dict)
+        #region 取得報名欄位序號
+        public DataTable GetColumnData(string acc_act)
         {
-            return _data.DeleteData(data_dict);
+            return _data.GetColumnData(acc_act);
+        }
+        #endregion
+
+        #region 刪除報名資料
+        public CommonResult DeleteApplyData(Dictionary<string,object> dict)
+        {
+            return _applydata.DeleteData(dict);
+        }
+        #endregion
+
+        #region 刪除報名資料欄位
+        public CommonResult DeleteDetailData(Dictionary<string, object> dict)
+        {
+            return _detaildata.DeleteData(dict);
+        }
+        #endregion
+
+        #region 更改密碼
+        public CommonResult UpdateData(Dictionary<string, object> olddict, Dictionary<string, object> newdict)
+        {
+            return _emaildata.UpdateData(olddict,newdict);
         }
         #endregion
 

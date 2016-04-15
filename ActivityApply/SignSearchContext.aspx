@@ -3,11 +3,31 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead" runat="server">
+    <!-- Jquery Validation -->
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/validation/jquery.metadata.js") %>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/validation/jquery.validate.js") %>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/validation/messages_zh_TW.js") %>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/validation/additional-methods.js") %>"></script>
     <style type="text/css">
         .p {
             margin-top: 8px;
         }
+        /* 驗證錯誤欄位 */
+        input[type="text"].error {
+            box-shadow: 0px 0px 9px red;
+        }
+        /* 驗證錯誤訊息文字 */
+        label.error {
+            color: red;
+        }
+        
     </style>
+    <script type="text/javascript">
+        $(function () {
+            //須與form表單ID名稱相同
+            $("#form1").validate();
+        });
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="sideCon" runat="server">
 </asp:Content>
@@ -39,11 +59,11 @@
                                 </div>
                                 <div class="modal-body">
                                     <p class="p">舊密碼</p>
-                                    <asp:TextBox ID="old_password_txt" runat="server" CssClass="form-control placeholder-no-fix"></asp:TextBox>
+                                    <asp:TextBox ID="old_password_txt" runat="server" CssClass="form-control placeholder-no-fix" TextMode="Password" minlength="4"></asp:TextBox>
                                     <p class="p">新密碼</p>
-                                    <asp:TextBox ID="new_password_txt" runat="server" CssClass="form-control placeholder-no-fix"></asp:TextBox>
+                                    <asp:TextBox ID="new_password_txt" runat="server" CssClass="form-control placeholder-no-fix" TextMode="Password" minlength="4"></asp:TextBox>
                                     <p class="p">再次確認密碼</p>
-                                    <asp:TextBox ID="new_password_check_txt" runat="server" CssClass="form-control placeholder-no-fix"></asp:TextBox>
+                                    <asp:TextBox ID="new_password_check_txt" runat="server" CssClass="form-control placeholder-no-fix" TextMode="Password" minlength="4"></asp:TextBox>
                                 </div>
                                 <div class="modal-footer">
                                     <button data-dismiss="modal" class="btn btn-theme" type="button">取消</button>
@@ -84,6 +104,7 @@
                                     <asp:TemplateField HeaderText="活動名稱">
                                         <ItemTemplate>
                                             <asp:Label ID="Act_title_lbl" runat="server" Text='<%# Bind("Act_title") %>'></asp:Label>
+                                            <asp:HiddenField ID="Aa_idn_hf" runat="server" Value='<%# Bind("Aa_idn") %>' Visible="false" ViewStateMode="Enabled" />
                                             <asp:HiddenField ID="Act_idn_hf" runat="server" Value='<%# Bind("Act_idn") %>' Visible="false" ViewStateMode="Enabled" />
                                             <asp:HiddenField ID="Act_class_hf" runat="server" Value='<%# Bind("Act_class") %>' Visible="false" ViewStateMode="Enabled" />
                                         </ItemTemplate>
@@ -111,7 +132,7 @@
                                     <asp:TemplateField HeaderText="編輯" ShowHeader="false">
                                         <ItemTemplate>
                                             <asp:Button ID="edit_btn" runat="server" Text="修改報名資料" CommandName="Custom_Edit" ToolTip="編輯" CssClass="btnGrv edit" UseSubmitBehavior="false" CommandArgument='<%# Container.DataItemIndex%>' />
-                                            <asp:Button ID="delete_btn" runat="server" CommandName="Delete" Text="取消報名" ToolTip="刪除" CssClass="btnGrv delete" UseSubmitBehavior="false" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" />
+                                            <asp:Button ID="delete_btn" runat="server" CommandName="Custom_Delete" Text="取消報名" ToolTip="刪除" CssClass="btnGrv delete" UseSubmitBehavior="false" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" CommandArgument='<%# Container.DataItemIndex%>'/>
                                         </ItemTemplate>
                                         <HeaderStyle Width="50px" />
                                         <ItemStyle HorizontalAlign="Center" Width="50px" />
@@ -129,13 +150,6 @@
 
                 <!-- ModalPopupExtender設定按鈕 -->
                 <asp:Button ID="Button1" runat="server" Text="Button" Style="display: none" />
-                <!-- 儲存活動ID、場次ID、活動名稱、活動分類 -->
-                <asp:HiddenField ID="act_idn_hf" runat="server" ViewStateMode="Enabled" Visible="false" />
-                <asp:HiddenField ID="as_idn_hf" runat="server" ViewStateMode="Enabled" Visible="false" />
-                <asp:HiddenField ID="act_class_hf" runat="server" ViewStateMode="Enabled" Visible="false" />
-                <asp:HiddenField ID="act_title_hf" runat="server" ViewStateMode="Enabled" Visible="false" />
-
-
                 <!-- ModalPopupExtender顯示的Panel -->
                 <asp:Panel ID="password_pl" runat="server" style="display:none">
                     <div class="modal-dialog" style="width: 353px;">
@@ -144,11 +158,11 @@
                                 <h4 class="modal-title">請輸入密碼</h4>
                             </div>
                             <div class="modal-body">
-                                <asp:TextBox CssClass="form-control placeholder-no-fix" ID="password_txt" runat="server"></asp:TextBox>
+                                <asp:TextBox CssClass="form-control placeholder-no-fix" ID="password_txt" runat="server" TextMode="Password" minlength="4"></asp:TextBox>
                             </div>
                             <div class="modal-footer">
-                                <asp:Button ID="password_cancle_btn" runat="server" Text="取消" />
-                                <asp:Button ID="password_ok_btn" runat="server" Text="確定" OnClick="password_ok_btn_Click" />
+                                <asp:Button ID="password_cancle_btn" runat="server" Text="取消" CssClass="btn btn-theme"/>
+                                <asp:Button ID="password_ok_btn" runat="server" Text="確定" OnClick="password_ok_btn_Click" CssClass="btn btn-theme"/>
                             </div>
                         </div>
                     </div>
@@ -160,7 +174,7 @@
 
     <script>
         $(document).ready(function () {
-            //設定麵包削尋覽列
+            //
             setSessionBread();
         })
         //#region 設定麵包削尋覽列

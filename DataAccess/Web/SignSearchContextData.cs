@@ -32,33 +32,58 @@ namespace DataAccess.Web
         }
         #endregion
 
-        #region 查詢
-        public DataTable GetEmailData(string aae_email, string aae_password)
+        #region 查詢Email資訊
+        public DataTable GetEmailData(string aae_email)
         {
             string sql = @"SELECT  aae_email, aae_password
                            FROM     activity_apply_email
-                           WHERE   (aae_password = @aae_password AND aae_email = @aae_email)";
-            IDataParameter[] param = { Db.GetParam("@aae_email", aae_email) ,Db.GetParam("@aae_password", aae_password) };
+                           WHERE   (aae_email = @aae_email)";
+            IDataParameter[] param = { Db.GetParam("@aae_email", aae_email)  };
             return Db.GetDataTable(sql, param);
         }
         #endregion
 
-
-        #region 查詢
-        public CommonResult DeleteData(Dictionary<string, object> data_dict)
+        #region 查詢報名欄位序號
+        public DataTable GetColumnData(string acc_act)
         {
+            string sql = @"SELECT  acc_idn
+                           FROM    activity_column
+                           WHERE   (acc_act = @acc_act)";
+            IDataParameter[] param = { Db.GetParam("@acc_act", acc_act) };
+            return Db.GetDataTable(sql, param);
+        }
+        #endregion
 
-            var res = Db.ValidatePreDelete(_modelType,data_dict);
+        #region 單筆刪除
+        /// <summary>
+        /// 單筆刪除
+        /// </summary>
+        /// <param name="data_dict">資料</param>
+        /// <returns></returns>
+        public CommonResult DeleteData(Dictionary<string, object> data_dict, Sys_accountInfo loginUser = null)
+        {
+            return DeleteData(null, data_dict, loginUser);
+        }
+        /// <summary>
+        /// 單筆刪除
+        /// </summary>
+        /// <param name="trans">Transaction</param>
+        /// <param name="data_dict">資料</param>
+        /// <returns></returns>
+        public CommonResult DeleteData(IDbTransaction trans, Dictionary<string, object> data_dict, Sys_accountInfo loginUser = null)
+        {
+            if (loginUser == null) loginUser = CommonHelper.GetLoginUser();
+
+            var res = Db.ValidatePreDelete(_modelType, data_dict);
             if (res.IsSuccess)
             {
                 string sql = @"delete [" + _modelType.GetTableName() + @"] where " + Db.GetSqlWhere(_modelType, data_dict);
-                res.AffectedRows = Db.ExecuteNonQuery(null, sql, Db.GetParam(_modelType, data_dict));
+                res.AffectedRows = Db.ExecuteNonQuery(trans, sql, Db.GetParam(_modelType, data_dict));
                 if (res.AffectedRows <= 0) res.IsSuccess = false;
             }
             return res;
         }
         #endregion
-
 
 
 

@@ -23,7 +23,7 @@ namespace DataAccess.S01
                 from sys_process_role pr
                 inner join sys_role r on r.sys_rid = pr.sys_rid
                 inner join sys_unit u on u.sys_uid = pr.sys_uid
-                left join sys_role_position rp on rp.sys_rid = pr.sys_rid and rp.sys_rpid = pr.sys_rpid
+                left join sys_role_position rp on rp.sys_rid = pr.sys_rid and rp.sys_uid = pr.sys_uid and rp.sys_rpid = pr.sys_rpid
                 where pr.sys_pid = @sys_pid";
 
             var lst = db.GetEnumerable<Model.S01.UCProcessAuthManagerInfo.Main>(sql, db.GetParam("@sys_pid", sys_pid)).ToList();

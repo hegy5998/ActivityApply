@@ -139,42 +139,6 @@ namespace ActivityApply {
         protected global::System.Web.UI.WebControls.Button Button1;
         
         /// <summary>
-        /// act_idn_hf 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField act_idn_hf;
-        
-        /// <summary>
-        /// as_idn_hf 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField as_idn_hf;
-        
-        /// <summary>
-        /// act_class_hf 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField act_class_hf;
-        
-        /// <summary>
-        /// act_title_hf 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField act_title_hf;
-        
-        /// <summary>
         /// password_pl 控制項。
         /// </summary>
         /// <remarks>

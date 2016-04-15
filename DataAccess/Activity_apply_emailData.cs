@@ -12,12 +12,12 @@ using Util;
 
 namespace DataAccess
 {
-    public class Activity_apply_detailData : BaseData
+    public class Activity_apply_emailData : BaseData
     {
         /// <summary>
         /// 對應的Model型別
         /// </summary>
-        private Type _modelType = typeof(Activity_apply_detailInfo);
+        private Type _modelType = typeof(Activity_apply_emailInfo);
 
         /// <summary>
         /// 對應的資料庫

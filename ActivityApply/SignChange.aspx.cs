@@ -15,16 +15,18 @@ namespace ActivityApply
     {
         static int ACT_IDN;
         static int AS_IDN;
+        static int AA_IDN;
         protected void Page_Load(object sender, EventArgs e)
         {
             ACT_IDN = Int32.Parse(Request["act_idn"]);
             AS_IDN = Int32.Parse(Request["as_idn"]);
+            AA_IDN = Int32.Parse(Request["aa_idn"]);
         }
         
         [System.Web.Services.WebMethod]
         public static string getSectionList()
         {
-            Sign_UpBL _bl = new Sign_UpBL();
+            SignChangeBL _bl = new SignChangeBL();
             List<Activity_sectionInfo> sectionList = _bl.GetSectionList(ACT_IDN);
             
             string json_data = JsonConvert.SerializeObject(sectionList);
@@ -34,16 +36,25 @@ namespace ActivityApply
         [System.Web.Services.WebMethod]
         public static string getQuestionList()
         {
-            Sign_UpBL _bl = new Sign_UpBL();
+            SignChangeBL _bl = new SignChangeBL();
             List<Activity_columnInfo> questionList = _bl.GetQuestionList(ACT_IDN);
             string json_data = JsonConvert.SerializeObject(questionList);
             return json_data;
         }
 
         [System.Web.Services.WebMethod]
+        public static string getApplyDetailList()
+        {
+            SignChangeBL _bl = new SignChangeBL();
+            List<Activity_apply_detailInfo> ApplyDetailList = _bl.getApplyDetailList(AA_IDN);
+            string json_data = JsonConvert.SerializeObject(ApplyDetailList);
+            return json_data;
+        }
+
+        [System.Web.Services.WebMethod]
         public static string saveUserData(List<UserData> userData)
         {
-            Sign_UpBL _bl = new Sign_UpBL();
+            SignChangeBL _bl = new SignChangeBL();
             CommonResult result;
             Dictionary<String, Object> save_Activity_apply = new Dictionary<string, object>();
 

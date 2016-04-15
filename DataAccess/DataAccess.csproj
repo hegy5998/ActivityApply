@@ -92,6 +92,7 @@
     <Compile Include="Web\SignSearchContextData.cs" />
     <Compile Include="Web\activityData.cs" />
     <Compile Include="Web\activity_ListData.cs" />
+    <Compile Include="Web\SignChangeData.cs" />
     <Compile Include="Web\Sign_UpData.cs" />
   </ItemGroup>
   <ItemGroup>

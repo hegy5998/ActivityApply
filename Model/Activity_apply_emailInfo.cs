@@ -12,17 +12,11 @@ namespace Model
     [Table("activity_apply_email")]
     public partial class Activity_apply_emailInfo
     {
-        /// <summary>
-        ///  
-        /// </summary>
-        [Key]
-        [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]
-        [Column("aae_id")]
-        public Int32 Aae_id { get; set; }
 
         /// <summary>
         ///  
         /// </summary>
+        [Key]
         [Column("aae_email")]
         public String Aae_email { get; set; }
 

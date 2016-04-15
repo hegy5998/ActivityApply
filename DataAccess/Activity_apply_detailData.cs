@@ -12,7 +12,8 @@ using Util;
 
 namespace DataAccess
 {
-    public class Activity_apply_emailData : BaseData
+    
+    public class Activity_apply_detailData : BaseData
     {
         /// <summary>
         /// 對應的Model型別
@@ -133,6 +134,17 @@ namespace DataAccess
             return res;
         }
         #endregion
+        #endregion
+
+        #region 查詢
+        public List<Activity_apply_detailInfo> getApplyDetailList(int aad_apply_id)
+        {
+            string sql = @" SELECT  aad_apply_id, aad_col_id, aad_val
+                            FROM    activity_apply_detail
+                            WHERE   (aad_apply_id = @aad_apply_id);";
+            IDataParameter[] param = { Db.GetParam("@aad_apply_id", aad_apply_id) };
+            return Db.GetEnumerable<Activity_apply_detailInfo>(sql, param).ToList();
+        }
         #endregion
     }
 }
