@@ -421,13 +421,11 @@
 
         //#region 儲存使用者資料(POST)
         function SaveUserData() {
-            var detailList = { userData: [], olduserData: [] };
-            //儲存舊資料
-            detailList.olduserData = applyDetailList;
+            var detailList = { userData: []};
             for (var i = 0; i < questionList.length; i++) {
                 var detailJson = {}
                 detailJson.Aad_apply_id = applyDetailList[i].Aad_apply_id;
-                detailJson.Aad_col_id = questionList[i].Acc_idn;
+                detailJson.Aad_col_id = applyDetailList[i].Aad_col_id;
                 detailJson.Aad_title = questionList[i].Acc_title;
                 detailJson.Aad_val = questionList[i].Acc_val;
                 detailList.userData.push(detailJson);

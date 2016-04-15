@@ -52,7 +52,7 @@ namespace ActivityApply
         }
 
         [System.Web.Services.WebMethod]
-        public static string saveUserData(List<UserData> userData, List<UserData> olduserData)
+        public static string saveUserData(List<UserData> userData)
         {
             SignChangeBL _bl = new SignChangeBL();
             CommonResult result;
@@ -70,14 +70,13 @@ namespace ActivityApply
 
             if (result.IsSuccess)
             {
-                //int aad_apply_id = Int32.Parse(result.Message);
                 Dictionary<String, Object> old_Activity_apply_detail = new Dictionary<string, object>();
                 Dictionary<String, Object> new_Activity_apply_detail = new Dictionary<string, object>();
                 for (int i = 0; i < userData.Count; i++)
                 {
                     //舊的報名資料
                     old_Activity_apply_detail["aad_apply_id"] = userData[0].Aad_apply_id;
-                    old_Activity_apply_detail["aad_col_id"] = olduserData[i].Aad_col_id;
+                    old_Activity_apply_detail["aad_col_id"] = userData[i].Aad_col_id;
                     //新的報名資料
                     new_Activity_apply_detail["aad_val"] = userData[i].Aad_val;
 
