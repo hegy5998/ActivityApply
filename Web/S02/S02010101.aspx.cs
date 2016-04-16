@@ -11,6 +11,8 @@ using System.Data;
 using System.Collections;
 using AjaxControlToolkit;
 using System.IO;
+using System.Text;
+using Web.App_Code;
 
 namespace Web.S02
 {
@@ -20,12 +22,25 @@ namespace Web.S02
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            //ucGridViewPager.GridView = main_gv;
-            //ucGridViewPager.BindDataHandler += () => { BindGridView(GetData()); };
-            
+            //已發佈活動
+            ucGridViewPager.GridView = main_gv;
+            ucGridViewPager.BindDataHandler += () => { BindGridView(GetAlreadyData(), GetReadyData(), GetEndData()); };
+
+            //未發佈活動
+            ucGridViewPagerReady.GridView = ready_gv;
+            ucGridViewPagerReady.BindDataHandler += () => { BindGridView(GetAlreadyData(), GetReadyData(), GetEndData()); };
+
+            //已結束活動
+            ucGridViewPagerEnd.GridView = end_gv;
+            ucGridViewPagerEnd.BindDataHandler += () => { BindGridView(GetAlreadyData(), GetReadyData(), GetEndData()); };
+
+            //取消GridView分頁
+            controlSet_gv.AllowPaging = false;
+            ready_copperate.AllowPaging = false;
+
             if (!IsPostBack)
             {
-                BindGridView(GetData());
+                BindGridView(GetAlreadyData(), GetReadyData(), GetEndData());
             }
         }
 
@@ -41,7 +56,24 @@ namespace Web.S02
         /// 取得資料
         /// </summary>
         /// <returns>資料</returns>
-        private DataTable GetData()
+        /// 已發佈活動
+        private DataTable GetAlreadyData()
+        {
+            //判斷是否有查詢條件
+            Dictionary<string, object> Cond = new Dictionary<string, object>();
+
+            if (!string.IsNullOrWhiteSpace(q_keyword_tb.Text))
+            {
+                Cond.Add("keyword", q_keyword_tb.Text);
+            }
+
+            //顯示分頁
+            ucGridViewPager.Visible = true;
+            return _bl.GetAlreadyData(Cond);
+        }
+
+        //未發佈活動
+        private DataTable GetReadyData()
         {
             Dictionary<string, object> Cond = new Dictionary<string, object>();
 
@@ -50,16 +82,22 @@ namespace Web.S02
                 Cond.Add("keyword", q_keyword_tb.Text);
             }
 
-            /*
-            if (Cond.Count == 0)
-            {
-                ShowPopupMessage(ITCEnum.PopupMessageType.Error, "請至少輸入一項條件！");
-                return new DataTable();
-            }
-            */
+            ucGridViewPagerReady.Visible = true;
+            return _bl.GetReadyData(Cond);
+        }
 
-            ucGridViewPager.Visible = true;
-            return _bl.GetData(Cond);
+        //已結束活動
+        private DataTable GetEndData()
+        {
+            Dictionary<string, object> Cond = new Dictionary<string, object>();
+
+            if (!string.IsNullOrWhiteSpace(q_keyword_tb.Text))
+            {
+                Cond.Add("keyword", q_keyword_tb.Text);
+            }
+
+            ucGridViewPagerEnd.Visible = true;
+            return _bl.GetEndData(Cond);
         }
         #endregion
 
@@ -67,72 +105,117 @@ namespace Web.S02
         /// <summary>
         /// Bind資料
         /// </summary>
-        /// <param name="lst">資料</param>
-        private void BindGridView(DataTable lst)
+        /// <param name="alreadylst">資料</param>
+        private void BindGridView(DataTable alreadylst, DataTable readylst, DataTable endlst)
         {
-            main_gv.DataSource = lst;
+            //已發佈活動
+            main_gv.DataSource = alreadylst;
             main_gv.DataBind();
 
-            ready_gv.DataSource = lst;
+            //未發佈活動
+            ready_gv.DataSource = readylst;
             ready_gv.DataBind();
 
-            end_gv.DataSource = lst;
+            //已結束活動
+            end_gv.DataSource = endlst;
             end_gv.DataBind();
         }
-        protected void main_gv_RowEditing(object sender, GridViewEditEventArgs e)
-        {
-            GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Edit, sender as GridView, e.NewEditIndex);
-        }
-        protected void main_gv_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
-        {
-            //GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, main_gv);
-            BindGridView(GetData());
-        }
+
+        //GridView排序
         protected void main_gv_Sorting(object sender, GridViewSortEventArgs e)
         {
-            var lst = GridViewHelper.SortGridView(sender as GridView, e, GetData());
-            BindGridView(lst);
+            //var alreadylst = GridViewHelper.SortGridView(sender as GridView, e, GetAlreadyData());
+            //BindGridView(alreadylst);
         }
-        protected void main_gv_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                if (e.Row.RowState.ToString().Contains("Edit") == false)
-                {
-                    // 一般資料列
-                    /*
-                    string pstid = (e.Row.FindControl("pstid_hf") as HiddenField).Value;
-                    string pstnam = (e.Row.FindControl("pstnam_lbl") as Label).Text;
 
-                    (e.Row.FindControl("delete_btn") as Button).OnClientClick = "if (!confirm(\"用電戶： " + pstnam + " ( " + pstid + " )\\n\\n確定要刪除嗎?\")) return false";
-                    */
-                }
+        // 關閉or發佈活動
+        protected void main_gv_RowClose(object sender, GridViewEditEventArgs e)
+        {
+            GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Edit, sender as GridView, e.NewEditIndex);
+
+            GridViewRow gvr = (sender as GridView).Rows[e.NewEditIndex];
+            var data_dict = new Dictionary<string, object>();
+            data_dict["as_idn"] = CommonConvert.GetStringOrEmptyString((gvr.FindControl("as_idn_hf") as HiddenField).Value);
+
+            var data = new Dictionary<string, object>();
+            data["as_isopen"] = CommonConvert.GetStringOrEmptyString((gvr.FindControl("as_isopen_hf") as HiddenField).Value);
+
+            //判斷是已發佈or未發佈活動
+            if (data["as_isopen"].ToString() == "0")
+            {
+                data["as_isopen"] = 1;
+            }
+            else if (data["as_isopen"].ToString() == "1")
+            {
+                data["as_isopen"] = 0;
+            }
+
+            var res = _bl.UpdateSessionData(data_dict, data);
+            if (res.IsSuccess)
+            {
+                BindGridView(GetAlreadyData(), GetReadyData(), GetEndData());
+                ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Update);
+            }
+            else
+            {
+                ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Delete, res.Message);
             }
         }
+
+        //protected void main_gv_Sorting(object sender, GridViewSortEventArgs e)
+        //{
+        //    var alreadylst = GridViewHelper.SortGridView(sender as GridView, e, GetAlreadyData());
+        //    var readylst = GridViewHelper.SortGridView(sender as GridView, e, GetReadyData());
+        //    var endlst = GridViewHelper.SortGridView(sender as GridView, e, GetEndData());
+        //    BindGridView(alreadylst, readylst, endlst);
+        //}
+
         protected void main_gv_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            int i;
+
             switch (e.CommandName)
             {
-                // 新增
-                case "Add":
-                    Response.Redirect("S02010102.aspx?sys_id=S01&sys_pid=S02010102");
+                // 修改活動
+                case "EditActivity":
+                    i = Convert.ToInt32(e.CommandArgument);
+
+                    Response.Redirect("S02010103.aspx?sys_id=S01&sys_pid=S02010103&i=" + i);
                     Response.End();
+                    break;
+
+                // 編輯協作者
+                case "Set": 
+                    // 設定彈出視窗
+                    InitControlSetPopupWindow(sender, e);
+                    break;
+
+                // 編輯協作者(Ready)
+                case "Set_ready":
+                    // 設定彈出視窗
+                    InitControlSetReadyPopupWindow(sender, e);
                     break;
             }
         }
+
+        //刪除活動
         protected void main_gv_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             if (ProcessModifyAuth)
             {
                 GridViewRow gvr = (sender as GridView).Rows[e.RowIndex];
+                //欲刪除場次序號
                 var data_dict = new Dictionary<string, object>();
-                data_dict["act_idn"] = CommonConvert.GetStringOrEmptyString((gvr.FindControl("act_idn_hf") as HiddenField).Value);
+                data_dict["as_idn"] = CommonConvert.GetStringOrEmptyString((gvr.FindControl("as_idn_hf") as HiddenField).Value);
+                //欲刪除場次的活動序號
+                var data_dict_act = new Dictionary<string, object>();
+                data_dict_act["act_idn"] = CommonConvert.GetStringOrEmptyString((gvr.FindControl("act_idn_hf") as HiddenField).Value);
 
-                var res = _bl.DeleteData(data_dict);
+                var res = _bl.DeleteData(data_dict, data_dict_act);
                 if (res.IsSuccess)
                 {
                     // 刪除成功，切換回一般模式
-                    BindGridView(GetData());
+                    BindGridView(GetAlreadyData(), GetReadyData(), GetEndData());
                     ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Delete);
                 }
                 else
@@ -142,33 +225,349 @@ namespace Web.S02
                 }
             }
         }
+
+        // 設定編輯協作者彈出視窗
+        private void InitControlSetPopupWindow(object sender, GridViewCommandEventArgs e)
+        {
+            GridViewRow gvr = (e.CommandSource as Button).NamingContainer as GridViewRow;
+
+            string cop_act = (gvr.FindControl("act_idn_hf") as HiddenField).Value;
+            Account_copperateInfo process_info = _bl.GetCopperateData(cop_act);
+            copperate_cop_act_hf.Value = cop_act;
+
+            GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, controlSet_gv);
+            BindControlSetGridView(GetControlSetData());
+            controlSet_mpe.Show();  // Popup Window
+            controlSet_pl.Visible = true;
+        }
+
+        // 設定編輯協作者彈出視窗(Ready)
+        private void InitControlSetReadyPopupWindow(object sender, GridViewCommandEventArgs e)
+        {
+            GridViewRow gvr = (e.CommandSource as Button).NamingContainer as GridViewRow;
+
+            string cop_act = (gvr.FindControl("act_idn_hf") as HiddenField).Value;
+            Account_copperateInfo process_info = _bl.GetCopperateData(cop_act);
+            cop_act_ready_hf.Value = cop_act;
+
+            GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, ready_copperate);
+            BindControlSetReadyGridView(GetControlSetReadyData());
+            ready_copperate_pop.Show();  // Popup Window
+            readyCopperate_pl.Visible = true;
+        }
+        #endregion
+
+        #region 協作者GridView相關
+        //協作者視窗關閉
+        protected void controlSet_cancel_btn_Click(object sender, EventArgs e)
+        {
+            BindGridView(GetAlreadyData(), GetReadyData(), GetEndData());
+        }
+
+        //取得協作者List資料
+        private List<Account_copperateInfo> GetControlSetData()
+        {
+            return _bl.GetControlList(copperate_cop_act_hf.Value);
+        }
+
+        //取得協作者List資料(Ready)
+        private List<Account_copperateInfo> GetControlSetReadyData()
+        {
+            return _bl.GetControlList(cop_act_ready_hf.Value);
+        }
+
+        //設定協作者GridView資料
+        private void BindControlSetGridView(List<Account_copperateInfo> lst)
+        {
+            controlSet_gv.DataSource = lst;
+            controlSet_gv.DataBind();
+
+            if (controlSet_gv.Rows.Count == 0)
+            {
+                // 避免無資料列時，無法顯示footer新增資料
+                var new_lst = new List<Account_copperateInfo>();
+                new_lst.Add(new Account_copperateInfo());
+                controlSet_gv.DataSource = new_lst;
+                controlSet_gv.DataBind();
+                controlSet_gv.Rows[0].Attributes.Add("style", "display: none");
+            }
+        }
+
+        //設定協作者GridView資料(Ready)
+        private void BindControlSetReadyGridView(List<Account_copperateInfo> lst)
+        {
+            ready_copperate.DataSource = lst;
+            ready_copperate.DataBind();
+
+            if (ready_copperate.Rows.Count == 0)
+            {
+                // 避免無資料列時，無法顯示footer新增資料
+                var new_lst = new List<Account_copperateInfo>();
+                new_lst.Add(new Account_copperateInfo());
+                ready_copperate.DataSource = new_lst;
+                ready_copperate.DataBind();
+                ready_copperate.Rows[0].Attributes.Add("style", "display: none");
+            }
+        }
+
+        // 協作者排序
+        protected void controlSet_gv_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            GridView gv = (GridView)sender;
+            var lst = GridViewHelper.SortGridView<Account_copperateInfo>(gv, e, _bl.GetControlList(copperate_cop_act_hf.Value));
+            BindControlSetGridView(lst);
+        }
+
+        // 協作者排序(Ready)
+        protected void controlSetReady_gv_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            GridView gv = (GridView)sender;
+            var lst = GridViewHelper.SortGridView<Account_copperateInfo>(gv, e, _bl.GetControlList(cop_act_ready_hf.Value));
+            BindControlSetReadyGridView(lst);
+        }
+
+        //編輯前
+        protected void controlSet_gv_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Edit, controlSet_gv, e.NewEditIndex);
+            BindControlSetGridView(GetControlSetData());
+        }
+
+        //編輯前(Ready)
+        protected void controlSetReady_gv_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Edit, ready_copperate, e.NewEditIndex);
+            BindControlSetReadyGridView(GetControlSetReadyData());
+        }
+
+        //取消編輯
+        protected void controlSet_gv_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, controlSet_gv);
+            BindControlSetGridView(GetControlSetData());
+        }
+
+        //取消編輯(Ready)
+        protected void controlSetReady_gv_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, ready_copperate);
+            BindControlSetReadyGridView(GetControlSetReadyData());
+        }
+
+        //RowDataBound事件
+        protected void controlSet_gv_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            switch (e.Row.RowType)
+            {
+                case DataControlRowType.DataRow:
+                    if (e.Row.RowState.ToString().Contains("Edit") == false)
+                    {
+                        // 一般資料列
+                        string cop_id = (e.Row.FindControl("cop_id_lbl") as Label).Text;
+                        string cop_authority = (e.Row.FindControl("cop_authority_lbl") as Label).Text;
+                        (e.Row.FindControl("delete_btn") as Button).OnClientClick = "if (!confirm(\"帳號：" + cop_id + "\\n權限：" + cop_authority + "\\n\\n確定要刪除嗎?\")) return false";
+                    }
+                    break;
+            }
+        }
+
+        //RowCommand事件
+        protected void controlSet_gv_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            switch (e.CommandName)
+            {
+                case "Add":
+                    GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Insert, controlSet_gv);
+                    BindControlSetGridView(GetControlSetData());
+                    break;
+
+                case "AddReady":
+                    GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Insert, ready_copperate);
+                    BindControlSetReadyGridView(GetControlSetReadyData());
+                    break;
+
+                case "AddSave":
+                    AddSaveControl();
+                    break;
+
+                case "AddSaveReady":
+                    AddSaveReadyControl();
+                    break;
+            }
+        }
+
+        //新增協作者
+        private void AddSaveControl()
+        {
+            if (ProcessModifyAuth)
+            {
+                GridViewRow gvr = controlSet_gv.FooterRow;
+                var dict = new Dictionary<string, object>();
+                dict["cop_act"] = copperate_cop_act_hf.Value;
+                dict["cop_id"] = (gvr.FindControl("cop_id_txt") as TextBox).Text.Trim();
+                dict["cop_authority"] = (gvr.FindControl("cop_authority_txt") as TextBox).Text.Trim();
+
+                // 新增資料
+                var res = _bl.InsertData_cop(dict);
+                if (res.IsSuccess)
+                {
+                    // 新增成功，切換回一般模式
+                    GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, controlSet_gv);
+                    BindControlSetGridView(GetControlSetData());
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Insert);
+                }
+                else
+                {
+                    // 新增失敗，顯示錯誤訊息
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, res.Message);
+                }
+            }
+        }
+
+        //新增協作者(Ready)
+        private void AddSaveReadyControl()
+        {
+            if (ProcessModifyAuth)
+            {
+                GridViewRow gvr = ready_copperate.FooterRow;
+                var dict = new Dictionary<string, object>();
+                dict["cop_act"] = cop_act_ready_hf.Value;
+                dict["cop_id"] = (gvr.FindControl("cop_id_txt") as TextBox).Text.Trim();
+                dict["cop_authority"] = (gvr.FindControl("cop_authority_txt") as TextBox).Text.Trim();
+
+                // 新增資料
+                var res = _bl.InsertData_cop(dict);
+                if (res.IsSuccess)
+                {
+                    // 新增成功，切換回一般模式
+                    GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, ready_copperate);
+                    BindControlSetReadyGridView(GetControlSetReadyData());
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Insert);
+                }
+                else
+                {
+                    // 新增失敗，顯示錯誤訊息
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, res.Message);
+                }
+            }
+        }
+
+        //更新協作者
+        protected void controlSet_gv_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            if (ProcessModifyAuth)
+            {
+                GridViewRow gvr = controlSet_gv.Rows[e.RowIndex];
+                var newData_dict = new Dictionary<string, object>();
+                newData_dict["cop_act"] = (gvr.FindControl("old_cop_act_hf") as HiddenField).Value;
+                newData_dict["cop_id"] = (gvr.FindControl("cop_id_txt") as TextBox).Text.Trim();
+                newData_dict["cop_authority"] = (gvr.FindControl("cop_authority_txt") as TextBox).Text.Trim();
+
+                var oldData_dict = new Dictionary<string, object>();
+                oldData_dict["cop_act"] = (gvr.FindControl("old_cop_act_hf") as HiddenField).Value;
+                oldData_dict["cop_id"] = (gvr.FindControl("old_cop_id_hf") as HiddenField).Value;
+
+                var res = _bl.UpdateCopData(oldData_dict, newData_dict);
+                if (res.IsSuccess)
+                {
+                    // 更新成功，切換回一般模式
+                    GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, controlSet_gv);
+                    BindControlSetGridView(GetControlSetData());
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Update);
+                }
+                else
+                {
+                    // 更新失敗，顯示錯誤訊息
+                    e.Cancel = true;
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Update, res.Message);
+                }
+            }
+        }
+
+        //更新協作者(Ready)
+        protected void controlSetReady_gv_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            if (ProcessModifyAuth)
+            {
+                GridViewRow gvr = ready_copperate.Rows[e.RowIndex];
+                var newData_dict = new Dictionary<string, object>();
+                newData_dict["cop_act"] = (gvr.FindControl("old_cop_act_hf") as HiddenField).Value;
+                newData_dict["cop_id"] = (gvr.FindControl("cop_id_txt") as TextBox).Text.Trim();
+                newData_dict["cop_authority"] = (gvr.FindControl("cop_authority_txt") as TextBox).Text.Trim();
+
+                var oldData_dict = new Dictionary<string, object>();
+                oldData_dict["cop_act"] = (gvr.FindControl("old_cop_act_hf") as HiddenField).Value;
+                oldData_dict["cop_id"] = (gvr.FindControl("old_cop_id_hf") as HiddenField).Value;
+
+                var res = _bl.UpdateCopData(oldData_dict, newData_dict);
+                if (res.IsSuccess)
+                {
+                    // 更新成功，切換回一般模式
+                    GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, ready_copperate);
+                    BindControlSetReadyGridView(GetControlSetReadyData());
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Update);
+                }
+                else
+                {
+                    // 更新失敗，顯示錯誤訊息
+                    e.Cancel = true;
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Update, res.Message);
+                }
+            }
+        }
+
+        //刪除協作者
+        protected void controlSet_gv_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            if (ProcessModifyAuth)
+            {
+                GridViewRow gvr = (sender as GridView).Rows[e.RowIndex];
+                var dict = new Dictionary<string, object>();
+                dict["cop_act"] = copperate_cop_act_hf.Value;
+                dict["cop_id"] = (gvr.FindControl("cop_id_lbl") as Label).Text;
+                var res = _bl.DeleteCopData(dict);
+
+                if (res.IsSuccess)
+                {
+                    BindControlSetGridView(GetControlSetData());
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Delete);
+                }
+                else
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Delete, res.Message);
+            }
+        }
+
+        //刪除協作者(Ready)
+        protected void controlSetReady_gv_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            if (ProcessModifyAuth)
+            {
+                GridViewRow gvr = (sender as GridView).Rows[e.RowIndex];
+                var dict = new Dictionary<string, object>();
+                dict["cop_act"] = cop_act_ready_hf.Value;
+                dict["cop_id"] = (gvr.FindControl("cop_id_lbl") as Label).Text;
+                var res = _bl.DeleteCopData(dict);
+
+                if (res.IsSuccess)
+                {
+                    BindControlSetReadyGridView(GetControlSetReadyData());
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Delete);
+                }
+                else
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Delete, res.Message);
+            }
+        }
         #endregion
 
         protected void Back_btn_Click(object sender, EventArgs e)
         {
-            BindGridView(GetData());
+            BindGridView(GetAlreadyData(), GetReadyData(), GetEndData());
         }
 
         #region 查詢按鈕
         protected void q_query_btn_Click(object sender, EventArgs e)
         {
-            BindGridView(GetData());
-        }
-        #endregion
-
-        #region 修改按鈕
-        protected void editActivity_btn_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("S02010103.aspx?sys_id=S01&sys_pid=S02010103");
-            Response.End();
-        }
-        #endregion
-
-        #region 協作者
-        protected void saveHelp_btn_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("S02010101.aspx?sys_id=S01&sys_pid=S02010101");
-            Response.End();
+            BindGridView(GetAlreadyData(), GetReadyData(), GetEndData());
         }
         #endregion
 
@@ -199,17 +598,6 @@ namespace Web.S02
         }
         #endregion
 
-        #region 測試用的刪除_活動
-        protected void delTest_btn_click(object sender, EventArgs e)
-        {
-            Dictionary<string, object> key = new Dictionary<string, object>();
-
-            key["act_idn"] = act_idn.Text;
-
-            _bl.DeleteData(key);
-        }
-        #endregion
-
         protected void saveTestSession_btn_click(object sender, EventArgs e)
         {
             Dictionary<string, object> insert = new Dictionary<string, object>();
@@ -228,7 +616,17 @@ namespace Web.S02
             insert["aa_as"] = aa_as.Text;
 
             _bl.InsertData_apply(insert);
-            
+        }
+
+        protected void saveTestCop_btn_click(object sender, EventArgs e)
+        {
+            Dictionary<string, object> insert = new Dictionary<string, object>();
+
+            insert["cop_act"] = cop_act.Text;
+            insert["cop_id"] = cop_id.Text;
+            insert["cop_authority"] = cop_authority.Text;
+
+            _bl.InsertData_cop(insert);
         }
     }
 }

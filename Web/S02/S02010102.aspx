@@ -10,59 +10,39 @@
     <a href="#">儲存資料</a>
     <br /><br />
 
-    <table class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>流水號</th>
-                <th>姓名</th>
-                <th>電子信箱</th>
-                <th>服務單位</th>
-                <th>刪除</th>
-            </tr>
-        </thead>
-                        
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>逢甲大學活動管理系統</td>
-                <td>123@aaa</td>
-                <td>逢甲大學資訊處</td>
-                <td><a href="#">刪除</a></td>
-            </tr>
+    <asp:GridView ID="controlSet_gv" runat="server" AutoGenerateColumns="False" ShowHeaderWhenEmpty="True" >
+        <Columns>
+            <%--操作--%>
+            <asp:TemplateField ShowHeader="False" HeaderText="操作">
+                <EditItemTemplate>
+                    &nbsp;<asp:Button ID="save_btn" runat="server" CommandName="Update" CssClass="btnGrv update" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
+                    &nbsp;<asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="btnGrv cancel" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                    <asp:HiddenField ID="old_cop_act_hf" runat="server" Value='<%# Eval("cop_act") %>' />
+                    <asp:HiddenField ID="old_cop_id_hf" runat="server" Value='<%# Eval("cop_id") %>' />
+                </EditItemTemplate>
 
-            <tr>
-                <td>2</td>
-                <td>逢甲大學活動管理系統</td>
-                <td>123@aaa</td>
-                <td>逢甲大學資訊處</td>
-                <td><a href="#">刪除</a></td>
-            </tr>
+                <FooterTemplate>
+                    <asp:Button ID="save_btn" runat="server" CommandName="AddSave" CssClass="btnGrv update" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
+                    &nbsp;<asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="btnGrv cancel" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                </FooterTemplate>
 
-            <tr>
-                <td>3</td>
-                <td>逢甲大學活動管理系統</td>
-                <td>123@aaa</td>
-                <td>逢甲大學資訊處</td>
-                <td><a href="#">刪除</a></td>
-            </tr>
+                <HeaderTemplate>
+                    <asp:Button ID="add_btn" runat="server" CommandName="Add" CssClass="btnGrv add" Text="新增" ToolTip="新增" UseSubmitBehavior="False" />
+                </HeaderTemplate>
 
-            <tr>
-                <td>4</td>
-                <td>逢甲大學活動管理系統</td>
-                <td>123@aaa</td>
-                <td>逢甲大學資訊處</td>
-                <td><a href="#">刪除</a></td>
-            </tr>
+                <ItemTemplate>
+                    <asp:Button ID="edit_btn" runat="server" CommandName="Edit" CssClass="btnGrv edit" Text="編輯" ToolTip="編輯" UseSubmitBehavior="False" />
+                    &nbsp;<asp:Button ID="delete_btn" runat="server" CommandName="Delete" CssClass="btnGrv delete" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" />
+                    <asp:HiddenField ID="rowDefaultTriggerControlID_hf" runat="server" EnableViewState="False" Value="edit_btn" />
+                    <asp:HiddenField ID="cop_act_hf" runat="server" Value='<%# Eval("cop_act") %>' />
+                </ItemTemplate>
 
-            <tr>
-                <td>5</td>
-                <td>逢甲大學活動管理系統</td>
-                <td>123@aaa</td>
-                <td>逢甲大學資訊處</td>
-                <td><a href="#">刪除</a></td>
-            </tr>
-        </tbody>
-    </table>
+                <FooterStyle HorizontalAlign="Center" />
+                <HeaderStyle Width="70px" />
+                <ItemStyle HorizontalAlign="Center" Wrap="False" />
+            </asp:TemplateField>
+        </Columns>
+    </asp:GridView>
 
     <script>
         window.onbeforeunload = function () {

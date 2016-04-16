@@ -128,5 +128,12 @@ namespace BusinessLayer.S02
             return _data.GetList(Cond);
         }
         #endregion
+
+        #region 取得活動列表
+        public List<Activity_classInfo> GetClassList()
+        {
+            return _data.GetClassList();
+        }
+        #endregion
     }
 }

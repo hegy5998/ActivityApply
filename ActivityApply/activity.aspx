@@ -30,7 +30,7 @@
                                 <div class="photo-wrapper">
                                     <div class="photo">
                                         <a data-toggle="modal" href="#myModal">
-                                            <img class="img-responsive" src="/assets/img/fcu.jpg" alt=""></a>
+                                            <img class="img-responsive" src="assets/img/fcu.jpg" alt="" /></a>
                                     </div>
                                     <div class="overlay"></div>
                                 </div>
@@ -42,7 +42,7 @@
                         </div>
                         <div class="photo">
                             <a class="thumbnail">
-                                <img class="imp-responsive" src="../assets/img/qrcodetest.png" alt="" /></a>
+                                <img class="imp-responsive" src="assets/img/qrcodetest.png" alt="" /></a>
                         </div>
                     </div>
                     <!-- 活動頁面右半邊 -->
@@ -61,7 +61,11 @@
                             <hr />
                             <label class="control-label">活動簡介</label>
                             <br />
-                            <asp:Label ID="Act_desc_lbl" runat="server" Text="Label"></asp:Label>
+                            <!-- 設定活動簡介大小，超出變成卷軸 -->
+                            <div style="width:auto;height:400px;overflow-x:auto;overflow-y:auto;background-color:white;">
+                                <asp:Label ID="Act_desc_lbl" runat="server" Text="Label" ></asp:Label>
+                            </div>
+
                             <hr />
                             <label class="control-label">附加檔案</label>
                             <h5>我是附加檔案</h5>
@@ -87,13 +91,34 @@
             //產生場次
             getSessionList();
         })
+
+        //#region 設定麵包削尋覽列
+        function setSessionBread() {
+            //將滅包削內容清空
+            $("#add_breach").children().remove();
+            //添加首頁
+            $("#add_breach").append('<li><a href="index.aspx">首頁</a></li>');
+            var act_class = $.url().param("act_class");
+            //判斷目前目錄並添加
+            var act_class_title;
+            for (var count = 0 ; count < $("#add_sub > li > a").length ; count++) {
+                var act_num = $("#add_sub > li > a")[count].href.split("act_class=")[$("#add_sub > li > a")[count].href.split("act_class=").length - 1]
+                if (act_num == act_class) {
+                    act_class_title = $("#add_sub > li > a")[count].innerHTML;
+                }
+            }
+            $("#add_breach").append('<li><a href="activity_List.aspx?act_class=' + act_class + '">' + act_class_title + '</a></li>');
+            $("#add_breach").append('<li><a href="activity.aspx?act_class=' + $.url().param("act_class") + '&act_idn=' + $.url().param("act_idn") + '">' + $.url().param("act_title") + '</a></li>');
+        }
+        //#endregion
+
         // #region 產生活動資訊
         function getActivityList() {
             $.ajax({
                 type: 'post',
                 traditional: true,
                 //傳送資料到後台為getActivityList的function
-                url: '/activity.aspx/getActivityList',
+                url: 'activity.aspx/getActivityList',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 //成功時
@@ -116,7 +141,7 @@
                 type: 'post',
                 traditional: true,
                 //傳送資料到後台為getSessionList的function
-                url: '/activity.aspx/getSessionList',
+                url: 'activity.aspx/getSessionList',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 //成功時
@@ -136,6 +161,8 @@
         function setActivity(ActivityInfo) {
             //轉換活動資訊的JSON字串成JSON物件
             var ActivityInfo = JSON.parse(ActivityInfo);
+            var act_title = ActivityInfo[0].Act_title;
+
             //設定主辦單位
             $("#unit").text(ActivityInfo[0].Act_unit);
             //設定聯絡人
@@ -143,8 +170,11 @@
             //設定聯絡人電話
             $("#contact_phone").text("聯絡電話:" + ActivityInfo[0].Act_contact_phone);
             //$("#desc").append(decodeURI(ActivityInfo[0].Act_desc));
-            //設定相關連結
-            $("#relate_link").attr("href", ActivityInfo[0].Act_relate_link);
+            //設定相關連結，如果沒有則不顯示
+            if (ActivityInfo[0].Act_relate_link != null)
+                $("#relate_link").attr("href", ActivityInfo[0].Act_relate_link);
+            else
+                $("#relate_link").remove();
         }
         //#endregion
 
@@ -165,7 +195,7 @@
                                              <br />\
                                              <label class="session-control-label-context" id="as_numlimit_">剩餘/限制人數：10/' + SessionInfo[count].As_num_limit + '人</label>\
                                              <br />\
-                                             <a href="../Sign_Up.aspx?act_idn=' + SessionInfo[count].As_act + '&as_idn=' + SessionInfo[count].As_idn + '" class="btn btn-theme btn-lg" role="button">我要報名</a>\
+                                             <a href="Sign_Up.aspx?act_idn=' + SessionInfo[count].As_act + '&as_idn=' + SessionInfo[count].As_idn + '&act_class=' + $.url().param("act_class") + '&act_title=' + $.url().param("act_title") + '" class="btn btn-theme btn-lg" role="button">我要報名</a>\
                                          </div>');
             }
         }
@@ -180,14 +210,14 @@
             else
                 return "";
         };
-        
+
     </script>
     <!-- Modal -->
     <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade text-center">
         <div class="modal-dialog" style="display: inline-block; width: auto;">
             <div class="modal-content">
                 <div class="modal-body">
-                    <img class="img-responsive" src="/assets/img/fcu.jpg" alt="">
+                    <img class="img-responsive" src="assets/img/fcu.jpg" alt="" />
                 </div>
             </div>
         </div>

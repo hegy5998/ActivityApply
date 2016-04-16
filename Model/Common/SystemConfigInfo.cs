@@ -53,6 +53,10 @@ namespace Model.Common
         /// </summary>
         public String SMTP_FROM_NAME { get; set; }
         /// <summary>
+        /// SMTP 是否須帳密登入(Y:是 N:否)
+        /// </summary>
+        public String SMTP_AUTH { get; set; }
+        /// <summary>
         /// SMTP 主機位址
         /// </summary>
         public String SMTP_HOST { get; set; }

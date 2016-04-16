@@ -1,13 +1,14 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true" CodeBehind="Sign_Up.aspx.cs" Inherits="ActivityApply.Sign_Up" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead" runat="server">
-    <link href="../assets/css/jquery.steps.css" rel="stylesheet" />
-    <script src="../assets/js/jquery.steps.js"></script>
+    <link href="<%=ResolveUrl("~/assets/css/jquery.steps.css")%>" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery.steps.js") %>"></script>
     <!-- Jquery Validation -->
-    <script src="assets/js/validation/jquery.metadata.js"></script>
-    <script src="assets/js/validation/jquery.validate.js"></script>
-    <script src="assets/js/validation/messages_zh_TW.js"></script>
-    <script src="assets/js/validation/additional-methods.js"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/validation/jquery.metadata.js") %>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/validation/jquery.validate.js") %>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/validation/messages_zh_TW.js") %>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/validation/additional-methods.js") %>"></script>
+
     <script type="text/javascript">
         $(function () {
             //須與form表單ID名稱相同
@@ -106,12 +107,13 @@
                 type: 'post',
                 traditional: true,
                 //傳送資料到後台為getSectionList的function
-                url: '/Sign_Up.aspx/getSectionList',
+                url: 'Sign_Up.aspx/getSectionList',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 //成功時
                 success: function (result) {
                     // 加入區塊
+                    if (result.d != "")
                     Add_Section(result.d);
                 },
                 //失敗時
@@ -129,12 +131,13 @@
                 type: 'post',
                 traditional: true,
                 //傳送資料到後台為getQuestionList的function
-                url: '/Sign_Up.aspx/getQuestionList',
+                url: 'Sign_Up.aspx/getQuestionList',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 //成功時
                 success: function (result) {
                     // 加入問題
+                    if(result.d != "")
                     Add_Question(result.d);
                 },
                 //失敗時
@@ -332,15 +335,20 @@
                         questionList[i].Acc_val = $('input[name="' + questionList[i].Input_name + '"]').val();
                         break;
                     case "singleSelect":
-                        questionList[i].Acc_val = $('input:radio:checked[name="' + questionList[i].Input_name + '"]').val();
+                        questionList[i].Acc_val = $('input:radio:checked[name="' + questionList[i].Input_name + '"]').val();                        
                         break;
                     case "multiSelect":
-                        questionList[i].Acc_val = $('input:checkbox:checked[name="' + questionList[i].Input_name + '"]').map(function () { return $(this).val(); }).get();
+                        var qusArray = $('input:checkbox:checked[name="' + questionList[i].Input_name + '"]').map(function () { return $(this).val(); }).get();
+                        questionList[i].Acc_val = "";
+                        qusArray.forEach(function (val, index) { questionList[i].Acc_val += val + ((index != qusArray.length - 1) ? "," : "") });
                         break;
                     case "dropDownList":
                         questionList[i].Acc_val = $('select[name="' + questionList[i].Input_name + '"]').val();
                         break;
                 }
+                //判斷選項為undefined
+                if (!questionList[i].Acc_val)
+                    questionList[i].Acc_val = "";
             }
         }
         //#endregion
@@ -380,7 +388,7 @@
                 type: 'post',
                 traditional: true,
                 //傳送資料到後台為saveUserData的function
-                url: '/Sign_Up.aspx/saveUserData',
+                url: 'Sign_Up.aspx/saveUserData',
                 data: JSON.stringify(detailList),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -409,7 +417,7 @@
                     return false;
                 }
                 if (currentIndex === 0) {
-                    if ($("#form1").valid() || 1) {
+                    if ($("#form1").valid()) {
                         setUserData();
                         $('tbody').html("");    //清空表格
                         Add_Check();
@@ -427,7 +435,7 @@
                 return true;
             },
             onFinishing: function (event, currentIndex) {
-                window.location.replace("../index.aspx");
+                window.location.replace("index.aspx");
                 return true;
             },
             onFinished: function (event, currentIndex) {                
@@ -444,6 +452,27 @@
         //調整 jQuery steps 高度
         function resizeJquerySteps() {
             $('.wizard .content').animate({ height: $('.body.current').outerHeight() }, "slow");
+        }
+        //#endregion
+
+        //#region 設定麵包削尋覽列
+        function setSessionBread() {
+            //將滅包削內容清空
+            $("#add_breach").children().remove();
+            //添加首頁
+            $("#add_breach").append('<li><a href="index.aspx">首頁</a></li>');
+            var act_class = $.url().param("act_class");
+            //判斷目前目錄並添加
+            var act_class_title;
+            for (var count = 0 ; count < $("#add_sub > li > a").length ; count++) {
+                var act_num = $("#add_sub > li > a")[count].href.split("act_class=")[$("#add_sub > li > a")[count].href.split("act_class=").length - 1]
+                if (act_num == act_class) {
+                    act_class_title = $("#add_sub > li > a")[count].innerHTML;
+                }
+            }
+            $("#add_breach").append('<li><a href="activity_List.aspx?act_class=' + act_class + '">' + act_class_title + '</a></li>');
+            $("#add_breach").append('<li><a href="activity.aspx?act_class=' + $.url().param("act_class") + '&act_idn=' + $.url().param("act_idn") + '&act_title=' + $.url().param("act_title") + '">' + $.url().param("act_title") + '</a></li>');
+            $("#add_breach").append('<li>報名</li>');
         }
         //#endregion
 

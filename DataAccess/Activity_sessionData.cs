@@ -28,7 +28,7 @@ namespace DataAccess
         {
             string sql = @"SELECT   activity_session.*
                            FROM    activity_session
-                           WHERE   (as_act = @as_act)
+                           WHERE   (as_act = @as_act) AND (as_isopen = 1)
                            ORDER BY   as_idn";
             IDataParameter[] param = { Db.GetParam("@as_act", as_act) };
             return Db.GetEnumerable<Activity_sessionInfo>(sql, param).ToList();

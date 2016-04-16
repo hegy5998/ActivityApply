@@ -1,0 +1,13 @@
+C:\Users\Saki\Desktop\ActivityApply\DataAccess\bin\Release\DataAccess.dll
+C:\Users\Saki\Desktop\ActivityApply\DataAccess\bin\Release\DataAccess.pdb
+C:\Users\Saki\Desktop\ActivityApply\DataAccess\bin\Release\DataAccessBase.dll
+C:\Users\Saki\Desktop\ActivityApply\DataAccess\bin\Release\Model.dll
+C:\Users\Saki\Desktop\ActivityApply\DataAccess\bin\Release\Util.dll
+C:\Users\Saki\Desktop\ActivityApply\DataAccess\bin\Release\UtilBase.dll
+C:\Users\Saki\Desktop\ActivityApply\DataAccess\bin\Release\Model.pdb
+C:\Users\Saki\Desktop\ActivityApply\DataAccess\bin\Release\Util.pdb
+C:\Users\Saki\Desktop\ActivityApply\DataAccess\bin\Release\DataAccessBase.xml
+C:\Users\Saki\Desktop\ActivityApply\DataAccess\bin\Release\UtilBase.xml
+C:\Users\Saki\Desktop\ActivityApply\DataAccess\obj\Release\DataAccess.csprojResolveAssemblyReference.cache
+C:\Users\Saki\Desktop\ActivityApply\DataAccess\obj\Release\DataAccess.dll
+C:\Users\Saki\Desktop\ActivityApply\DataAccess\obj\Release\DataAccess.pdb
