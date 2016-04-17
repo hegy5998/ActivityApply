@@ -22,6 +22,13 @@ namespace BusinessLayer.Web
         }
         #endregion
 
+        #region 取得活動
+        public DataTable GetActivityData(int as_act, int as_idn)
+        {
+            return _data.GetActivityData(as_act, as_idn);
+        }
+        #endregion
+
         #region 取得email密碼
         public DataTable GetEmailData(string aae_email)
         {

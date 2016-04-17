@@ -335,15 +335,20 @@
                         questionList[i].Acc_val = $('input[name="' + questionList[i].Input_name + '"]').val();
                         break;
                     case "singleSelect":
-                        questionList[i].Acc_val = $('input:radio:checked[name="' + questionList[i].Input_name + '"]').val();
+                        questionList[i].Acc_val = $('input:radio:checked[name="' + questionList[i].Input_name + '"]').val();                        
                         break;
                     case "multiSelect":
-                        questionList[i].Acc_val = $('input:checkbox:checked[name="' + questionList[i].Input_name + '"]').map(function () { return $(this).val(); }).get();
+                        var qusArray = $('input:checkbox:checked[name="' + questionList[i].Input_name + '"]').map(function () { return $(this).val(); }).get();
+                        questionList[i].Acc_val = "";
+                        qusArray.forEach(function (val, index) { questionList[i].Acc_val += val + ((index != qusArray.length - 1) ? "," : "") });
                         break;
                     case "dropDownList":
                         questionList[i].Acc_val = $('select[name="' + questionList[i].Input_name + '"]').val();
                         break;
                 }
+                //判斷選項為undefined
+                if (!questionList[i].Acc_val)
+                    questionList[i].Acc_val = "";
             }
         }
         //#endregion

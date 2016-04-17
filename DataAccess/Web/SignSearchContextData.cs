@@ -16,7 +16,7 @@ namespace DataAccess.Web
         CommonDbHelper Db = DAH.Db;
 
 
-        #region 查詢報名資訊
+        #region 查詢報名資訊(檢視報名資料)
         public DataTable GetActivityData(string aa_email)
         {
             string sql = @"SELECT activity.act_idn,activity.act_title,activity.act_class,
@@ -28,6 +28,21 @@ namespace DataAccess.Web
                            AND activity_apply.aa_email = @aa_email
                            ORDER BY activity_apply.updtime";
             IDataParameter[] param = { Db.GetParam("@aa_email", aa_email) };
+            return Db.GetDataTable(sql, param);
+        }
+        #endregion
+
+        #region 查詢報名資訊(寄送取消報名資料)
+        public DataTable GetActivityData(int as_act, int as_idn)
+        {
+            string sql = @" SELECT  activity.act_title, activity.act_unit,
+                                    activity.act_contact_name, activity.act_contact_phone, 
+                                    activity.act_short_link, 
+                                    activity_session.as_title, activity_session.as_position, 
+                                    activity_session.as_date_start, activity_session.as_date_end
+                            FROM    activity, activity_session
+                            WHERE   activity.act_idn = activity_session.as_act AND as_idn = @as_idn AND as_act = @as_act";
+            IDataParameter[] param = { Db.GetParam("@as_act", as_act), Db.GetParam("@as_idn", as_idn) };
             return Db.GetDataTable(sql, param);
         }
         #endregion

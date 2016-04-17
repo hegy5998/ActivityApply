@@ -8,6 +8,7 @@ using System.Linq;
 using Util;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Model.Common;
 
 namespace ActivityApply
 {
@@ -22,7 +23,8 @@ namespace ActivityApply
             AS_IDN = Int32.Parse(Request["as_idn"]);
             AA_IDN = Int32.Parse(Request["aa_idn"]);
         }
-        
+
+        #region 取得場次資料
         [System.Web.Services.WebMethod]
         public static string getSectionList()
         {
@@ -32,7 +34,9 @@ namespace ActivityApply
             string json_data = JsonConvert.SerializeObject(sectionList);
             return json_data;
         }
+        #endregion
 
+        #region 取得報名表問題
         [System.Web.Services.WebMethod]
         public static string getQuestionList()
         {
@@ -41,7 +45,9 @@ namespace ActivityApply
             string json_data = JsonConvert.SerializeObject(questionList);
             return json_data;
         }
+        #endregion
 
+        #region 取得報名資料
         [System.Web.Services.WebMethod]
         public static string getApplyDetailList()
         {
@@ -50,21 +56,25 @@ namespace ActivityApply
             string json_data = JsonConvert.SerializeObject(ApplyDetailList);
             return json_data;
         }
+        #endregion
 
+        #region 更新報名資料
         [System.Web.Services.WebMethod]
         public static string saveUserData(List<UserData> userData)
         {
             SignChangeBL _bl = new SignChangeBL();
             CommonResult result;
             Dictionary<String, Object> old_Activity_apply = new Dictionary<string, object>();
+            string name;
+            string email;
             //舊的報名資料
             old_Activity_apply["aa_idn"] = userData[0].Aad_apply_id;
             old_Activity_apply["aa_act"] = ACT_IDN;
             old_Activity_apply["aa_as"] = AS_IDN;
             Dictionary<String, Object> new_Activity_apply = new Dictionary<string, object>();
             //新的報名資料
-            new_Activity_apply["aa_name"] = userData.Where(data => data.Aad_title.Contains("姓名")).Select(data => data.Aad_val).ToList()[0];
-            new_Activity_apply["aa_email"] = userData.Where(data => data.Aad_title.Contains("Email")).Select(data => data.Aad_val).ToList()[0];
+            new_Activity_apply["aa_name"] = name = userData.Where(data => data.Aad_title.Contains("姓名")).Select(data => data.Aad_val).ToList()[0];
+            new_Activity_apply["aa_email"] = email = userData.Where(data => data.Aad_title.Contains("Email")).Select(data => data.Aad_val).ToList()[0];
 
             result = _bl.UpdateApplyData(old_Activity_apply, new_Activity_apply);
 
@@ -84,6 +94,11 @@ namespace ActivityApply
                 }
                 if (result.IsSuccess)
                 {
+                    //寄信通知報名資料變更
+                    SystemConfigInfo config_info = CommonHelper.GetSysConfig();
+                    DataTable dt = _bl.GetActivityData(ACT_IDN, AS_IDN);
+                    string act_title = dt.Rows[0]["act_title"].ToString();
+                    CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubject(act_title), getMailContnet(dt, name));
                     return "save success";
                 }
                 else
@@ -96,6 +111,41 @@ namespace ActivityApply
             }
             
         }
+        #endregion
+
+        #region 信件內容
+        public static string getMailContnet(DataTable dt, string name)
+        {
+            string act_title = dt.Rows[0]["act_title"].ToString();                  // 活動名稱
+            string act_unit = dt.Rows[0]["act_unit"].ToString();                    // 主辦單位
+            string act_contact_name = dt.Rows[0]["act_contact_name"].ToString();    // 負責人
+            string act_contact_phone = dt.Rows[0]["act_contact_phone"].ToString();  // 負責人電話
+            string act_short_link = dt.Rows[0]["act_short_link"].ToString();        // 短網址
+            string as_title = dt.Rows[0]["as_title"].ToString();                    // 場次標題
+            string as_position = dt.Rows[0]["as_position"].ToString();              // 場次地點
+            string as_date_start = dt.Rows[0]["as_date_start"].ToString();          // 活動開始時間
+            string as_date_end = dt.Rows[0]["as_date_end"].ToString();              // 活動結束時間
+            string content = "<p>" + name + "您好：</p>" +
+                                "<p>您更改了活動 《" + act_title + "》的報名資料，以下是您報名的場次資訊：" +
+                                "<br/>--------------------------------------------------------------------------------------" +
+                                "<br/>&nbsp;&nbsp;&nbsp;《" + as_title + "》" +
+                                "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;時間：" + as_date_start + " ~ " + as_date_end +
+                                "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;地點：" + as_position +
+                                "<br/>--------------------------------------------------------------------------------------</p>" +
+                                "<p>欲查詢活動詳情，點選下列網址將會導向活動資訊頁面：" +
+                                "<br/>" + act_short_link + "</p>" +
+                                (act_contact_name.Equals("") ? "<p>" : "<p>聯絡人：" + act_contact_name) +
+                                (act_contact_phone.Equals("") ? "<br/></p>" : "<br/>電&nbsp;&nbsp;&nbsp;話：" + act_contact_phone + "</p>") +
+                                (act_unit.Equals("") ? "<p></p>" : "<p>" + act_unit + "&nbsp;&nbsp;敬上 </p>") +
+                                "<p>※這是由系統自動發出的通知信，請勿回覆。如果您對此活動有任何疑問，請直接與主辦單位聯繫，感謝您的配合。</p>";
+            return content;
+        }
+        public static string getMailSubject(string ActivityName)
+        {
+            return "您已更改【" + ActivityName + "】的報名資料";
+        }
+        #endregion
+
         [Table("UserData")]
         public class UserData {
             [Column("aad_apply_id")]

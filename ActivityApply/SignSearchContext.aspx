@@ -84,7 +84,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <p class="p">電子信箱Email</p>
-                                    <asp:TextBox ID="TextBox1" runat="server" CssClass="form-control placeholder-no-fix"></asp:TextBox>
+                                    <asp:TextBox ID="email_txt" runat="server" CssClass="form-control placeholder-no-fix"></asp:TextBox>
                                 </div>
                                 <div class="modal-footer">
                                     <button data-dismiss="modal" class="btn btn-theme" type="button">取消</button>
@@ -120,6 +120,7 @@
                                     <asp:TemplateField HeaderText="報名人">
                                         <ItemTemplate>
                                             <asp:Label ID="Aa_name_lbl" runat="server" Text='<%# Bind("Aa_name") %>'></asp:Label>
+                                            <asp:HiddenField ID="Aa_name_hf" runat="server" Value='<%# Bind("Aa_name") %>' Visible="false" ViewStateMode="Enabled" />
                                         </ItemTemplate>
                                         <ItemStyle CssClass="rowTrigger" HorizontalAlign="Center" Width="700px" />
                                     </asp:TemplateField>

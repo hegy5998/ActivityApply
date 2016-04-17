@@ -34,6 +34,19 @@ namespace DataAccess.Web
         {
             return _apply_detailData.getApplyDetailList(aad_apply_id);
         }
+
+        public DataTable GetActivityData(int as_act, int as_idn)
+        {
+            string sql = @" SELECT  activity.act_title, activity.act_unit,
+                                    activity.act_contact_name, activity.act_contact_phone, 
+                                    activity.act_short_link, 
+                                    activity_session.as_title, activity_session.as_position, 
+                                    activity_session.as_date_start, activity_session.as_date_end
+                            FROM    activity, activity_session
+                            WHERE   activity.act_idn = activity_session.as_act AND as_idn = @as_idn AND as_act = @as_act";
+            IDataParameter[] param = { Db.GetParam("@as_act", as_act), Db.GetParam("@as_idn", as_idn) };
+            return Db.GetDataTable(sql, param);
+        }
         #endregion
 
         #region 單筆更新

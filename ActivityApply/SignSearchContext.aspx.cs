@@ -1,5 +1,6 @@
 ﻿using AjaxControlToolkit;
 using BusinessLayer.Web;
+using Model.Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -28,6 +29,8 @@ namespace ActivityApply
         private static string act_title;
         //報名序號
         private static string aa_idn;
+        //報名人姓名
+        private static string name;
         //按鈕事件
         private static string gridview_event;
 
@@ -118,6 +121,8 @@ namespace ActivityApply
             HiddenField Act_class_hf = main_gv.Rows[rowIndex].FindControl("Act_class_hf") as HiddenField;
             //抓取報名序號隱藏欄位
             HiddenField Aa_idn_hf = main_gv.Rows[rowIndex].FindControl("Aa_idn_hf") as HiddenField;
+            //抓取報名人姓名
+            HiddenField Aa_name_hf = main_gv.Rows[rowIndex].FindControl("Aa_name_hf") as HiddenField;
             //抓取活動標題隱藏欄位
             Label Act_title_lbl = main_gv.Rows[rowIndex].FindControl("Act_title_lbl") as Label;
             switch (e.CommandName)
@@ -143,6 +148,7 @@ namespace ActivityApply
                     act_class = Act_class_hf.Value;
                     act_title = Act_title_lbl.Text;
                     aa_idn = Aa_idn_hf.Value;
+                    name = Aa_name_hf.Value;
                     //設定使用者選擇了刪除
                     gridview_event = "delete";
                     break;
@@ -202,8 +208,13 @@ namespace ActivityApply
                 oldpassworddict["aae_email"] = aa_email_hf.Value;
                 oldpassworddict["aae_password"] = user_password;
                 Dictionary<string, object> newpassworddict = new Dictionary<string, object>();
-                newpassworddict["aae_password"] = new_password_txt.Text;
-                BL.UpdateData(oldpassworddict, newpassworddict);
+                newpassworddict["aae_password"] = user_password = new_password_txt.Text;
+                var upres = BL.UpdateData(oldpassworddict, newpassworddict);
+                if(upres.IsSuccess)
+                    Response.Write("<script language='javascript'>alert('成功更改密碼!!');</script>");
+                string email = aa_email_hf.Value;
+                SystemConfigInfo config_info = CommonHelper.GetSysConfig();
+                CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubjectChange(email), getMailContnetChange());
             }
             else if(user_password != old_password_txt.Text)
             {
@@ -221,7 +232,73 @@ namespace ActivityApply
         #region 忘記密碼按鈕確認事件
         protected void get_password_ok_btn_Click(object sender, EventArgs e)
         {
-            
+            string email= email_txt.Text;
+            //寄信
+            SystemConfigInfo config_info = CommonHelper.GetSysConfig();
+            DataTable dt_password = BL.GetEmailData(email);
+            CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubject(email), getMailContnet(dt_password));
+        }
+        #endregion
+
+        #region 信件內容
+        public static string getMailContnet(DataTable dt_password)
+        {
+            string aae_password = dt_password.Rows[0]["aae_password"].ToString();                  // 活動名稱
+            string content = "<p> 您好：</p>" +
+                                "<br/>--------------------------------------------------------------------------------------" +
+                                "<p>您的密碼為 : " + aae_password  + ""+
+                                "<br/>為了您的帳戶安全，請您立即更改您的密碼"+
+                                "<br/>--------------------------------------------------------------------------------------" +
+                                "<p>※這是由系統自動發出的通知信，請勿回覆，感謝您的配合。</p>";
+            return content;
+        }
+        public static string getMailContnetDelete(DataTable dt_email, string name)
+        {
+            string act_title = dt_email.Rows[0]["act_title"].ToString();                  // 活動名稱
+            string act_unit = dt_email.Rows[0]["act_unit"].ToString();                    // 主辦單位
+            string act_contact_name = dt_email.Rows[0]["act_contact_name"].ToString();    // 負責人
+            string act_contact_phone = dt_email.Rows[0]["act_contact_phone"].ToString();  // 負責人電話
+            string act_short_link = dt_email.Rows[0]["act_short_link"].ToString();        // 短網址
+            string as_title = dt_email.Rows[0]["as_title"].ToString();                    // 場次標題
+            string as_position = dt_email.Rows[0]["as_position"].ToString();              // 場次地點
+            string as_date_start = dt_email.Rows[0]["as_date_start"].ToString();          // 活動開始時間
+            string as_date_end = dt_email.Rows[0]["as_date_end"].ToString();              // 活動結束時間
+            string content = "<p>" + name + "您好：</p>" +
+                                "<p>您已取消報名 " + act_title + "，以下是您取消報名的場次資訊：" +
+                                "<br/>--------------------------------------------------------------------------------------" +
+                                "<br/>&nbsp;&nbsp;&nbsp;《" + as_title + "》" +
+                                "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;時間：" + as_date_start + " ~ " + as_date_end +
+                                "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;地點：" + as_position +
+                                "<br/>--------------------------------------------------------------------------------------</p>" +
+                                "<p>欲查詢活動詳情，點選下列網址將會導向活動資訊頁面：" +
+                                "<br/>" + act_short_link + "</p>" +
+                                (act_contact_name.Equals("") ? "<p>" : "<p>聯絡人：" + act_contact_name) +
+                                (act_contact_phone.Equals("") ? "<br/></p>" : "<br/>電&nbsp;&nbsp;&nbsp;話：" + act_contact_phone + "</p>") +
+                                (act_unit.Equals("") ? "<p></p>" : "<p>" + act_unit + "&nbsp;&nbsp;敬上 </p>") +
+                                "<p>※這是由系統自動發出的通知信，請勿回覆。如果您對此活動有任何疑問，請直接與主辦單位聯繫，感謝您的配合。</p>";
+            return content;
+        }
+        public static string getMailContnetChange()
+        {
+            string content = "<p> 您好：</p>" +
+                                "<br/>--------------------------------------------------------------------------------------" +
+                                "<p>您的密碼已經被更改為:&nbsp;" + user_password + "&nbsp;，請確認是否是您本人" +
+                                "<br/>為了您的安全，如果不是您請立即更改您的密碼" +
+                                "<br/>--------------------------------------------------------------------------------------" +
+                                "<p>※這是由系統自動發出的通知信，請勿回覆，感謝您的配合。</p>";
+            return content;
+        }
+        public static string getMailSubject(string email)
+        {
+            return "忘記密碼【" + email + "】";
+        }
+        public static string getMailSubjectDelete()
+        {
+            return "取消報名【" + act_title + "】";
+        }
+        public static string getMailSubjectChange(string email)
+        {
+            return "更改密碼【" + email + "】";
         }
         #endregion
 
@@ -243,10 +320,19 @@ namespace ActivityApply
                     detaildict["aad_apply_id"] = aa_idn;
                     detaildict["aad_col_id"] = columndt.Rows[count][0].ToString();
                     var detailres = BL.DeleteDetailData(detaildict);
+                    
                 }
                 Dictionary<string, object> applydict = new Dictionary<string, object>();
                 applydict["aa_idn"] = aa_idn;
                 var applyres = BL.DeleteApplyData(applydict);
+                //如果刪除成功則寄信通知
+                if (applyres.IsSuccess)
+                {
+                    string email = aa_email_hf.Value;
+                    SystemConfigInfo config_info = CommonHelper.GetSysConfig();
+                    DataTable dt_email = _bl.GetActivityData(Int32.Parse(act_idn), Int32.Parse(as_idn));
+                    CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubjectDelete(), getMailContnetDelete(dt_email,name));
+                }
                 DataTable dt = GetData(true);
                 if (dt.Rows.Count == 0)
                 {
