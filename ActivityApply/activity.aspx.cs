@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using BusinessLayer.Web;
 using Model;
 using Newtonsoft.Json;
+using System.Data;
+using System.Web;
 
 namespace Register
 {
@@ -16,7 +18,7 @@ namespace Register
             ACTIVITY = Int32.Parse(Request["act_idn"]);
             activityBL _bl = new activityBL();
             List<ActivityInfo> AvtivityList = _bl.GetActivityList(ACTIVITY);
-            Act_desc_lbl.Text = AvtivityList[0].Act_desc;
+            Act_desc_lbl.Text = HttpUtility.UrlDecode(AvtivityList[0].Act_desc);
         }
         [System.Web.Services.WebMethod]
         public static string getActivityList()
@@ -31,7 +33,7 @@ namespace Register
         public static string getSessionList()
         {
             activityBL _bl = new activityBL();
-            List<Activity_sessionInfo> sessionList = _bl.GetSessionList(ACTIVITY);
+            DataTable sessionList = _bl.GetSessionList(ACTIVITY);
             string json_data = JsonConvert.SerializeObject(sessionList);
             return json_data;
         }

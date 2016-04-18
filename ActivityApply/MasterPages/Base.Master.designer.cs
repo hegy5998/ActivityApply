@@ -7,7 +7,7 @@
 // </自動產生的>
 //------------------------------------------------------------------------------
 
-namespace Register.MasterPages {
+namespace ActivityApply.MasterPages {
     
     
     public partial class Base {

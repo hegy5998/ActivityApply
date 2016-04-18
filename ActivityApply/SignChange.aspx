@@ -215,10 +215,13 @@
                 $("#question_div_" + questionInfo[i].Acc_asc).append(decodeURI(code));
                 //將報名資料填入
                 switch (questionInfo[i].Acc_type) {
-                    case "text": $("[name=qus_txt_" + i + "]").val(applyDetailInfo[i].Aad_val); break;
+                    case "text": $("[name=qus_txt_" + i + "]").val(applyDetailInfo[i].Aad_val);break;
                     case "singleSelect": $("[name=qus_radio_" + i + "]" + "[value='" + applyDetailInfo[i].Aad_val + "']").attr('checked', true);break;
                     case "multiSelect":
-                        //$("[name=qus_checkbox_" + i + "]" + "[value='" + applyDetailInfo[i].Aad_val + "']").attr('checked', true);
+                        var multiSelectValue = applyDetailInfo[i].Aad_val.split(",");
+                        for (var count = 0 ; count < multiSelectValue.length ; count++) {
+                            $("[name=qus_checkbox_" + i + "]" + "[value='" + multiSelectValue[count] + "']").attr('checked', true);
+                        }
                         break;
                     case "dropDownList": $("[name=qus_ddl_" + i + "]").val(applyDetailInfo[i].Aad_val); break;
                 }
@@ -383,18 +386,26 @@
             for (var i = 0; i < questionList.length; i++) {
                 switch (questionList[i].Acc_type) {
                     case "text":
-                        questionList[i].Acc_val = $('input[name="' + questionList[i].Input_name + '"]').val();
+                        if (questionList[i].Acc_validation == 'idNumber')
+                            questionList[i].Acc_val = $('input[name="' + questionList[i].Input_name + '"]').val().toUpperCase();
+                        else
+                            questionList[i].Acc_val = $('input[name="' + questionList[i].Input_name + '"]').val();
                         break;
                     case "singleSelect":
                         questionList[i].Acc_val = $('input:radio:checked[name="' + questionList[i].Input_name + '"]').val();
                         break;
                     case "multiSelect":
-                        questionList[i].Acc_val = $('input:checkbox:checked[name="' + questionList[i].Input_name + '"]').map(function () { return $(this).val(); }).get();
+                        var qusArray = $('input:checkbox:checked[name="' + questionList[i].Input_name + '"]').map(function () { return $(this).val(); }).get();
+                        questionList[i].Acc_val = "";
+                        qusArray.forEach(function (val, index) { questionList[i].Acc_val += val + ((index != qusArray.length - 1) ? "," : "") });
                         break;
                     case "dropDownList":
                         questionList[i].Acc_val = $('select[name="' + questionList[i].Input_name + '"]').val();
                         break;
                 }
+                //判斷選項為undefined
+                if (!questionList[i].Acc_val)
+                    questionList[i].Acc_val = "";
             }
         }
         //#endregion

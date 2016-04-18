@@ -13,7 +13,7 @@
             margin-top: 8px;
         }
         /* 驗證錯誤欄位 */
-        input[type="text"].error {
+        input[type="password"].error {
             box-shadow: 0px 0px 9px red;
         }
         /* 驗證錯誤訊息文字 */
@@ -84,7 +84,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <p class="p">電子信箱Email</p>
-                                    <asp:TextBox ID="TextBox1" runat="server" CssClass="form-control placeholder-no-fix"></asp:TextBox>
+                                    <asp:TextBox ID="email_txt" runat="server" CssClass="form-control placeholder-no-fix"></asp:TextBox>
                                 </div>
                                 <div class="modal-footer">
                                     <button data-dismiss="modal" class="btn btn-theme" type="button">取消</button>
@@ -120,6 +120,7 @@
                                     <asp:TemplateField HeaderText="報名人">
                                         <ItemTemplate>
                                             <asp:Label ID="Aa_name_lbl" runat="server" Text='<%# Bind("Aa_name") %>'></asp:Label>
+                                            <asp:HiddenField ID="Aa_name_hf" runat="server" Value='<%# Bind("Aa_name") %>' Visible="false" ViewStateMode="Enabled" />
                                         </ItemTemplate>
                                         <ItemStyle CssClass="rowTrigger" HorizontalAlign="Center" Width="700px" />
                                     </asp:TemplateField>
@@ -172,9 +173,10 @@
         </section>
     </section>
 
-    <script>
+    <script type="text/javascript">
         $(document).ready(function () {
-            //
+            $("#<%=new_password_txt.ClientID %>").rules("add", { required: true, minlength: 4 });
+            $("#<%=new_password_check_txt.ClientID %>").rules("add", { required: true, equalTo: $("#<%=new_password_txt.ClientID %>") });
             setSessionBread();
         })
         //#region 設定麵包削尋覽列

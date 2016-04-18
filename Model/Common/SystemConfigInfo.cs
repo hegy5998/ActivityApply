@@ -100,5 +100,9 @@ namespace Model.Common
         /// 方案名稱
         /// </summary>
         public String SOLUTION_NAME { get; set; }
+        /// <summary> 
+        /// Google短網址API金鑰 
+        /// </summary> 
+        public String URL_SHORTENER_API_KEY { get; set; }
     }
 }

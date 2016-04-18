@@ -21,13 +21,13 @@ namespace ActivityApply
             ACT_IDN = Int32.Parse(Request["act_idn"]);
             AS_IDN = Int32.Parse(Request["as_idn"]);
         }
-        
+
         [System.Web.Services.WebMethod]
         public static string getSectionList()
         {
             Sign_UpBL _bl = new Sign_UpBL();
             List<Activity_sectionInfo> sectionList = _bl.GetSectionList(ACT_IDN);
-            
+
             string json_data = JsonConvert.SerializeObject(sectionList);
             return json_data;
         }
@@ -69,7 +69,8 @@ namespace ActivityApply
 
                     result = _bl.InsertData_Activity_apply_detail(save_Activity_apply_detai);
                 }
-                if (result.IsSuccess) {
+                if (result.IsSuccess)
+                {
                     // 報名成功，發送Email
                     SystemConfigInfo config_info = CommonHelper.GetSysConfig();
                     DataTable dt = _bl.GetActivityData(ACT_IDN, AS_IDN);
@@ -85,8 +86,44 @@ namespace ActivityApply
             else {
                 return "save fail";
             }
-            
+
         }
+
+        [System.Web.Services.WebMethod]
+        public static bool isSignUp(string email)
+        {
+            Sign_UpBL _bl = new Sign_UpBL();
+            DataTable dt = _bl.GetEmailData(email);
+            if (dt.Rows.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        [System.Web.Services.WebMethod]
+        public static bool savePassword(List<Activity_apply_emailInfo> Activity_apply_emailInfo)
+        {
+            Sign_UpBL _bl = new Sign_UpBL();
+
+            Dictionary<String, Object> save_Activity_apply_email = new Dictionary<string, object>();
+            save_Activity_apply_email["aae_email"] = Activity_apply_emailInfo[0].Aae_email;
+            save_Activity_apply_email["aae_password"] = Activity_apply_emailInfo[0].Aae_password;
+
+            var result = _bl.InsertData_Password(save_Activity_apply_email);
+            if (result.IsSuccess)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public static string getMailContnet(DataTable dt, string name)
         {
             string act_title = dt.Rows[0]["act_title"].ToString();                  // 活動名稱
@@ -98,7 +135,7 @@ namespace ActivityApply
             string as_position = dt.Rows[0]["as_position"].ToString();              // 場次地點
             string as_date_start = dt.Rows[0]["as_date_start"].ToString();          // 活動開始時間
             string as_date_end = dt.Rows[0]["as_date_end"].ToString();              // 活動結束時間
-            string content =    "<p>" + name + "您好：</p>" +
+            string content = "<p>" + name + "您好：</p>" +
                                 "<p>感謝您報名 " + act_title + "，以下是您報名的場次資訊：" +
                                 "<br/>--------------------------------------------------------------------------------------" +
                                 "<br/>&nbsp;&nbsp;&nbsp;《" + as_title + "》" +
@@ -113,12 +150,14 @@ namespace ActivityApply
                                 "<p>※這是由系統自動發出的通知信，請勿回覆。如果您對此活動有任何疑問，請直接與主辦單位聯繫，感謝您的配合。</p>";
             return content;
         }
-        public static string getMailSubject(string ActivityName) {
+        public static string getMailSubject(string ActivityName)
+        {
             return "您已報名【" + ActivityName + "】";
         }
 
         [Table("UserData")]
-        public class UserData {
+        public class UserData
+        {
             [Column("aad_col_id")]
             public Int32 Aad_col_id { get; set; }
             [Column("aad_title")]

@@ -24,6 +24,17 @@ namespace DataAccess
         /// </summary>
         public CommonDbHelper Db = DAH.Db;
 
+        #region 查詢Email資訊
+        public DataTable getPassword(string aae_email)
+        {
+            string sql = @"SELECT   aae_password
+                           FROM     activity_apply_email
+                           WHERE   (aae_email = @aae_email)";
+            IDataParameter[] param = { Db.GetParam("@aae_email", aae_email) };
+            return Db.GetDataTable(sql, param);
+        }
+        #endregion
+
         #region 單筆資料維護
         #region 單筆新增
         /// <summary>
@@ -54,8 +65,8 @@ namespace DataAccess
             {
                 string sql = @"
                     insert into [" + _modelType.GetTableName() + @"] 
-                        (" + Db.GetSqlInsertField(_modelType, data_dict) + @") 
-                    values (" + Db.GetSqlInsertValue(data_dict) + ")";
+                        (" + Db.GetSqlInsertField(_modelType, data_dict) + @", [createtime], [updtime]) 
+                    values (" + Db.GetSqlInsertValue(data_dict) + ", (" + Db.DbNowTimeSQL + ")" + ", (" + Db.DbNowTimeSQL + ")" + ")";
                 res.AffectedRows = Db.ExecuteNonQuery(trans, sql, Db.GetParam(_modelType, data_dict));
                 if (res.AffectedRows <= 0) res.IsSuccess = false;
             }

@@ -24,14 +24,15 @@ namespace DataAccess
         /// </summary>
         public CommonDbHelper Db = DAH.Db;
 
-        public List<Activity_sessionInfo> GetList(int as_act)
+        public DataTable GetList(int as_act)
         {
-            string sql = @"SELECT   activity_session.*
-                           FROM    activity_session
-                           WHERE   (as_act = @as_act) AND (as_isopen = 1)
+            string sql = @"SELECT   activity_session.*,
+	                            (SELECT COUNT(*) FROM activity_apply WHERE  aa_act = as_act AND aa_as = as_idn) AS apply_num
+                           FROM activity_session
+                           WHERE  (as_act = @as_act) AND (as_isopen = 1)
                            ORDER BY   as_idn";
             IDataParameter[] param = { Db.GetParam("@as_act", as_act) };
-            return Db.GetEnumerable<Activity_sessionInfo>(sql, param).ToList();
+            return Db.GetDataTable(sql, param);
         }
 
         #region 單筆資料維護
