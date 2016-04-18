@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true" CodeBehind="Sign_Up.aspx.cs" Inherits="ActivityApply.Sign_Up" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead" runat="server">
-    <link href="<%=ResolveUrl("~/assets/css/jquery.steps.css")%>" rel="stylesheet" type="text/css"/>
+    <link href="<%=ResolveUrl("~/assets/css/jquery.steps.css")%>" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery.steps.js") %>"></script>
     <!-- Jquery Validation -->
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/validation/jquery.metadata.js") %>"></script>
@@ -50,21 +50,18 @@
     <section id="container">
         <section id="main-content">
             <section class="wrapper">
-                <div class="advanced-form row">
+                <div class="advanced-form row" style="display: none;">
                     <h3>活動報名</h3>
-                    <fieldset>
+                    <section>
                         <h3><i class="fa fa-angle-right"></i>活動報名</h3>
                         <!-- 放置區塊區域 -->
                         <div id="sections_div">
                             <!-- 放置問題區域 -->
                         </div>
-                        <!-- 送出按鈕 -->
-                        <div class="col-sm-12">
-                        </div>
-                    </fieldset>
+                    </section>
 
                     <h3>資料確認</h3>
-                    <fieldset>
+                    <section>
                         <h3><i class="fa fa-angle-right"></i>資料確認</h3>
                         <div id="check_div" class="col-sm-8 form-panel table-responsive">
                             <table id="checkData_table" class="table table-condensed">
@@ -73,15 +70,22 @@
                                 </tbody>
                             </table>
                         </div>
-                    </fieldset>
+                    </section>
+
+                    <h3>設定密碼</h3>
+                    <section>
+                        <h3><i class="fa fa-angle-right"></i>設定密碼</h3>
+                        <div id="password_div" class="col-sm-8 form-panel">
+                        
+                        </div>
+                    </section>
 
                     <h3>報名完成</h3>
-                    <fieldset>
+                    <section>
                         <h3><i class="fa fa-angle-right"></i>報名完成</h3>
-                        <div id="finish_div" class="col-sm-8 form-panel">
-                            <label>報名完成，請至電子信箱查看報名成功確認信！</label>
+                        <div id="finish_div" class="col-sm-8 form-panel">                            
                         </div>
-                    </fieldset>
+                    </section>
                 </div>
             </section>
         </section>
@@ -90,17 +94,84 @@
     <script type="text/javascript">
         var sectionList;
         var questionList;
-
+        var email;
+        
         $(document).ready(function () {
             var funcList = [getSectionList,
                             getQuestionList,
                             resizeJquerySteps];
             $(document).queue("myQueue", funcList);
             $(document).dequeue("myQueue");
+            //#region jQuery steps
+            var form = $(".advanced-form");
+            form.steps({
+                headerTag: "h3",
+                bodyTag: "section",
+                contentContainerTag: "div",
+                actionContainerTag: "div",
+                stepsContainerTag: "div",
+                transitionEffect: "slideLeft",
+                onStepChanging: function (event, currentIndex, newIndex) {
+                    if (currentIndex === 0 && newIndex === 1) {
+                        if ($("#form1").valid()) {
+                            setUserData();
+                            $('tbody').html("");    //清空表格
+                            Add_Check();
+                            return true;
+                        }
+                    }
+                    if (currentIndex === 1 && newIndex === 0) {
+                        return true;
+                    }
+                    if (currentIndex === 1 && newIndex === 2) {
+                        return true;
+                    }
+                    if (currentIndex === 2 && newIndex === 3) {
+                        if ($("#form1").valid()) {
+                            SavePassword();
+                            SaveUserData();
+                            Add_Finish();
+                            return true;
+                        }
+                    }
+                    return false;
+                },
+                onStepChanged: function (event, currentIndex, priorIndex) {
+                    if (currentIndex === 2) {
+                        if (isSignUp())
+                            form.steps("next");
+                        else {
+                            Add_SetPwd();
+                            $("#password").rules("add", { required: true, minlength: 4 });
+                            $("#confirm_password").rules("add", { required: true, equalTo: "#password" });
+                        }
+                    }
+                    resizeJquerySteps();
+                },
+                onFinishing: function (event, currentIndex) {
+                    window.location.replace("index.aspx");
+                    return true;
+                },
+                onFinished: function (event, currentIndex) {
+                    return true;
+                },
+                labels: {
+                    cancel: "取消",
+                    finish: "完成",
+                    next: "下一步",
+                    previous: "返回",
+                    loading: "載入中"
+                }
+            });
+            //調整 jQuery steps 高度
+            function resizeJquerySteps() {
+                $('.wizard .content').animate({ height: $('.body.current').outerHeight() }, "slow");
+            }
+            form.show();
+            //#endregion
+            
         })
-
         /* 活動報名 */
-
         // #region 取得區塊列表
         function getSectionList() {
             $.ajax({
@@ -114,7 +185,7 @@
                 success: function (result) {
                     // 加入區塊
                     if (result.d != "")
-                    Add_Section(result.d);
+                        Add_Section(result.d);
                 },
                 //失敗時
                 error: function () {
@@ -124,7 +195,6 @@
             });
         }
         // #endregion
-
         // #region 取得問題列表
         function getQuestionList() {
             $.ajax({
@@ -137,8 +207,8 @@
                 //成功時
                 success: function (result) {
                     // 加入問題
-                    if(result.d != "")
-                    Add_Question(result.d);
+                    if (result.d != "")
+                        Add_Question(result.d);
                 },
                 //失敗時
                 error: function () {
@@ -148,7 +218,6 @@
             });
         }
         // #endregion
-
         //#region 新增區塊
         function Add_Section(sectionInfo) {
             sectionInfo = sectionList = JSON.parse(sectionInfo);
@@ -158,7 +227,6 @@
             $(document).dequeue("myQueue");
         }
         //#endregion
-
         //#region 新增問題
         function Add_Question(questionInfo) {
             questionInfo = questionList = JSON.parse(questionInfo);
@@ -175,7 +243,6 @@
             $(document).dequeue("myQueue");
         }
         //#endregion
-
         //#region 區塊程式碼
         function Section_Code(section) {
             var sectionId = "sec_div_" + section.Acs_seq;
@@ -189,7 +256,6 @@
             return code;
         }
         //#endregion
-
         //#region 文字欄位程式碼
         function TextCol_Code(question, seq) {
             var qusId = "qus_div_" + seq;
@@ -204,7 +270,6 @@
             return code;
         }
         //#endregion
-
         //#region 單選欄位程式碼
         function SingleSelCol_Code(question, seq) {
             var qusId = "qus_div_" + seq;
@@ -213,7 +278,6 @@
                             <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
                             <div class="col-sm-10">\
                                 <span class="help-block">' + question.Acc_desc + '</span>';
-
             //反序列化
             question.Acc_option.split('&').forEach(function (param, index) {
                 param = param.split('=');
@@ -225,13 +289,11 @@
                             </label>\
                         </div>';
             })
-
             code += '</div>\
                   </div>';
             return code;
         }
         //#endregion
-
         //#region 多選欄位程式碼
         function MultiSelCol_Code(question, seq) {
             var qusId = "qus_div_" + seq;
@@ -240,7 +302,6 @@
                             <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
                             <div class="col-sm-10">\
                                 <span class="help-block">' + question.Acc_desc + '</span>';
-
             //反序列化
             question.Acc_option.split('&').forEach(function (param, index) {
                 param = param.split('=');
@@ -256,7 +317,6 @@
             return code;
         }
         //#endregion
-
         //#region 下拉式選單欄位程式碼
         function DropDownListCol_Code(question, seq) {
             var qusId = "qus_div_" + seq;
@@ -266,7 +326,6 @@
                             <div class="col-sm-10">\
                                 <select name="' + qusName + '" class="form-control' + Validate(question.Acc_required, question.Acc_validation) + '>\
                                     <option value=""></option>';
-
             //反序列化
             question.Acc_option.split('&').forEach(function (param, index) {
                 param = param.split('=');
@@ -280,7 +339,6 @@
             return code;
         }
         //#endregion
-
         //#region 必填符號
         function RequiredMark(isRequired) {
             if (isRequired == "1")
@@ -289,16 +347,12 @@
                 return '';
         }
         //#endregion
-
         //#region 資料驗證
         function Validate(required, validation) {
             var code = '';
-
             if (required != "0")
                 code += ' required';
-
             validation = validation.split(",");
-
             switch (validation[0]) {
                 case 'email': code += ' email"'; break;
                 case 'idNumber': code += ' TWIDCheck"'; break;
@@ -311,7 +365,6 @@
             }
             return code;
         }
-
         //#region 修正 radio 及 checkbox 錯誤訊息顯示位置
         $('#form1').validate({
             errorPlacement: function (label, element) {
@@ -324,18 +377,19 @@
             }
         });
         //#endregion
-
         //#endregion        
-
         //#region 寫入使用者輸入資料
         function setUserData() {
             for (var i = 0; i < questionList.length; i++) {
                 switch (questionList[i].Acc_type) {
                     case "text":
-                        questionList[i].Acc_val = $('input[name="' + questionList[i].Input_name + '"]').val();
+                        if (questionList[i].Acc_validation == 'idNumber')
+                            questionList[i].Acc_val = $('input[name="' + questionList[i].Input_name + '"]').val().toUpperCase();
+                        else
+                            questionList[i].Acc_val = $('input[name="' + questionList[i].Input_name + '"]').val();
                         break;
                     case "singleSelect":
-                        questionList[i].Acc_val = $('input:radio:checked[name="' + questionList[i].Input_name + '"]').val();                        
+                        questionList[i].Acc_val = $('input:radio:checked[name="' + questionList[i].Input_name + '"]').val();
                         break;
                     case "multiSelect":
                         var qusArray = $('input:checkbox:checked[name="' + questionList[i].Input_name + '"]').map(function () { return $(this).val(); }).get();
@@ -352,17 +406,14 @@
             }
         }
         //#endregion
-
         /* 資料確認 */
-
         //#region 新增使用者資料確認欄位
-        function Add_Check() {            
+        function Add_Check() {
             for (var i = 0; i < questionList.length; i++) {
                 $('tbody').append(Check_Code(questionList[i]));
             }
         }
         //#endregion
-
         //#region 使用者資料確認欄位程式碼
         function Check_Code(checkCol) {
             var code = '<tr>\
@@ -372,11 +423,9 @@
             return code;
         }
         //#endregion
-
         //#region 儲存使用者資料(POST)
         function SaveUserData() {
             var detailList = { userData: [] };
-            
             for (var i = 0; i < questionList.length; i++) {
                 var detailJson = {}
                 detailJson.Aad_col_id = questionList[i].Acc_idn;
@@ -393,7 +442,7 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 //成功時
-                success: function (result) {                    
+                success: function (result) {
                 },
                 //失敗時
                 error: function () {
@@ -403,58 +452,106 @@
             });
         }
         //#endregion
-
-        //#region jQuery steps
-        $(".advanced-form").steps({
-            headerTag: "h3",
-            bodyTag: "fieldset",
-            contentContainerTag: "div",
-            actionContainerTag: "div",
-            stepsContainerTag: "div",
-            transitionEffect: "slideLeft",
-            onStepChanging: function (event, currentIndex, newIndex) {
-                if (currentIndex === 2 && newIndex === 1) {
-                    return false;
+        /* 設定密碼 */
+        //#region 驗證使用者是否註冊過
+        function isSignUp() {            
+            var res;
+            for(var i = 0; i < questionList.length; i++){
+                if (questionList[i].Acc_title.indexOf("Email") != -1) {
+                    email = questionList[i].Acc_val;
+                    break;
                 }
-                if (currentIndex === 0) {
-                    if ($("#form1").valid()) {
-                        setUserData();
-                        $('tbody').html("");    //清空表格
-                        Add_Check();
-                        return true;
-                    }
-                    return false;
-                }
-                if (newIndex === 2) {
-                    SaveUserData();                
-                }                
-                return true;
-            },
-            onStepChanged: function (event, currentIndex, priorIndex) {
-                resizeJquerySteps();
-                return true;
-            },
-            onFinishing: function (event, currentIndex) {
-                window.location.replace("index.aspx");
-                return true;
-            },
-            onFinished: function (event, currentIndex) {                
-                return true;
-            },
-            labels: {
-                cancel: "取消",
-                finish: "完成",
-                next: "下一步",
-                previous: "返回",
-                loading: "載入中"
             }
-        });
-        //調整 jQuery steps 高度
-        function resizeJquerySteps() {
-            $('.wizard .content').animate({ height: $('.body.current').outerHeight() }, "slow");
+            var data = { "email": email };
+            $.ajax({
+                type: 'post',
+                traditional: true,
+                //傳送資料到後台為saveUserData的function
+                url: 'Sign_Up.aspx/isSignUp',
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async:false,
+                //成功時
+                success: function (result) {
+                    res = result.d;
+                },
+                //失敗時
+                error: function () {
+                    alert("失敗!!!!");
+                    return false;
+                }
+            });
+            return res;
         }
         //#endregion
-
+        //#region 新增設定密碼欄位
+        function Add_SetPwd() {
+            $('#password_div').append(SetPwd_Code());
+        }
+        //#endregion
+        //#region 設定密碼欄位程式碼
+        function SetPwd_Code() {
+            var code = '<div class="form-horizontal style-form">\
+                            <label class="desc">您是第一次使用本報名系統，請設定一組個人密碼，供日後修改報名資料時驗證，謝謝。</label>\
+                            <div class="form-group">\
+                                <label class="col-sm-2 control-label">密碼<label style="color:red">*</label></label>\
+                                <div class="col-sm-10">\
+                                    <input type="text" id="password" name="password" class="form-control">\
+                                </div>\
+                            </div>\
+                            <div id="" class="form-group">\
+                                <label class="col-sm-2 control-label">確認密碼<label style="color:red">*</label></label>\
+                                <div class="col-sm-10">\
+                                    <input type="text" id="confirm_password" name="confirm_password" class="form-control">\
+                                </div>\
+                            </div>\
+                        </div>';
+            return code;
+        }
+        //#endregion
+        //#region 儲存密碼
+        function SavePassword() {            
+            var password = $('input[name="password"]').val();
+            var data = { Activity_apply_emailInfo: [] };
+            var detailJson = {};
+            detailJson.Aae_email = email;
+            detailJson.Aae_password = password;
+            data.Activity_apply_emailInfo.push(detailJson);
+            $.ajax({
+                type: 'post',
+                traditional: true,
+                //傳送資料到後台為saveUserData的function
+                url: 'Sign_Up.aspx/savePassword',
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                //成功時
+                success: function (result) {
+                },
+                //失敗時
+                error: function () {
+                    alert("儲存密碼錯誤!");
+                    return false;
+                }
+            });
+        }
+        //#endregion
+        
+        /* 報名完成 */
+        //#region 新增報名完成提示
+        function Add_Finish() {
+            $('#finish_div').append(Finish_Code());
+        }
+        //#endregion
+        //#region 報名完成提示程式碼
+        function Finish_Code() {
+            var code = '<label>報名完成，請至電子信箱查看報名成功確認信！</label>';
+            return code;
+        }
+        //#endregion
+        
         //#region 設定麵包削尋覽列
         function setSessionBread() {
             //將滅包削內容清空
@@ -475,7 +572,6 @@
             $("#add_breach").append('<li>報名</li>');
         }
         //#endregion
-
     </script>
 
 </asp:Content>

@@ -13,7 +13,7 @@
             margin-top: 8px;
         }
         /* 驗證錯誤欄位 */
-        input[type="text"].error {
+        input[type="password"].error {
             box-shadow: 0px 0px 9px red;
         }
         /* 驗證錯誤訊息文字 */
@@ -173,9 +173,10 @@
         </section>
     </section>
 
-    <script>
+    <script type="text/javascript">
         $(document).ready(function () {
-            //
+            $("#<%=new_password_txt.ClientID %>").rules("add", { required: true, minlength: 4 });
+            $("#<%=new_password_check_txt.ClientID %>").rules("add", { required: true, equalTo: $("#<%=new_password_txt.ClientID %>") });
             setSessionBread();
         })
         //#region 設定麵包削尋覽列

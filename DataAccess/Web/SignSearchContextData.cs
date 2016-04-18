@@ -47,16 +47,6 @@ namespace DataAccess.Web
         }
         #endregion
 
-        #region 查詢Email資訊
-        public DataTable GetEmailData(string aae_email)
-        {
-            string sql = @"SELECT  aae_email, aae_password
-                           FROM     activity_apply_email
-                           WHERE   (aae_email = @aae_email)";
-            IDataParameter[] param = { Db.GetParam("@aae_email", aae_email)  };
-            return Db.GetDataTable(sql, param);
-        }
-        #endregion
 
         #region 查詢報名欄位序號
         public DataTable GetColumnData(string acc_act)

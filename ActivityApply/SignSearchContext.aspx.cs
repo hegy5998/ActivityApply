@@ -184,7 +184,8 @@ namespace ActivityApply
                 //抓取使用者密碼
                 DataTable dt_password = BL.GetEmailData(aa_email_hf.Value);
                 //儲存使用者密碼
-                user_password = dt_password.Rows[0]["aae_password"].ToString();
+                if(dt_password.Rows.Count != 0)
+                    user_password = dt_password.Rows[0]["aae_password"].ToString();
             }
             else
             {

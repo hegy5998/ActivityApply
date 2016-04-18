@@ -9,6 +9,8 @@ using System.Web;
 using System.Web.UI;
 using System.Net.Mail;
 using System.Net;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Util
 {
@@ -34,7 +36,8 @@ namespace Util
         }
         #endregion
 
-        public static bool isString () {
+        public static bool isString()
+        {
             return false;
         }
 
@@ -98,5 +101,46 @@ namespace Util
             }
         }
         #endregion
+
+        #region 取得短網址
+        public static string URLshortener(string url, string m_APIKey)
+        {
+            if (String.IsNullOrEmpty(url))
+                throw new ArgumentNullException("url");
+
+            if (m_APIKey.Length == 0)
+                throw new Exception("APIKey not set!");
+
+            #region Const
+            const string BASE_API_URL = @"https://www.googleapis.com/urlshortener/v1/url";
+            const string SHORTENER_URL_PATTERN = BASE_API_URL + @"?key={0}";
+            const string POST_PATTERN = @"{{""longUrl"": ""{0}""}}";
+            const string MATCH_PATTERN = @"""id"": ?""(?<id>.+)""";
+            #endregion
+
+            var post = string.Format(POST_PATTERN, url);
+            var request = (HttpWebRequest)WebRequest.Create(string.Format(SHORTENER_URL_PATTERN, m_APIKey));
+
+            request.Method = "POST";
+            request.ContentLength = post.Length;
+            request.ContentType = "application/json";
+            request.Headers.Add("Cache-Control", "no-cache");
+
+            using (Stream requestStream = request.GetRequestStream())
+            {
+                var buffer = Encoding.ASCII.GetBytes(post);
+                requestStream.Write(buffer, 0, buffer.Length);
+            }
+
+            using (var responseStream = request.GetResponse().GetResponseStream())
+            {
+                using (StreamReader sr = new StreamReader(responseStream))
+                {
+                    return Regex.Match(sr.ReadToEnd(), MATCH_PATTERN).Groups["id"].Value;
+                }
+            }
+        }
+        #endregion
+
     }
 }

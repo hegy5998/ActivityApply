@@ -21,7 +21,7 @@ namespace DataAccess.Web
         {
             return _ActivityData.GetActivityList(act_idn);
         }
-        public List<Activity_sessionInfo> GetSessionList(int as_act)
+        public DataTable GetSessionList(int as_act)
         {
             return _sessionData.GetList(as_act);
         }

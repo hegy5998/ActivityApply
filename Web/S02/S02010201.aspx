@@ -1,5 +1,4 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true" CodeBehind="S02010201.aspx.cs" Inherits="Web.S02.S02010201" %>
-
 <%@ Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor" %>
 <%@ Register Src="~/UserControls/UCGridViewPager.ascx" TagPrefix="uc1" TagName="UCGridViewPager" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead_cph" runat="server">
@@ -11,18 +10,16 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="mainContentSubFunction_cph" runat="server">
-    <!-- 儲存活動頁面 -->
+<%--    <!-- 儲存活動頁面 -->
     <input type="button" onclick="Save_btn_Click()" value="儲存活動頁面" />
     <!-- 儲存報名表 -->
     <input type="button" onclick="Save_Activity_btn_Click()" value="儲存報名表" />
     <!-- 上傳檔案 -->
-    <input type="button" onclick="upload_File()" value="上傳檔案" />
+    <input type="button" onclick="upload_File()" value="上傳檔案" />--%>
+    <!-- 儲存活動 -->
+    <input type="button" onclick="save()" value="儲存整個活動" />
     <!-- 檢視 -->
     <input type="button" onclick="view_Activity()" value="檢視報名表" />
-    <!-- 檢視 -->
-    <input type="button" onclick="save()" value="儲存整個活動" />
-    <!-- 儲存活動 -->
-    <asp:Button runat="server" ID="Save_btn" Text="儲存活動" OnClick="Save_btn_Click" CssClass="Distancebtn" />
     <!-- 返回列表 -->
     <asp:Button runat="server" ID="Back_btn" Text="返回列表" OnClick="Back_btn_Click" CssClass="Distancebtn" />
 </asp:Content>
@@ -151,7 +148,6 @@
                                             <ContentTemplate>
                                                 <asp:FileUpload ID="FileUpload" runat="server" />
                                                 <asp:Button ID="btnUpload" runat="server" OnClick="btnUpload_Click1" Style="display: none" />
-                                                <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
                                             </ContentTemplate>
                                             <Triggers>
                                                 <asp:PostBackTrigger ControlID="btnUpload"></asp:PostBackTrigger>
@@ -1269,6 +1265,7 @@
                 var if_Save = confirm("您的報名結束日期在活動開始日期之後，確定要儲存嗎?");
                 if (if_Save == true) {
                     if (check_Activity_Data === true) {
+                        upload_File();
                         $.ajax({
                             type: 'post',
                             traditional: true,
@@ -1277,9 +1274,9 @@
                             data: JSON.stringify(jsondata),
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
+                            processData:false,
                             //成功時
                             success: function (result) {
-                                upload_File();
                                 alert(result.d);
                             },
                             //失敗時
@@ -1295,6 +1292,7 @@
             }
             else {
                 if (check_Activity_Data === true) {
+                    upload_File();
                     $.ajax({
                         type: 'post',
                         traditional: true,
@@ -1303,9 +1301,9 @@
                         data: JSON.stringify(jsondata),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
+                        processData: false,
                         //成功時
                         success: function (result) {
-                            upload_File();
                             alert(result.d);
                         },
                         //失敗時
@@ -1445,7 +1443,8 @@
             //儲存活動標題
             activity_Json_Data.Act_title = $("#activity_Name_txt").val();
             //儲存活動描述
-            activity_Json_Data.Act_desc = $("#editor1").val();
+            activity_Json_Data.Act_desc = CKEDITOR.instances.editor1.getData();;
+            CKEDITOR.instances.editor1.setData('');
             //儲存主辦單位
             activity_Json_Data.Act_unit = $("#unit_txt").val();
             //儲存聯絡人
@@ -1490,7 +1489,7 @@
             //var checkData = true;
             var jsondata = Save_Activity_Column_Json();
             //使用ajax傳送
-            if (check_Activity_Column_Data == true) {
+            if (check_Activity_Column_Data == true && check_Activity_Data == true) {
                 $.ajax({
                     type: 'post',
                     traditional: true,
@@ -1682,18 +1681,11 @@
         function view_Activity() {
             var json_Column = JSON.stringify(Save_Activity_Column_Json());
             if (check_Activity_Column_Data == true) {
-                //$("#save_Activity_Json").val(json_Activity);
                 $("#save_Activity_Column_Json").val(json_Column);
                 window.open("S02010202.aspx?sys_id=S01&sys_pid=S02010202");
             }
             else
                 alert("報名表尚有資料未填寫或有錯誤");
-            //else if (check_Activity_Data == false && check_Activity_Column_Data == true)
-            //    alert("活動頁面尚有資料未填寫或有錯誤");
-            //else if (check_Activity_Data == true && check_Activity_Column_Data == false)
-            //    alert("報名表尚有資料未填寫或有錯誤");
-            //else if (check_Activity_Data == false && check_Activity_Column_Data == false)
-            //    alert("活動頁面以及報名表尚有資料未填寫或有錯誤");
         }
         // #endregion
 

@@ -19,7 +19,7 @@ namespace BusinessLayer.Web
         #endregion
 
         #region 取得場次列表
-        public List<Activity_sessionInfo> GetSessionList(int as_act)
+        public DataTable GetSessionList(int as_act)
         {
             return _data.GetSessionList(as_act);
         }

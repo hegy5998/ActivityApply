@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" MasterPageFile="Base.Master" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="Register.MasterPages.Main" %>
+﻿<%@ Master Language="C#" MasterPageFile="Base.Master" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="ActivityApply.MasterPages.Main" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <asp:ContentPlaceHolder ID="mainHead" runat="server"></asp:ContentPlaceHolder>

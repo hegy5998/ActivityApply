@@ -32,7 +32,7 @@ namespace BusinessLayer.Web
         #region 取得email密碼
         public DataTable GetEmailData(string aae_email)
         {
-            return _data.GetEmailData(aae_email);
+            return _emaildata.getPassword(aae_email);
         }
         #endregion
 

@@ -11,6 +11,7 @@ namespace BusinessLayer.Web
     {
 
         Sign_UpData _data = new Sign_UpData();
+        Activity_apply_emailData _emaildata = new Activity_apply_emailData();
 
         #region  --查詢--
 
@@ -32,6 +33,13 @@ namespace BusinessLayer.Web
         public DataTable GetActivityData(int as_act, int as_idn)
         {
             return _data.GetActivityData(as_act, as_idn);
+        }
+        #endregion
+
+        #region 取得email密碼
+        public DataTable GetEmailData(string aae_email)
+        {
+            return _emaildata.getPassword(aae_email);
         }
         #endregion
 
@@ -60,6 +68,19 @@ namespace BusinessLayer.Web
             if (res.IsSuccess)
             {
                 res = _data.InsertData_apply_detail(dict);
+            }
+            return res;
+        }
+        #endregion
+
+        #region 新增密碼
+        public CommonResult InsertData_Password(Dictionary<string, object> dict)
+        {
+            var res = CommonHelper.ValidateModel<Activity_apply_emailInfo>(dict);
+
+            if (res.IsSuccess)
+            {
+                res = _emaildata.InsertData(dict);
             }
             return res;
         }
