@@ -47,6 +47,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activity_classData.cs" />
     <Compile Include="Account_CopperateData.cs" />
     <Compile Include="ActivityData.cs" />
     <Compile Include="Activity_applyData.cs" />

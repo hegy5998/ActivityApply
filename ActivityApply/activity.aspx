@@ -202,7 +202,7 @@
             else
                 $("#relate_File").remove();
             //設定活動圖片
-            if (ActivityInfo[0].Act_image != null) {
+            if (ActivityInfo[0].Act_image != "") {
                 $("#act_image").attr("src", ActivityInfo[0].Act_image);
                 $("#act_image_modal").attr("src", ActivityInfo[0].Act_image);
             }

@@ -1,5 +1,5 @@
 /*
- * 檔案位置: DataAccess\ActivityData.cs
+ * 檔案位置: DataAccess\Activity_classData.cs
  */
 
 using Model;
@@ -12,86 +12,30 @@ using Util;
 
 namespace DataAccess
 {
-    public class ActivityData : BaseData
+    public class Activity_classData : BaseData
     {
         /// <summary>
         /// 對應的Model型別
         /// </summary>
-        private Type _modelType = typeof(ActivityInfo);
+        private Type _modelType = typeof(Activity_classInfo);
 
         /// <summary>
         /// 對應的資料庫
         /// </summary>
         public CommonDbHelper Db = DAH.Db;
 
-        #region 取得列表
-        /// <summary>
-        /// 取得列表
-        /// </summary>
-        /// <param name="cond">條件查詢</param>
-        /// <returns></returns>
-        public DataTable GetList(Dictionary<string, object> cond = null)
+        #region 查詢分類
+        public List<Activity_classInfo> GetClassList()
         {
-            string WhereSQL = "";
-            List<IDataParameter> param_lst = new List<IDataParameter>();
-
-            if (cond != null)
-            {
-                if (cond.ContainsKey("keyword") && !string.IsNullOrWhiteSpace(cond["keyword"].ToString()))
-                {
-                    WhereSQL += " and (act_title like @keyword or act_title like @keyword) ";
-                    param_lst.Add(Db.GetParam("@keyword", "%" + cond["keyword"].ToString() + "%"));
-                }
-            }
-
-            string sql = @"
-                Select *
-                From " + _modelType.GetTableName() + @" 
-                Where 1 = 1 " + WhereSQL + @"
-                Order by act_idn ";
-
-            return Db.GetDataTable(sql, param_lst.ToArray());
+            string sql = @"SELECT ac_idn, ac_title, ac_desc, ac_seq
+                           FROM   activity_class 
+                           ORDER BY ac_seq";
+            return Db.GetEnumerable<Activity_classInfo>(sql).ToList();
         }
         #endregion
 
 
-        public List<ActivityInfo> GetActivityList(int act_idn)
-        {
-            string sql = @"SELECT   activity.*
-                           FROM    activity
-                           WHERE   (act_idn = @act_idn) ";
-            IDataParameter[] param = { Db.GetParam("@act_idn", act_idn) };
-            return Db.GetEnumerable<ActivityInfo>(sql, param).ToList();
-        }
 
-        public DataTable GetActivityAllList(string act_title,string act_class)
-        {
-            string actclass = "";
-            if (act_class != "0")
-            {
-                actclass = "AND (activity.act_class = @act_class  OR 0 = @act_class)" + act_class;
-            }
-            else
-                actclass = "";
-            string sql = @"SELECT activity.act_idn,activity.act_title,activity.act_isopen, act_class,
-                            ac_session.as_date_start,
-                            ac_session.as_date_end, 
-                            ac_session.as_apply_start, 
-                            ac_session.as_apply_end
-                            FROM activity
-                            cross apply 
-                                 (select top 1 *
-                                  from activity_session 
-                                  where   as_act = act_idn 
-                                          AND act_isopen = 1 
-                                          AND as_isopen = 1
-                                          AND act_title LIKE @act_title 
-                                          AND (act_class = @act_class  OR 0 = @act_class) 
-                                  order by as_date_start) as ac_session
-                            ORDER BY   activity.updtime DESC";
-            IDataParameter[] param = { Db.GetParam("@act_title", act_title),Db.GetParam("@act_class", act_class) };
-            return Db.GetDataTable(sql,param);
-        }
 
         #region 單筆資料維護
         #region 單筆新增
@@ -124,8 +68,9 @@ namespace DataAccess
                 string sql = @"
                     insert into [" + _modelType.GetTableName() + @"] 
                         (" + Db.GetSqlInsertField(_modelType, data_dict) + @", [createid], [createtime], [updid], [updtime]) 
-                    values (" + Db.GetSqlInsertValue(data_dict) + ", '" + loginUser.Act_id + "'"+ ", (" + Db.DbNowTimeSQL + ")"+ ", '" + loginUser.Act_id + "'"+ ", (" + Db.DbNowTimeSQL + ")" + ") select @@identity";
-                res.Message = Db.ExecuteScalar(sql, Db.GetParam(_modelType, data_dict)).ToString();
+                    values (" + Db.GetSqlInsertValue(data_dict) + ", '" + loginUser.Act_id + "'" + ", (" + Db.DbNowTimeSQL + ")" + ", '" + loginUser.Act_id + "'" + ", (" + Db.DbNowTimeSQL + ")" + ")";
+                res.AffectedRows = Db.ExecuteNonQuery(trans, sql, Db.GetParam(_modelType, data_dict));
+                if (res.AffectedRows <= 0) res.IsSuccess = false;
             }
             return res;
         }
@@ -160,7 +105,7 @@ namespace DataAccess
             {
                 string sql = @"
                     update [" + _modelType.GetTableName() + @"] 
-                    set " + Db.GetSqlSet(_modelType, newData_dict, "new_")+ ", [updid] = '" + loginUser.Act_id + "'"+ ", [updtime] = (" + Db.DbNowTimeSQL + ")" + @"
+                    set " + Db.GetSqlSet(_modelType, newData_dict, "new_") + ", [updid] = '" + loginUser.Act_id + "'" + ", [updtime] = (" + Db.DbNowTimeSQL + ")" + @"
                     where " + Db.GetSqlWhere(_modelType, oldData_dict, "old_");
 
                 res.AffectedRows = Db.ExecuteNonQuery(trans, sql, Db.GetParam(_modelType, oldData_dict, "old_").Concat(Db.GetParam(_modelType, newData_dict, "new_")).ToArray());

@@ -7,12 +7,14 @@ using Model;
 using DataAccess;
 using BusinessLayer;
 using DataAccess.S01;
+using Util;
 
 namespace BusinessLayer.S01
 {
     public class S020103BL
     {
         S010009Data _da = new S010009Data();
+        S020103Data _classdata = new S020103Data();
 
         #region 取得作業列表
         /// <summary>
@@ -39,5 +41,43 @@ namespace BusinessLayer.S01
             return new Sys_processcontrolData().GetList(sys_pid);
         }
         #endregion
+
+        public List<Activity_classInfo> GetClassList()
+        {
+            return _classdata.GetClassList();
+        }
+
+        public CommonResult InsertData(Dictionary<string, object> dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_classInfo>(dict);
+
+            if (res.IsSuccess)
+            {
+                res = _classdata.InsertData(dict);
+            }
+            return res;
+        }
+
+        public CommonResult DeleteData(Dictionary<string, object> dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_classInfo>(dict);
+
+            if (res.IsSuccess)
+            {
+                res = _classdata.DeleteData(dict);
+            }
+            return res;
+        }
+
+        public CommonResult UpdateData(Dictionary<string, object> old_dict, Dictionary<string, object> new_dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_classInfo>(new_dict);
+
+            if (res.IsSuccess)
+            {
+                res = _classdata.UpdateData(old_dict, new_dict);
+            }
+            return res;
+        }
     }
 }

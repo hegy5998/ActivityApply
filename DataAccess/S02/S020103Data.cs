@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -8,8 +9,42 @@ using Util;
 
 namespace DataAccess.S01
 {
+    
+
     public class S020103Data
     {
+
+        Activity_classData _da = new Activity_classData();
+
+        #region 查詢分類
+        public List<Activity_classInfo> GetClassList()
+        {
+            return _da.GetClassList();
+        }
+        #endregion
+
+        #region 查詢分類
+        public CommonResult InsertData(Dictionary<string, object> dict)
+        {
+            return _da.InsertData(dict);
+        }
+        #endregion
+
+        #region 刪除分類
+        public CommonResult DeleteData(Dictionary<string, object> dict)
+        {
+            return _da.DeleteData(dict);
+        }
+        #endregion
+
+        #region 更新分類
+        public CommonResult UpdateData(Dictionary<string, object> old_dict, Dictionary<string, object> new_dict)
+        {
+            return _da.UpdateData(old_dict, new_dict);
+        }
+        #endregion
+
+
         #region 取得特定模組或特定系統的作業
         /// <summary>
         /// 取得特定模組或特定系統的作業
@@ -51,5 +86,7 @@ namespace DataAccess.S01
             return lst;
         }
         #endregion
+
+
     }
 }

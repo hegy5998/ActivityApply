@@ -14,6 +14,7 @@ namespace DataAccess.Web
     {
         CommonDbHelper Db = DAH.Db;
         ActivityData _ActivityData = new ActivityData();
+        Activity_classData _classData = new Activity_classData();
 
         #region 查詢所有開放活動
         public DataTable GetActivityAllList(string act_title,string act_class)
@@ -25,7 +26,7 @@ namespace DataAccess.Web
         #region 查詢抓分類
         public List<Activity_classInfo> GetClassList()
         {
-            return _ActivityData.GetClassList();
+            return _classData.GetClassList();
         }
         #endregion
 

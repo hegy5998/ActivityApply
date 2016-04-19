@@ -108,7 +108,6 @@
     <Content Include="CommonPages\Captcha.aspx" />
     <Content Include="CommonPages\Error.aspx" />
     <Content Include="Css\Base.css" />
-    <Content Include="Css\google.css" />
     <Content Include="Css\Images\arrowLeft.png" />
     <Content Include="Css\Images\arrowRight.png" />
     <Content Include="Css\Images\background.png" />

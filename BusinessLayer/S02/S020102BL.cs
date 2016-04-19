@@ -23,6 +23,7 @@ namespace BusinessLayer.S02
         Activity_applyData _applydata = new Activity_applyData();
         Activity_columnData _columnData = new Activity_columnData();
         Activity_sectionData _sectionData = new Activity_sectionData();
+        Activity_classData _classData = new Activity_classData();
 
         #region 更新
         /// <summary>
@@ -132,7 +133,7 @@ namespace BusinessLayer.S02
         #region 取得活動列表
         public List<Activity_classInfo> GetClassList()
         {
-            return _data.GetClassList();
+            return _classData.GetClassList();
         }
         #endregion
     }
