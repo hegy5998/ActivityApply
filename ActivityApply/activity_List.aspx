@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead" runat="server">
     <!--引用jquery分頁-->
-    <link href="<%=ResolveUrl("~/assets/css/pagination.css")%>" rel="stylesheet" type="text/css"/>
+    <link href="<%=ResolveUrl("~/assets/css/pagination.css")%>" rel="stylesheet" type="text/css" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="sideCon" runat="server">
 </asp:Content>
@@ -15,24 +15,22 @@
                         <div class="push-down-30">
                             <div class="banners-big">
                                 <!--活動查詢：活動名稱包含 <strong></strong> 。-->
-                                <div <%--method="get"--%>>
-                                    <div class="input-group">
-                                        <!-- 搜尋按鈕 -->
-                                        <div class="col-sm-1">
-                                            <span class="input-group-btn">
-                                                <button id="search_btn" type="button" class="btn btn-theme03" style="border-radius: 4px;"><span class="glyphicon glyphicon-search" aria-hidden="true">活動查詢</span></button>
-                                            </span>
-                                        </div>
-                                        <!-- 下拉是選單選擇分類 -->
-                                        <div class="col-sm-1">
-                                            <select class="select" id="act_class" style="height: 34px; border-radius: 4px;">
-                                                <option selected="selected" value="0">全部</option>
-                                            </select>
-                                        </div>
-                                        <!-- 輸入框 -->
-                                        <div class="col-sm-10" style="padding-left: 0px;margin-left: -2px;">
-                                            <input id="search_txt" type="text" name="search" class="form-control" placeholder="請輸入活動名稱" />
-                                        </div>
+                                <div class="row">
+                                    <!-- 搜尋按鈕 -->
+                                    <div class="col-sm-1 col-sx-1" style="padding: 0px;width: 94px;">
+                                        <span class="input-group-btn">
+                                            <button id="search_btn" type="button" class="btn btn-theme03" style="border-radius: 4px;height: 34px;margin-bottom: 0;"><span class="glyphicon glyphicon-search" aria-hidden="true"  style="padding-bottom: 6px;">活動查詢</span></button>
+                                        </span>
+                                    </div>
+                                    <!-- 下拉是選單選擇分類 -->
+                                    <div class="col-sm-1 col-sx-1" style="padding: 0px;width: 75px;">
+                                        <select class="select" id="act_class" style="height: 34px; border-radius: 4px;">
+                                            <option selected="selected" value="0">全部</option>
+                                        </select>
+                                    </div>
+                                    <!-- 輸入框 -->
+                                    <div class="col-sm-9" style="padding: 0px;">
+                                        <input id="search_txt" type="text" name="search" class="form-control" placeholder="請輸入活動名稱" />
                                     </div>
                                 </div>
                             </div>
@@ -122,7 +120,7 @@
                     }
                 }
             }
-            //如果是搜尋按牛執行這裡
+                //如果是搜尋按牛執行這裡
             else {
                 //將滅包削內容清空
                 $("#add_breach").children().remove();

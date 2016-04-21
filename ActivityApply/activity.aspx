@@ -233,6 +233,15 @@
                     $("#apply_btn_" + count).attr("href", 'javascript:void(0)');
                     $("#apply_btn_" + count).html("名額已滿");
                 }
+                //將時間字串轉成DateTime格式
+                var apply_end = new Date(dateReviver(SessionInfo[count].as_apply_end));
+                //取得目前時間
+                var NowDate = new Date();
+                //判斷報名結束時間是否結束
+                if (apply_end < NowDate) {
+                    $("#apply_btn_" + count).attr("href", 'javascript:void(0)');
+                    $("#apply_btn_" + count).html("報名日期截止");
+                }
             }
         }
         //#endregion
@@ -241,7 +250,7 @@
         function dateReviver(datavalue) {
             if (datavalue != null) {
                 var datavalue = datavalue.split("T");
-                return datavalue[0] + " " + datavalue[1].substring(0, 5);
+                return datavalue[0].replace(/-/g, '/') + " " + datavalue[1].substring(0, 5);
             }
             else
                 return "";

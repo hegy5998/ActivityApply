@@ -17,17 +17,21 @@ using System.Data.SqlClient;
 using System.Web.Configuration;
 using Newtonsoft.Json;
 using Model.Common;
+using Web.CommonPages;
 
 namespace Web.S02
 {
-    public partial class S02010201 : CommonPages.BasePage
+    public partial class S02010201 : BasePage
     {
-        private static string act_relate_file = "";
-        private static string act_image  = "";
+        //private static string act_relate_file = "";
+        //private static string act_image  = "";
         private static int act_idn;
         protected void Page_Load(object sender, EventArgs e)
         {
+            //act_relate_file = "";
+            //act_image = "";
         }
+
 
         #region Control權限管理
         protected void ManageControlAuth(object sender, EventArgs e)
@@ -67,14 +71,15 @@ namespace Web.S02
         //    return as_act;
         //}
 
+
         //儲存報名表
         [System.Web.Services.WebMethod]
         public static string save_Activity_Form(List<Activity_columnInfo> activity_Form , List<Activity_sectionInfo> activity_Section)
         {
             int as_act=0;
             as_act = act_idn;
-
             S020102BL _bl = new S020102BL();
+
             Dictionary<String, Object> save_Activity_Section = new Dictionary<string, object>();
             for (int count = 0; count < activity_Section.Count; count++)
             {
@@ -86,7 +91,6 @@ namespace Web.S02
             }
 
 
-            
             for (int count = 0; count < activity_Form.Count; count++)
             {
                 Dictionary<string, Object> save_Activity_Form = new Dictionary<string, object>();
@@ -102,7 +106,7 @@ namespace Web.S02
                 save_Activity_Form["acc_required"] = activity_Form[count].Acc_required;
                 CommonResult result = _bl.InsertData_Activity_Column(save_Activity_Form);
             }
-            return "成功";
+            return "活動儲存成功成功";
         }
 
         //儲存活動頁面
@@ -111,7 +115,6 @@ namespace Web.S02
         {
             SystemConfigInfo sysConfig = CommonHelper.GetSysConfig();
             string shorterURL = Util.CustomHelper.URLshortener(sysConfig.SOLUTION_HTTPADDR + "activity.aspx?act_class=" + activity_List[0].Act_class + "&act_idn=" + activity_List[0].Act_idn + "&act_title=" + activity_List[0].Act_title, sysConfig.URL_SHORTENER_API_KEY);
-
 
             S020102BL _bl = new S020102BL();
             //將活動資訊資料insert到資料庫
@@ -123,11 +126,12 @@ namespace Web.S02
             save_Activity_Information["act_contact_phone"] = activity_List[0].Act_contact_phone;
             save_Activity_Information["act_class"] = activity_List[0].Act_class;
             save_Activity_Information["act_relate_link"] = activity_List[0].Act_relate_link;
-            save_Activity_Information["act_relate_file"] = act_relate_file;
+            //save_Activity_Information["act_relate_file"] = act_relate_file;
             save_Activity_Information["act_short_link"] = shorterURL;
-            save_Activity_Information["act_image"] = act_image;
+            //save_Activity_Information["act_image"] = act_image;
             save_Activity_Information["act_isopen"] = 0;
-            CommonResult res = _bl.InsertData(save_Activity_Information);
+            CommonResult res = _bl.InsertData(save_Activity_Information);       
+
             //將活動場次資料insert到資料庫
             Dictionary<string, Object> save_Session_Information = new Dictionary<string, Object>();
 
@@ -201,7 +205,7 @@ namespace Web.S02
         //返回首頁
         protected void Back_btn_Click(object sender, EventArgs e)
         {
-            Response.Redirect("DefaultSystemIndex.aspx?sys_id=S01");
+            Response.Redirect("S02010101.aspx?sys_id=S01&sys_pid=S0201010");
             Response.End();
         }
 
@@ -210,8 +214,11 @@ namespace Web.S02
         {
             int as_act = 0;
             as_act = act_idn;
+            imageUpload_btn_Click(sender, e);
 
             if (FileUpload.HasFile == false) return;
+
+            
 
             // FU1.FileName 只有 "檔案名稱.附檔名"，並沒有 Client 端的完整理路徑
             string filename = FileUpload.FileName;
@@ -228,9 +235,9 @@ namespace Web.S02
 
             // 限制檔案大小，限制為 2MB
             int filesize = FileUpload.PostedFile.ContentLength;
-            if (filesize > 2100000)
+            if (filesize > 4100000)
             {
-                string error_msg = "檔案大小上限為 2MB，該檔案無法上傳";
+                string error_msg = "《附加檔案上傳失敗》，超過上限 4MB，如須重新上傳請至活動列表編輯內上傳";
                 Response.Write("<script language='javascript'>alert('" + error_msg + "');</script>");
                 return;
             }
@@ -239,8 +246,16 @@ namespace Web.S02
             //string serverDir = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/"+as_act;
             //if (Directory.Exists(serverDir) == false) Directory.CreateDirectory(serverDir);
             string serverDirRelate =  @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act+"/relateFile";
-            act_relate_file = serverDirRelate + "/" + filename;
+            string act_relate_file = serverDirRelate + "/" + filename;
             if (Directory.Exists(serverDirRelate) == false) Directory.CreateDirectory(serverDirRelate);
+
+            S020102BL _bl = new S020102BL();
+            Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
+            old_Activity_dict["act_idn"] = act_idn;
+            Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
+            new_Activity_dict["act_relate_file"] = act_relate_file;
+            CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
+
             // 判斷 Server 上檔案名稱是否有重覆情況，有的話必須進行更名
             // 使用 Path.Combine 來集合路徑的優點
             //  以前發生過儲存 Table 內的是 \\ServerName\Dir（最後面沒有 \ 符號），
@@ -268,8 +283,6 @@ namespace Web.S02
             {
                 //Label1.Text = ex.Message;
             }
-
-            imageUpload_btn_Click(sender,e);
         }
 
         
@@ -279,7 +292,10 @@ namespace Web.S02
         {
             int as_act = 0;
             as_act = act_idn;
+            
             if (imgUpload.HasFile == false) return;
+
+            
 
             // FU1.FileName 只有 "檔案名稱.附檔名"，並沒有 Client 端的完整理路徑
             string filename = imgUpload.FileName;
@@ -299,6 +315,8 @@ namespace Web.S02
             if (filesize > 2100000)
             {
                 //Label1.Text = "檔案大小上限為 2MB，該檔案無法上傳";
+                string error_msg = "《圖片上傳失敗》，超過上限 2MB，如須重新上傳請至活動列表編輯內上傳";
+                Response.Write("<script language='javascript'>alert('" + error_msg + "');</script>");
                 return;
             }
 
@@ -306,8 +324,15 @@ namespace Web.S02
             //string serverDir = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act;
             //if (Directory.Exists(serverDir) == false) Directory.CreateDirectory(serverDir);
             string serverDirImg =  @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/Img";
-            act_image = serverDirImg + "/" + filename;
+            string act_image = serverDirImg + "/" + filename;
             if (Directory.Exists(serverDirImg) == false) Directory.CreateDirectory(serverDirImg);
+
+            S020102BL _bl = new S020102BL();
+            Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
+            old_Activity_dict["act_idn"] = act_idn;
+            Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
+            new_Activity_dict["act_image"] = act_image;
+            CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
 
             // 判斷 Server 上檔案名稱是否有重覆情況，有的話必須進行更名
             // 使用 Path.Combine 來集合路徑的優點

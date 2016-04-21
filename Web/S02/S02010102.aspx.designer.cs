@@ -13,12 +13,12 @@ namespace Web.S02 {
     public partial class S02010102 {
         
         /// <summary>
-        /// controlSet_gv 控制項。
+        /// main_gv 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView controlSet_gv;
+        protected global::System.Web.UI.WebControls.GridView main_gv;
     }
 }

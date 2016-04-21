@@ -20,7 +20,10 @@
         label.error {
             color: red;
         }
-        
+        /* gridView置中*/
+        .grid td, .grid th {
+            text-align: center;
+        }
     </style>
     <script type="text/javascript">
         $(function () {
@@ -37,7 +40,6 @@
         <section id="main-content">
             <section class="wrapper">
                 <div class="row"></div>
-
                 <div class="row">
                     <h2 class="form-login-heading" style="margin-left: 44%;">報名查詢</h2>
                     <div class="login-wrap">
@@ -99,32 +101,45 @@
                 <div class="advanced-form row">
                     <asp:UpdatePanel ID="lup" runat="server" ChildrenAsTriggers="False" UpdateMode="Conditional">
                         <ContentTemplate>
-                            <asp:GridView ID="main_gv" runat="server" AutoGenerateColumns="false" ViewStateMode="Enabled" PageSize="20" OnRowCommand="main_gv_RowCommand" OnRowDeleting="main_gv_RowDeleting" OnRowDataBound="main_gv_RowDataBound">
+                            <asp:GridView ID="main_gv" CssClass="grid" runat="server" AutoGenerateColumns="False" ViewStateMode="Enabled" PageSize="5" OnRowCommand="main_gv_RowCommand" OnRowDeleting="main_gv_RowDeleting" OnRowDataBound="main_gv_RowDataBound" CellPadding="4" ForeColor="#333333" GridLines="None">
+                                <AlternatingRowStyle BackColor="White" />
                                 <Columns>
-                                    <asp:TemplateField HeaderText="活動名稱">
+                                    <asp:TemplateField HeaderText="活動名稱" ItemStyle-HorizontalAlign="Center">
                                         <ItemTemplate>
-                                            <asp:Label ID="Act_title_lbl" runat="server" Text='<%# Bind("Act_title") %>'></asp:Label>
+                                            <input id="Act_title" type="button" class="btn-link" value='<%# Eval("Act_title") %>' Onclick="GoToActivity(<%# Eval("Act_idn") %>);" />
                                             <asp:HiddenField ID="Aa_idn_hf" runat="server" Value='<%# Bind("Aa_idn") %>' Visible="false" ViewStateMode="Enabled" />
                                             <asp:HiddenField ID="Act_idn_hf" runat="server" Value='<%# Bind("Act_idn") %>' Visible="false" ViewStateMode="Enabled" />
                                             <asp:HiddenField ID="Act_class_hf" runat="server" Value='<%# Bind("Act_class") %>' Visible="false" ViewStateMode="Enabled" />
                                         </ItemTemplate>
                                         <ItemStyle CssClass="rowTrigger" HorizontalAlign="Center" Width="700px" />
                                     </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="場次名稱">
+                                    <asp:TemplateField HeaderText="場次名稱" ItemStyle-HorizontalAlign="Center">
                                         <ItemTemplate>
                                             <asp:Label ID="As_title_lbl" runat="server" Text='<%# Bind("As_title") %>'></asp:Label>
                                             <asp:HiddenField ID="As_idn_hf" runat="server" Value='<%# Bind("As_idn") %>' Visible="false" ViewStateMode="Enabled" />
                                         </ItemTemplate>
                                         <ItemStyle CssClass="rowTrigger" HorizontalAlign="Center" Width="700px" />
                                     </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="報名人">
+                                    <asp:TemplateField HeaderText="報名人" ItemStyle-HorizontalAlign="Center">
                                         <ItemTemplate>
                                             <asp:Label ID="Aa_name_lbl" runat="server" Text='<%# Bind("Aa_name") %>'></asp:Label>
                                             <asp:HiddenField ID="Aa_name_hf" runat="server" Value='<%# Bind("Aa_name") %>' Visible="false" ViewStateMode="Enabled" />
                                         </ItemTemplate>
                                         <ItemStyle CssClass="rowTrigger" HorizontalAlign="Center" Width="700px" />
                                     </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="報名日期">
+                                    <asp:TemplateField HeaderText="活動開始日期" ItemStyle-HorizontalAlign="Center">
+                                        <ItemTemplate>
+                                            <asp:Label ID="As_date_start_lbl" runat="server" Text='<%# Bind("As_date_start") %>'></asp:Label>
+                                        </ItemTemplate>
+                                        <ItemStyle CssClass="rowTrigger" HorizontalAlign="Center" Width="700px" />
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="活動結束日期" ItemStyle-HorizontalAlign="Center">
+                                        <ItemTemplate>
+                                            <asp:Label ID="As_date_end_lbl" runat="server" Text='<%# Bind("As_date_end") %>'></asp:Label>
+                                        </ItemTemplate>
+                                        <ItemStyle CssClass="rowTrigger" HorizontalAlign="Center" Width="700px" />
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="報名日期" ItemStyle-HorizontalAlign="Center">
                                         <ItemTemplate>
                                             <asp:Label ID="Updtime_lbl" runat="server" Text='<%# Bind("Updtime") %>'></asp:Label>
                                         </ItemTemplate>
@@ -133,15 +148,24 @@
                                     <asp:TemplateField HeaderText="編輯" ShowHeader="false">
                                         <ItemTemplate>
                                             <asp:Button ID="edit_btn" runat="server" Text="修改報名資料" CommandName="Custom_Edit" ToolTip="編輯" CssClass="btnGrv edit" UseSubmitBehavior="false" CommandArgument='<%# Container.DataItemIndex%>' />
-                                            <asp:Button ID="delete_btn" runat="server" CommandName="Custom_Delete" Text="取消報名" ToolTip="刪除" CssClass="btnGrv delete" UseSubmitBehavior="false" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" CommandArgument='<%# Container.DataItemIndex%>'/>
+                                            <asp:Button ID="delete_btn" runat="server" CommandName="Custom_Delete" Text="取消報名" ToolTip="刪除" CssClass="btnGrv delete" UseSubmitBehavior="false" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" CommandArgument='<%# Container.DataItemIndex%>' />
                                         </ItemTemplate>
                                         <HeaderStyle Width="50px" />
                                         <ItemStyle HorizontalAlign="Center" Width="50px" />
                                     </asp:TemplateField>
                                 </Columns>
-                                <HeaderStyle Wrap="False" />
-                                <RowStyle Wrap="False" />
+                                <EditRowStyle BackColor="#2461BF" />
+                                <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+                                <HeaderStyle Wrap="False" BackColor="#68dff0" Font-Bold="True" ForeColor="White" height="38px"/>
+                                <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
+                                <RowStyle Wrap="False" BackColor="#EFF3FB" />
+                                <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+                                <SortedAscendingCellStyle BackColor="#F5F7FB" />
+                                <SortedAscendingHeaderStyle BackColor="#6D95E1" />
+                                <SortedDescendingCellStyle BackColor="#E9EBEF" />
+                                <SortedDescendingHeaderStyle BackColor="#4870BE" />
                             </asp:GridView>
+
                         </ContentTemplate>
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="main_gv" />
@@ -152,7 +176,7 @@
                 <!-- ModalPopupExtender設定按鈕 -->
                 <asp:Button ID="Button1" runat="server" Text="Button" Style="display: none" />
                 <!-- ModalPopupExtender顯示的Panel -->
-                <asp:Panel ID="password_pl" runat="server" style="display:none">
+                <asp:Panel ID="password_pl" runat="server" Style="display: none">
                     <div class="modal-dialog" style="width: 353px;">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -162,8 +186,8 @@
                                 <asp:TextBox CssClass="form-control placeholder-no-fix" ID="password_txt" runat="server" TextMode="Password" minlength="4"></asp:TextBox>
                             </div>
                             <div class="modal-footer">
-                                <asp:Button ID="password_cancle_btn" runat="server" Text="取消" CssClass="btn btn-theme"/>
-                                <asp:Button ID="password_ok_btn" runat="server" Text="確定" OnClick="password_ok_btn_Click" CssClass="btn btn-theme"/>
+                                <asp:Button ID="password_cancle_btn" runat="server" Text="取消" CssClass="btn btn-theme" />
+                                <asp:Button ID="password_ok_btn" runat="server" Text="確定" OnClick="password_ok_btn_Click" CssClass="btn btn-theme" />
                             </div>
                         </div>
                     </div>
@@ -188,6 +212,10 @@
             $("#add_breach").append('<li><a href="SignSearchContext.aspx">報名查詢</a></li>');
         }
         //#endregion
+
+        function GoToActivity(act_idn) { 
+            window.open("activity.aspx?act_idn=" + act_idn, "_blank"); 
+        } 
     </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="pageUnitEnd" runat="server">

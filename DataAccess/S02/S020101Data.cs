@@ -18,6 +18,40 @@ namespace DataAccess
         /// 對應的資料庫
         /// </summary>
         public CommonDbHelper Db = DAH.Db;
+        ActivityData activityData = new ActivityData();
+
+        //取得活動資料
+        public List<ActivityInfo> getActivity(int act_idn)
+        {
+            return activityData.GetActivityList(act_idn);
+        }
+        //取得活動資料
+        public List<Activity_sessionInfo> getSession(int as_act)
+        {
+            string sql = @"SELECT   activity_session.*
+                           FROM    activity_session
+                           WHERE   (as_act = @as_act) ";
+            IDataParameter[] param = { Db.GetParam("@as_act", as_act) };
+            return Db.GetEnumerable<Activity_sessionInfo>(sql, param).ToList();
+        }
+        //取得活動資料
+        public List<Activity_sectionInfo> getSection(int acs_act)
+        {
+            string sql = @"SELECT   activity_section.*
+                           FROM    activity_section
+                           WHERE   (acs_act = @acs_act) ";
+            IDataParameter[] param = { Db.GetParam("@acs_act", acs_act) };
+            return Db.GetEnumerable<Activity_sectionInfo>(sql, param).ToList();
+        }
+        //取得活動資料
+        public List<Activity_columnInfo> getColumn(int acc_act)
+        {
+            string sql = @"SELECT   activity_column.*
+                           FROM    activity_column
+                           WHERE   (acc_act = @acc_act) ";
+            IDataParameter[] param = { Db.GetParam("@acc_act", acc_act) };
+            return Db.GetEnumerable<Activity_columnInfo>(sql, param).ToList();
+        }
 
         //取得已發佈活動資料
         public DataTable GetAlreadyList()
@@ -25,14 +59,14 @@ namespace DataAccess
             StringBuilder sql_sb = new StringBuilder();
 
             sql_sb.Append(@"
-                SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num
+                SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen
                 FROM activity, activity_session
                 LEFT JOIN activity_apply
                 ON aa_as = as_idn
                 WHERE as_act = act_idn AND
                       as_isopen = 1 AND
-                      CONVERT(datetime, as_date_end, 111) >= CONVERT(varchar, GETDATE(), 111)
-                GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end
+                      CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121)
+                GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen
                 ORDER BY act_title");
 
             return Db.GetDataTable(sql_sb.ToString());
@@ -44,14 +78,14 @@ namespace DataAccess
             StringBuilder sql_sb = new StringBuilder();
 
             sql_sb.Append(@"
-                SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num
+                SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen
                 FROM activity, activity_session
                 LEFT JOIN activity_apply
                 ON aa_as = as_idn
                 WHERE as_act = act_idn AND
                       as_isopen = 0 AND
                       CONVERT(datetime, as_date_end, 111) >= CONVERT(varchar, GETDATE(), 111)
-                GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end
+                GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen
                 ORDER BY act_title");
 
             return Db.GetDataTable(sql_sb.ToString());
@@ -75,7 +109,7 @@ namespace DataAccess
             return Db.GetDataTable(sql_sb.ToString());
         }
 
-        //取得修改資料
+        //取得修改活動資料
         public DataTable GetEditData(int i)
         {
             StringBuilder sql_sb = new StringBuilder();
@@ -114,12 +148,12 @@ namespace DataAccess
         }
 
         //取得活動與場次的發佈資訊(若有一場次發佈活動就發佈)
-        public DataTable CheckisopenData(int i)
+        public DataTable CheckCloseData(int i)
         {
             StringBuilder sql_sb = new StringBuilder();
 
             sql_sb.Append(@"
-                SELECT COUNT(*) as_isopen
+                SELECT act_idn, act_isopen, as_idn, as_isopen
                 FROM activity, activity_session
                 WHERE act_idn = as_act AND
 	                  act_idn = @i");
@@ -132,25 +166,132 @@ namespace DataAccess
             return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
         }
 
-        //取得報名資料
-        public DataTable GetApplyData(int i)
+        //取得報名詳細資料(欄位資料)
+        public DataTable GetApplyDataDetail(int i)
         {
             StringBuilder sql_sb = new StringBuilder();
 
             sql_sb.Append(@"
-                SELECT act_idn, act_title, aa_idn, aa_name, aa_email, aad_apply_id, aad_col_id, aad_val, acc_idn, acc_asc, acc_title, acs_idn, acs_title, as_idn, as_title
-                FROM activity, activity_apply, activity_apply_detail, activity_column, activity_section, activity_session
-                WHERE as_act = act_idn AND
-	                  aa_act = act_idn AND
-	                  acc_asc = acs_idn AND
-	                  acc_act = act_idn AND
-	                  acs_act = act_idn AND
-	                  aa_as = as_idn AND
-	                  aad_apply_id = aa_idn AND
-	                  aad_col_id = acc_idn AND
-	                  act_idn = @i");
+                SELECT act_idn, act_title, acc_idn, acc_title, as_idn, as_title
+                FROM activity, activity_column, activity_session
+                WHERE acc_act = act_idn AND
+	                  as_act = act_idn AND
+	                  as_idn = @i");
 
             //欲取得報名資料的場次序號
+            var param_lst = new List<IDataParameter>() {
+                Db.GetParam("@i", i),
+            };
+
+            return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
+        }
+
+        //取得報名詳細欄位實際值
+        public DataTable GetApplyDataColumn(int col, int asidn)
+        {
+            StringBuilder sql_sb = new StringBuilder();
+
+            sql_sb.Append(@"
+                SELECT aa_idn, aad_val
+                FROM activity, activity_apply, activity_apply_detail, activity_column, activity_session
+                WHERE as_act = act_idn AND
+	                  aa_as = as_idn AND	  
+	                  aad_apply_id = aa_idn AND
+	                  aad_col_id = acc_idn AND
+                      acc_act = act_idn AND
+	                  as_idn = @asidn AND
+	                  acc_idn = @col
+                ORDER BY aa_idn");
+
+            //欲取得欄位值的欄位序號
+            var param_lst = new List<IDataParameter>() {
+                Db.GetParam("@asidn", asidn),
+                Db.GetParam("@col", col)
+            };
+
+            return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
+        }
+
+        //取得欲刪除的報名資料
+        public DataTable GetApplyDeleteData(int asidn, int aa)
+        {
+            StringBuilder sql_sb = new StringBuilder();
+
+            sql_sb.Append(@"
+                SELECT aad_col_id
+                FROM activity, activity_session, activity_column, activity_apply, activity_apply_detail
+                WHERE as_act = act_idn AND
+	                  aa_as = as_idn AND
+	                  acc_act = act_idn AND
+	                  aad_apply_id = aa_idn AND
+	                  aad_col_id = acc_idn AND
+	                  as_idn = @asidn AND
+	                  aa_idn = @aa");
+
+            //欲取得刪除的報名資料的場次以及報名序號
+            var param_lst = new List<IDataParameter>() {
+                Db.GetParam("@asidn", asidn),
+                Db.GetParam("@aa", aa),
+            };
+
+            return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
+        }
+
+        //取得活動idn
+        public DataTable Getactidn (int asidn)
+        {
+            StringBuilder sql_sb = new StringBuilder();
+
+            sql_sb.Append(@"
+                SELECT act_idn
+                FROM activity, activity_session
+                WHERE as_act = act_idn AND
+	                  as_idn = @asidn");
+
+            var param_lst = new List<IDataParameter>() {
+                Db.GetParam("@asidn", asidn),
+            };
+
+            return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
+        }
+
+        //新增報名資料&取得key
+        public DataTable GetApplyidn(Dictionary<string, object> data_dict)
+        {
+            StringBuilder sql_sb = new StringBuilder();
+            Type _modelType = typeof(Activity_applyInfo);
+            IDbTransaction trans = null;
+            bool checkDataRepeat = true;
+            Sys_accountInfo loginUser = null;
+
+            var res = Db.ValidatePreInsert(_modelType, trans, data_dict, checkDataRepeat);
+            if (res.IsSuccess)
+            {
+                string sql = @"
+                    insert into [" + _modelType.GetTableName() + @"] 
+                        (" + Db.GetSqlInsertField(_modelType, data_dict) + @", [createid], [createtime], [updid], [updtime]) 
+                    values (" + Db.GetSqlInsertValue(data_dict) + ", '" + loginUser.Act_id + "'" + ", (" + Db.DbNowTimeSQL + ")" + ", '" + loginUser.Act_id + "'" + ", (" + Db.DbNowTimeSQL + ")" + ")"
+                    + "SELECT LAST_INSERT_ID()";
+
+                res.AffectedRows = Db.ExecuteNonQuery(trans, sql, Db.GetParam(_modelType, data_dict));
+                if (res.AffectedRows <= 0) res.IsSuccess = false;
+            }
+
+            return Db.GetDataTable(sql_sb.ToString());
+        }
+
+        //取得活動名稱 & 場次名稱
+        public DataTable Getactas(int i)
+        {
+            StringBuilder sql_sb = new StringBuilder();
+
+            sql_sb.Append(@"
+                SELECT act_title, as_title
+                FROM activity, activity_session
+                WHERE as_act = act_idn AND
+                      as_idn = @i");
+
+            //場次序號
             var param_lst = new List<IDataParameter>() {
                 Db.GetParam("@i", i),
             };

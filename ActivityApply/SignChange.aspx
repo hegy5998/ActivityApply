@@ -83,6 +83,17 @@
     </section>
 
     <script type="text/javascript">
+        //window.onbeforeunload = function () {
+        //    if (!confirm('資料尚未儲存，確定要返回嗎?')) {
+        //        return '按一下「取消」停留在此頁';
+        //    }
+        //    else
+        //        window.location.href = '/index.aspx';
+        //    //var if_Save = confirm("資料尚未儲存，確定要返回嗎?");
+        //    //if (if_Save == true) {
+        //    //    window.location.href = 'SignSearchContext.aspx';
+        //    //}
+        //};
         var sectionList;
         var questionList;
         var applyDetailList;

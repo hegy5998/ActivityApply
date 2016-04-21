@@ -29,7 +29,7 @@ namespace DataAccess
             string sql = @"SELECT   activity_session.*,
 	                            (SELECT COUNT(*) FROM activity_apply WHERE  aa_act = as_act AND aa_as = as_idn) AS apply_num
                            FROM activity_session
-                           WHERE  (as_act = @as_act) AND (as_isopen = 1)
+                           WHERE  (as_act = @as_act) AND (as_isopen = 1) AND CONVERT(DATETIME , as_date_end, 121) >= CONVERT(varchar(256), GETDATE(), 121)
                            ORDER BY   as_idn";
             IDataParameter[] param = { Db.GetParam("@as_act", as_act) };
             return Db.GetDataTable(sql, param);

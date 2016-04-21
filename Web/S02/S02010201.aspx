@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true" CodeBehind="S02010201.aspx.cs" Inherits="Web.S02.S02010201" %>
 
 <%@ Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor" %>
-<%@ Register Src="~/UserControls/UCGridViewPager.ascx" TagPrefix="uc1" TagName="UCGridViewPager" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead_cph" runat="server">
     <script type="text/javascript">
         $(function () {
@@ -21,15 +21,14 @@
     <input type="button" onclick="save()" value="儲存整個活動" />
     <!-- 檢視 -->
     <input type="button" onclick="view_Activity()" value="檢視報名表" />
+    <!-- 新增問題 -->
+    <input id="add_qus_btn" type="button" onclick="add_Preset_Qus_Click(null, null, null, 'text', '', false)" value="新增問題" style="display: none;" />
+    <!-- 新增區塊 -->
+    <input id="add_block_btn" type="button" onclick="add_Block_Click()" value="新增區塊" style="display: none;" />
+    <!-- 常用欄位 -->
+    <input id="add_usually_btn" type="button" data-toggle="modal" data-target="#myModal" data-backdrop="static" role="group" value="常用欄位" style="display: none;" />
     <!-- 返回列表 -->
     <asp:Button runat="server" ID="Back_btn" Text="返回列表" OnClick="Back_btn_Click" CssClass="Distancebtn" />
-
-    <!-- 新增問題 -->
-    <input id="add_qus_btn" type="button" onclick="add_Preset_Qus_Click(null , null , null , 'text' , '' , false)"  value="新增問題" style="display:none;"/>
-    <!-- 新增區塊 -->
-    <input id="add_block_btn" type="button" onclick="add_Block_Click()"  value="新增區塊" style="display:none;"/>
-    <!-- 常用欄位 -->
-    <input id="add_usually_btn" type="button" data-toggle="modal" data-target="#myModal" data-backdrop="static" role="group" value="常用欄位" style="display:none;"/>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="mainContent_cph" runat="server">
     <!-- 如果沒有開啟JavaScript則會請她凱起才能使用本網頁的功能 -->
@@ -69,20 +68,25 @@
                         <div class="project">
                             <div class="photo-wrapper">
                                 <div class="photo">
-                                    <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
-                                        <ContentTemplate>
-                                            <asp:FileUpload ID="imgUpload" runat="server" />
-                                            <asp:Button ID="imageUpload_btn" runat="server" Style="display: none" OnClick="imageUpload_btn_Click" />
-                                        </ContentTemplate>
-                                        <Triggers>
-                                            <asp:PostBackTrigger ControlID="imageUpload_btn"></asp:PostBackTrigger>
-                                        </Triggers>
-                                    </asp:UpdatePanel>
-                                    <img class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" alt="" />
+                                    <img class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" alt="" onclick="upload_img()" />
                                 </div>
                                 <div class="overlay"></div>
                             </div>
                         </div>
+                        <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
+                            <ContentTemplate>
+                                <label id="imgpath_lab">選擇圖片</label>
+                                <br />
+                                <label class="red">圖片僅限制上傳jpg、jpeg、png類型檔案</label>
+                                <br />
+                                <label class="red">大小限制為2MB</label>
+                                <asp:FileUpload ID="imgUpload" runat="server" onchange="upload_imgpath(this.value)" Style="display: none" accept=".png,.jpg,.jpeg,.gif" />
+                                <asp:Button ID="imageUpload_btn" runat="server" Style="display: none" OnClick="imageUpload_btn_Click" />
+                            </ContentTemplate>
+                            <Triggers>
+                                <asp:PostBackTrigger ControlID="imageUpload_btn"></asp:PostBackTrigger>
+                            </Triggers>
+                        </asp:UpdatePanel>
                     </div>
                     <div class="row"></div>
                 </div>
@@ -149,7 +153,7 @@
                                     <div class="col-sm-10">
                                         <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
                                             <ContentTemplate>
-                                                <asp:FileUpload ID="FileUpload" runat="server" />
+                                                <asp:FileUpload ID="FileUpload" runat="server" onchange="upload_file(this.value)" />
                                                 <asp:Button ID="btnUpload" runat="server" OnClick="btnUpload_Click1" Style="display: none" />
                                             </ContentTemplate>
                                             <Triggers>
@@ -157,8 +161,9 @@
                                             </Triggers>
                                         </asp:UpdatePanel>
                                         <br />
-                                        <label>僅限制上傳jpg、png、jpeg、gif、doc、docx、txt、ppt、pptx、xls、xlsx、pdf、rar、zip、7z類型檔案</label>
-                                        <label>大小限制為20MB</label>
+                                        <label class="red">僅限制上傳jpg、png、jpeg、gif、doc、docx、txt、ppt、pptx、xls、xlsx、pdf、rar、zip、7z類型檔案</label>
+                                        <br />
+                                        <label class="red">大小限制為4MB</label>
                                     </div>
                                 </div>
                                 <!-- 相關連結 -->
@@ -270,7 +275,7 @@
                     </div>
                     <!-- 預設區塊一_END -->
 
-<%--                    <!-- 功能列_START -->
+                    <%--<!-- 功能列_START -->
                     <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="padding: 0px">
                         <div class="nav nav-tabs nav-stacked" id="suspension_div" data-spy="affix">
                             <div class="btn-group-vertical" role="group" aria-label="...">
@@ -282,13 +287,13 @@
                                 <br />
                                 <!-- 常用欄位 -->
                                 <a data-toggle="modal" data-target="#myModal" data-backdrop="static" role="group" class="btn btn-theme" style="border-radius: 8px;">常用欄位</a>
-                                <%--<br />
-                        <!-- 載入範本 -->
-                        <a type="submit" class="btn btn-theme " onclick="getText()">載入範本</a>--%>
+                                <br />
+                                <!-- 載入範本 -->
+                                <a type="submit" class="btn btn-theme " onclick="getText()">載入範本</a>
                             </div>
                         </div>
-                        <!-- 功能列_END -->
-                    </div>--%>
+                    </div>
+                    <!-- 功能列_END -->--%>
 
                     <!-- 預設區塊二_START -->
                     <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 dexc showback" id="block_div_2">
@@ -302,9 +307,6 @@
                         </div>
                     </div>
                     <!-- 預設區塊二_END -->
-
-
-
                 </div>
                 <!-- 新增區塊地方_END-->
             </div>
@@ -447,7 +449,7 @@
             //add_Preset_Qus_Click("聯絡地址", "請填寫您收的到信的地址", 1, "text", "", [], true);
             //add_Preset_Qus_Click("公司電話", null, 1, "text", "", [], false);
             //add_Preset_Qus_Click("傳真", null, 1, "text", "", [], false);
-            add_Preset_Qus_Click("用餐", null, 1, "singleSelect", "", ["葷", "素", "不用餐"], true);
+            add_Preset_Qus_Click("用餐", null, 2, "singleSelect", "", ["葷", "素", "不用餐"], true);
             //add_Preset_Qus_Click("備註", "若您有其他的問題,可以在此說明 ", 2, "text", "", [], false);
 
             //活動名稱判斷是否填寫
@@ -465,6 +467,7 @@
         });
         //#endregion
 
+        //#region 切換Tabs顯示跟隱藏按鈕
         function activityMenu() {
             $("#add_qus_btn").css({ "display": "none" });
             $("#add_block_btn").css({ "display": "none" });
@@ -475,6 +478,7 @@
             $("#add_block_btn").css({ "display": "" });
             $("#add_usually_btn").css({ "display": "" });
         }
+        //#endregion
 
         //#region 獲取分類資料
         function getClass() {
@@ -770,12 +774,16 @@
             if (qus_way_int == "singleSelect" || qus_way_int == "multiSelect" || qus_way_int == "dropDownList") {
                 $('#select_Validation_' + chooseId).attr('disabled', true);
                 $('#select_Validation_' + chooseId).val("");
+                $("#select_Validation_" + chooseId).css({ "background-color": "#EEEEEE" });
                 //判斷原來是否存在最大最小值的DIV，如果存在要刪除
                 if ($("#add_Validation_div_" + chooseId).children().length > 0)
                     $("#add_Validation_div_" + chooseId).children().remove();
             }
-            else
+            else {
                 $('#select_Validation_' + chooseId).attr('disabled', false);
+                $("#select_Validation_" + chooseId).css({ "background-color": "" });
+            }
+
             //移除選擇問題類型區塊內容
             temp_change_Qus_Way_div.children().remove();
             //移除問題內容
@@ -787,6 +795,7 @@
                                             '<div class="col-sm-10" style="width: 100%">' +
                                                 '<input type="text" ID="qus_context_txt_' + chooseId + '" ' + qus_Desc_Value + ' = "' + qus_Desc + '" placeholder="問題描述" class="form-control" style="width: 100%;margin-top: 15px" >' +
                                             '</div>');
+
             //將問題地方改單選、多選、選單問題，如果為文字問題則不用加
             if (qus_way_int != "text") {
                 temp_change_Qus_Content_div.append('<div class="panel-group" id="panel_group_' + chooseId + '" role="tablist" aria-multiselectable="true" style="width: 350px;margin-left: 50px;margin-top: 5px;">' +
@@ -898,10 +907,10 @@
                                             '<div class="col-sm-1" style="left: 95%;height: 40px;">' +
                                                 '<a class="btn" style="color: #768094;padding-left: 3px;" onclick="del_block_click(' + blockId + ')">X</a>' +
                                             '</div>' +
-	                                            '<h3><input type="text" id ="block_title_txt_' + blockId + '" class="form-control" placeholder="區塊名稱"></h3>' +
+                                                '<h3><input type="text" id ="block_title_txt_' + blockId + '" class="form-control" placeholder="區塊名稱"></h3>' +
                                                 '<input type="text" id="block_Description_txt_' + blockId + '" class="form-control" placeholder="區塊描述">' +
-	                                            '<div class="form-horizontal style-form column" id="add_Qus_div_' + blockId + '" style="min-height:50px">' +
-	                                            '</div>' +
+                                                '<div class="form-horizontal style-form column" id="add_Qus_div_' + blockId + '" style="min-height:50px">' +
+                                                '</div>' +
                                             '</div>');
             $("#block_title_txt_" + blockId).focus();
             //區塊ID加一
@@ -1283,11 +1292,10 @@
         //#region 儲存活動頁面
         function Save_btn_Click() {
             var jsondata = Save_Activity_Json();
-            if (checkDataSignEnd == true) {
-                var if_Save = confirm("您的報名結束日期在活動開始日期之後，確定要儲存嗎?");
-                if (if_Save == true) {
-                    if (check_Activity_Data === true) {
-                        upload_File();
+            if (check_Activity_Data === true) {
+                if (checkDataSignEnd == true) {
+                    var if_Save = confirm("您的報名結束日期在活動開始日期之後，確定要儲存嗎?");
+                    if (if_Save == true) {
                         $.ajax({
                             type: 'post',
                             traditional: true,
@@ -1296,10 +1304,13 @@
                             data: JSON.stringify(jsondata),
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
+                            async: false,
                             processData: false,
+                            async: false,
                             //成功時
                             success: function (result) {
-                                alert(result.d);
+                                //alert(result.d);
+                                //upload_File();
                             },
                             //失敗時
                             error: function () {
@@ -1307,14 +1318,8 @@
                             }
                         });
                     }
-                    else {
-                        alert("資料有誤");
-                    }
                 }
-            }
-            else {
-                if (check_Activity_Data === true) {
-                    upload_File();
+                else {
                     $.ajax({
                         type: 'post',
                         traditional: true,
@@ -1324,9 +1329,11 @@
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         processData: false,
+                        async: false,
                         //成功時
                         success: function (result) {
-                            alert(result.d);
+                            //alert(result.d);
+                            //upload_File();
                         },
                         //失敗時
                         error: function () {
@@ -1334,9 +1341,9 @@
                         }
                     });
                 }
-                else {
-                    alert("資料有誤");
-                }
+            }
+            else {
+                alert("活動頁面資料有誤");
             }
         }
         //#endregion
@@ -1442,7 +1449,7 @@
                     }
                     if (session_Json_Data.As_date_start != "" && session_Json_Data.As_date_end != "" && session_Json_Data.As_apply_start != "" && session_Json_Data.As_apply_end != "") {
                         if (session_Json_Data.As_date_start < session_Json_Data.As_date_end && session_Json_Data.As_date_start > session_Json_Data.As_apply_start && session_Json_Data.As_apply_start < session_Json_Data.As_apply_end && session_Json_Data.As_apply_start < session_Json_Data.As_date_end && session_Json_Data.As_apply_end < session_Json_Data.As_date_end) {
-                            check_Activity_Data = true;
+                            //check_Activity_Data = true;
                         }
                         else
                             check_Activity_Data = false;
@@ -1520,9 +1527,11 @@
                     data: JSON.stringify(jsondata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
+                    async: false,
                     //成功時
                     success: function (result) {
                         alert(result.d);
+                        upload_File();
                     },
                     //失敗時
                     error: function () {
@@ -1531,7 +1540,7 @@
                 });
             }
             else if (check_Activity_Column_Data === false) {
-                alert("您有資料尚未填寫!!")
+                alert("報名表資料有誤!!");
             }
         }
         //#endregion 
@@ -1681,7 +1690,7 @@
                         if ($("#block_div_error_" + choose_blockId).length == 0)
                             $("#block_div_" + choose_blockId).prepend('<em id="block_div_error_' + choose_blockId + '" class="error help-block red"><h3>內無問題，請刪除或是新增問題</h3></em>');
                         check_Activity_Column_Data = false;
-                        alert("您有空白區塊，請新增問題或是刪除區塊!!");
+                        //alert("您有空白區塊，請新增問題或是刪除區塊!!");
                     }
                     //區塊順序加一
                     block_asc++;
@@ -1695,7 +1704,6 @@
         function upload_File() {
             //抓取上傳檔案的按鈕，藉此可以由前端呼叫後端的function
             document.getElementById("<%=this.btnUpload.ClientID %>").click();
-            //document.getElementById("<%=this.imageUpload_btn.ClientID %>").click();
         }
         //#endregion
 
@@ -1715,8 +1723,47 @@
         function save() {
             Save_btn_Click();
             Save_Activity_btn_Click();
+            //upload_File();
+            //window.location.href = '/S02/S02010101.aspx?sys_id=S01&sys_pid=S02010101';
         }
         //#endregion
+
+        //#region 點擊上傳圖片事件
+        function upload_img() {
+            document.getElementById("<%=this.imgUpload.ClientID %>").click();
+        }
+        function upload_imgpath(path) {
+            if (path != "") {
+                var path = path.split("\\")[path.split("\\").length - 1];
+                var imgFileName = path.split(".")[path.split(".").length - 1];
+                //如果資料正確，使用jQuery ajax傳送資料
+                if (imgFileName != "jpg" && imgFileName != "jpeg" && imgFileName != "png" && imgFileName) {
+                    alert("圖片只能上傳jpg、jpeg、png格式");
+                    check_Activity_Data = false;
+                    $("#<%=imgUpload.ClientID %>").val("");
+                    //錯誤提示
+                    $('#imgpath_lab').text("請選擇正確的圖片格式!");
+                }
+                else
+                    //設定上傳圖片檔名
+                    $('#imgpath_lab').text(path);
+            }
+            else
+                $('#imgpath_lab').text("選擇圖片");
+        }
+        //#endregion
+
+        function upload_file(path) {
+            var path = path.split("\\")[path.split("\\").length - 1];
+            var FileName = path.split(".")[path.split(".").length - 1];
+            //如果資料正確，使用jQuery ajax傳送資料
+            if (FileName != "jpg" && FileName != "jpeg" && FileName != "png" && FileName != "gif" && FileName != "doc" && FileName != "docx" && FileName != "txt" && FileName != "ppt" && FileName != "pptx" && FileName != "xls" && FileName != "xlsx" && FileName != "pdf" && FileName != "rar" && FileName != "zip" && FileName != "7z" && FileName) {
+                alert("附加檔案只能上傳jpg、png、jpeg、gif、doc、docx、txt、ppt、pptx、xls、xlsx、pdf、rar、zip、7z格式");
+                check_Activity_Data = false;
+                $("#<%=FileUpload.ClientID %>").val("");
+            }
+        }
+
     </script>
     <!-- JavaScript_END-->
 </asp:Content>
