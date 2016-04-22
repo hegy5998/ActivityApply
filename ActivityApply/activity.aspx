@@ -63,7 +63,7 @@
                             <label class="control-label">活動簡介</label>
                             <br />
                             <!-- 設定活動簡介大小，超出變成卷軸 -->
-                            <div style="width:auto;height:400px;overflow-x:auto;overflow-y:auto;background-color:white;">
+                            <div id="desc_div" style="width:auto;height:auto;overflow-x:auto;overflow-y:auto;background-color:white;display:none">
                                 <asp:Label ID="Act_desc_lbl" runat="server" Text="Label" ></asp:Label>
                             </div>
                             <hr />
@@ -73,7 +73,7 @@
                             <hr />
                             <label class="control-label">相關連結</label>
                             <br />
-                            <a id="relate_link" href="#" target="_blank"></a>
+                            <a id="relate_link" href="#" target="_blank">活動資訊</a>
                             <hr />
                         </div>
                         <div class="row" id="add_Session_div">
@@ -99,6 +99,11 @@
 
     <script>
         $(document).ready(function () {
+            //判斷活動簡介內容高度超過300px變成卷軸式
+            var obheight = 300;//超過容器高度自動捲軸
+            var mc = $("#desc_div").height();
+            if (mc > obheight) $("#desc_div").height(obheight + 'px');
+            $("#desc_div").css({ 'display': '' });
             //產生活動資訊
             getActivityList();
             //產生場次
@@ -191,7 +196,7 @@
             //設定相關連結，如果沒有則不顯示
             if (ActivityInfo[0].Act_relate_link != null){
                 $("#relate_link").attr("href", ActivityInfo[0].Act_relate_link);
-                $("#relate_link").html(ActivityInfo[0].Act_relate_link);
+                //$("#relate_link").html(ActivityInfo[0].Act_relate_link);
             }
             else
                 $("#relate_link").remove();

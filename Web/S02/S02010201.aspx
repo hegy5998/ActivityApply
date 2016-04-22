@@ -153,7 +153,9 @@
                                     <div class="col-sm-10">
                                         <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
                                             <ContentTemplate>
-                                                <asp:FileUpload ID="FileUpload" runat="server" onchange="upload_file(this.value)" />
+                                                <input type="button" onclick="upload_file_btn()" class="btn btn-theme" value="選擇檔案"/>
+                                                <label id="filepath_lab">選擇檔案</label>
+                                                <asp:FileUpload ID="FileUpload" runat="server" onchange="upload_file(this.value)" Style="display: none" />
                                                 <asp:Button ID="btnUpload" runat="server" OnClick="btnUpload_Click1" Style="display: none" />
                                             </ContentTemplate>
                                             <Triggers>
@@ -1752,16 +1754,25 @@
                 $('#imgpath_lab').text("選擇圖片");
         }
         //#endregion
-
+        function upload_file_btn() {
+            document.getElementById("<%=this.FileUpload.ClientID %>").click();
+        }
         function upload_file(path) {
-            var path = path.split("\\")[path.split("\\").length - 1];
-            var FileName = path.split(".")[path.split(".").length - 1];
-            //如果資料正確，使用jQuery ajax傳送資料
-            if (FileName != "jpg" && FileName != "jpeg" && FileName != "png" && FileName != "gif" && FileName != "doc" && FileName != "docx" && FileName != "txt" && FileName != "ppt" && FileName != "pptx" && FileName != "xls" && FileName != "xlsx" && FileName != "pdf" && FileName != "rar" && FileName != "zip" && FileName != "7z" && FileName) {
-                alert("附加檔案只能上傳jpg、png、jpeg、gif、doc、docx、txt、ppt、pptx、xls、xlsx、pdf、rar、zip、7z格式");
-                check_Activity_Data = false;
-                $("#<%=FileUpload.ClientID %>").val("");
+            if (path != "") {
+                var path = path.split("\\")[path.split("\\").length - 1];
+                var FileName = path.split(".")[path.split(".").length - 1];
+                //如果資料正確，使用jQuery ajax傳送資料
+                if (FileName != "jpg" && FileName != "jpeg" && FileName != "png" && FileName != "gif" && FileName != "doc" && FileName != "docx" && FileName != "txt" && FileName != "ppt" && FileName != "pptx" && FileName != "xls" && FileName != "xlsx" && FileName != "pdf" && FileName != "rar" && FileName != "zip" && FileName != "7z" && FileName) {
+                    alert("附加檔案只能上傳jpg、png、jpeg、gif、doc、docx、txt、ppt、pptx、xls、xlsx、pdf、rar、zip、7z格式");
+                    check_Activity_Data = false;
+                    $("#<%=FileUpload.ClientID %>").val("");
+                    $("#filepath_lab").text("請選擇正確的檔案格式!");
+                }
+                else
+                    $("#filepath_lab").text(path);
             }
+            else
+                $("#filepath_lab").text("選擇檔案");
         }
 
     </script>

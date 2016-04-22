@@ -11,20 +11,14 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="mainContentSubFunction_cph" runat="server">
-    <%--    <!-- 儲存活動頁面 -->
-    <input type="button" onclick="Save_btn_Click()" value="儲存活動頁面" />
-    <!-- 儲存報名表 -->
-    <input type="button" onclick="Save_Activity_btn_Click()" value="儲存報名表" />
-    <!-- 上傳檔案 -->
-    <input type="button" onclick="upload_File()" value="上傳檔案" />--%>
     <!-- 儲存活動 -->
     <input type="button" onclick="save()" value="儲存整個活動" />
     <!-- 檢視 -->
     <input type="button" onclick="view_Activity()" value="檢視報名表" />
     <!-- 新增問題 -->
-    <input id="add_qus_btn" type="button" onclick="add_Preset_Qus_Click(null, null, null, 'text', '', false)" value="新增問題" style="display: none;" />
+    <input id="add_qus_btn" type="button" onclick="add_Preset_Qus_Click('',null, null, null, 'text', '', false)" value="新增問題" style="display: none;" />
     <!-- 新增區塊 -->
-    <input id="add_block_btn" type="button" onclick="add_Block_Click()" value="新增區塊" style="display: none;" />
+    <input id="add_block_btn" type="button" onclick="add_Block_Click('')" value="新增區塊" style="display: none;" />
     <!-- 常用欄位 -->
     <input id="add_usually_btn" type="button" data-toggle="modal" data-target="#myModal" data-backdrop="static" role="group" value="常用欄位" style="display: none;" />
     <!-- 返回列表 -->
@@ -119,10 +113,7 @@
                                         <!-- 活動簡介，使用CKeditor -->
                                         <textarea cols="80" id="editor1" name="editor1" rows="10"></textarea>
                                         <script type="text/javascript">
-                                            CKEDITOR.replace('editor1',
-                                                {
-
-                                                });
+                                            CKEDITOR.replace('editor1',{});
                                         </script>
                                     </div>
                                 </div>
@@ -153,7 +144,9 @@
                                     <div class="col-sm-10">
                                         <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
                                             <ContentTemplate>
-                                                <asp:FileUpload ID="FileUpload" runat="server" onchange="upload_file(this.value)" />
+                                                <input type="button" onclick="upload_file_btn()" class="btn btn-theme" value="選擇檔案"/>
+                                                <label id="filepath_lab">選擇檔案</label>
+                                                <asp:FileUpload ID="FileUpload" runat="server" onchange="upload_file(this.value)"  Style="display: none"/>
                                                 <asp:Button ID="btnUpload" runat="server" OnClick="btnUpload_Click1" Style="display: none" />
                                             </ContentTemplate>
                                             <Triggers>
@@ -181,132 +174,11 @@
                 <!-- 活動頁面內容_END -->
             </div>
             <!-- 活動頁面標籤_END -->
-
+            
             <!-- 活動報名表標籤_START-->
             <div class="row mt tab-pane fade" id="activityQus" role="tabpanel">
                 <!-- 新增區塊地方_START-->
                 <div class="row mt " id="add_Block_div">
-                    <!-- 預設區塊一_START -->
-                    <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 dexc showback" id="block_div_1">
-                        <!-- 預設區塊一名稱_基本資料 -->
-                        <h3>
-                            <input type="text" id="block_title_txt_1" class="form-control" placeholder="區塊名稱" value="基本資料" /></h3>
-                        <input type="text" id="block_Description_txt_1" class="form-control" placeholder="區塊描述" />
-                        <!-- 新增問題地方 START-->
-                        <div class="form-horizontal style-form column " id="add_Qus_div_1" style="min-height: 50px">
-                            <div id="qus_div_1" class="form-group portlet showback" style="border: 0px; background: #ffffff; padding: 15px; margin-bottom: 15px; box-shadow: 0px 0px 2px #272727; border-radius: 20px; margin: 20px 0px 0px 1px;">
-                                <div class="col-sm-1 portlet-header center" style="background-color: #F1F2F7; height: 100px; width: 35px">
-                                    <img src="../Images/drag_pic.jpg" alt="拖移" style="height: 24px; transform: translateY(-50%); top: 50%; position: relative;" />
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-10" id="change_Qus_Way_div_1">
-                                        <div class="col-sm-10" style="width: 100%">
-                                            <input type="text" id="qus_txt_1" class="form-control" style="width: 100%;" value="姓名" disabled="" />
-                                        </div>
-                                        <div class="col-sm-10" style="width: 100%">
-                                            <input type="text" id="qus_context_txt_1" placeholder="問題描述" class="form-control" style="width: 100%; margin-top: 15px" />
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-1" style="padding: inherit;">
-                                        <select class="select" id="select_1" disabled="" style="width: 56px; height: 34px; border-radius: 4px; background-color: #EEEEEE; float: right;">
-                                            <option selected="selected" value="text">文字</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6" id="change_Qus_Content_div_1">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="row" style="float: right;">
-                                            <div class="checkbox checkbox-slider--b-flat checkbox-slider-md" style="float: left; padding-right: 10px;">
-                                                <label>
-                                                    <input id="required_checkbox_1" type="checkbox" checked="checked" disabled="" /><span><a style="font-size: 16px; margin-left: -126px;">必填</a></span>
-                                                </label>
-                                            </div>
-                                            <select class="select_Validation" id="select_Validation_1" disabled="" style="width: 100px; height: 34px; border-radius: 4px; margin-left: 22px; margin-top: 5px; background-color: #EEEEEE;">
-                                                <option selected="selected" value="">資料驗證(無)</option>
-                                            </select>
-                                        </div>
-                                        <div class="row" id="add_Validation_div_1" style="margin-left: -25px;">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="qus_div_2" class="form-group portlet showback" style="border: 0px; background: #ffffff; padding: 15px; margin-bottom: 15px; box-shadow: 0px 0px 2px #272727; border-radius: 20px; margin: 20px 0px 0px 1px;">
-                                <div class="col-sm-1 portlet-header center" style="background-color: #F1F2F7; height: 100px; width: 35px">
-                                    <img src="../Images/drag_pic.jpg" alt="拖移" style="height: 24px; transform: translateY(-50%); top: 50%; position: relative;" />
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-10" id="change_Qus_Way_div_2">
-                                        <div class="col-sm-10" style="width: 100%">
-                                            <input type="text" id="qus_txt_2" class="form-control" style="width: 100%;" value="電子信箱Email" disabled="" />
-                                        </div>
-                                        <div class="col-sm-10" style="width: 100%">
-                                            <input type="text" id="qus_context_txt_2" placeholder="問題描述" class="form-control" style="width: 100%; margin-top: 15px" />
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-1" style="padding: inherit;">
-                                        <select class="select" id="select_2" disabled="" style="width: 56px; height: 34px; border-radius: 4px; background-color: #EEEEEE; float: right">
-                                            <option selected="selected" value="text">文字</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6" id="change_Qus_Content_div_2">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="row" style="float: right;">
-                                            <div class="checkbox checkbox-slider--b-flat checkbox-slider-md" style="float: left; padding-right: 10px;">
-                                                <label>
-                                                    <input id="required_checkbox_2" type="checkbox" checked="checked" disabled="" /><span><a style="font-size: 16px; margin-left: -126px;">必填</a></span>
-                                                </label>
-                                            </div>
-                                            <select class="select_Validation" id="select_Validation_2" disabled="" style="width: 100px; height: 34px; border-radius: 4px; margin-left: 22px; margin-top: 5px; background-color: #EEEEEE;">
-                                                <option selected="selected" value="email">電子信箱</option>
-                                            </select>
-                                        </div>
-                                        <div class="row" id="add_Validation_div_2" style="margin-left: -25px;">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 新增問題地方_END-->
-                    </div>
-                    <!-- 預設區塊一_END -->
-
-                    <%--<!-- 功能列_START -->
-                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="padding: 0px">
-                        <div class="nav nav-tabs nav-stacked" id="suspension_div" data-spy="affix">
-                            <div class="btn-group-vertical" role="group" aria-label="...">
-                                <!-- 新增問題 -->
-                                <a class="btn btn-theme " onclick="add_Preset_Qus_Click(null , null , null , 'text' , '' , false)" style="border-radius: 8px;">新增問題</a>
-                                <br />
-                                <!-- 新增區塊 -->
-                                <a class="btn btn-theme " onclick="add_Block_Click()" style="border-radius: 8px;">新增區塊</a>
-                                <br />
-                                <!-- 常用欄位 -->
-                                <a data-toggle="modal" data-target="#myModal" data-backdrop="static" role="group" class="btn btn-theme" style="border-radius: 8px;">常用欄位</a>
-                                <br />
-                                <!-- 載入範本 -->
-                                <a type="submit" class="btn btn-theme " onclick="getText()">載入範本</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 功能列_END -->--%>
-
-                    <!-- 預設區塊二_START -->
-                    <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 dexc showback" id="block_div_2">
-                        <div class="col-sm-1" style="left: 95%; height: 40px;">
-                            <a class="btn" style="color: #768094; padding-left: 3px;" onclick="del_block_click(2)">X</a>
-                        </div>
-                        <h3>
-                            <input type="text" id="block_title_txt_2" class="form-control" placeholder="區塊名稱" value="其他" /></h3>
-                        <input type="text" id="block_Description_txt_2" class="form-control" placeholder="區塊描述" />
-                        <div class="column form-horizontal style-form" id="add_Qus_div_2" style="min-height: 50px">
-                        </div>
-                    </div>
-                    <!-- 預設區塊二_END -->
                 </div>
                 <!-- 新增區塊地方_END-->
             </div>
@@ -420,9 +292,9 @@
         //#endregion
 
         //問題ID
-        var qusId = 3;
+        var qusId = 1;
         //區塊ID
-        var blockId = 3;
+        var blockId = 1;
         //場次ID
         var sessionId = 1;
         //判斷活動頁面資料是否正確
@@ -431,27 +303,24 @@
         var check_Activity_Column_Data = false;
         //判斷活動報名結束日期是否在活動開始日期之後
         var checkDataSignEnd = false;
+        //儲存活動
+        var activityInfo;
+        //儲存場次
+        var sessionInfo;
+        //儲存區塊
+        var sectionInfo;
+
+        var del_acc_idn = '';
+        var del_acs_idn = '';
 
         //#region 頁面載入時自動產生問題
         $(document).ready(function () {
             //設定分類下拉選單資料
             getClass();
-            //載入預設場次
-            add_Session_click();
-            //add_Preset_Qus_Click(題目名稱 , 題目描述 , 欲加入的區塊 , 題目模式 , 資料驗證 ,選項內容 , 是否必填)
-            //add_Preset_Qus_Click("姓名", "請填寫完整名字", 1, "text", "", [], true);
-            //add_Preset_Qus_Click("出生年月日", "ex:83/07/08", 1, "text", "", [], true);
-            //add_Preset_Qus_Click("服務單位", "請填寫完整名稱", 1, "text", "", [], true);
-            //add_Preset_Qus_Click("職稱", null, 1, "text", "", [], true);
-            //add_Preset_Qus_Click("身份證字號", "英文字母請大寫", 1, "text", "idNumber", [], true);
-            //add_Preset_Qus_Click("信箱Email", "請填寫正確格式", 1, "text", "email", [], true);
-            //add_Preset_Qus_Click("連絡電話", "可填手機或是家裡電話", 1, "text", "", [], true);
-            //add_Preset_Qus_Click("聯絡地址", "請填寫您收的到信的地址", 1, "text", "", [], true);
-            //add_Preset_Qus_Click("公司電話", null, 1, "text", "", [], false);
-            //add_Preset_Qus_Click("傳真", null, 1, "text", "", [], false);
-            add_Preset_Qus_Click("用餐", null, 2, "singleSelect", "", ["葷", "素", "不用餐"], true);
-            //add_Preset_Qus_Click("備註", "若您有其他的問題,可以在此說明 ", 2, "text", "", [], false);
-
+            getActivity();
+            getSession();
+            getSection();
+            getColumn();
             //活動名稱判斷是否填寫
             $("#activity_Name_txt").blur(function () {
                 if ($.trim($(this).val()) == "") {
@@ -479,83 +348,6 @@
             $("#add_usually_btn").css({ "display": "" });
         }
         //#endregion
-
-        function getActivity() {
-            $.ajax({
-                type: 'post',
-                traditional: true,
-                //將資料傳到後台save_Activity這個function
-                url: '/S02/S02010103.aspx/getActivity',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                async: false,
-                //成功時
-                success: function (result) {
-                    a = result.d
-                },
-                //失敗時
-                error: function () {
-                    alert("失敗");
-                }
-            });
-        }
-        function getSession() {
-            $.ajax({
-                type: 'post',
-                traditional: true,
-                //將資料傳到後台save_Activity這個function
-                url: '/S02/S02010103.aspx/getSession',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                async: false,
-                //成功時
-                success: function (result) {
-                    a = result.d
-                },
-                //失敗時
-                error: function () {
-                    alert("失敗");
-                }
-            });
-        }
-        function getSection() {
-            $.ajax({
-                type: 'post',
-                traditional: true,
-                //將資料傳到後台save_Activity這個function
-                url: '/S02/S02010103.aspx/getSection',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                async: false,
-                //成功時
-                success: function (result) {
-                    a = result.d
-                },
-                //失敗時
-                error: function () {
-                    alert("失敗");
-                }
-            });
-        }
-        function getColumn() {
-            $.ajax({
-                type: 'post',
-                traditional: true,
-                //將資料傳到後台save_Activity這個function
-                url: '/S02/S02010103.aspx/getColumn',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                async: false,
-                //成功時
-                success: function (result) {
-                    a = result.d
-                },
-                //失敗時
-                error: function () {
-                    alert("失敗");
-                }
-            });
-        }
 
         //#region 獲取分類資料
         function getClass() {
@@ -586,6 +378,155 @@
             $("#select_class").children().remove();
             for (var count = 0 ; count < act_classInfo.length ; count++) {
                 $("#select_class").append('<option value="' + act_classInfo[count].Ac_idn + '">' + act_classInfo[count].Ac_title + '</option>');
+            }
+        }
+        //#endregion
+
+        //#region 抓活動、場次、區塊、報名表欄位資料
+        //抓取活動資料
+        function getActivity() {
+            $.ajax({
+                type: 'post',
+                traditional: true,
+                //將資料傳到後台save_Activity這個function
+                url: '/S02/S02010103.aspx/getActivity',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                //成功時
+                success: function (result) {
+                    //設定活動內容
+                    setActivity(result.d);
+                },
+                //失敗時
+                error: function () {
+                    alert("失敗");
+                }
+            });
+        }
+        //抓取場次資料
+        function getSession() {
+            $.ajax({
+                type: 'post',
+                traditional: true,
+                //將資料傳到後台getSession這個function
+                url: '/S02/S02010103.aspx/getSession',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                //成功時
+                success: function (result) {
+                    sessionInfo = JSON.parse(result.d);
+                    //增加場次
+                    for (var count = 0 ; count < sessionInfo.length ; count++) {
+                        add_Session_click();
+                    }
+                    //設定場次內容
+                    setSession(sessionInfo);
+                },
+                //失敗時
+                error: function () {
+                    alert("失敗");
+                }
+            });
+        }
+        //抓取區塊資料
+        function getSection() {
+            $.ajax({
+                type: 'post',
+                traditional: true,
+                //將資料傳到後台getSection這個function
+                url: '/S02/S02010103.aspx/getSection',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                //成功時
+                success: function (result) {
+                    sectionInfo = JSON.parse(result.d);
+                    //增加區塊
+                    for (var count = 0 ; count < sectionInfo.length ; count++) {
+                        add_Block_Click(sectionInfo[count].Acs_idn);
+                    }
+                    //設定區塊內容
+                    setSection(sectionInfo);
+                },
+                //失敗時
+                error: function () {
+                    alert("失敗");
+                }
+            });
+        }
+        //抓取報名表資料
+        function getColumn() {
+            $.ajax({
+                type: 'post',
+                traditional: true,
+                //將資料傳到後台getColumn這個function
+                url: '/S02/S02010103.aspx/getColumn',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                //成功時
+                success: function (result) {
+                    columnInfo = JSON.parse(result.d);
+                    //加入報名表欄位
+                    for (count = 0 ; count < columnInfo.length ; count++) {
+                        var required;
+                        var value = "";
+                        if (columnInfo[count].Acc_required == 1) required = true; else required = false;
+                        if (columnInfo[count].Acc_option != "") {
+                            decodeURI(columnInfo[count].Acc_option).split('&').forEach(function (param, index) {
+                                param = param.split('=');
+                                var val = param[1];
+                                if (decodeURI(columnInfo[count].Acc_option).split('&').length == index + 1)
+                                    value += val;
+                                else
+                                    value += val + ',';
+                            })
+                        }
+                        add_Preset_Qus_Click(columnInfo[count].Acc_idn,columnInfo[count].Acc_title, columnInfo[count].Acc_desc, columnInfo[count].Acc_asc, columnInfo[count].Acc_type, columnInfo[count].Acc_validation, value.split(','), required);
+                    }
+                },
+                //失敗時
+                error: function () {
+                    alert("失敗");
+                }
+            });
+        }
+        //#endregion
+
+        //#region 設定活動、場次、區塊資料
+        function setActivity(activity) {
+            activityInfo = JSON.parse(activity);
+            $("#select_class").val(activityInfo[0].Act_class);
+            $("#activity_Name_txt").val(activityInfo[0].Act_title);
+            CKEDITOR.instances.editor1.setData(activityInfo[0].Act_desc);
+            $("#unit_txt").val(activityInfo[0].Act_unit);
+            $("#contact_Person_txt").val(activityInfo[0].Act_contact_name);
+            $("#contact_Person_Phone_txt").val(activityInfo[0].Act_contact_phone);
+            $("#relate_Link").val(activityInfo[0].Act_relate_link);
+            if (activityInfo[0].Act_relate_file != "" &&activityInfo[0].Act_relate_file != null)
+                $("#filepath_lab").text(activityInfo[0].Act_relate_file.split('/')[activityInfo[0].Act_relate_file.split('/').length - 1]);
+            if (activityInfo[0].Act_image != "" && activityInfo[0].Act_image != null) {
+                $("#imgpath_lab").text(activityInfo[0].Act_image.split('/')[activityInfo[0].Act_image.split('/').length - 1]);
+                $("#img-responsive").attr("src", activityInfo[0].Act_image);
+            }
+        }
+        function setSession(sessionInfo) {
+            for (var count = 1 ; count < sessionInfo.length + 1 ; count++) {
+                $("#session_Name_txt_" + count).val(sessionInfo[count - 1].As_title);
+                $("#datetimepicker_Activity_Start_txt_" + count).val(dateReviver(sessionInfo[count - 1].As_date_start));
+                $("#datetimepicker_Activity_End_txt_" + count).val(dateReviver(sessionInfo[count - 1].As_date_end));
+                $("#datetimepicker_Activity_Sign_Start_txt_" + count).val(dateReviver(sessionInfo[count - 1].As_apply_start));
+                $("#datetimepicker_Activity_Sign_End_txt_" + count).val(dateReviver(sessionInfo[count - 1].As_apply_end));
+                $("#activity_Location_txt_" + count).val(sessionInfo[count - 1].As_position);
+                $("#activity_Limit_Num_txt_" + count).val(sessionInfo[count - 1].As_num_limit);
+            }
+        }
+        function setSection(sectionInfo) {
+            for (var count = 1 ; count < sectionInfo.length + 1 ; count++) {
+                $("#block_title_txt_" + count).val(sectionInfo[count - 1].Acs_title);
+                $("#block_Description_txt_" + count).val(sectionInfo[count - 1].Acs_desc);
             }
         }
         //#endregion
@@ -640,13 +581,32 @@
         //#endregion
 
         //#region 新增問題分發
-        function add_Preset_Qus_Click(qus_Title, qus_Desc, add_Block, preset_Qus_Way, preset_Qus_validation, qus_Option, required) {
-            add_Qus_Click(add_Block, required);
+        function add_Preset_Qus_Click(acc_idn,qus_Title, qus_Desc, add_Block, preset_Qus_Way, preset_Qus_validation, qus_Option, required) {
+            //增加問題(加入區塊,是否必填)
+            add_Qus_Click(add_Block, required, acc_idn);
             //增加問題內容 change_Qus_Way(問題模式,欲加入題目名稱的地方,欲加入選項的地方,欲加入題目名稱的內容,欲加入選項的第一個內容)
             change_Qus_Way(preset_Qus_Way, qusId, $("#change_Qus_Way_div_" + qusId), $("#change_Qus_Content_div_" + qusId), qus_Title, qus_Desc, qus_Option[0]);
             //將選單改為預設所選的
             $("#select_" + qusId).val(preset_Qus_Way);
             $("#select_Validation_" + qusId).val(preset_Qus_validation);
+            //判斷如果欄位為姓名或Email則要禁止更改
+            if (qus_Title == "姓名" || qus_Title == "電子信箱Email") {
+                //禁止更改題目類型
+                $("#select_" + qusId).attr('disabled', 'disabled');
+                $("#select_" + qusId).css({ 'background': '#EEEEEE' });
+                //禁止更改資料驗證
+                $("#select_Validation_" + qusId).attr('disabled', 'disabled');
+                $("#select_Validation_" + qusId).css({ 'background': '#EEEEEE' });
+                //禁止更改必填
+                $("#required_checkbox_" + qusId).attr('disabled', 'disabled');
+                //禁止更改題目標題
+                $("#qus_txt_" + qusId).attr('disabled', 'disabled');
+                $("#qus_txt_" + qusId).css({ 'background': '#EEEEEE' });
+                //隱藏刪除按鈕
+                $("#del_qus_btn_" + qusId).css({ 'display': 'none' });
+            }
+                
+            
             //將預設文字加入選項中
             if (preset_Qus_Way != "text") {
                 var qus_Option_length = qus_Option.length;
@@ -689,7 +649,7 @@
         //#endregion
 
         //#region 新增問題
-        function add_Qus_Click(add_blockId, required) {
+        function add_Qus_Click(add_blockId, required,acc_idn) {
             //判斷是仔入預設問題還是新增問題
             if (add_blockId === null) {
                 //判斷區塊是否存在
@@ -707,12 +667,18 @@
                 var check = "checked";
             else
                 var check = "";
+
+            if (acc_idn != "")
+                var acc_idn_lb = '<label id="old_acc_idn_lb_' + acc_idn + '" style="display:none">' + acc_idn + '</label>';
+            else
+                var acc_idn_lb = '<label id="new_acc_idn_lb_' + qusId + '" style="display:none">' + qusId + '</label>';
+            
             //新增問題至最後一個區塊內(預設文字問題)
             $('#add_Qus_div_' + chooseId).append('<div id="qus_div_' + qusId + '" class="form-group portlet showback" style="border: 0px; background: #ffffff;padding: 15px;margin-bottom: 15px;box-shadow: 0px 0px 2px #272727;border-radius: 20px;margin: 20px 0px 0px 1px;">' +
                                         '<div class="col-sm-1 portlet-header center" style="background-color: #F1F2F7;height:100px; width:35px">' +
                                             '<img src="../Images/drag_pic.jpg" alt="拖移" height="24px" style="transform: translateY(-50%);top: 50%;position: relative;"/> ' +
                                         '</div>' +
-                                        '<div class="row">' +
+                                        '<div class="row">' + acc_idn_lb +
                                             //添加題目問題以及題目描述的地方
                                             '<div class="col-sm-10" id="change_Qus_Way_div_' + qusId + '">' +
                                             '</div>' +
@@ -746,7 +712,7 @@
                                                               '<option value="int">數字</option>' +
                                                               '<option value="date">日期</option>' +
                                                             '</select>' +
-                                                        '<a onclick="del_Qus_click(' + qusId + ')" type="submit" class="btn btn-theme" style="margin-left: 5px;">刪除</a>' +
+                                                        '<a id="del_qus_btn_'+qusId+'" onclick="del_Qus_click(' + qusId + ')" type="submit" class="btn btn-theme" style="margin-left: 5px;">刪除</a>' +
                                                     '</div>' +
                                                     //添加資料驗證數字最大最小值的地方
                                                     '<div class="row" id="add_Validation_div_' + qusId + '" style="margin-left: -25px;">' +
@@ -815,6 +781,15 @@
         }
         //刪除問題
         function del_Qus_click(chooseId) {
+            //判斷是否為題目或舊題目
+            if ($("#qus_div_" + chooseId).find("[id^=old_acc_idn_lb_]").length) {
+                var acc_idn;
+                $("#qus_div_" + chooseId).find("[id^=old_acc_idn_lb_]").each(function () {
+                    acc_idn = $(this).text()
+                })
+                del_acc_idn += acc_idn + ',';
+                alert(del_acc_idn);
+            }
             $('#qus_div_' + chooseId).remove();
         };
         //#endregion
@@ -978,11 +953,20 @@
         //#endregion
 
         //#region 新增區塊
-        function add_Block_Click() {
+        function add_Block_Click(acs_idn) {
+            if (blockId == 1)
+                display = "display:none";
+            else
+                display = "display:";
+            if (acs_idn != '')
+                var acs_idn_lb = '<label id="old_acs_idn_lb_' + acs_idn + '" style="display:none">' + acs_idn + '</label>';
+            else
+                var acs_idn_lb = '<label id="new_acs_idn_lb_' + blockId + '" style="display:none">' + blockId + '</label>';
+
             //新增區塊至預設好的div
-            $('#add_Block_div').append('<div class="col-lg-11 col-md-11 col-sm-11 col-xs-12 dexc showback" id="block_div_' + blockId + '">' +
+            $('#add_Block_div').append('<div class="col-lg-11 col-md-11 col-sm-11 col-xs-12 dexc showback" id="block_div_' + blockId + '">' + acs_idn_lb +
                                             '<div class="col-sm-1" style="left: 95%;height: 40px;">' +
-                                                '<a class="btn" style="color: #768094;padding-left: 3px;" onclick="del_block_click(' + blockId + ')">X</a>' +
+                                                '<a class="btn" style="color: #768094;padding-left: 3px;' + display + '" onclick="del_block_click(' + blockId + ')">X</a>' +
                                             '</div>' +
                                                 '<h3><input type="text" id ="block_title_txt_' + blockId + '" class="form-control" placeholder="區塊名稱"></h3>' +
                                                 '<input type="text" id="block_Description_txt_' + blockId + '" class="form-control" placeholder="區塊描述">' +
@@ -1024,7 +1008,30 @@
         };
         //刪除區塊
         function del_block_click(chooseId) {
+            if ($("#block_div_" + chooseId).find("[id^=old_acs_idn_]").length) {
+                var Acs_idn;
+                $("#block_div_" + chooseId).find("[id^=old_acs_idn_]").each(function () {
+                    Acs_idn = $(this).text()
+                })
+                del_acs_idn += Acs_idn + ',';
+                alert(del_acs_idn);
+            }
+            $("#add_Qus_div_" + chooseId).find("[id^=old_acc_idn_lb_]").each(function () {
+                del_acc_idn += $(this).text() + ',';
+            })
+            alert(del_acc_idn);
             $('#block_div_' + chooseId).remove();
+        };
+        //#endregion
+
+        //#region 時間格式轉換
+        function dateReviver(datavalue) {
+            if (datavalue != null) {
+                var datavalue = datavalue.split("T");
+                return datavalue[0].replace(/-/g, '/') + " " + datavalue[1].substring(0, 5);
+            }
+            else
+                return "";
         };
         //#endregion
 
@@ -1355,17 +1362,6 @@
         })();
         //#endregion
 
-        //#region 懸浮區塊
-        $('#suspension_div').affix({
-            offset: {
-                top: 250,
-                bottom: function () {
-                    return (this.bottom = $('.footer').outerHeight(true))
-                }
-            }
-        });
-        //#endregion
-
         //#region 儲存活動頁面
         function Save_btn_Click() {
             var jsondata = Save_Activity_Json();
@@ -1429,7 +1425,8 @@
             //判斷資料是否正確 true:正確 false:錯誤
             check_Activity_Data = true;
             //把資料包成List
-            var jsondata = { activity_List: [], activity_Session_List: [] };
+            var jsondata = { activity_List: [], activity_Session_List: []};
+            
             //儲存活動場次資訊，迴圈依照目前場次ID做為要跑的次數
             for (var temp = 1 ; temp < sessionId ; temp++) {
                 //抓取場次區塊依照ID順序
@@ -1624,7 +1621,9 @@
         //#region 儲存報名表成JSON
         function Save_Activity_Column_Json() {
             check_Activity_Column_Data = true;
-            var jsondata = { activity_Form: [], activity_Section: [] };
+            var jsondata = { activity_Form: [], activity_Section: [], del_acc_idn, del_acs_idn};
+            jsondata.del_acc_idn = del_acc_idn;
+            jsondata.del_acs_idn = del_acs_idn;
             //區塊順序初始化
             var block_asc = 1;
             //迴圈依照blockID 判斷要跑幾次
@@ -1659,6 +1658,14 @@
                             $("#block_title_txt_error_" + choose_blockId).remove();
                             //if (checkData != 0) checkData = 1;
                         }
+                        //判斷區塊是否為新
+                        var Acs_idn = '';
+                        if ($("#block_div_" + choose_blockId).find("[id^=old_acs_idn_]").length) {
+                            $("#block_div_" + choose_blockId).find("[id^=old_acs_idn_]").each(function () {
+                                Acs_idn = $(this).text()
+                            })
+                        }
+                        activity_Section_Json_Data.Acs_idn = Acs_idn;
                         //儲存block名稱
                         activity_Section_Json_Data.Acs_title = $("#block_div_" + choose_blockId).find("#block_title_txt_" + choose_blockId).val();
                         //儲存block描述
@@ -1673,6 +1680,14 @@
                             //獲得這個問題的純數字ID
                             var chooseId_temp = $("#" + $qus_sortable[qus_count]).attr("id");
                             var chooseId = chooseId_temp.split("_")[chooseId_temp.split("_").length - 1];
+                            //判斷是否為題目或舊題目
+                            var acc_idn = '';
+                            if ($("#qus_div_" + chooseId).find("[id^=old_acc_idn_lb_]").length) {
+                                $("#qus_div_" + chooseId).find("[id^=old_acc_idn_lb_]").each(function () {
+                                    acc_idn = $(this).text()
+                                })
+                            }
+                            activity_Column_Json_Data.Acc_idn = acc_idn;
                             //判斷問題是否有標題
                             if ($.trim($("#qus_txt_" + chooseId).val()) == "") {
                                 $("#qus_txt_" + chooseId).css({ "box-shadow": "0px 0px 9px red" });
@@ -1797,10 +1812,8 @@
 
         //#region 儲存活動
         function save() {
-            Save_btn_Click();
+            //Save_btn_Click();
             Save_Activity_btn_Click();
-            //upload_File();
-            //window.location.href = '/S02/S02010101.aspx?sys_id=S01&sys_pid=S02010101';
         }
         //#endregion
 
@@ -1808,6 +1821,7 @@
         function upload_img() {
             document.getElementById("<%=this.imgUpload.ClientID %>").click();
         }
+        //判斷使用者所選的圖片格式    
         function upload_imgpath(path) {
             if (path != "") {
                 var path = path.split("\\")[path.split("\\").length - 1];
@@ -1818,28 +1832,37 @@
                     check_Activity_Data = false;
                     $("#<%=imgUpload.ClientID %>").val("");
                     //錯誤提示
-                    $('#imgpath_lab').text("請選擇正確的圖片格式!");
+                    $('#imgpath_lab').text(activityInfo[0].Act_image.split('/')[activityInfo[0].Act_image.split('/').length - 1]);
                 }
                 else
                     //設定上傳圖片檔名
                     $('#imgpath_lab').text(path);
             }
             else
-                $('#imgpath_lab').text("選擇圖片");
+                $('#imgpath_lab').text(activityInfo[0].Act_image.split('/')[activityInfo[0].Act_image.split('/').length - 1]);
+        }
+        //判斷使用者所選的檔案格式        
+        function upload_file_btn() {
+            document.getElementById("<%=this.FileUpload.ClientID %>").click();
+        }
+        function upload_file(path) {
+            if (path != "") {
+                var path = path.split("\\")[path.split("\\").length - 1];
+                var FileName = path.split(".")[path.split(".").length - 1];
+                //如果資料正確，使用jQuery ajax傳送資料
+                if (FileName != "jpg" && FileName != "jpeg" && FileName != "png" && FileName != "gif" && FileName != "doc" && FileName != "docx" && FileName != "txt" && FileName != "ppt" && FileName != "pptx" && FileName != "xls" && FileName != "xlsx" && FileName != "pdf" && FileName != "rar" && FileName != "zip" && FileName != "7z" && FileName) {
+                    alert("附加檔案只能上傳jpg、png、jpeg、gif、doc、docx、txt、ppt、pptx、xls、xlsx、pdf、rar、zip、7z格式");
+                    check_Activity_Data = false;
+                    $("#<%=FileUpload.ClientID %>").val("");
+                    $("#filepath_lab").text(activityInfo[0].Act_relate_file.split('/')[activityInfo[0].Act_relate_file.split('/').length - 1]);
+                }
+                else
+                    $("#filepath_lab").text(path);
+            }
+            else
+                $("#filepath_lab").text(activityInfo[0].Act_relate_file.split('/')[activityInfo[0].Act_relate_file.split('/').length - 1]);
         }
         //#endregion
-
-        function upload_file(path) {
-            var path = path.split("\\")[path.split("\\").length - 1];
-            var FileName = path.split(".")[path.split(".").length - 1];
-            //如果資料正確，使用jQuery ajax傳送資料
-            if (FileName != "jpg" && FileName != "jpeg" && FileName != "png" && FileName != "gif" && FileName != "doc" && FileName != "docx" && FileName != "txt" && FileName != "ppt" && FileName != "pptx" && FileName != "xls" && FileName != "xlsx" && FileName != "pdf" && FileName != "rar" && FileName != "zip" && FileName != "7z" && FileName) {
-                alert("附加檔案只能上傳jpg、png、jpeg、gif、doc、docx、txt、ppt、pptx、xls、xlsx、pdf、rar、zip、7z格式");
-                check_Activity_Data = false;
-                $("#<%=FileUpload.ClientID %>").val("");
-            }
-        }
-
     </script>
     <!-- JavaScript_END-->
 </asp:Content>

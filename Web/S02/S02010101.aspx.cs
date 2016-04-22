@@ -64,44 +64,44 @@ namespace Web.S02
         private DataTable GetAlreadyData()
         {
             //判斷是否有查詢條件
-            Dictionary<string, object> Cond = new Dictionary<string, object>();
+            //Dictionary<string, object> Cond = new Dictionary<string, object>();
 
-            if (!string.IsNullOrWhiteSpace(q_keyword_tb.Text))
-            {
-                Cond.Add("keyword", q_keyword_tb.Text);
-            }
+            //if (!string.IsNullOrWhiteSpace(q_keyword_tb.Text))
+            //{
+            //    Cond.Add("keyword", q_keyword_tb.Text);
+            //}
 
             //顯示分頁
             ucGridViewPager.Visible = true;
-            return _bl.GetAlreadyData(Cond);
+            return _bl.GetAlreadyData();
         }
 
         //取得未發佈活動資料
         private DataTable GetReadyData()
         {
-            Dictionary<string, object> Cond = new Dictionary<string, object>();
+            //Dictionary<string, object> Cond = new Dictionary<string, object>();
 
-            if (!string.IsNullOrWhiteSpace(q_keyword_tb.Text))
-            {
-                Cond.Add("keyword", q_keyword_tb.Text);
-            }
+            //if (!string.IsNullOrWhiteSpace(q_keyword_tb.Text))
+            //{
+            //    Cond.Add("keyword", q_keyword_tb.Text);
+            //}
 
             ucGridViewPagerReady.Visible = true;
-            return _bl.GetReadyData(Cond);
+            return _bl.GetReadyData();
         }
 
         //取得已結束活動資料
         private DataTable GetEndData()
         {
-            Dictionary<string, object> Cond = new Dictionary<string, object>();
+            //Dictionary<string, object> Cond = new Dictionary<string, object>();
 
-            if (!string.IsNullOrWhiteSpace(q_keyword_tb.Text))
-            {
-                Cond.Add("keyword", q_keyword_tb.Text);
-            }
+            //if (!string.IsNullOrWhiteSpace(q_keyword_tb.Text))
+            //{
+            //    Cond.Add("keyword", q_keyword_tb.Text);
+            //}
 
             ucGridViewPagerEnd.Visible = true;
-            return _bl.GetEndData(Cond);
+            return _bl.GetEndData();
         }
         #endregion
 
@@ -678,7 +678,23 @@ namespace Web.S02
         #region 查詢按鈕
         protected void q_query_btn_Click(object sender, EventArgs e)
         {
-            BindGridView(GetAlreadyData(), GetReadyData(), GetEndData());
+            //BindGridView(GetAlreadyData(), GetReadyData(), GetEndData());
+            int i = Convert.ToInt32(Request.Cookies["tabs"].Value);
+
+            DataTable data = _bl.GetQueryData(q_keyword_tb.Text, i);
+
+            if (i == 0)
+            {
+                BindGridView(data, GetReadyData(), GetEndData());
+            }
+            else if (i == 1)
+            {
+                BindGridView(GetAlreadyData(), data, GetEndData());
+            }
+            else if (i == 2)
+            {
+                BindGridView(GetAlreadyData(), GetReadyData(), data);
+            }
         }
         #endregion
 

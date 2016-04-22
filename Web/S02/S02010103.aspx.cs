@@ -13,6 +13,7 @@ using AjaxControlToolkit;
 using System.IO;
 using Newtonsoft.Json;
 using Model.Common;
+using BusinessLayer.S01;
 
 namespace Web.S02
 {
@@ -99,38 +100,64 @@ namespace Web.S02
             return json_data;
         }
 
+        //儲存報名表
         [System.Web.Services.WebMethod]
-        public static string save_Activity_Form(List<Activity_columnInfo> activity_Form, List<Activity_sectionInfo> activity_Section)
+        public static string save_Activity_Form(List<Activity_columnInfo> activity_Form, List<Activity_sectionInfo> activity_Section,string del_acc_idn,string del_acs_idn)
         {
             int as_act = 0;
             as_act = act_idn;
-            S020102BL _bl = new S020102BL();
+            S020103BL _bl = new S020103BL();
+            string[] del_acc = del_acc_idn.Split(',');
+            string[] del_acs = del_acs_idn.Split(',');
+            for (int count = 0; count < del_acc.Count(); count++)
+            {
+                if(del_acc[count] != "")
+                {
+                    Dictionary<string, object> del_acc_dt = new Dictionary<string, object>();
+                    del_acc_dt["acc_idn"] = del_acc[count];
+                    _bl.Delete_Column_Data(del_acc_dt);
+                }
+            }
+            for (int count = 0; count < del_acs.Count(); count++)
+            {
+                if (del_acs[count] != "")
+                {
+                    Dictionary<string, object> del_acs_dt = new Dictionary<string, object>();
+                    del_acs_dt["acs_idn"] = del_acs[count];
+                    _bl.Delete_Section_Data(del_acs_dt);
+                }
+            }
+            
 
-            Dictionary<String, Object> save_Activity_Section = new Dictionary<string, object>();
+
+            
             for (int count = 0; count < activity_Section.Count; count++)
             {
-                save_Activity_Section["acs_act"] = as_act;
-                save_Activity_Section["acs_title"] = activity_Section[count].Acs_title;
-                save_Activity_Section["acs_desc"] = activity_Section[count].Acs_desc;
-                save_Activity_Section["acs_seq"] = activity_Section[count].Acs_seq;
-                _bl.InsertData_Activity_Section(save_Activity_Section);
+                Dictionary<String, Object> old_Activity_Section = new Dictionary<string, object>();
+                old_Activity_Section["acs_idn"] = activity_Section[count].Acs_idn;
+                Dictionary<String, Object> new_Activity_Section = new Dictionary<string, object>();
+                new_Activity_Section["acs_title"] = activity_Section[count].Acs_title;
+                new_Activity_Section["acs_desc"] = activity_Section[count].Acs_desc;
+                new_Activity_Section["acs_seq"] = activity_Section[count].Acs_seq;
+                _bl.Update_Section_Data(old_Activity_Section, new_Activity_Section);
             }
 
 
             for (int count = 0; count < activity_Form.Count; count++)
             {
-                Dictionary<string, Object> save_Activity_Form = new Dictionary<string, object>();
-                save_Activity_Form["acc_asc"] = activity_Form[count].Acc_asc;
-                save_Activity_Form["acc_act"] = as_act;
-                save_Activity_Form["acc_title"] = activity_Form[count].Acc_title;
-                save_Activity_Form["acc_desc"] = activity_Form[count].Acc_desc;
-                save_Activity_Form["acc_seq"] = activity_Form[count].Acc_seq;
-                save_Activity_Form["acc_type"] = activity_Form[count].Acc_type;
+                Dictionary<string, Object> old_Activity_Form = new Dictionary<string, object>();
+                old_Activity_Form["acc_idn"] = activity_Form[count].Acc_idn;
+                Dictionary<string, Object> new_Activity_Form = new Dictionary<string, object>();
+                new_Activity_Form["acc_asc"] = activity_Form[count].Acc_asc;
+                new_Activity_Form["acc_title"] = activity_Form[count].Acc_title;
+                new_Activity_Form["acc_desc"] = activity_Form[count].Acc_desc;
+                new_Activity_Form["acc_seq"] = activity_Form[count].Acc_seq;
+                new_Activity_Form["acc_type"] = activity_Form[count].Acc_type;
                 if (activity_Form[count].Acc_option != null)
-                    save_Activity_Form["acc_option"] = activity_Form[count].Acc_option;
-                save_Activity_Form["acc_validation"] = activity_Form[count].Acc_validation;
-                save_Activity_Form["acc_required"] = activity_Form[count].Acc_required;
-                CommonResult result = _bl.InsertData_Activity_Column(save_Activity_Form);
+                    new_Activity_Form["acc_option"] = activity_Form[count].Acc_option;
+                new_Activity_Form["acc_validation"] = activity_Form[count].Acc_validation;
+                new_Activity_Form["acc_required"] = activity_Form[count].Acc_required;
+                CommonResult result = _bl.Update_Column_Data(old_Activity_Form, new_Activity_Form);
             }
             return "活動儲存成功成功";
         }

@@ -245,22 +245,20 @@ namespace BusinessLayer.S02
             return _data.getColumn(acc_act);
         }
 
-
-
         /// 取得已發佈活動資料
-        public DataTable GetAlreadyData(Dictionary<string, object> Cond)
+        public DataTable GetAlreadyData()
         {
             return _data.GetAlreadyList();
         }
 
         //取得未發佈活動資料
-        public DataTable GetReadyData(Dictionary<string, object> Cond)
+        public DataTable GetReadyData()
         {
             return _data.GetReadyList();
         }
 
         //取得已結束活動資料
-        public DataTable GetEndData(Dictionary<string, object> Cond)
+        public DataTable GetEndData()
         {
             return _data.GetEndList();
         }
@@ -363,6 +361,30 @@ namespace BusinessLayer.S02
         public DataTable Getactas(int i)
         {
             return _data.Getactas(i);
+        }
+
+        //取得查詢資料
+        public DataTable GetQueryData(string keyword, int tab)
+        {
+            DataTable data = new DataTable();
+
+            //已結束活動
+            if (tab == 2)
+            {
+                data = _data.GetQueryEndData(keyword);
+            }
+            //已發佈活動
+            else if (tab == 0)
+            {
+                data = _data.GetQueryData(keyword, 1);
+            }
+            //未發佈活動
+            else if (tab == 1)
+            {
+                data = _data.GetQueryData(keyword, 0);
+            }
+
+            return data;
         }
         #endregion
     }

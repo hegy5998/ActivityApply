@@ -48,10 +48,12 @@ namespace DataAccess
         {
             string sql = @"SELECT   activity_column.*
                            FROM    activity_column
-                           WHERE   (acc_act = @acc_act) ";
+                           WHERE   (acc_act = @acc_act) 
+                            ORDER BY acc_seq,acc_asc";
             IDataParameter[] param = { Db.GetParam("@acc_act", acc_act) };
             return Db.GetEnumerable<Activity_columnInfo>(sql, param).ToList();
         }
+
 
         //取得已發佈活動資料
         public DataTable GetAlreadyList()
@@ -97,13 +99,13 @@ namespace DataAccess
             StringBuilder sql_sb = new StringBuilder();
 
             sql_sb.Append(@"
-                SELECT as_idn, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num
+                SELECT as_idn, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_idn
                 FROM activity, activity_session
                 LEFT JOIN activity_apply
                 ON aa_as = as_idn
                 WHERE as_act = act_idn AND
-	                  CONVERT(datetime, as_date_end, 111) <= CONVERT(varchar, GETDATE(), 111)
-                GROUP BY as_idn, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end
+	                  CONVERT(datetime, as_date_end, 121) <= CONVERT(varchar, GETDATE(), 121)
+                GROUP BY as_idn, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_idn
                 ORDER BY act_title");
 
             return Db.GetDataTable(sql_sb.ToString());
@@ -294,6 +296,56 @@ namespace DataAccess
             //場次序號
             var param_lst = new List<IDataParameter>() {
                 Db.GetParam("@i", i),
+            };
+
+            return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
+        }
+
+        //取得查詢資料
+        public DataTable GetQueryData(string keyword, int tab)
+        {
+            StringBuilder sql_sb = new StringBuilder();
+
+            sql_sb.Append(@"
+                SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen
+                FROM activity, activity_session
+                LEFT JOIN activity_apply
+                ON aa_as = as_idn
+                WHERE as_act = act_idn AND
+                      act_title LIKE '%[" + @keyword + @"]%' AND
+	                  as_isopen = @tab AND
+	                  CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121)
+                      GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen
+                      ORDER BY act_title");
+
+            //關鍵字 & 頁籤
+            var param_lst = new List<IDataParameter>() {
+                Db.GetParam("@keyword", keyword),
+                Db.GetParam("@tab", tab),
+            };
+
+            return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
+        }
+
+        //取得已結束活動查詢資料
+        public DataTable GetQueryEndData(string keyword)
+        {
+            StringBuilder sql_sb = new StringBuilder();
+
+            sql_sb.Append(@"
+                SELECT as_idn, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_idn
+                FROM activity, activity_session
+                LEFT JOIN activity_apply
+                ON aa_as = as_idn
+                WHERE as_act = act_idn AND
+                      act_title LIKE '%[" + @keyword + @"]%' AND
+	                  CONVERT(datetime, as_date_end, 121) <= CONVERT(varchar, GETDATE(), 121)
+                      GROUP BY as_idn, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_idn
+                      ORDER BY act_title");
+
+            //關鍵字
+            var param_lst = new List<IDataParameter>() {
+                Db.GetParam("@keyword", keyword),
             };
 
             return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
