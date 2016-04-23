@@ -15,65 +15,8 @@ namespace DataAccess.S01
     {
 
         Activity_classData _da = new Activity_classData();
-        Activity_columnData _columnda = new Activity_columnData();
-        Activity_sectionData _sectionData = new Activity_sectionData();
 
-        #region 查詢分類
-        public List<Activity_classInfo> GetClassList()
-        {
-            return _da.GetClassList();
-        }
-        #endregion
-
-        #region 查詢分類
-        public CommonResult InsertData(Dictionary<string, object> dict)
-        {
-            return _da.InsertData(dict);
-        }
-        #endregion
-
-        #region 刪除分類
-        public CommonResult DeleteData(Dictionary<string, object> dict)
-        {
-            return _da.DeleteData(dict);
-        }
-        #endregion
-
-        #region 刪除報名表欄位
-        public CommonResult Delete_Column_Data(Dictionary<string, object> dict)
-        {
-            return _columnda.DeleteData(dict);
-        }
-        #endregion
-
-        #region 刪除區塊
-        public CommonResult Delete_Section_Data(Dictionary<string, object> dict)
-        {
-            return _sectionData.DeleteData(dict);
-        }
-        #endregion
-
-        #region 更新分類
-        public CommonResult UpdateData(Dictionary<string, object> old_dict, Dictionary<string, object> new_dict)
-        {
-            return _da.UpdateData(old_dict, new_dict);
-        }
-        #endregion
-
-        #region 更新區塊
-        public CommonResult Update_Section_Data(Dictionary<string, object> old_dict, Dictionary<string, object> new_dict)
-        {
-            return _sectionData.UpdateData(old_dict, new_dict);
-        }
-        #endregion
-
-        #region 更新報名表
-        public CommonResult Update_Column_Data(Dictionary<string, object> old_dict, Dictionary<string, object> new_dict)
-        {
-            return _columnda.UpdateData(old_dict, new_dict);
-        }
-        #endregion
-
+        CommonDbHelper Db = DAH.Db;
 
         #region 取得特定模組或特定系統的作業
         /// <summary>
@@ -117,6 +60,34 @@ namespace DataAccess.S01
         }
         #endregion
 
+        #region 查詢分類
+        public List<Activity_classInfo> GetClassList()
+        {
+            return _da.GetClassList();
+        }
+        #endregion
 
+        #region 新增分類
+        public CommonResult InsertData(Dictionary<string, object> dict)
+        {
+            return _da.InsertData(dict);
+        }
+        #endregion
+
+        #region 刪除分類
+        public CommonResult DeleteData(Dictionary<string, object> dict)
+        {
+            return _da.DeleteData(dict);
+        }
+        #endregion
+
+        #region 更新分類
+        public CommonResult UpdateData(Dictionary<string, object> old_dict, Dictionary<string, object> new_dict)
+        {
+            return _da.UpdateData(old_dict, new_dict);
+        }
+        #endregion
+
+        
     }
 }

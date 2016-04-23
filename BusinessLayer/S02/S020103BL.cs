@@ -15,6 +15,7 @@ namespace BusinessLayer.S01
     {
         S010009Data _da = new S010009Data();
         S020103Data _classdata = new S020103Data();
+        
 
         #region 取得作業列表
         /// <summary>
@@ -42,11 +43,14 @@ namespace BusinessLayer.S01
         }
         #endregion
 
+        #region 取得分類資料
         public List<Activity_classInfo> GetClassList()
         {
             return _classdata.GetClassList();
         }
+        #endregion
 
+        #region 新增分類資料
         public CommonResult InsertData(Dictionary<string, object> dict)
         {
             var res = CommonHelper.ValidateModel<Model.Activity_classInfo>(dict);
@@ -57,7 +61,9 @@ namespace BusinessLayer.S01
             }
             return res;
         }
+        #endregion
 
+        #region 刪除分類資料
         public CommonResult DeleteData(Dictionary<string, object> dict)
         {
             var res = CommonHelper.ValidateModel<Model.Activity_classInfo>(dict);
@@ -68,29 +74,9 @@ namespace BusinessLayer.S01
             }
             return res;
         }
+        #endregion
 
-        public CommonResult Delete_Column_Data(Dictionary<string, object> dict)
-        {
-            var res = CommonHelper.ValidateModel<Model.Activity_columnInfo>(dict);
-
-            if (res.IsSuccess)
-            {
-                res = _classdata.Delete_Column_Data(dict);
-            }
-            return res;
-        }
-
-        public CommonResult Delete_Section_Data(Dictionary<string, object> dict)
-        {
-            var res = CommonHelper.ValidateModel<Model.Activity_sectionInfo>(dict);
-
-            if (res.IsSuccess)
-            {
-                res = _classdata.Delete_Section_Data(dict);
-            }
-            return res;
-        }
-
+        #region 更新分類資料
         public CommonResult UpdateData(Dictionary<string, object> old_dict, Dictionary<string, object> new_dict)
         {
             var res = CommonHelper.ValidateModel<Model.Activity_classInfo>(new_dict);
@@ -101,27 +87,8 @@ namespace BusinessLayer.S01
             }
             return res;
         }
+        #endregion
 
-        public CommonResult Update_Section_Data(Dictionary<string, object> old_dict, Dictionary<string, object> new_dict)
-        {
-            var res = CommonHelper.ValidateModel<Model.Activity_sectionInfo>(new_dict);
-
-            if (res.IsSuccess)
-            {
-                res = _classdata.Update_Section_Data(old_dict, new_dict);
-            }
-            return res;
-        }
-
-        public CommonResult Update_Column_Data(Dictionary<string, object> old_dict, Dictionary<string, object> new_dict)
-        {
-            var res = CommonHelper.ValidateModel<Model.Activity_columnInfo>(new_dict);
-
-            if (res.IsSuccess)
-            {
-                res = _classdata.Update_Column_Data(old_dict, new_dict);
-            }
-            return res;
-        }
+        
     }
 }

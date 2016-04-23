@@ -22,6 +22,7 @@ namespace Web.S02
         private static int act_idn;
         protected void Page_Load(object sender, EventArgs e)
         {
+            //取得活動ID
             act_idn = Int32.Parse(Request["act_idn"].ToString());
         }
 
@@ -33,40 +34,7 @@ namespace Web.S02
         }
         #endregion
 
-        //public static int get_Act_idn()
-        //{
-        //    int as_act = 0;
-        //    #region --- 抓取活動序號 ---
-        //    //連線到資料庫
-        //    string connString = WebConfigurationManager.ConnectionStrings["DbConn"].ConnectionString;
-        //    SqlConnection conn = new SqlConnection(connString);
-        //    //判斷與資料庫的連線是否正常，正常才開啟連線
-        //    if (conn.State != ConnectionState.Open) conn.Open();
-        //    //搜尋activity中剛insert的資料的自動編號欄位
-        //    using (SqlCommand cmd_data = new SqlCommand(@"SELECT  MAX(act_idn) AS act_din FROM  activity", conn))
-        //    {
-        //        SqlDataReader dr = cmd_data.ExecuteReader();
-        //        if (dr.HasRows)
-        //        {
-        //            while (dr.Read())
-        //            {
-        //                //取得自動編號值
-        //                as_act = Int32.Parse(dr[0].ToString());
-        //            }
-        //        }
-        //        //中斷連線以及釋放資源
-        //        dr.Close();
-        //        cmd_data.Dispose();
-        //        conn.Close();
-        //        conn.Dispose();
-        //    }
-        //    #endregion
-        //    return as_act;
-        //}
-
-
-        //儲存報名表
-
+        #region 抓取活動資料、場次資料、區塊資料、問題資料、分類資料
         [System.Web.Services.WebMethod]
         public static string getActivity()
         {
@@ -99,113 +67,6 @@ namespace Web.S02
             string json_data = JsonConvert.SerializeObject(columnList);
             return json_data;
         }
-
-        //儲存報名表
-        [System.Web.Services.WebMethod]
-        public static string save_Activity_Form(List<Activity_columnInfo> activity_Form, List<Activity_sectionInfo> activity_Section,string del_acc_idn,string del_acs_idn)
-        {
-            int as_act = 0;
-            as_act = act_idn;
-            S020103BL _bl = new S020103BL();
-            string[] del_acc = del_acc_idn.Split(',');
-            string[] del_acs = del_acs_idn.Split(',');
-            for (int count = 0; count < del_acc.Count(); count++)
-            {
-                if(del_acc[count] != "")
-                {
-                    Dictionary<string, object> del_acc_dt = new Dictionary<string, object>();
-                    del_acc_dt["acc_idn"] = del_acc[count];
-                    _bl.Delete_Column_Data(del_acc_dt);
-                }
-            }
-            for (int count = 0; count < del_acs.Count(); count++)
-            {
-                if (del_acs[count] != "")
-                {
-                    Dictionary<string, object> del_acs_dt = new Dictionary<string, object>();
-                    del_acs_dt["acs_idn"] = del_acs[count];
-                    _bl.Delete_Section_Data(del_acs_dt);
-                }
-            }
-            
-
-
-            
-            for (int count = 0; count < activity_Section.Count; count++)
-            {
-                Dictionary<String, Object> old_Activity_Section = new Dictionary<string, object>();
-                old_Activity_Section["acs_idn"] = activity_Section[count].Acs_idn;
-                Dictionary<String, Object> new_Activity_Section = new Dictionary<string, object>();
-                new_Activity_Section["acs_title"] = activity_Section[count].Acs_title;
-                new_Activity_Section["acs_desc"] = activity_Section[count].Acs_desc;
-                new_Activity_Section["acs_seq"] = activity_Section[count].Acs_seq;
-                _bl.Update_Section_Data(old_Activity_Section, new_Activity_Section);
-            }
-
-
-            for (int count = 0; count < activity_Form.Count; count++)
-            {
-                Dictionary<string, Object> old_Activity_Form = new Dictionary<string, object>();
-                old_Activity_Form["acc_idn"] = activity_Form[count].Acc_idn;
-                Dictionary<string, Object> new_Activity_Form = new Dictionary<string, object>();
-                new_Activity_Form["acc_asc"] = activity_Form[count].Acc_asc;
-                new_Activity_Form["acc_title"] = activity_Form[count].Acc_title;
-                new_Activity_Form["acc_desc"] = activity_Form[count].Acc_desc;
-                new_Activity_Form["acc_seq"] = activity_Form[count].Acc_seq;
-                new_Activity_Form["acc_type"] = activity_Form[count].Acc_type;
-                if (activity_Form[count].Acc_option != null)
-                    new_Activity_Form["acc_option"] = activity_Form[count].Acc_option;
-                new_Activity_Form["acc_validation"] = activity_Form[count].Acc_validation;
-                new_Activity_Form["acc_required"] = activity_Form[count].Acc_required;
-                CommonResult result = _bl.Update_Column_Data(old_Activity_Form, new_Activity_Form);
-            }
-            return "活動儲存成功成功";
-        }
-
-        //儲存活動頁面
-        [System.Web.Services.WebMethod]
-        public static string save_Activity(List<ActivityInfo> activity_List, List<Activity_sessionInfo> activity_Session_List)
-        {
-            SystemConfigInfo sysConfig = CommonHelper.GetSysConfig();
-            string shorterURL = Util.CustomHelper.URLshortener(sysConfig.SOLUTION_HTTPADDR + "activity.aspx?act_class=" + activity_List[0].Act_class + "&act_idn=" + activity_List[0].Act_idn + "&act_title=" + activity_List[0].Act_title, sysConfig.URL_SHORTENER_API_KEY);
-
-            S020102BL _bl = new S020102BL();
-            //將活動資訊資料insert到資料庫
-            Dictionary<string, Object> save_Activity_Information = new Dictionary<string, object>();
-            save_Activity_Information["act_title"] = activity_List[0].Act_title;
-            save_Activity_Information["act_desc"] = activity_List[0].Act_desc;
-            save_Activity_Information["act_unit"] = activity_List[0].Act_unit;
-            save_Activity_Information["act_contact_name"] = activity_List[0].Act_contact_name;
-            save_Activity_Information["act_contact_phone"] = activity_List[0].Act_contact_phone;
-            save_Activity_Information["act_class"] = activity_List[0].Act_class;
-            save_Activity_Information["act_relate_link"] = activity_List[0].Act_relate_link;
-            //save_Activity_Information["act_relate_file"] = act_relate_file;
-            save_Activity_Information["act_short_link"] = shorterURL;
-            //save_Activity_Information["act_image"] = act_image;
-            save_Activity_Information["act_isopen"] = 0;
-            CommonResult res = _bl.InsertData(save_Activity_Information);
-
-            //將活動場次資料insert到資料庫
-            Dictionary<string, Object> save_Session_Information = new Dictionary<string, Object>();
-
-            save_Session_Information["as_act"] = act_idn = Int32.Parse(res.Message);
-
-            //多筆場次insert到資料庫
-            for (int count = 0; count < activity_Session_List.Count; count++)
-            {
-                save_Session_Information["as_title"] = activity_Session_List[count].As_title;
-                save_Session_Information["as_date_start"] = activity_Session_List[count].As_date_start;
-                save_Session_Information["as_date_end"] = activity_Session_List[count].As_date_end;
-                save_Session_Information["as_apply_start"] = activity_Session_List[count].As_apply_start;
-                save_Session_Information["as_apply_end"] = activity_Session_List[count].As_apply_end;
-                save_Session_Information["as_position"] = activity_Session_List[count].As_position;
-                save_Session_Information["as_num_limit"] = activity_Session_List[count].As_num_limit;
-                save_Session_Information["as_isopen"] = 0;
-                _bl.InsertData_session(save_Session_Information);
-            }
-            return "成功";
-        }
-
         [System.Web.Services.WebMethod]
         public static string getClassList()
         {
@@ -214,15 +75,200 @@ namespace Web.S02
             string json_data = JsonConvert.SerializeObject(ClassList);
             return json_data;
         }
+        #endregion
 
-        //返回首頁
+        #region  儲存報名表
+        [System.Web.Services.WebMethod]
+        public static string save_Activity_Form(List<Activity_columnInfo> activity_Form, List<Activity_sectionInfo> activity_Section,string del_acc_idn,string del_acs_idn)
+        {
+            int as_act = 0;
+            as_act = act_idn;
+            S020101BL _bl = new S020101BL();
+            //判斷是否有刪除區塊以及問題
+            string[] del_acc = del_acc_idn.Split(',');
+            string[] del_acs = del_acs_idn.Split(',');
+            //刪除問題
+            for (int count = 0; count < del_acc.Count()-1; count++)
+            {
+                if(del_acc[count] != "")
+                {
+                    //刪除問題的所有報名資料
+                    Dictionary<string, object> del_acc_dt = new Dictionary<string, object>();
+                    del_acc_dt["acc_idn"] = del_acc[count];
+                    _bl.Delete_Column_Data(del_acc_dt);
+                    //刪除問題
+                    Dictionary<string, object> del_apply_detail = new Dictionary<string, object>();
+                    del_apply_detail["aad_col_id"] = del_acc[count];
+                    _bl.Delete_apply_detail(del_acc[count]);
+                }
+            }
+            //刪除區塊
+            for (int count = 0; count < del_acs.Count()-1; count++)
+            {
+                if (del_acs[count] != "")
+                {
+                    //刪除區塊
+                    Dictionary<string, object> del_acs_dt = new Dictionary<string, object>();
+                    del_acs_dt["acs_idn"] = del_acs[count];
+                    _bl.Delete_Section_Data(del_acs_dt);
+                }
+            }
+
+            
+
+
+            for (int count = 0; count < activity_Section.Count; count++)
+            {
+                //update舊區塊
+                if(activity_Section[count].Acs_idn != 0)
+                {
+                    Dictionary<String, Object> old_Activity_Section = new Dictionary<string, object>();
+                    old_Activity_Section["acs_idn"] = activity_Section[count].Acs_idn;
+                    Dictionary<String, Object> new_Activity_Section = new Dictionary<string, object>();
+                    new_Activity_Section["acs_title"] = activity_Section[count].Acs_title;
+                    new_Activity_Section["acs_desc"] = activity_Section[count].Acs_desc;
+                    new_Activity_Section["acs_seq"] = activity_Section[count].Acs_seq;
+                    _bl.Update_Section_Data(old_Activity_Section, new_Activity_Section);
+                }
+                //新增新區塊
+                else
+                {
+                    Dictionary<String, Object> save_Activity_Section = new Dictionary<string, object>();
+                    save_Activity_Section["acs_act"] = as_act;
+                    save_Activity_Section["acs_title"] = activity_Section[count].Acs_title;
+                    save_Activity_Section["acs_desc"] = activity_Section[count].Acs_desc;
+                    save_Activity_Section["acs_seq"] = activity_Section[count].Acs_seq;
+                    _bl.InsertData_Activity_Section(save_Activity_Section);
+                }
+            }
+
+
+            for (int count = 0; count < activity_Form.Count; count++)
+            {
+                if (activity_Form[count].Acc_idn != 0)
+                {
+                    //update舊問題
+                    Dictionary<string, Object> old_Activity_Form = new Dictionary<string, object>();
+                    old_Activity_Form["acc_idn"] = activity_Form[count].Acc_idn;
+                    Dictionary<string, Object> new_Activity_Form = new Dictionary<string, object>();
+                    new_Activity_Form["acc_asc"] = activity_Form[count].Acc_asc;
+                    new_Activity_Form["acc_title"] = activity_Form[count].Acc_title;
+                    new_Activity_Form["acc_desc"] = activity_Form[count].Acc_desc;
+                    new_Activity_Form["acc_seq"] = activity_Form[count].Acc_seq;
+                    new_Activity_Form["acc_type"] = activity_Form[count].Acc_type;
+                    if (activity_Form[count].Acc_option != null)
+                        new_Activity_Form["acc_option"] = activity_Form[count].Acc_option;
+                    new_Activity_Form["acc_validation"] = activity_Form[count].Acc_validation;
+                    new_Activity_Form["acc_required"] = activity_Form[count].Acc_required;
+                    CommonResult result = _bl.Update_Column_Data(old_Activity_Form, new_Activity_Form);
+                }
+                //新增新問題
+                else
+                {
+                    Dictionary<string, Object> save_Activity_Form = new Dictionary<string, object>();
+                    save_Activity_Form["acc_asc"] = activity_Form[count].Acc_asc;
+                    save_Activity_Form["acc_act"] = as_act;
+                    save_Activity_Form["acc_title"] = activity_Form[count].Acc_title;
+                    save_Activity_Form["acc_desc"] = activity_Form[count].Acc_desc;
+                    save_Activity_Form["acc_seq"] = activity_Form[count].Acc_seq;
+                    save_Activity_Form["acc_type"] = activity_Form[count].Acc_type;
+                    if (activity_Form[count].Acc_option != null)
+                        save_Activity_Form["acc_option"] = activity_Form[count].Acc_option;
+                    save_Activity_Form["acc_validation"] = activity_Form[count].Acc_validation;
+                    save_Activity_Form["acc_required"] = activity_Form[count].Acc_required;
+                    CommonResult result = _bl.InsertData_Activity_Column(save_Activity_Form);
+                }
+            }
+            return "活動儲存成功成功";
+        }
+        #endregion
+
+        #region 儲存活動頁面
+        [System.Web.Services.WebMethod]
+        public static string save_Activity(List<ActivityInfo> activity_List, List<Activity_sessionInfo> activity_Session_List,string del_as_idn)
+        {
+            SystemConfigInfo sysConfig = CommonHelper.GetSysConfig();
+            string shorterURL = Util.CustomHelper.URLshortener(sysConfig.SOLUTION_HTTPADDR + "activity.aspx?act_class=" + activity_List[0].Act_class + "&act_idn=" + activity_List[0].Act_idn + "&act_title=" + activity_List[0].Act_title, sysConfig.URL_SHORTENER_API_KEY);
+
+            S020101BL _bl = new S020101BL();
+            //將活動資訊資料Update到資料庫
+            Dictionary<string, Object> old_Activity_Information = new Dictionary<string, object>();
+            old_Activity_Information["act_idn"] = act_idn;
+            Dictionary<string, Object> new_Activity_Information = new Dictionary<string, object>();
+            new_Activity_Information["act_title"] = activity_List[0].Act_title;
+            new_Activity_Information["act_desc"] = activity_List[0].Act_desc;
+            new_Activity_Information["act_unit"] = activity_List[0].Act_unit;
+            new_Activity_Information["act_contact_name"] = activity_List[0].Act_contact_name;
+            new_Activity_Information["act_contact_phone"] = activity_List[0].Act_contact_phone;
+            new_Activity_Information["act_class"] = activity_List[0].Act_class;
+            new_Activity_Information["act_relate_link"] = activity_List[0].Act_relate_link;
+            new_Activity_Information["act_short_link"] = shorterURL;
+            //new_Activity_Information["act_isopen"] = 0;
+            CommonResult res = _bl.Update_Activity_Data(old_Activity_Information,new_Activity_Information);
+
+            //判斷使否有場次被刪除
+            string[] del_as = del_as_idn.Split(',');
+            for (int count = 0; count < del_as.Count()-1; count++)
+            {
+                if (del_as[count] != "")
+                {
+                    //刪除場次所有報名資料
+                    _bl.Delete_Session_apply_Data(del_as[count]);
+                    //刪除場次
+                    Dictionary<string, object> del_session = new Dictionary<string, object>();
+                    del_session["as_idn"] = del_as[count];
+                    _bl.Delete_session(del_session);
+                }
+            }
+
+            //多筆場次
+            for (int count = 0; count < activity_Session_List.Count; count++)
+            {
+                //Update場次資料
+                if (activity_Session_List[count].As_idn != 0)
+                {
+                    Dictionary<string, Object> old_Session_Information = new Dictionary<string, Object>();
+                    old_Session_Information["as_idn"] = activity_Session_List[count].As_idn;
+                    Dictionary<string, Object> new_Session_Information = new Dictionary<string, Object>();
+                    new_Session_Information["as_title"] = activity_Session_List[count].As_title;
+                    new_Session_Information["as_date_start"] = activity_Session_List[count].As_date_start;
+                    new_Session_Information["as_date_end"] = activity_Session_List[count].As_date_end;
+                    new_Session_Information["as_apply_start"] = activity_Session_List[count].As_apply_start;
+                    new_Session_Information["as_apply_end"] = activity_Session_List[count].As_apply_end;
+                    new_Session_Information["as_position"] = activity_Session_List[count].As_position;
+                    new_Session_Information["as_num_limit"] = activity_Session_List[count].As_num_limit;
+                    //new_Session_Information["as_isopen"] = 0;
+                    _bl.Update_Session_Data(old_Session_Information, new_Session_Information);
+                }
+                //新增場次資料
+                else
+                {
+                    Dictionary<string, Object> save_Session_Information = new Dictionary<string, Object>();
+                    save_Session_Information["as_act"] = act_idn;
+                    save_Session_Information["as_title"] = activity_Session_List[count].As_title;
+                    save_Session_Information["as_date_start"] = activity_Session_List[count].As_date_start;
+                    save_Session_Information["as_date_end"] = activity_Session_List[count].As_date_end;
+                    save_Session_Information["as_apply_start"] = activity_Session_List[count].As_apply_start;
+                    save_Session_Information["as_apply_end"] = activity_Session_List[count].As_apply_end;
+                    save_Session_Information["as_position"] = activity_Session_List[count].As_position;
+                    save_Session_Information["as_num_limit"] = activity_Session_List[count].As_num_limit;
+                    save_Session_Information["as_isopen"] = 0;
+                    _bl.InsertData_session(save_Session_Information);
+                }
+            }
+            return "成功";
+        }
+        #endregion
+
+        #region 返回首頁
         protected void Back_btn_Click(object sender, EventArgs e)
         {
             Response.Redirect("S02010101.aspx?sys_id=S01&sys_pid=S0201010");
             Response.End();
         }
+        #endregion
 
-        //儲存檔案
+        #region 儲存檔案
         protected void btnUpload_Click1(object sender, EventArgs e)
         {
             int as_act = 0;
@@ -297,10 +343,9 @@ namespace Web.S02
                 //Label1.Text = ex.Message;
             }
         }
+        #endregion
 
-
-
-        //儲存照片
+        #region 儲存照片
         protected void imageUpload_btn_Click(object sender, EventArgs e)
         {
             int as_act = 0;
@@ -375,5 +420,6 @@ namespace Web.S02
                 //Label1.Text = ex.Message;
             }
         }
+        #endregion
     }
 }

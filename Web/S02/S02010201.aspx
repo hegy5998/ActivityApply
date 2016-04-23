@@ -459,7 +459,7 @@
                 if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#activity_Name_txt_error").length == 0)
-                        $(this).after('<em id="activity_Name_txt_error" class="error help-block red" style="width: 52px;margin-bottom: 5px;">必須填寫</em>');
+                        $(this).after('<em id="activity_Name_txt_error" class="error help-block red" style="width: auto;margin-bottom: 5px;">必須填寫</em>');
                 }
                 else {
                     $(this).css({ "box-shadow": "" });
@@ -674,7 +674,7 @@
                                                         '<a onclick="del_Qus_click(' + qusId + ')" type="submit" class="btn btn-theme" style="margin-left: 5px;">刪除</a>' +
                                                     '</div>' +
                                                     //添加資料驗證數字最大最小值的地方
-                                                    '<div class="row" id="add_Validation_div_' + qusId + '" style="margin-left: -25px;">' +
+                                                    '<div class="row" id="add_Validation_div_' + qusId + '" style="margin-left: -25px;float: right;">' +
                                                     '</div>' +
                                                 '</div>' +
                                         '</div>' +
@@ -692,13 +692,13 @@
                     $("#add_Validation_div_" + chooseId).children().remove();
                 switch (qus_Way) {
                     case "int":
-                        $("#add_Validation_div_" + chooseId).append('<label class="col-sm-1 control-label" style="width: 70px;margin-top: 10px;">最小值</label>' +
-                                                                    '<div class="col-sm-1" style="width: 58px;margin-top: 10px;">' +
-                                                                        '<input type="text" id="min_Num_' + chooseId + '" class="form-control" style="width: 54px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填"/>' +
+                        $("#add_Validation_div_" + chooseId).append('<label class="col-sm-1 control-label" style="width: auto;margin-top: 10px;">最小值</label>' +
+                                                                    '<div class="col-sm-1" style="width: auto;margin-top: 10px;">' +
+                                                                        '<input type="text" id="min_Num_' + chooseId + '" class="form-control" style="width: 85px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填"/>' +
                                                                     '</div>' +
-                                                                    '<label class="col-sm-1 control-label" style="width:70px;margin-top: 10px;">最大值</label>' +
-                                                                    '<div class="col-sm-1" style="margin-top: 10px;">' +
-                                                                        '<input type="text" id="max_Num_' + chooseId + '" class="form-control" style="width: 54px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填"/>' +
+                                                                    '<label class="col-sm-1 control-label" style="width: auto;margin-top: 10px;">最大值</label>' +
+                                                                    '<div class="col-sm-1" style="width: auto;margin-top: 10px;">' +
+                                                                        '<input type="text" id="max_Num_' + chooseId + '" class="form-control" style="width: 85px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填"/>' +
                                                                     '</div>');
                         break;
                     default:
@@ -844,7 +844,7 @@
                 if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#qus_Option_error_" + chooseId + "1").length == 0)
-                        $(this).after('<em id="qus_Option_error_' + chooseId + '1" class="error help-block red" style="width: 52px;margin-left: 16px;margin-bottom: 5px;">必須填寫</em>');
+                        $(this).after('<em id="qus_Option_error_' + chooseId + '1" class="error help-block red" style="width: auto;margin-left: 16px;margin-bottom: 5px;">必須填寫</em>');
                     check_Activity_Column_Data = false;
                 }
                 else {
@@ -887,7 +887,7 @@
                 if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#qus_Option_error_" + id + (count + 1)).length == 0)
-                        $(this).after('<em id="qus_Option_error_' + id + (count + 1) + '" class="error help-block red" style="width: 52px;margin-bottom: 5px;">必須填寫</em>');
+                        $(this).after('<em id="qus_Option_error_' + id + (count + 1) + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">必須填寫</em>');
                     check_Activity_Column_Data = false;
                 }
                 else {
@@ -915,6 +915,19 @@
                                                 '</div>' +
                                             '</div>');
             $("#block_title_txt_" + blockId).focus();
+            //當焦點離開時判斷如果沒有填寫則警號
+            $("#block_title_txt_" + blockId).blur(function () {
+                if ($.trim($(this).val()) == "") {
+                    $(this).css({ "box-shadow": "0px 0px 9px red" });
+                    if ($("#block_title_txt_error_" + blockId).length == 0)
+                        $(this).after('<em id="block_title_txt_error_' + blockId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">必須填寫</em>');
+                    check_Activity_Column_Data = false;
+                }
+                else {
+                    $(this).css({ "box-shadow": "" });
+                    $("#block_title_txt_error_" + id + (count + 1)).remove();
+                }
+            })
             //區塊ID加一
             blockId++;
             //將拖拉function再次呼叫，不然新增出來的區塊不能進行拖拉處理
@@ -1027,7 +1040,7 @@
                 if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#session_Name_txt_error_" + choose_Session_Name_txtId).length == 0)
-                        $(this).after('<em id="session_Name_txt_error_' + choose_Session_Name_txtId + '" class="error help-block red" style="width: 52px;margin-bottom: 5px;">必須填寫</em>');
+                        $(this).after('<em id="session_Name_txt_error_' + choose_Session_Name_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">必須填寫</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1042,7 +1055,7 @@
                 if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#activity_Location_txt_error_" + activity_Location_txtId).length == 0)
-                        $(this).after('<em id="activity_Location_txt_error_' + activity_Location_txtId + '" class="error help-block red" style="width: 52px;margin-bottom: 5px;">必須填寫</em>');
+                        $(this).after('<em id="activity_Location_txt_error_' + activity_Location_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">必須填寫</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1059,7 +1072,7 @@
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
 
                     if ($("#activity_Limit_Num_txt_error_" + activity_Limit_Num_txtId).length == 0)
-                        $(this).after('<em id="activity_Limit_Num_txt_error_' + activity_Limit_Num_txtId + '" class="error help-block red" style="width: 105px;margin-bottom: 5px;">必須填寫整數數字</em>');
+                        $(this).after('<em id="activity_Limit_Num_txt_error_' + activity_Limit_Num_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">必須填寫整數數字</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1076,7 +1089,7 @@
                 if ($.trim($(this).val()) >= $.trim($("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Start_txtId).val()) && $.trim($("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Start_txtId).val()) != "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#datetimepicker_Activity_Start_txt_error_" + datetimepicker_Activity_Start_txtId).length == 0)
-                        $(this).after('<em id="datetimepicker_Activity_Start_txt_error_' + datetimepicker_Activity_Start_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">活動開始日期必須在活動結束日期之前</em>');
+                        $(this).after('<em id="datetimepicker_Activity_Start_txt_error_' + datetimepicker_Activity_Start_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">活動開始日期必須在活動結束日期之前</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1110,7 +1123,7 @@
                 if ($.trim($(this).val()) <= $.trim($("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_End_txtId).val()) && $.trim($("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_End_txtId).val()) != "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#datetimepicker_Activity_End_txt_error_" + datetimepicker_Activity_End_txtId).length == 0)
-                        $(this).after('<em id="datetimepicker_Activity_End_txt_error_' + datetimepicker_Activity_End_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">活動結束日期必須在活動開始日期之後</em>');
+                        $(this).after('<em id="datetimepicker_Activity_End_txt_error_' + datetimepicker_Activity_End_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">活動結束日期必須在活動開始日期之後</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1145,7 +1158,7 @@
                 if ($.trim($(this).val()) >= $.trim($("#datetimepicker_Activity_Sign_End_txt_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).val()) && $.trim($("#datetimepicker_Activity_Sign_End_txt_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).val()) != "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#datetimepicker_Activity_Sign_Start_txt_error_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).length == 0)
-                        $(this).after('<em id="datetimepicker_Activity_Sign_Start_txt_error_' + datetimepicker_Activity_Sign_Start_txt_temp_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">報名開始日期必須在報名結束日期之前</em>');
+                        $(this).after('<em id="datetimepicker_Activity_Sign_Start_txt_error_' + datetimepicker_Activity_Sign_Start_txt_temp_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">報名開始日期必須在報名結束日期之前</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1159,7 +1172,7 @@
                 if ($.trim($(this).val()) >= $.trim($("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).val()) && $.trim($("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).val()) != "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#datetimepicker_Activity_Sign_Start_txt_error_WithActStart_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).length == 0)
-                        $(this).after('<em id="datetimepicker_Activity_Sign_Start_txt_error_WithActStart_' + datetimepicker_Activity_Sign_Start_txt_temp_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">報名開始日期必須在活動開始日期之前</em>');
+                        $(this).after('<em id="datetimepicker_Activity_Sign_Start_txt_error_WithActStart_' + datetimepicker_Activity_Sign_Start_txt_temp_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">報名開始日期必須在活動開始日期之前</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1180,7 +1193,7 @@
                 if ($.trim($(this).val()) <= $.trim($("#datetimepicker_Activity_Sign_Start_txt_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).val()) && $.trim($("#datetimepicker_Activity_Sign_Start_txt_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).val()) != "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#datetimepicker_Activity_Sign_End_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0)
-                        $(this).after('<em id="datetimepicker_Activity_Sign_End_txt_error_' + datetimepicker_Activity_Sign_End_txt_temp_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">報名結束日期必須在報名開始日期之後</em>');
+                        $(this).after('<em id="datetimepicker_Activity_Sign_End_txt_error_' + datetimepicker_Activity_Sign_End_txt_temp_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">報名結束日期必須在報名開始日期之後</em>');
                     check_Activity_Data = false;
                 }
                 else {

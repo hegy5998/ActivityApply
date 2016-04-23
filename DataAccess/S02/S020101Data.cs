@@ -20,12 +20,20 @@ namespace DataAccess
         public CommonDbHelper Db = DAH.Db;
         ActivityData activityData = new ActivityData();
 
-        //取得活動資料
+        Activity_columnData _columnda = new Activity_columnData();
+        Activity_sectionData _sectionData = new Activity_sectionData();
+        Activity_sessionData _sessionData = new Activity_sessionData();
+        ActivityData _activityData = new ActivityData();
+        Activity_apply_detailData _applyData = new Activity_apply_detailData();
+
+        #region 取得活動資料
         public List<ActivityInfo> getActivity(int act_idn)
         {
             return activityData.GetActivityList(act_idn);
         }
-        //取得活動資料
+        #endregion
+
+        #region 取得活動資料
         public List<Activity_sessionInfo> getSession(int as_act)
         {
             string sql = @"SELECT   activity_session.*
@@ -34,7 +42,9 @@ namespace DataAccess
             IDataParameter[] param = { Db.GetParam("@as_act", as_act) };
             return Db.GetEnumerable<Activity_sessionInfo>(sql, param).ToList();
         }
-        //取得活動資料
+        #endregion
+
+        #region 取得活動資料
         public List<Activity_sectionInfo> getSection(int acs_act)
         {
             string sql = @"SELECT   activity_section.*
@@ -43,7 +53,9 @@ namespace DataAccess
             IDataParameter[] param = { Db.GetParam("@acs_act", acs_act) };
             return Db.GetEnumerable<Activity_sectionInfo>(sql, param).ToList();
         }
-        //取得活動資料
+        #endregion
+
+        #region 取得活動資料
         public List<Activity_columnInfo> getColumn(int acc_act)
         {
             string sql = @"SELECT   activity_column.*
@@ -53,9 +65,110 @@ namespace DataAccess
             IDataParameter[] param = { Db.GetParam("@acc_act", acc_act) };
             return Db.GetEnumerable<Activity_columnInfo>(sql, param).ToList();
         }
+        #endregion
 
+        #region 修改報名表
+        #region 刪除報名表欄位
+        public CommonResult Delete_Column_Data(Dictionary<string, object> dict)
+        {
+            return _columnda.DeleteData(dict);
+        }
+        #endregion
 
-        //取得已發佈活動資料
+        #region 刪除區塊
+        public CommonResult Delete_Section_Data(Dictionary<string, object> dict)
+        {
+            return _sectionData.DeleteData(dict);
+        }
+        public int Delete_Session_apply_Data(string aa_as)
+        {
+            string sql = @" DELETE 
+                        FROM activity_apply_detail
+                        WHERE aad_apply_id 
+                        IN (
+                        SELECT aa_idn 
+                        FROM activity_apply 
+                        WHERE activity_apply_detail.aad_apply_id = aa_idn AND aa_as = @aa_as 
+                        );
+                        DELETE 
+                        FROM activity_apply
+                        WHERE aa_as = @aa_as ";
+            IDataParameter[] param = { Db.GetParam("@aa_as", aa_as) };
+            int res = Db.ExecuteNonQuery(sql, param);
+            return res;
+        }
+        #endregion
+
+        #region 刪除場次
+        public CommonResult Delete_session(Dictionary<string, object> dict)
+        {
+            return _sessionData.DeleteData(dict);
+        }
+        #endregion
+
+        #region 刪除報名欄位資料
+        public int Delete_apply_detail(string aad_col_id)
+        {
+            string sql = @" DELETE 
+                            FROM activity_apply_detail
+                            WHERE aad_col_id = @aad_col_id ";
+            IDataParameter[] param = { Db.GetParam("@aad_col_id", aad_col_id) };
+            int res = Db.ExecuteNonQuery(sql, param);
+            return res;
+        }
+        #endregion       
+
+        #region 更新區塊
+        public CommonResult Update_Section_Data(Dictionary<string, object> old_dict, Dictionary<string, object> new_dict)
+        {
+            return _sectionData.UpdateData(old_dict, new_dict);
+        }
+        #endregion
+
+        #region 更新報名表
+        public CommonResult Update_Column_Data(Dictionary<string, object> old_dict, Dictionary<string, object> new_dict)
+        {
+            return _columnda.UpdateData(old_dict, new_dict);
+        }
+        #endregion
+
+        #region 更新場次
+        public CommonResult Update_Session_Data(Dictionary<string, object> old_dict, Dictionary<string, object> new_dict)
+        {
+            return _sessionData.UpdateData(old_dict, new_dict);
+        }
+        #endregion
+
+        #region 更新活動
+        public CommonResult Update_Activity_Data(Dictionary<string, object> old_dict, Dictionary<string, object> new_dict)
+        {
+            return _activityData.UpdateData(old_dict, new_dict);
+        }
+        #endregion
+
+        #region 新增區塊
+        public CommonResult InsertData_Activity_Section(Dictionary<string, object> dict)
+        {
+            return _sectionData.InsertData(dict);
+        }
+        #endregion
+
+        #region 新增報名表欄位
+        public CommonResult InsertData_Activity_Column(Dictionary<string, object> dict)
+        {
+            return _columnda.InsertData(dict);
+        }
+        #endregion
+
+        #region 新增場次
+        public CommonResult InsertData_session(Dictionary<string, object> dict)
+        {
+            return _sessionData.InsertData(dict);
+        }
+        #endregion
+        #endregion
+
+        #region 取得已發佈活動資料
         public DataTable GetAlreadyList()
         {
             StringBuilder sql_sb = new StringBuilder();
@@ -73,8 +186,9 @@ namespace DataAccess
 
             return Db.GetDataTable(sql_sb.ToString());
         }
+        #endregion
 
-        //取得未發佈活動資料
+        #region 取得未發佈活動資料
         public DataTable GetReadyList()
         {
             StringBuilder sql_sb = new StringBuilder();
@@ -92,8 +206,9 @@ namespace DataAccess
 
             return Db.GetDataTable(sql_sb.ToString());
         }
+        #endregion
 
-        //取得已結束活動資料
+        #region 取得已結束活動資料
         public DataTable GetEndList()
         {
             StringBuilder sql_sb = new StringBuilder();
@@ -110,8 +225,9 @@ namespace DataAccess
 
             return Db.GetDataTable(sql_sb.ToString());
         }
+        #endregion
 
-        //取得修改活動資料
+        #region 取得修改活動資料
         public DataTable GetEditData(int i)
         {
             StringBuilder sql_sb = new StringBuilder();
@@ -129,8 +245,9 @@ namespace DataAccess
 
             return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
         }
+        #endregion
 
-        //取得刪除資料(若此活動已沒有場次則連活動一起刪除)
+        #region 取得刪除資料(若此活動已沒有場次則連活動一起刪除)
         public DataTable CheckDelData(int i)
         {
             StringBuilder sql_sb = new StringBuilder();
@@ -148,8 +265,9 @@ namespace DataAccess
 
             return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
         }
+        #endregion
 
-        //取得活動與場次的發佈資訊(若有一場次發佈活動就發佈)
+        #region 取得活動與場次的發佈資訊(若有一場次發佈活動就發佈)
         public DataTable CheckCloseData(int i)
         {
             StringBuilder sql_sb = new StringBuilder();
@@ -167,8 +285,9 @@ namespace DataAccess
 
             return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
         }
+        #endregion
 
-        //取得報名詳細資料(欄位資料)
+        #region 取得報名詳細資料(欄位資料)
         public DataTable GetApplyDataDetail(int i)
         {
             StringBuilder sql_sb = new StringBuilder();
@@ -187,8 +306,9 @@ namespace DataAccess
 
             return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
         }
+        #endregion
 
-        //取得報名詳細欄位實際值
+        #region 取得報名詳細欄位實際值
         public DataTable GetApplyDataColumn(int col, int asidn)
         {
             StringBuilder sql_sb = new StringBuilder();
@@ -213,8 +333,9 @@ namespace DataAccess
 
             return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
         }
+        #endregion
 
-        //取得欲刪除的報名資料
+        #region 取得欲刪除的報名資料
         public DataTable GetApplyDeleteData(int asidn, int aa)
         {
             StringBuilder sql_sb = new StringBuilder();
@@ -238,8 +359,9 @@ namespace DataAccess
 
             return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
         }
+        #endregion
 
-        //取得活動idn
+        #region 取得活動idn
         public DataTable Getactidn (int asidn)
         {
             StringBuilder sql_sb = new StringBuilder();
@@ -256,8 +378,9 @@ namespace DataAccess
 
             return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
         }
+        #endregion
 
-        //新增報名資料&取得key
+        #region 新增報名資料&取得key
         public DataTable GetApplyidn(Dictionary<string, object> data_dict)
         {
             StringBuilder sql_sb = new StringBuilder();
@@ -281,8 +404,9 @@ namespace DataAccess
 
             return Db.GetDataTable(sql_sb.ToString());
         }
+        #endregion
 
-        //取得活動名稱 & 場次名稱
+        #region 取得活動名稱 & 場次名稱
         public DataTable Getactas(int i)
         {
             StringBuilder sql_sb = new StringBuilder();
@@ -300,8 +424,9 @@ namespace DataAccess
 
             return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
         }
+        #endregion
 
-        //取得查詢資料
+        #region 取得查詢資料
         public DataTable GetQueryData(string keyword, int tab)
         {
             StringBuilder sql_sb = new StringBuilder();
@@ -326,8 +451,9 @@ namespace DataAccess
 
             return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
         }
+        #endregion
 
-        //取得已結束活動查詢資料
+        #region 取得已結束活動查詢資料
         public DataTable GetQueryEndData(string keyword)
         {
             StringBuilder sql_sb = new StringBuilder();
@@ -350,5 +476,6 @@ namespace DataAccess
 
             return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
         }
+        #endregion
     }
 }

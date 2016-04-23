@@ -113,19 +113,6 @@ namespace BusinessLayer.S02
             return res;
         }
 
-        //新增場次資料
-        public CommonResult InsertData_session(Dictionary<string, object> dict)
-        {
-            var res = CommonHelper.ValidateModel<Model.Activity_sessionInfo>(dict);
-
-            if (res.IsSuccess)
-            {
-                res = _sessiondata.InsertData(dict);
-            }
-
-            return res;
-        }
-
         //新增報名資料
         public int InsertData_apply(Dictionary<string, object> dict)
         {
@@ -386,6 +373,157 @@ namespace BusinessLayer.S02
 
             return data;
         }
+        #endregion
+
+        #region 修改報名表
+        #region 新增區塊資料
+        public CommonResult InsertData_Activity_Section(Dictionary<string, object> dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_sectionInfo>(dict);
+
+            if (res.IsSuccess)
+            {
+                res = _data.InsertData_Activity_Section(dict);
+            }
+
+            return res;
+        }
+        #endregion
+
+        #region 新增題目資料
+        public CommonResult InsertData_Activity_Column(Dictionary<string, object> dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_columnInfo>(dict);
+
+            if (res.IsSuccess)
+            {
+                res = _data.InsertData_Activity_Column(dict);
+            }
+
+            return res;
+        }
+        #endregion
+
+        #region 新增場次資料
+        public CommonResult InsertData_session(Dictionary<string, object> dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_sessionInfo>(dict);
+
+            if (res.IsSuccess)
+            {
+                res = _data.InsertData_session(dict);
+            }
+
+            return res;
+        }
+        #endregion
+
+        #region 刪除問題資料
+        public CommonResult Delete_Column_Data(Dictionary<string, object> dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_columnInfo>(dict);
+
+            if (res.IsSuccess)
+            {
+                res = _data.Delete_Column_Data(dict);
+            }
+            return res;
+        }
+        #endregion
+
+        #region 刪除場次報名資料
+        public int Delete_Session_apply_Data(string aa_as)
+        {
+            int res = _data.Delete_Session_apply_Data(aa_as);
+            return res;
+        }
+        #endregion
+
+        #region 刪除區塊資料
+        public CommonResult Delete_Section_Data(Dictionary<string, object> dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_sectionInfo>(dict);
+
+            if (res.IsSuccess)
+            {
+                res = _data.Delete_Section_Data(dict);
+            }
+            return res;
+        }
+        #endregion
+
+        #region 刪除報名細節資料
+        public int Delete_apply_detail(string aad_col_id)
+        {
+            int res = _data.Delete_apply_detail(aad_col_id);
+            return res;
+        }
+        #endregion
+
+        #region 刪除區塊資料
+        public CommonResult Delete_session(Dictionary<string, object> dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_sessionInfo>(dict);
+
+            if (res.IsSuccess)
+            {
+                res = _data.Delete_session(dict);
+            }
+            return res;
+        }
+        #endregion
+
+        #region 更新活動資料
+        public CommonResult Update_Activity_Data(Dictionary<string, object> old_dict, Dictionary<string, object> new_dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.ActivityInfo>(new_dict);
+
+            if (res.IsSuccess)
+            {
+                res = _data.Update_Activity_Data(old_dict, new_dict);
+            }
+            return res;
+        }
+        #endregion
+
+        #region 更新場次資料
+        public CommonResult Update_Session_Data(Dictionary<string, object> old_dict, Dictionary<string, object> new_dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_sessionInfo>(new_dict);
+
+            if (res.IsSuccess)
+            {
+                res = _data.Update_Session_Data(old_dict, new_dict);
+            }
+            return res;
+        }
+        #endregion
+
+        #region 更新區塊資料
+        public CommonResult Update_Section_Data(Dictionary<string, object> old_dict, Dictionary<string, object> new_dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_sectionInfo>(new_dict);
+
+            if (res.IsSuccess)
+            {
+                res = _data.Update_Section_Data(old_dict, new_dict);
+            }
+            return res;
+        }
+        #endregion
+
+        #region 更新題目資料
+        public CommonResult Update_Column_Data(Dictionary<string, object> old_dict, Dictionary<string, object> new_dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_columnInfo>(new_dict);
+
+            if (res.IsSuccess)
+            {
+                res = _data.Update_Column_Data(old_dict, new_dict);
+            }
+            return res;
+        }
+        #endregion
         #endregion
     }
 }

@@ -312,6 +312,7 @@
 
         var del_acc_idn = '';
         var del_acs_idn = '';
+        var del_as_idn = '';
 
         //#region 頁面載入時自動產生問題
         $(document).ready(function () {
@@ -326,7 +327,7 @@
                 if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#activity_Name_txt_error").length == 0)
-                        $(this).after('<em id="activity_Name_txt_error" class="error help-block red" style="width: 52px;margin-bottom: 5px;">必須填寫</em>');
+                        $(this).after('<em id="activity_Name_txt_error" class="error help-block red" style="width: auto;margin-bottom: 5px;">必須填寫</em>');
                 }
                 else {
                     $(this).css({ "box-shadow": "" });
@@ -419,7 +420,7 @@
                     sessionInfo = JSON.parse(result.d);
                     //增加場次
                     for (var count = 0 ; count < sessionInfo.length ; count++) {
-                        add_Session_click();
+                        add_Session_click(sessionInfo[count].As_idn);
                     }
                     //設定場次內容
                     setSession(sessionInfo);
@@ -715,7 +716,7 @@
                                                         '<a id="del_qus_btn_'+qusId+'" onclick="del_Qus_click(' + qusId + ')" type="submit" class="btn btn-theme" style="margin-left: 5px;">刪除</a>' +
                                                     '</div>' +
                                                     //添加資料驗證數字最大最小值的地方
-                                                    '<div class="row" id="add_Validation_div_' + qusId + '" style="margin-left: -25px;">' +
+                                                    '<div class="row" id="add_Validation_div_' + qusId + '" style="margin-left: -25px;float: right;">' +
                                                     '</div>' +
                                                 '</div>' +
                                         '</div>' +
@@ -733,13 +734,13 @@
                     $("#add_Validation_div_" + chooseId).children().remove();
                 switch (qus_Way) {
                     case "int":
-                        $("#add_Validation_div_" + chooseId).append('<label class="col-sm-1 control-label" style="width: 70px;margin-top: 10px;">最小值</label>' +
-                                                                    '<div class="col-sm-1" style="width: 58px;margin-top: 10px;">' +
-                                                                        '<input type="text" id="min_Num_' + chooseId + '" class="form-control" style="width: 54px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填"/>' +
+                        $("#add_Validation_div_" + chooseId).append('<label class="col-sm-1 control-label" style="width: auto;margin-top: 10px;">最小值</label>' +
+                                                                    '<div class="col-sm-1" style="width: auto;margin-top: 10px;">' +
+                                                                        '<input type="text" id="min_Num_' + chooseId + '" class="form-control" style="width: 85px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填"/>' +
                                                                     '</div>' +
-                                                                    '<label class="col-sm-1 control-label" style="width:70px;margin-top: 10px;">最大值</label>' +
-                                                                    '<div class="col-sm-1" style="margin-top: 10px;">' +
-                                                                        '<input type="text" id="max_Num_' + chooseId + '" class="form-control" style="width: 54px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填"/>' +
+                                                                    '<label class="col-sm-1 control-label" style="width: auto;margin-top: 10px;">最大值</label>' +
+                                                                    '<div class="col-sm-1" style="width: auto;margin-top: 10px;">' +
+                                                                        '<input type="text" id="max_Num_' + chooseId + '" class="form-control" style="width: 85px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填"/>' +
                                                                     '</div>');
                         break;
                     default:
@@ -783,14 +784,19 @@
         function del_Qus_click(chooseId) {
             //判斷是否為題目或舊題目
             if ($("#qus_div_" + chooseId).find("[id^=old_acc_idn_lb_]").length) {
-                var acc_idn;
-                $("#qus_div_" + chooseId).find("[id^=old_acc_idn_lb_]").each(function () {
-                    acc_idn = $(this).text()
-                })
-                del_acc_idn += acc_idn + ',';
-                alert(del_acc_idn);
+                var if_del_Qus = confirm("確定刪除問題?報名資料有包含此問題都將被刪除!!");
+                if (if_del_Qus == true) {
+                    var acc_idn;
+                    $("#qus_div_" + chooseId).find("[id^=old_acc_idn_lb_]").each(function () {
+                        acc_idn = $(this).text()
+                    })
+                    del_acc_idn += acc_idn + ',';
+                    alert(del_acc_idn);
+                    $('#qus_div_' + chooseId).remove();
+                }
             }
-            $('#qus_div_' + chooseId).remove();
+            else
+                $('#qus_div_' + chooseId).remove();
         };
         //#endregion
 
@@ -894,7 +900,7 @@
                 if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#qus_Option_error_" + chooseId + "1").length == 0)
-                        $(this).after('<em id="qus_Option_error_' + chooseId + '1" class="error help-block red" style="width: 52px;margin-left: 16px;margin-bottom: 5px;">必須填寫</em>');
+                        $(this).after('<em id="qus_Option_error_' + chooseId + '1" class="error help-block red" style="width: auto;margin-left: 16px;margin-bottom: 5px;">必須填寫</em>');
                     check_Activity_Column_Data = false;
                 }
                 else {
@@ -937,7 +943,7 @@
                 if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#qus_Option_error_" + id + (count + 1)).length == 0)
-                        $(this).after('<em id="qus_Option_error_' + id + (count + 1) + '" class="error help-block red" style="width: 52px;margin-bottom: 5px;">必須填寫</em>');
+                        $(this).after('<em id="qus_Option_error_' + id + (count + 1) + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">必須填寫</em>');
                     check_Activity_Column_Data = false;
                 }
                 else {
@@ -974,6 +980,19 @@
                                                 '</div>' +
                                             '</div>');
             $("#block_title_txt_" + blockId).focus();
+            //當焦點離開時判斷如果沒有填寫則警號
+            $("#block_title_txt_" + blockId).blur(function () {
+                if ($.trim($(this).val()) == "") {
+                    $(this).css({ "box-shadow": "0px 0px 9px red" });
+                    if ($("#block_title_txt_error_" + blockId).length == 0)
+                        $(this).after('<em id="block_title_txt_error_' + blockId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">必須填寫</em>');
+                    check_Activity_Column_Data = false;
+                }
+                else {
+                    $(this).css({ "box-shadow": "" });
+                    $("#block_title_txt_error_" + id + (count + 1)).remove();
+                }
+            })
             //區塊ID加一
             blockId++;
             //將拖拉function再次呼叫，不然新增出來的區塊不能進行拖拉處理
@@ -1009,18 +1028,24 @@
         //刪除區塊
         function del_block_click(chooseId) {
             if ($("#block_div_" + chooseId).find("[id^=old_acs_idn_]").length) {
-                var Acs_idn;
-                $("#block_div_" + chooseId).find("[id^=old_acs_idn_]").each(function () {
-                    Acs_idn = $(this).text()
-                })
-                del_acs_idn += Acs_idn + ',';
-                alert(del_acs_idn);
+                var if_del_block = confirm("確定刪除區塊?區塊內的問題及報名資料都將被刪除!!");
+                if (if_del_block == true) {
+                    var Acs_idn;
+                    $("#block_div_" + chooseId).find("[id^=old_acs_idn_]").each(function () {
+                        Acs_idn = $(this).text()
+                    })
+                    del_acs_idn += Acs_idn + ',';
+                    alert(del_acs_idn);
+
+                    $("#add_Qus_div_" + chooseId).find("[id^=old_acc_idn_lb_]").each(function () {
+                        del_acc_idn += $(this).text() + ',';
+                    })
+                    alert(del_acc_idn);
+                    $('#block_div_' + chooseId).remove();
+                }
             }
-            $("#add_Qus_div_" + chooseId).find("[id^=old_acc_idn_lb_]").each(function () {
-                del_acc_idn += $(this).text() + ',';
-            })
-            alert(del_acc_idn);
-            $('#block_div_' + chooseId).remove();
+            else
+                $('#block_div_' + chooseId).remove();
         };
         //#endregion
 
@@ -1036,13 +1061,18 @@
         //#endregion
 
         //#region 新增場次
-        function add_Session_click() {
+        function add_Session_click(As_idn) {
             if (sessionId == 1)
                 var display = "display:none";
             else
                 var display = "";
+            if (As_idn != 0) 
+                var acc_idn_lb = '<label id="old_as_idn_lb_' + As_idn + '" style="display:none">' + As_idn + '</label>';
+            else
+                var acc_idn_lb = '<label id="new_as_idn_lb_' + sessionId + '" style="display:none">' + sessionId + '</label>';
+
             //講場次新增至預設好的div裡面
-            $('#add_Session_div').append('<div class="showback" id="delete_Session_div_' + sessionId + '">' +
+            $('#add_Session_div').append('<div class="showback" id="delete_Session_div_' + sessionId + '">' +acc_idn_lb+
                         '<div class="form-horizontal style-form">' +
 
                             '<div class="form-group">' +
@@ -1092,7 +1122,7 @@
                                 '</div>' +
                             '</div>' +
                             '<div class="form-group" style="padding-right: 10px;">' +
-                                '<a style="float: right;" class="btn btn-theme" onclick="add_Session_click()">增加場次</a>' +
+                                '<a style="float: right;" class="btn btn-theme" onclick="add_Session_click(0)">增加場次</a>' +
                             '</div>' +
                         '</div>' +
                     '</div>');
@@ -1109,7 +1139,7 @@
                 if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#session_Name_txt_error_" + choose_Session_Name_txtId).length == 0)
-                        $(this).after('<em id="session_Name_txt_error_' + choose_Session_Name_txtId + '" class="error help-block red" style="width: 52px;margin-bottom: 5px;">必須填寫</em>');
+                        $(this).after('<em id="session_Name_txt_error_' + choose_Session_Name_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">必須填寫</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1124,7 +1154,7 @@
                 if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#activity_Location_txt_error_" + activity_Location_txtId).length == 0)
-                        $(this).after('<em id="activity_Location_txt_error_' + activity_Location_txtId + '" class="error help-block red" style="width: 52px;margin-bottom: 5px;">必須填寫</em>');
+                        $(this).after('<em id="activity_Location_txt_error_' + activity_Location_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">必須填寫</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1141,7 +1171,7 @@
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
 
                     if ($("#activity_Limit_Num_txt_error_" + activity_Limit_Num_txtId).length == 0)
-                        $(this).after('<em id="activity_Limit_Num_txt_error_' + activity_Limit_Num_txtId + '" class="error help-block red" style="width: 105px;margin-bottom: 5px;">必須填寫整數數字</em>');
+                        $(this).after('<em id="activity_Limit_Num_txt_error_' + activity_Limit_Num_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">必須填寫整數數字</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1158,7 +1188,7 @@
                 if ($.trim($(this).val()) >= $.trim($("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Start_txtId).val()) && $.trim($("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Start_txtId).val()) != "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#datetimepicker_Activity_Start_txt_error_" + datetimepicker_Activity_Start_txtId).length == 0)
-                        $(this).after('<em id="datetimepicker_Activity_Start_txt_error_' + datetimepicker_Activity_Start_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">活動開始日期必須在活動結束日期之前</em>');
+                        $(this).after('<em id="datetimepicker_Activity_Start_txt_error_' + datetimepicker_Activity_Start_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">活動開始日期必須在活動結束日期之前</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1192,7 +1222,7 @@
                 if ($.trim($(this).val()) <= $.trim($("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_End_txtId).val()) && $.trim($("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_End_txtId).val()) != "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#datetimepicker_Activity_End_txt_error_" + datetimepicker_Activity_End_txtId).length == 0)
-                        $(this).after('<em id="datetimepicker_Activity_End_txt_error_' + datetimepicker_Activity_End_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">活動結束日期必須在活動開始日期之後</em>');
+                        $(this).after('<em id="datetimepicker_Activity_End_txt_error_' + datetimepicker_Activity_End_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">活動結束日期必須在活動開始日期之後</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1227,7 +1257,7 @@
                 if ($.trim($(this).val()) >= $.trim($("#datetimepicker_Activity_Sign_End_txt_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).val()) && $.trim($("#datetimepicker_Activity_Sign_End_txt_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).val()) != "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#datetimepicker_Activity_Sign_Start_txt_error_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).length == 0)
-                        $(this).after('<em id="datetimepicker_Activity_Sign_Start_txt_error_' + datetimepicker_Activity_Sign_Start_txt_temp_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">報名開始日期必須在報名結束日期之前</em>');
+                        $(this).after('<em id="datetimepicker_Activity_Sign_Start_txt_error_' + datetimepicker_Activity_Sign_Start_txt_temp_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">報名開始日期必須在報名結束日期之前</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1262,7 +1292,7 @@
                 if ($.trim($(this).val()) <= $.trim($("#datetimepicker_Activity_Sign_Start_txt_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).val()) && $.trim($("#datetimepicker_Activity_Sign_Start_txt_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).val()) != "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#datetimepicker_Activity_Sign_End_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0)
-                        $(this).after('<em id="datetimepicker_Activity_Sign_End_txt_error_' + datetimepicker_Activity_Sign_End_txt_temp_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">報名結束日期必須在報名開始日期之後</em>');
+                        $(this).after('<em id="datetimepicker_Activity_Sign_End_txt_error_' + datetimepicker_Activity_Sign_End_txt_temp_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">報名結束日期必須在報名開始日期之後</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1290,7 +1320,21 @@
         };
         //移除場次
         function del_Session_click(chooseId) {
-            $('#delete_Session_div_' + chooseId).remove();
+            
+            if ($("#delete_Session_div_" + chooseId).find("[id^=old_as_idn_]").length) {
+                var if_del_session = confirm("確定刪除場次?所以場次內的報名資料會刪除!");
+                if (if_del_session == true) {
+                    var As_idn;
+                    $("#delete_Session_div_" + chooseId).find("[id^=old_as_idn_]").each(function () {
+                        As_idn = $(this).text()
+                    })
+                    del_as_idn += As_idn + ',';
+                    alert(del_as_idn);
+                    $('#delete_Session_div_' + chooseId).remove();
+                }
+            }
+            else
+                $('#delete_Session_div_' + chooseId).remove();
         };
         //#endregion
 
@@ -1425,8 +1469,8 @@
             //判斷資料是否正確 true:正確 false:錯誤
             check_Activity_Data = true;
             //把資料包成List
-            var jsondata = { activity_List: [], activity_Session_List: []};
-            
+            var jsondata = { activity_List: [], activity_Session_List: [] ,del_as_idn};
+            jsondata.del_as_idn = del_as_idn;
             //儲存活動場次資訊，迴圈依照目前場次ID做為要跑的次數
             for (var temp = 1 ; temp < sessionId ; temp++) {
                 //抓取場次區塊依照ID順序
@@ -1434,6 +1478,14 @@
                 //判斷這個場次區塊是否存在
                 if ($delete_Session_div.length > 0) {
                     var session_Json_Data = {};
+                    //判斷是否為新場次
+                    var As_idn = 0;
+                    if ($("#delete_Session_div_" + temp).find("[id^=old_as_idn_]").length) {
+                        $("#delete_Session_div_" + temp).find("[id^=old_as_idn_]").each(function () {
+                            As_idn = $(this).text()
+                        })
+                    }
+                    session_Json_Data.As_idn = As_idn;
                     //存入場次名稱
                     session_Json_Data.As_title = $("#session_Name_txt_" + temp).val();
                     //存入場次活動開始日期
@@ -1659,7 +1711,7 @@
                             //if (checkData != 0) checkData = 1;
                         }
                         //判斷區塊是否為新
-                        var Acs_idn = '';
+                        var Acs_idn = 0;
                         if ($("#block_div_" + choose_blockId).find("[id^=old_acs_idn_]").length) {
                             $("#block_div_" + choose_blockId).find("[id^=old_acs_idn_]").each(function () {
                                 Acs_idn = $(this).text()
@@ -1681,7 +1733,7 @@
                             var chooseId_temp = $("#" + $qus_sortable[qus_count]).attr("id");
                             var chooseId = chooseId_temp.split("_")[chooseId_temp.split("_").length - 1];
                             //判斷是否為題目或舊題目
-                            var acc_idn = '';
+                            var acc_idn = 0;
                             if ($("#qus_div_" + chooseId).find("[id^=old_acc_idn_lb_]").length) {
                                 $("#qus_div_" + chooseId).find("[id^=old_acc_idn_lb_]").each(function () {
                                     acc_idn = $(this).text()
@@ -1781,7 +1833,7 @@
                         if ($("#block_div_error_" + choose_blockId).length == 0)
                             $("#block_div_" + choose_blockId).prepend('<em id="block_div_error_' + choose_blockId + '" class="error help-block red"><h3>內無問題，請刪除或是新增問題</h3></em>');
                         check_Activity_Column_Data = false;
-                        alert("您有空白區塊，請新增問題或是刪除區塊!!");
+                        //alert("您有空白區塊，請新增問題或是刪除區塊!!");
                     }
                     //區塊順序加一
                     block_asc++;
@@ -1812,7 +1864,7 @@
 
         //#region 儲存活動
         function save() {
-            //Save_btn_Click();
+            Save_btn_Click();
             Save_Activity_btn_Click();
         }
         //#endregion
