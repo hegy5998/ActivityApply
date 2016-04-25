@@ -48,16 +48,13 @@
     <section id="container">
         <section id="main-content">
             <section class="wrapper">
-                <div class="advanced-form row">
+                <div class="advanced-form row" style="display:none;">
                     <h3>修改報名資料</h3>
                     <fieldset>
                         <h3><i class="fa fa-angle-right"></i>報名資料</h3>
                         <!-- 放置區塊區域 -->
                         <div id="sections_div">
                             <!-- 放置問題區域 -->
-                        </div>
-                        <!-- 送出按鈕 -->
-                        <div class="col-sm-12">
                         </div>
                     </fieldset>
 
@@ -86,6 +83,17 @@
     </section>
 
     <script type="text/javascript">
+        //window.onbeforeunload = function () {
+        //    if (!confirm('資料尚未儲存，確定要返回嗎?')) {
+        //        return '按一下「取消」停留在此頁';
+        //    }
+        //    else
+        //        window.location.href = '/index.aspx';
+        //    //var if_Save = confirm("資料尚未儲存，確定要返回嗎?");
+        //    //if (if_Save == true) {
+        //    //    window.location.href = 'SignSearchContext.aspx';
+        //    //}
+        //};
         var sectionList;
         var questionList;
         var applyDetailList;
@@ -97,6 +105,59 @@
                             resizeJquerySteps];
             $(document).queue("myQueue", funcList);
             $(document).dequeue("myQueue");
+
+            //#region jQuery steps
+            var form = $(".advanced-form");
+            form.steps({
+                headerTag: "h3",
+                bodyTag: "fieldset",
+                contentContainerTag: "div",
+                actionContainerTag: "div",
+                stepsContainerTag: "div",
+                transitionEffect: "slideLeft",
+                onStepChanging: function (event, currentIndex, newIndex) {
+                    if (currentIndex === 2 && newIndex === 1) {
+                        return false;
+                    }
+                    if (currentIndex === 0) {
+                        if ($("#form1").valid()) {
+                            setUserData();
+                            $('tbody').html("");    //清空表格
+                            Add_Check();
+                            return true;
+                        }
+                        return false;
+                    }
+                    if (newIndex === 2) {
+                        SaveUserData();
+                    }
+                    return true;
+                },
+                onStepChanged: function (event, currentIndex, priorIndex) {
+                    resizeJquerySteps();
+                    return true;
+                },
+                onFinishing: function (event, currentIndex) {
+                    window.location.replace("index.aspx");
+                    return true;
+                },
+                onFinished: function (event, currentIndex) {
+                    return true;
+                },
+                labels: {
+                    cancel: "取消",
+                    finish: "完成",
+                    next: "下一步",
+                    previous: "返回",
+                    loading: "載入中"
+                }
+            });
+            //調整 jQuery steps 高度
+            function resizeJquerySteps() {
+                $('.wizard .content').animate({ height: $('.body.current').outerHeight() }, "slow");
+            }
+            form.show();
+            //#endregion
         })
 
         /* 活動報名 */
@@ -461,56 +522,7 @@
         }
         //#endregion
 
-        //#region jQuery steps
-        $(".advanced-form").steps({
-            headerTag: "h3",
-            bodyTag: "fieldset",
-            contentContainerTag: "div",
-            actionContainerTag: "div",
-            stepsContainerTag: "div",
-            transitionEffect: "slideLeft",
-            onStepChanging: function (event, currentIndex, newIndex) {
-                if (currentIndex === 2 && newIndex === 1) {
-                    return false;
-                }
-                if (currentIndex === 0) {
-                    if ($("#form1").valid()) {
-                        setUserData();
-                        $('tbody').html("");    //清空表格
-                        Add_Check();
-                        return true;
-                    }
-                    return false;
-                }
-                if (newIndex === 2) {
-                    SaveUserData();
-                }
-                return true;
-            },
-            onStepChanged: function (event, currentIndex, priorIndex) {
-                resizeJquerySteps();
-                return true;
-            },
-            onFinishing: function (event, currentIndex) {
-                window.location.replace("index.aspx");
-                return true;
-            },
-            onFinished: function (event, currentIndex) {
-                return true;
-            },
-            labels: {
-                cancel: "取消",
-                finish: "完成",
-                next: "下一步",
-                previous: "返回",
-                loading: "載入中"
-            }
-        });
-        //調整 jQuery steps 高度
-        function resizeJquerySteps() {
-            $('.wizard .content').animate({ height: $('.body.current').outerHeight() }, "slow");
-        }
-        //#endregion
+        
 
         //#region 設定麵包削尋覽列
         function setSessionBread() {

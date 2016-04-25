@@ -64,13 +64,6 @@ namespace DataAccess
             return Db.GetEnumerable<ActivityInfo>(sql, param).ToList();
         }
 
-        public List<Activity_classInfo> GetClassList()
-        {
-            string sql = @"SELECT ac_idn, ac_title, ac_desc, ac_seq
-                           FROM   activity_class ";
-            return Db.GetEnumerable<Activity_classInfo>(sql).ToList();
-        }
-
         public DataTable GetActivityAllList(string act_title,string act_class)
         {
             string actclass = "";
@@ -84,7 +77,7 @@ namespace DataAccess
                             ac_session.as_date_start,
                             ac_session.as_date_end, 
                             ac_session.as_apply_start, 
-                            ac_session.as_apply_end
+                            ac_session.as_apply_end,session_count.num
                             FROM activity
                             cross apply 
                                  (select top 1 *
@@ -95,9 +88,16 @@ namespace DataAccess
                                           AND act_title LIKE @act_title 
                                           AND (act_class = @act_class  OR 0 = @act_class) 
                                   order by as_date_start) as ac_session
+                            cross apply 
+                                 (select top 1 COUNT(*) as num
+                                  FROM activity_session 
+								  WHERE as_act = act_idn 
+								  AND as_isopen = 1 
+								  AND CONVERT(DATETIME, as_date_end, 121) >= CONVERT(varchar(256), GETDATE(), 121) )  as session_count
+                            WHERE session_count.num > 0
                             ORDER BY   activity.updtime DESC";
             IDataParameter[] param = { Db.GetParam("@act_title", act_title),Db.GetParam("@act_class", act_class) };
-            return Db.GetDataTable(sql,param);
+            return Db.GetDataTable(sql,param); 
         }
 
         #region 單筆資料維護
@@ -131,10 +131,8 @@ namespace DataAccess
                 string sql = @"
                     insert into [" + _modelType.GetTableName() + @"] 
                         (" + Db.GetSqlInsertField(_modelType, data_dict) + @", [createid], [createtime], [updid], [updtime]) 
-                    values (" + Db.GetSqlInsertValue(data_dict) + ", '" + loginUser.Act_id + "'"+ ", (" + Db.DbNowTimeSQL + ")"+ ", '" + loginUser.Act_id + "'"+ ", (" + Db.DbNowTimeSQL + ")" + ")";
-                res.AffectedRows = Db.ExecuteNonQuery(trans, sql, Db.GetParam(_modelType, data_dict));
-                
-                if (res.AffectedRows <= 0) res.IsSuccess = false;
+                    values (" + Db.GetSqlInsertValue(data_dict) + ", '" + loginUser.Act_id + "'"+ ", (" + Db.DbNowTimeSQL + ")"+ ", '" + loginUser.Act_id + "'"+ ", (" + Db.DbNowTimeSQL + ")" + ") select @@identity";
+                res.Message = Db.ExecuteScalar(sql, Db.GetParam(_modelType, data_dict)).ToString();
             }
             return res;
         }

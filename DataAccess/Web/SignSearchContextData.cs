@@ -20,7 +20,7 @@ namespace DataAccess.Web
         public DataTable GetActivityData(string aa_email)
         {
             string sql = @"SELECT activity.act_idn,activity.act_title,activity.act_class,
-                                  activity_session.as_idn,activity_session.as_title,
+                                  activity_session.as_idn,activity_session.as_title,activity_session.as_date_end,activity_session.as_date_start,
 		                          activity_apply.aa_name,activity_apply.aa_idn,activity_apply.updtime
                            From activity,activity_session,activity_apply
                            WHERE activity_apply.aa_act = activity.act_idn 

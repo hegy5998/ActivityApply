@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true" CodeBehind="S02010201.aspx.cs" Inherits="Web.S02.S02010201" %>
+
 <%@ Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor" %>
-<%@ Register Src="~/UserControls/UCGridViewPager.ascx" TagPrefix="uc1" TagName="UCGridViewPager" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead_cph" runat="server">
     <script type="text/javascript">
         $(function () {
@@ -10,7 +11,7 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="mainContentSubFunction_cph" runat="server">
-<%--    <!-- 儲存活動頁面 -->
+    <%--    <!-- 儲存活動頁面 -->
     <input type="button" onclick="Save_btn_Click()" value="儲存活動頁面" />
     <!-- 儲存報名表 -->
     <input type="button" onclick="Save_Activity_btn_Click()" value="儲存報名表" />
@@ -20,17 +21,23 @@
     <input type="button" onclick="save()" value="儲存整個活動" />
     <!-- 檢視 -->
     <input type="button" onclick="view_Activity()" value="檢視報名表" />
+    <!-- 新增問題 -->
+    <input id="add_qus_btn" type="button" onclick="add_Preset_Qus_Click(null, null, null, 'text', '', false)" value="新增問題" style="display: none;" />
+    <!-- 新增區塊 -->
+    <input id="add_block_btn" type="button" onclick="add_Block_Click()" value="新增區塊" style="display: none;" />
+    <!-- 常用欄位 -->
+    <input id="add_usually_btn" type="button" data-toggle="modal" data-target="#myModal" data-backdrop="static" role="group" value="常用欄位" style="display: none;" />
     <!-- 返回列表 -->
     <asp:Button runat="server" ID="Back_btn" Text="返回列表" OnClick="Back_btn_Click" CssClass="Distancebtn" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="mainContent_cph" runat="server">
     <!-- 如果沒有開啟JavaScript則會請她凱起才能使用本網頁的功能 -->
     <noscript>
-      <h1 class="red blink">您沒有開啟JavaScript的功能，請您開啟才能使用本網站的功能!!</h1>
-      <h3>開啟方法如下:</h3>
-      <h4>IE : 網際網路選項 -> 安全性 -> 網際網路 -> 自訂等級 -> 指令碼處理 -> 啟用</h4>
-      <h4>Firefox : 工具 -> 網頁開發者 -> 網頁工具箱 -> 選項 -> 取消打勾「停用JavaScript」</h4>
-      <h4>IChrome : 設定 -> 顯示進階設定 -> 隱私權 -> 內容定... -> JavaScript -> 選擇「允許所有網站執行JavaScript」</h4>
+        <h1 class="red blink">您沒有開啟JavaScript的功能，請您開啟才能使用本網站的功能!!</h1>
+        <h3>開啟方法如下:</h3>
+        <h4>IE : 網際網路選項 -> 安全性 -> 網際網路 -> 自訂等級 -> 指令碼處理 -> 啟用</h4>
+        <h4>Firefox : 工具 -> 網頁開發者 -> 網頁工具箱 -> 選項 -> 取消打勾「停用JavaScript」</h4>
+        <h4>IChrome : 設定 -> 顯示進階設定 -> 隱私權 -> 內容定... -> JavaScript -> 選擇「允許所有網站執行JavaScript」</h4>
     </noscript>
     <!-- 統一公告事項 START -->
     <div class="alert alert-danger" role="alert" style="margin-bottom: 0px;">
@@ -44,10 +51,10 @@
         <!-- 建立活動標籤_START-->
         <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
             <li class="tab-pane active">
-                <a data-toggle="tab" href="#activityMenu">活動頁面</a>
+                <a data-toggle="tab" href="#activityMenu" onclick="activityMenu()">活動頁面</a>
             </li>
             <li class="tab-pane">
-                <a data-toggle="tab" href="#activityQus">活動報名表</a>
+                <a data-toggle="tab" href="#activityQus" onclick="activityQus()">活動報名表</a>
             </li>
         </ul>
         <!-- 建立活動標籤_END-->
@@ -61,20 +68,25 @@
                         <div class="project">
                             <div class="photo-wrapper">
                                 <div class="photo">
-                                    <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
-                                        <ContentTemplate>
-                                            <asp:FileUpload ID="imgUpload" runat="server" />
-                                            <asp:Button ID="imageUpload_btn" runat="server" Style="display: none" OnClick="imageUpload_btn_Click" />
-                                        </ContentTemplate>
-                                        <Triggers>
-                                            <asp:PostBackTrigger ControlID="imageUpload_btn"></asp:PostBackTrigger>
-                                        </Triggers>
-                                    </asp:UpdatePanel>
-                                    <img class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" alt="" />
+                                    <img class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" alt="" onclick="upload_img()" />
                                 </div>
                                 <div class="overlay"></div>
                             </div>
                         </div>
+                        <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
+                            <ContentTemplate>
+                                <label id="imgpath_lab">選擇圖片</label>
+                                <br />
+                                <label class="red">圖片僅限制上傳jpg、jpeg、png類型檔案</label>
+                                <br />
+                                <label class="red">大小限制為2MB</label>
+                                <asp:FileUpload ID="imgUpload" runat="server" onchange="upload_imgpath(this.value)" Style="display: none" accept=".png,.jpg,.jpeg,.gif" />
+                                <asp:Button ID="imageUpload_btn" runat="server" Style="display: none" OnClick="imageUpload_btn_Click" />
+                            </ContentTemplate>
+                            <Triggers>
+                                <asp:PostBackTrigger ControlID="imageUpload_btn"></asp:PostBackTrigger>
+                            </Triggers>
+                        </asp:UpdatePanel>
                     </div>
                     <div class="row"></div>
                 </div>
@@ -85,7 +97,7 @@
                         <!-- 活動場次區塊_START -->
                         <h3><i class="fa fa-angle-right"></i>活動分類</h3>
 
-                        <select class="select" id="select_class" style="width: 876.75px; height: 30px; border-radius: 4px; margin-bottom: 15px;">
+                        <select class="select" id="select_class" style="width: 100%; height: 30px; border-radius: 4px; margin-bottom: 15px;">
                         </select>
 
                         <!-- 活動名稱 -->
@@ -103,18 +115,13 @@
                                 <!-- 活動簡介 -->
                                 <div class="form-group">
                                     <label class="col-sm-2 col-sm-2 control-label">活動簡介</label>
-                                    <div class="col-sm-10">
+                                    <div class="col-sm-10" style="width: 100%; margin-top: 15px;">
                                         <!-- 活動簡介，使用CKeditor -->
                                         <textarea cols="80" id="editor1" name="editor1" rows="10"></textarea>
                                         <script type="text/javascript">
                                             CKEDITOR.replace('editor1',
                                                 {
-                                                    toolbar:
-                                                    [
-                                                        ['Undo', '-', 'Redo', '-', 'Cut', '-', 'Copy', '-', 'Paste', '-', 'PasteText', '-', 'Image', '-', 'Table', '-', 'HorizontalRule', '-', 'SpecialChar', '-', 'Bold', '-', 'Italic', '-', 'Strike', '-', 'TextColor', '-', 'BGColor', '-', 'NumberedList', '-', 'BulletedList', '-', 'Outdent', '-', 'Indent', '-', 'Link', '-', 'Unlink'],
-                                                        '/',
-                                                        ['Styles', 'Format', 'Font', 'FontSize', 'JustifyLeft', '-', 'JustifyCenter', '-', 'JustifyRight', '-', 'JustifyBlock']
-                                                    ]
+
                                                 });
                                         </script>
                                     </div>
@@ -146,14 +153,19 @@
                                     <div class="col-sm-10">
                                         <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
                                             <ContentTemplate>
-                                                <asp:FileUpload ID="FileUpload" runat="server" />
+                                                <input type="button" onclick="upload_file_btn()" class="btn btn-theme" value="選擇檔案"/>
+                                                <label id="filepath_lab">選擇檔案</label>
+                                                <asp:FileUpload ID="FileUpload" runat="server" onchange="upload_file(this.value)" Style="display: none" />
                                                 <asp:Button ID="btnUpload" runat="server" OnClick="btnUpload_Click1" Style="display: none" />
                                             </ContentTemplate>
                                             <Triggers>
                                                 <asp:PostBackTrigger ControlID="btnUpload"></asp:PostBackTrigger>
                                             </Triggers>
                                         </asp:UpdatePanel>
-
+                                        <br />
+                                        <label class="red">僅限制上傳jpg、png、jpeg、gif、doc、docx、txt、ppt、pptx、xls、xlsx、pdf、rar、zip、7z類型檔案</label>
+                                        <br />
+                                        <label class="red">大小限制為4MB</label>
                                     </div>
                                 </div>
                                 <!-- 相關連結 -->
@@ -177,7 +189,7 @@
                 <!-- 新增區塊地方_START-->
                 <div class="row mt " id="add_Block_div">
                     <!-- 預設區塊一_START -->
-                    <div class="col-lg-11 col-md-11 col-sm-11 col-xs-12 dexc showback" id="block_div_1">
+                    <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 dexc showback" id="block_div_1">
                         <!-- 預設區塊一名稱_基本資料 -->
                         <h3>
                             <input type="text" id="block_title_txt_1" class="form-control" placeholder="區塊名稱" value="基本資料" /></h3>
@@ -197,8 +209,8 @@
                                             <input type="text" id="qus_context_txt_1" placeholder="問題描述" class="form-control" style="width: 100%; margin-top: 15px" />
                                         </div>
                                     </div>
-                                    <div class="col-sm-1">
-                                        <select class="select" id="select_1" disabled="" style="width: 56px; height: 34px; border-radius: 4px; margin-left: 50px; background-color: #EEEEEE;">
+                                    <div class="col-sm-1" style="padding: inherit;">
+                                        <select class="select" id="select_1" disabled="" style="width: 56px; height: 34px; border-radius: 4px; background-color: #EEEEEE; float: right;">
                                             <option selected="selected" value="text">文字</option>
                                         </select>
                                     </div>
@@ -206,8 +218,8 @@
                                 <div class="row">
                                     <div class="col-sm-6" id="change_Qus_Content_div_1">
                                     </div>
-                                    <div class="col-sm-3 col-sm-push-3 " style="margin-left: 22px;">
-                                        <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="row" style="float: right;">
                                             <div class="checkbox checkbox-slider--b-flat checkbox-slider-md" style="float: left; padding-right: 10px;">
                                                 <label>
                                                     <input id="required_checkbox_1" type="checkbox" checked="checked" disabled="" /><span><a style="font-size: 16px; margin-left: -126px;">必填</a></span>
@@ -235,8 +247,8 @@
                                             <input type="text" id="qus_context_txt_2" placeholder="問題描述" class="form-control" style="width: 100%; margin-top: 15px" />
                                         </div>
                                     </div>
-                                    <div class="col-sm-1">
-                                        <select class="select" id="select_2" disabled="" style="width: 56px; height: 34px; border-radius: 4px; margin-left: 50px; background-color: #EEEEEE;">
+                                    <div class="col-sm-1" style="padding: inherit;">
+                                        <select class="select" id="select_2" disabled="" style="width: 56px; height: 34px; border-radius: 4px; background-color: #EEEEEE; float: right">
                                             <option selected="selected" value="text">文字</option>
                                         </select>
                                     </div>
@@ -244,8 +256,8 @@
                                 <div class="row">
                                     <div class="col-sm-6" id="change_Qus_Content_div_2">
                                     </div>
-                                    <div class="col-sm-3 col-sm-push-3 " style="margin-left: 22px;">
-                                        <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="row" style="float: right;">
                                             <div class="checkbox checkbox-slider--b-flat checkbox-slider-md" style="float: left; padding-right: 10px;">
                                                 <label>
                                                     <input id="required_checkbox_2" type="checkbox" checked="checked" disabled="" /><span><a style="font-size: 16px; margin-left: -126px;">必填</a></span>
@@ -265,10 +277,30 @@
                     </div>
                     <!-- 預設區塊一_END -->
 
+                    <%--<!-- 功能列_START -->
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="padding: 0px">
+                        <div class="nav nav-tabs nav-stacked" id="suspension_div" data-spy="affix">
+                            <div class="btn-group-vertical" role="group" aria-label="...">
+                                <!-- 新增問題 -->
+                                <a class="btn btn-theme " onclick="add_Preset_Qus_Click(null , null , null , 'text' , '' , false)" style="border-radius: 8px;">新增問題</a>
+                                <br />
+                                <!-- 新增區塊 -->
+                                <a class="btn btn-theme " onclick="add_Block_Click()" style="border-radius: 8px;">新增區塊</a>
+                                <br />
+                                <!-- 常用欄位 -->
+                                <a data-toggle="modal" data-target="#myModal" data-backdrop="static" role="group" class="btn btn-theme" style="border-radius: 8px;">常用欄位</a>
+                                <br />
+                                <!-- 載入範本 -->
+                                <a type="submit" class="btn btn-theme " onclick="getText()">載入範本</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 功能列_END -->--%>
+
                     <!-- 預設區塊二_START -->
                     <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 dexc showback" id="block_div_2">
                         <div class="col-sm-1" style="left: 95%; height: 40px;">
-                            <a class="btn" style="color: #768094;" onclick="del_block_click(2)">X</a>
+                            <a class="btn" style="color: #768094; padding-left: 3px;" onclick="del_block_click(2)">X</a>
                         </div>
                         <h3>
                             <input type="text" id="block_title_txt_2" class="form-control" placeholder="區塊名稱" value="其他" /></h3>
@@ -277,24 +309,6 @@
                         </div>
                     </div>
                     <!-- 預設區塊二_END -->
-
-                    <!-- 功能列_START -->
-                    <div class="nav nav-pills nav-stacked" id="suspension_div" data-spy="affix" data-offset-top="60" data-offset-bottom="200">
-                        <div class="btn-group-vertical" role="group" aria-label="...">
-                            <!-- 新增問題 -->
-                            <a class="btn btn-theme " onclick="add_Preset_Qus_Click(null , null , null , 'text' , '' , false)">新增問題</a>
-                            <br />
-                            <!-- 新增區塊 -->
-                            <a class="btn btn-theme " onclick="add_Block_Click()">新增區塊</a>
-                            <br />
-                            <!-- 常用欄位 -->
-                            <a data-toggle="modal" data-target="#myModal" data-backdrop="static" role="group" class="btn btn-theme">常用欄位</a>
-                            <%--<br />
-                        <!-- 載入範本 -->
-                        <a type="submit" class="btn btn-theme " onclick="getText()">載入範本</a>--%>
-                        </div>
-                    </div>
-                    <!-- 功能列_END -->
                 </div>
                 <!-- 新增區塊地方_END-->
             </div>
@@ -397,6 +411,7 @@
     <input type="hidden" id="save_Activity_Json" />
     <!-- JavaScript_START-->
     <script type="text/javascript">
+
         //#region 沒有開啟JavaScript閃爍文字提醒
         $(function () {
             setInterval(flicker, 1000);//迴圈閃爍，間隔1秒
@@ -427,24 +442,24 @@
             add_Session_click();
             //add_Preset_Qus_Click(題目名稱 , 題目描述 , 欲加入的區塊 , 題目模式 , 資料驗證 ,選項內容 , 是否必填)
             //add_Preset_Qus_Click("姓名", "請填寫完整名字", 1, "text", "", [], true);
-            add_Preset_Qus_Click("出生年月日", "ex:83/07/08", 1, "text", "", [], true);
-            add_Preset_Qus_Click("服務單位", "請填寫完整名稱", 1, "text", "", [], true);
-            add_Preset_Qus_Click("職稱", null, 1, "text", "", [], true);
-            add_Preset_Qus_Click("身份證字號", "英文字母請大寫", 1, "text", "idNumber", [], true);
+            //add_Preset_Qus_Click("出生年月日", "ex:83/07/08", 1, "text", "", [], true);
+            //add_Preset_Qus_Click("服務單位", "請填寫完整名稱", 1, "text", "", [], true);
+            //add_Preset_Qus_Click("職稱", null, 1, "text", "", [], true);
+            //add_Preset_Qus_Click("身份證字號", "英文字母請大寫", 1, "text", "idNumber", [], true);
             //add_Preset_Qus_Click("信箱Email", "請填寫正確格式", 1, "text", "email", [], true);
-            add_Preset_Qus_Click("連絡電話", "可填手機或是家裡電話", 1, "text", "", [], true);
-            add_Preset_Qus_Click("聯絡地址", "請填寫您收的到信的地址", 1, "text", "", [], true);
-            add_Preset_Qus_Click("公司電話", null, 1, "text", "", [], false);
-            add_Preset_Qus_Click("傳真", null, 1, "text", "", [], false);
-            add_Preset_Qus_Click("用餐", null, 1, "singleSelect", "", ["葷", "素", "不用餐"], true);
-            add_Preset_Qus_Click("備註", "若您有其他的問題,可以在此說明 ", 2, "text", "", [], false);
+            //add_Preset_Qus_Click("連絡電話", "可填手機或是家裡電話", 1, "text", "", [], true);
+            //add_Preset_Qus_Click("聯絡地址", "請填寫您收的到信的地址", 1, "text", "", [], true);
+            //add_Preset_Qus_Click("公司電話", null, 1, "text", "", [], false);
+            //add_Preset_Qus_Click("傳真", null, 1, "text", "", [], false);
+            add_Preset_Qus_Click("用餐", null, 2, "singleSelect", "", ["葷", "素", "不用餐"], true);
+            //add_Preset_Qus_Click("備註", "若您有其他的問題,可以在此說明 ", 2, "text", "", [], false);
 
             //活動名稱判斷是否填寫
             $("#activity_Name_txt").blur(function () {
                 if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#activity_Name_txt_error").length == 0)
-                        $(this).after('<em id="activity_Name_txt_error" class="error help-block red" style="width: 52px;margin-bottom: 5px;">必須填寫</em>');
+                        $(this).after('<em id="activity_Name_txt_error" class="error help-block red" style="width: auto;margin-bottom: 5px;">必須填寫</em>');
                 }
                 else {
                     $(this).css({ "box-shadow": "" });
@@ -452,6 +467,19 @@
                 }
             })
         });
+        //#endregion
+
+        //#region 切換Tabs顯示跟隱藏按鈕
+        function activityMenu() {
+            $("#add_qus_btn").css({ "display": "none" });
+            $("#add_block_btn").css({ "display": "none" });
+            $("#add_usually_btn").css({ "display": "none" });
+        }
+        function activityQus() {
+            $("#add_qus_btn").css({ "display": "" });
+            $("#add_block_btn").css({ "display": "" });
+            $("#add_usually_btn").css({ "display": "" });
+        }
         //#endregion
 
         //#region 獲取分類資料
@@ -613,9 +641,9 @@
                                             //添加題目問題以及題目描述的地方
                                             '<div class="col-sm-10" id="change_Qus_Way_div_' + qusId + '">' +
                                             '</div>' +
-                                            '<div class="col-sm-1">' +
+                                            '<div class="col-sm-1"  style="padding: inherit;">' +
                                                 //題目模式下拉式選單
-                                                '<select class="select" id="select_' + qusId + '" style="width:56px;height:34px;border-radius:4px;margin-left: 50px;">' +
+                                                '<select class="select" id="select_' + qusId + '" style="width: 56px; height: 34px; border-radius: 4px;float: right;">' +
                                                     '<option value="singleSelect">單選</option>' +
                                                     '<option value="multiSelect">多選</option>' +
                                                     '<option selected="selected" value="text">文字</option>' +
@@ -627,8 +655,8 @@
                                             //如果是單選、多選、選單則在此處添加選項
                                             '<div class="col-sm-6"  id="change_Qus_Content_div_' + qusId + '">' +
                                             '</div>' +
-                                                '<div class="col-sm-3 col-sm-push-3 " style="margin-left: 22px;">' +
-                                                    '<div class="row" >' +
+                                                '<div class="col-sm-6">' +
+                                                    '<div class="row" style="float: right;">' +
                                                         '<div class="checkbox checkbox-slider--b-flat checkbox-slider-md" style="float: left; padding-right: 10px;">' +
                                                             '<label>' +
                                                             '<input id="required_checkbox_' + qusId + '" type="checkbox" ' + check + '="' + check + '"><span><a style="font-size:16px;margin-left: -126px;">必填</a></span>' +
@@ -646,7 +674,7 @@
                                                         '<a onclick="del_Qus_click(' + qusId + ')" type="submit" class="btn btn-theme" style="margin-left: 5px;">刪除</a>' +
                                                     '</div>' +
                                                     //添加資料驗證數字最大最小值的地方
-                                                    '<div class="row" id="add_Validation_div_' + qusId + '" style="margin-left: -25px;">' +
+                                                    '<div class="row" id="add_Validation_div_' + qusId + '" style="margin-left: -25px;float: right;">' +
                                                     '</div>' +
                                                 '</div>' +
                                         '</div>' +
@@ -664,13 +692,13 @@
                     $("#add_Validation_div_" + chooseId).children().remove();
                 switch (qus_Way) {
                     case "int":
-                        $("#add_Validation_div_" + chooseId).append('<label class="col-sm-1 control-label" style="width: 70px;margin-top: 10px;">最小值</label>' +
-                                                                    '<div class="col-sm-1" style="width: 58px;margin-top: 10px;">' +
-                                                                        '<input type="text" id="min_Num_' + chooseId + '" class="form-control" style="width: 54px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填"/>' +
+                        $("#add_Validation_div_" + chooseId).append('<label class="col-sm-1 control-label" style="width: auto;margin-top: 10px;">最小值</label>' +
+                                                                    '<div class="col-sm-1" style="width: auto;margin-top: 10px;">' +
+                                                                        '<input type="text" id="min_Num_' + chooseId + '" class="form-control" style="width: 85px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填"/>' +
                                                                     '</div>' +
-                                                                    '<label class="col-sm-1 control-label" style="width:70px;margin-top: 10px;">最大值</label>' +
-                                                                    '<div class="col-sm-1" style="margin-top: 10px;">' +
-                                                                        '<input type="text" id="max_Num_' + chooseId + '" class="form-control" style="width: 54px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填"/>' +
+                                                                    '<label class="col-sm-1 control-label" style="width: auto;margin-top: 10px;">最大值</label>' +
+                                                                    '<div class="col-sm-1" style="width: auto;margin-top: 10px;">' +
+                                                                        '<input type="text" id="max_Num_' + chooseId + '" class="form-control" style="width: 85px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填"/>' +
                                                                     '</div>');
                         break;
                     default:
@@ -748,12 +776,16 @@
             if (qus_way_int == "singleSelect" || qus_way_int == "multiSelect" || qus_way_int == "dropDownList") {
                 $('#select_Validation_' + chooseId).attr('disabled', true);
                 $('#select_Validation_' + chooseId).val("");
+                $("#select_Validation_" + chooseId).css({ "background-color": "#EEEEEE" });
                 //判斷原來是否存在最大最小值的DIV，如果存在要刪除
                 if ($("#add_Validation_div_" + chooseId).children().length > 0)
                     $("#add_Validation_div_" + chooseId).children().remove();
             }
-            else
+            else {
                 $('#select_Validation_' + chooseId).attr('disabled', false);
+                $("#select_Validation_" + chooseId).css({ "background-color": "" });
+            }
+
             //移除選擇問題類型區塊內容
             temp_change_Qus_Way_div.children().remove();
             //移除問題內容
@@ -765,6 +797,7 @@
                                             '<div class="col-sm-10" style="width: 100%">' +
                                                 '<input type="text" ID="qus_context_txt_' + chooseId + '" ' + qus_Desc_Value + ' = "' + qus_Desc + '" placeholder="問題描述" class="form-control" style="width: 100%;margin-top: 15px" >' +
                                             '</div>');
+
             //將問題地方改單選、多選、選單問題，如果為文字問題則不用加
             if (qus_way_int != "text") {
                 temp_change_Qus_Content_div.append('<div class="panel-group" id="panel_group_' + chooseId + '" role="tablist" aria-multiselectable="true" style="width: 350px;margin-left: 50px;margin-top: 5px;">' +
@@ -811,7 +844,7 @@
                 if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#qus_Option_error_" + chooseId + "1").length == 0)
-                        $(this).after('<em id="qus_Option_error_' + chooseId + '1" class="error help-block red" style="width: 52px;margin-left: 16px;margin-bottom: 5px;">必須填寫</em>');
+                        $(this).after('<em id="qus_Option_error_' + chooseId + '1" class="error help-block red" style="width: auto;margin-left: 16px;margin-bottom: 5px;">必須填寫</em>');
                     check_Activity_Column_Data = false;
                 }
                 else {
@@ -854,7 +887,7 @@
                 if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#qus_Option_error_" + id + (count + 1)).length == 0)
-                        $(this).after('<em id="qus_Option_error_' + id + (count + 1) + '" class="error help-block red" style="width: 52px;margin-bottom: 5px;">必須填寫</em>');
+                        $(this).after('<em id="qus_Option_error_' + id + (count + 1) + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">必須填寫</em>');
                     check_Activity_Column_Data = false;
                 }
                 else {
@@ -874,14 +907,27 @@
             //新增區塊至預設好的div
             $('#add_Block_div').append('<div class="col-lg-11 col-md-11 col-sm-11 col-xs-12 dexc showback" id="block_div_' + blockId + '">' +
                                             '<div class="col-sm-1" style="left: 95%;height: 40px;">' +
-                                                '<a class="btn" style="color: #768094;" onclick="del_block_click(' + blockId + ')">X</a>' +
+                                                '<a class="btn" style="color: #768094;padding-left: 3px;" onclick="del_block_click(' + blockId + ')">X</a>' +
                                             '</div>' +
-	                                            '<h3><input type="text" id ="block_title_txt_' + blockId + '" class="form-control" placeholder="區塊名稱"></h3>' +
+                                                '<h3><input type="text" id ="block_title_txt_' + blockId + '" class="form-control" placeholder="區塊名稱"></h3>' +
                                                 '<input type="text" id="block_Description_txt_' + blockId + '" class="form-control" placeholder="區塊描述">' +
-	                                            '<div class="form-horizontal style-form column" id="add_Qus_div_' + blockId + '" style="min-height:50px">' +
-	                                            '</div>' +
+                                                '<div class="form-horizontal style-form column" id="add_Qus_div_' + blockId + '" style="min-height:50px">' +
+                                                '</div>' +
                                             '</div>');
             $("#block_title_txt_" + blockId).focus();
+            //當焦點離開時判斷如果沒有填寫則警號
+            $("#block_title_txt_" + blockId).blur(function () {
+                if ($.trim($(this).val()) == "") {
+                    $(this).css({ "box-shadow": "0px 0px 9px red" });
+                    if ($("#block_title_txt_error_" + blockId).length == 0)
+                        $(this).after('<em id="block_title_txt_error_' + blockId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">必須填寫</em>');
+                    check_Activity_Column_Data = false;
+                }
+                else {
+                    $(this).css({ "box-shadow": "" });
+                    $("#block_title_txt_error_" + id + (count + 1)).remove();
+                }
+            })
             //區塊ID加一
             blockId++;
             //將拖拉function再次呼叫，不然新增出來的區塊不能進行拖拉處理
@@ -994,7 +1040,7 @@
                 if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#session_Name_txt_error_" + choose_Session_Name_txtId).length == 0)
-                        $(this).after('<em id="session_Name_txt_error_' + choose_Session_Name_txtId + '" class="error help-block red" style="width: 52px;margin-bottom: 5px;">必須填寫</em>');
+                        $(this).after('<em id="session_Name_txt_error_' + choose_Session_Name_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">必須填寫</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1009,7 +1055,7 @@
                 if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#activity_Location_txt_error_" + activity_Location_txtId).length == 0)
-                        $(this).after('<em id="activity_Location_txt_error_' + activity_Location_txtId + '" class="error help-block red" style="width: 52px;margin-bottom: 5px;">必須填寫</em>');
+                        $(this).after('<em id="activity_Location_txt_error_' + activity_Location_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">必須填寫</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1026,7 +1072,7 @@
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
 
                     if ($("#activity_Limit_Num_txt_error_" + activity_Limit_Num_txtId).length == 0)
-                        $(this).after('<em id="activity_Limit_Num_txt_error_' + activity_Limit_Num_txtId + '" class="error help-block red" style="width: 105px;margin-bottom: 5px;">必須填寫整數數字</em>');
+                        $(this).after('<em id="activity_Limit_Num_txt_error_' + activity_Limit_Num_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">必須填寫整數數字</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1043,7 +1089,7 @@
                 if ($.trim($(this).val()) >= $.trim($("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Start_txtId).val()) && $.trim($("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Start_txtId).val()) != "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#datetimepicker_Activity_Start_txt_error_" + datetimepicker_Activity_Start_txtId).length == 0)
-                        $(this).after('<em id="datetimepicker_Activity_Start_txt_error_' + datetimepicker_Activity_Start_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">活動開始日期必須在活動結束日期之前</em>');
+                        $(this).after('<em id="datetimepicker_Activity_Start_txt_error_' + datetimepicker_Activity_Start_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">活動開始日期必須在活動結束日期之前</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1077,7 +1123,7 @@
                 if ($.trim($(this).val()) <= $.trim($("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_End_txtId).val()) && $.trim($("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_End_txtId).val()) != "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#datetimepicker_Activity_End_txt_error_" + datetimepicker_Activity_End_txtId).length == 0)
-                        $(this).after('<em id="datetimepicker_Activity_End_txt_error_' + datetimepicker_Activity_End_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">活動結束日期必須在活動開始日期之後</em>');
+                        $(this).after('<em id="datetimepicker_Activity_End_txt_error_' + datetimepicker_Activity_End_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">活動結束日期必須在活動開始日期之後</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1112,7 +1158,7 @@
                 if ($.trim($(this).val()) >= $.trim($("#datetimepicker_Activity_Sign_End_txt_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).val()) && $.trim($("#datetimepicker_Activity_Sign_End_txt_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).val()) != "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#datetimepicker_Activity_Sign_Start_txt_error_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).length == 0)
-                        $(this).after('<em id="datetimepicker_Activity_Sign_Start_txt_error_' + datetimepicker_Activity_Sign_Start_txt_temp_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">報名開始日期必須在報名結束日期之前</em>');
+                        $(this).after('<em id="datetimepicker_Activity_Sign_Start_txt_error_' + datetimepicker_Activity_Sign_Start_txt_temp_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">報名開始日期必須在報名結束日期之前</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1126,7 +1172,7 @@
                 if ($.trim($(this).val()) >= $.trim($("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).val()) && $.trim($("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).val()) != "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#datetimepicker_Activity_Sign_Start_txt_error_WithActStart_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).length == 0)
-                        $(this).after('<em id="datetimepicker_Activity_Sign_Start_txt_error_WithActStart_' + datetimepicker_Activity_Sign_Start_txt_temp_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">報名開始日期必須在活動開始日期之前</em>');
+                        $(this).after('<em id="datetimepicker_Activity_Sign_Start_txt_error_WithActStart_' + datetimepicker_Activity_Sign_Start_txt_temp_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">報名開始日期必須在活動開始日期之前</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1147,7 +1193,7 @@
                 if ($.trim($(this).val()) <= $.trim($("#datetimepicker_Activity_Sign_Start_txt_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).val()) && $.trim($("#datetimepicker_Activity_Sign_Start_txt_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).val()) != "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#datetimepicker_Activity_Sign_End_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0)
-                        $(this).after('<em id="datetimepicker_Activity_Sign_End_txt_error_' + datetimepicker_Activity_Sign_End_txt_temp_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">報名結束日期必須在報名開始日期之後</em>');
+                        $(this).after('<em id="datetimepicker_Activity_Sign_End_txt_error_' + datetimepicker_Activity_Sign_End_txt_temp_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">報名結束日期必須在報名開始日期之後</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1215,7 +1261,7 @@
         //#region 回到頂端按鈕 
         (function () {
             $("body").append("<img id='goTopButton' style='display: none; z-index: 5; cursor: pointer;' title='回到頂端'/>");
-            var img = "../Images/go-top.png",
+            var img = "/Images/go-top.png",
             locatioin = 9 / 10, // 按鈕出現在螢幕的高度
             right = 10, // 距離右邊 px 值
             opacity = 0.8, // 透明度
@@ -1250,7 +1296,7 @@
         //#region 懸浮區塊
         $('#suspension_div').affix({
             offset: {
-                top: 100,
+                top: 250,
                 bottom: function () {
                     return (this.bottom = $('.footer').outerHeight(true))
                 }
@@ -1261,11 +1307,10 @@
         //#region 儲存活動頁面
         function Save_btn_Click() {
             var jsondata = Save_Activity_Json();
-            if (checkDataSignEnd == true) {
-                var if_Save = confirm("您的報名結束日期在活動開始日期之後，確定要儲存嗎?");
-                if (if_Save == true) {
-                    if (check_Activity_Data === true) {
-                        upload_File();
+            if (check_Activity_Data === true) {
+                if (checkDataSignEnd == true) {
+                    var if_Save = confirm("您的報名結束日期在活動開始日期之後，確定要儲存嗎?");
+                    if (if_Save == true) {
                         $.ajax({
                             type: 'post',
                             traditional: true,
@@ -1274,10 +1319,13 @@
                             data: JSON.stringify(jsondata),
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
-                            processData:false,
+                            async: false,
+                            processData: false,
+                            async: false,
                             //成功時
                             success: function (result) {
-                                alert(result.d);
+                                //alert(result.d);
+                                //upload_File();
                             },
                             //失敗時
                             error: function () {
@@ -1285,14 +1333,8 @@
                             }
                         });
                     }
-                    else {
-                        alert("資料有誤");
-                    }
                 }
-            }
-            else {
-                if (check_Activity_Data === true) {
-                    upload_File();
+                else {
                     $.ajax({
                         type: 'post',
                         traditional: true,
@@ -1302,9 +1344,11 @@
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         processData: false,
+                        async: false,
                         //成功時
                         success: function (result) {
-                            alert(result.d);
+                            //alert(result.d);
+                            //upload_File();
                         },
                         //失敗時
                         error: function () {
@@ -1312,9 +1356,9 @@
                         }
                     });
                 }
-                else {
-                    alert("資料有誤");
-                }
+            }
+            else {
+                alert("活動頁面資料有誤");
             }
         }
         //#endregion
@@ -1420,7 +1464,7 @@
                     }
                     if (session_Json_Data.As_date_start != "" && session_Json_Data.As_date_end != "" && session_Json_Data.As_apply_start != "" && session_Json_Data.As_apply_end != "") {
                         if (session_Json_Data.As_date_start < session_Json_Data.As_date_end && session_Json_Data.As_date_start > session_Json_Data.As_apply_start && session_Json_Data.As_apply_start < session_Json_Data.As_apply_end && session_Json_Data.As_apply_start < session_Json_Data.As_date_end && session_Json_Data.As_apply_end < session_Json_Data.As_date_end) {
-                            check_Activity_Data = true;
+                            //check_Activity_Data = true;
                         }
                         else
                             check_Activity_Data = false;
@@ -1498,9 +1542,11 @@
                     data: JSON.stringify(jsondata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
+                    async: false,
                     //成功時
                     success: function (result) {
                         alert(result.d);
+                        upload_File();
                     },
                     //失敗時
                     error: function () {
@@ -1509,7 +1555,7 @@
                 });
             }
             else if (check_Activity_Column_Data === false) {
-                alert("您有資料尚未填寫!!")
+                alert("報名表資料有誤!!");
             }
         }
         //#endregion 
@@ -1659,7 +1705,7 @@
                         if ($("#block_div_error_" + choose_blockId).length == 0)
                             $("#block_div_" + choose_blockId).prepend('<em id="block_div_error_' + choose_blockId + '" class="error help-block red"><h3>內無問題，請刪除或是新增問題</h3></em>');
                         check_Activity_Column_Data = false;
-                        alert("您有空白區塊，請新增問題或是刪除區塊!!");
+                        //alert("您有空白區塊，請新增問題或是刪除區塊!!");
                     }
                     //區塊順序加一
                     block_asc++;
@@ -1673,7 +1719,6 @@
         function upload_File() {
             //抓取上傳檔案的按鈕，藉此可以由前端呼叫後端的function
             document.getElementById("<%=this.btnUpload.ClientID %>").click();
-            //document.getElementById("<%=this.imageUpload_btn.ClientID %>").click();
         }
         //#endregion
 
@@ -1689,10 +1734,60 @@
         }
         // #endregion
 
+        //#region 儲存活動
         function save() {
             Save_btn_Click();
             Save_Activity_btn_Click();
+            //upload_File();
+            //window.location.href = '/S02/S02010101.aspx?sys_id=S01&sys_pid=S02010101';
         }
+        //#endregion
+
+        //#region 點擊上傳圖片事件
+        function upload_img() {
+            document.getElementById("<%=this.imgUpload.ClientID %>").click();
+        }
+        function upload_imgpath(path) {
+            if (path != "") {
+                var path = path.split("\\")[path.split("\\").length - 1];
+                var imgFileName = path.split(".")[path.split(".").length - 1];
+                //如果資料正確，使用jQuery ajax傳送資料
+                if (imgFileName != "jpg" && imgFileName != "jpeg" && imgFileName != "png" && imgFileName) {
+                    alert("圖片只能上傳jpg、jpeg、png格式");
+                    check_Activity_Data = false;
+                    $("#<%=imgUpload.ClientID %>").val("");
+                    //錯誤提示
+                    $('#imgpath_lab').text("請選擇正確的圖片格式!");
+                }
+                else
+                    //設定上傳圖片檔名
+                    $('#imgpath_lab').text(path);
+            }
+            else
+                $('#imgpath_lab').text("選擇圖片");
+        }
+        //#endregion
+        function upload_file_btn() {
+            document.getElementById("<%=this.FileUpload.ClientID %>").click();
+        }
+        function upload_file(path) {
+            if (path != "") {
+                var path = path.split("\\")[path.split("\\").length - 1];
+                var FileName = path.split(".")[path.split(".").length - 1];
+                //如果資料正確，使用jQuery ajax傳送資料
+                if (FileName != "jpg" && FileName != "jpeg" && FileName != "png" && FileName != "gif" && FileName != "doc" && FileName != "docx" && FileName != "txt" && FileName != "ppt" && FileName != "pptx" && FileName != "xls" && FileName != "xlsx" && FileName != "pdf" && FileName != "rar" && FileName != "zip" && FileName != "7z" && FileName) {
+                    alert("附加檔案只能上傳jpg、png、jpeg、gif、doc、docx、txt、ppt、pptx、xls、xlsx、pdf、rar、zip、7z格式");
+                    check_Activity_Data = false;
+                    $("#<%=FileUpload.ClientID %>").val("");
+                    $("#filepath_lab").text("請選擇正確的檔案格式!");
+                }
+                else
+                    $("#filepath_lab").text(path);
+            }
+            else
+                $("#filepath_lab").text("選擇檔案");
+        }
+
     </script>
     <!-- JavaScript_END-->
 </asp:Content>

@@ -13,6 +13,10 @@ using AjaxControlToolkit;
 using System.IO;
 using System.Text;
 using Web.App_Code;
+using NPOI.HSSF.UserModel;
+using NPOI;
+using NPOI.XSSF.UserModel;
+using NPOI.SS.UserModel;
 
 namespace Web.S02
 {
@@ -56,48 +60,48 @@ namespace Web.S02
         /// 取得資料
         /// </summary>
         /// <returns>資料</returns>
-        /// 已發佈活動
+        /// 取得已發佈活動資料
         private DataTable GetAlreadyData()
         {
             //判斷是否有查詢條件
-            Dictionary<string, object> Cond = new Dictionary<string, object>();
+            //Dictionary<string, object> Cond = new Dictionary<string, object>();
 
-            if (!string.IsNullOrWhiteSpace(q_keyword_tb.Text))
-            {
-                Cond.Add("keyword", q_keyword_tb.Text);
-            }
+            //if (!string.IsNullOrWhiteSpace(q_keyword_tb.Text))
+            //{
+            //    Cond.Add("keyword", q_keyword_tb.Text);
+            //}
 
             //顯示分頁
             ucGridViewPager.Visible = true;
-            return _bl.GetAlreadyData(Cond);
+            return _bl.GetAlreadyData();
         }
 
-        //未發佈活動
+        //取得未發佈活動資料
         private DataTable GetReadyData()
         {
-            Dictionary<string, object> Cond = new Dictionary<string, object>();
+            //Dictionary<string, object> Cond = new Dictionary<string, object>();
 
-            if (!string.IsNullOrWhiteSpace(q_keyword_tb.Text))
-            {
-                Cond.Add("keyword", q_keyword_tb.Text);
-            }
+            //if (!string.IsNullOrWhiteSpace(q_keyword_tb.Text))
+            //{
+            //    Cond.Add("keyword", q_keyword_tb.Text);
+            //}
 
             ucGridViewPagerReady.Visible = true;
-            return _bl.GetReadyData(Cond);
+            return _bl.GetReadyData();
         }
 
-        //已結束活動
+        //取得已結束活動資料
         private DataTable GetEndData()
         {
-            Dictionary<string, object> Cond = new Dictionary<string, object>();
+            //Dictionary<string, object> Cond = new Dictionary<string, object>();
 
-            if (!string.IsNullOrWhiteSpace(q_keyword_tb.Text))
-            {
-                Cond.Add("keyword", q_keyword_tb.Text);
-            }
+            //if (!string.IsNullOrWhiteSpace(q_keyword_tb.Text))
+            //{
+            //    Cond.Add("keyword", q_keyword_tb.Text);
+            //}
 
             ucGridViewPagerEnd.Visible = true;
-            return _bl.GetEndData(Cond);
+            return _bl.GetEndData();
         }
         #endregion
 
@@ -128,7 +132,7 @@ namespace Web.S02
             //BindGridView(alreadylst);
         }
 
-        // 關閉or發佈活動
+        //關閉or發佈活動
         protected void main_gv_RowClose(object sender, GridViewEditEventArgs e)
         {
             GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Edit, sender as GridView, e.NewEditIndex);
@@ -151,6 +155,30 @@ namespace Web.S02
             }
 
             var res = _bl.UpdateSessionData(data_dict, data);
+
+            //檢查活動的場次發佈情形
+            int check = CheckActivityClose(Convert.ToInt32((gvr.FindControl("act_idn_hf") as HiddenField).Value));
+
+            //取得活動的發佈值
+            var data_dictActivity = new Dictionary<string, object>();
+            data_dictActivity["act_idn"] = CommonConvert.GetStringOrEmptyString((gvr.FindControl("act_idn_hf") as HiddenField).Value);
+            var dataActivity = new Dictionary<string, object>();
+            dataActivity["act_isopen"] = CommonConvert.GetStringOrEmptyString((gvr.FindControl("act_isopen_hf") as HiddenField).Value);
+
+            //活動關閉
+            if (check == 0)
+            {
+                dataActivity["act_isopen"] = 0;
+            }
+            //活動發佈
+            else
+            {
+                dataActivity["act_isopen"] = 1;
+            }
+
+            //更改活動資料
+            var res_act = _bl.UpdateData(data_dictActivity, dataActivity);
+
             if (res.IsSuccess)
             {
                 BindGridView(GetAlreadyData(), GetReadyData(), GetEndData());
@@ -162,6 +190,32 @@ namespace Web.S02
             }
         }
 
+        //檢查活動裡的場次的發佈狀況(若是有一場次發佈則活動發佈，若是都沒有場次發佈則活動關閉)
+        protected int CheckActivityClose(int i)
+        {
+            DataTable data = _bl.CheckCloseData(i);
+            int check = 0;
+
+            foreach (DataRow c in data.Rows)
+            {
+                if (c.ItemArray.GetValue(3).ToString() == "1")
+                {
+                    check = 1;
+                }
+            }
+
+            //都沒有場次發佈，活動關閉
+            if (check == 0)
+            {
+                return 0;
+            }
+            //至少有一場次發佈，活動發佈
+            else
+            {
+                return 1;
+            }
+        }
+
         //protected void main_gv_Sorting(object sender, GridViewSortEventArgs e)
         //{
         //    var alreadylst = GridViewHelper.SortGridView(sender as GridView, e, GetAlreadyData());
@@ -170,6 +224,7 @@ namespace Web.S02
         //    BindGridView(alreadylst, readylst, endlst);
         //}
 
+        //命令處理
         protected void main_gv_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             int i;
@@ -180,7 +235,7 @@ namespace Web.S02
                 case "EditActivity":
                     i = Convert.ToInt32(e.CommandArgument);
 
-                    Response.Redirect("S02010103.aspx?sys_id=S01&sys_pid=S02010103&i=" + i);
+                    Response.Redirect("S02010103.aspx?sys_id=S01&sys_pid=S02010103&act_idn=" + i);
                     Response.End();
                     break;
 
@@ -195,10 +250,62 @@ namespace Web.S02
                     // 設定彈出視窗
                     InitControlSetReadyPopupWindow(sender, e);
                     break;
+
+                //下載報名資料
+                case "download":
+                    downloadApply(Convert.ToInt32(e.CommandArgument));
+                    break;
             }
         }
 
-        //刪除活動
+        //下載報名資料
+        protected void downloadApply(int i)
+        {
+            DataTable data = _bl.GetApplyData(i);
+            DataTable title = _bl.Getactas(i);
+
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            ISheet u_sheet = workbook.CreateSheet(title.Rows[0][0].ToString() + "_" + title.Rows[0][1].ToString());
+
+            //u_sheet.CreateRow(0).CreateCell(0).SetCellValue(title.Rows[0][1].ToString());
+            IRow u_row1 = u_sheet.CreateRow(0);
+            for (int j = 1; j < data.Columns.Count; j++)
+            {
+                u_row1.CreateCell(j - 1).SetCellValue(data.Columns[j].ColumnName);
+            }
+
+            int x = 1;
+            foreach (DataRow r in data.Rows)
+            {
+                IRow u_row = u_sheet.CreateRow(x);    // 在工作表裡面，產生一列。
+                x++;
+                for (int j = 1; j < data.Columns.Count; j++)
+                {
+                    u_row.CreateCell(j - 1).SetCellValue(r.ItemArray.GetValue(j).ToString());     // 在這一列裡面，產生格子（儲存格）並寫入資料。
+                }
+            }
+
+            //MemoryStream MS = new MemoryStream();   //==需要 System.IO命名空間
+            //workbook.Write(MS);
+
+            //Response.AddHeader("Content-Disposition", "attachment; filename=EmptyWorkbook_2007_2.xlsx");
+            //Response.BinaryWrite(MS.ToArray());
+
+            //workbook = null;   //== VB為 Nothing
+            //MS.Close();
+            //MS.Dispose();
+
+            //Response.Flush();
+            //Response.End();
+
+            using (FileStream fs =
+                new FileStream(@"D:\IKI\" + title.Rows[0][0].ToString() + ".xlsx", FileMode.Create))
+            {
+                workbook.Write(fs);
+            }
+        }
+
+        //刪除活動(場次)
         protected void main_gv_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             if (ProcessModifyAuth)
@@ -310,7 +417,7 @@ namespace Web.S02
             }
         }
 
-        // 協作者排序
+        //協作者排序
         protected void controlSet_gv_Sorting(object sender, GridViewSortEventArgs e)
         {
             GridView gv = (GridView)sender;
@@ -318,7 +425,7 @@ namespace Web.S02
             BindControlSetGridView(lst);
         }
 
-        // 協作者排序(Ready)
+        //協作者排序(Ready)
         protected void controlSetReady_gv_Sorting(object sender, GridViewSortEventArgs e)
         {
             GridView gv = (GridView)sender;
@@ -376,20 +483,24 @@ namespace Web.S02
         {
             switch (e.CommandName)
             {
+                //新增協作者
                 case "Add":
                     GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Insert, controlSet_gv);
                     BindControlSetGridView(GetControlSetData());
                     break;
 
+                //新增協作者(Ready)
                 case "AddReady":
                     GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Insert, ready_copperate);
                     BindControlSetReadyGridView(GetControlSetReadyData());
                     break;
 
+                //儲存新增協作者
                 case "AddSave":
                     AddSaveControl();
                     break;
 
+                //儲存新增協作者(Ready)
                 case "AddSaveReady":
                     AddSaveReadyControl();
                     break;
@@ -567,7 +678,23 @@ namespace Web.S02
         #region 查詢按鈕
         protected void q_query_btn_Click(object sender, EventArgs e)
         {
-            BindGridView(GetAlreadyData(), GetReadyData(), GetEndData());
+            //BindGridView(GetAlreadyData(), GetReadyData(), GetEndData());
+            int i = Convert.ToInt32(Request.Cookies["tabs"].Value);
+
+            DataTable data = _bl.GetQueryData(q_keyword_tb.Text, i);
+
+            if (i == 0)
+            {
+                BindGridView(data, GetReadyData(), GetEndData());
+            }
+            else if (i == 1)
+            {
+                BindGridView(GetAlreadyData(), data, GetEndData());
+            }
+            else if (i == 2)
+            {
+                BindGridView(GetAlreadyData(), GetReadyData(), data);
+            }
         }
         #endregion
 

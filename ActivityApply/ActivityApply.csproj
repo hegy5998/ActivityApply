@@ -45,6 +45,9 @@
     <Reference Include="BusinessLayerBase">
       <HintPath>..\BusinessLayer\Lib\BusinessLayerBase.dll</HintPath>
     </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="DataAccessBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DataAccess\Lib\DataAccessBase.dll</HintPath>
@@ -215,9 +218,7 @@
     <Content Include="SignSearch.aspx" />
     <Content Include="Sign_Up.aspx" />
     <Content Include="Sign_Up_Check.aspx" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Web.config" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
   </ItemGroup>
   <ItemGroup>
@@ -227,6 +228,12 @@
     </Compile>
     <Compile Include="activity.aspx.designer.cs">
       <DependentUpon>activity.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="applyProve.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>applyProve.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -328,6 +335,18 @@
       <Project>{6ba52742-5e43-4c2b-baf0-574059a51fc0}</Project>
       <Name>Util</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="applyProve.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>applyProve.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

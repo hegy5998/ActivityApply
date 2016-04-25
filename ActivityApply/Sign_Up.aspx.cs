@@ -9,6 +9,9 @@ using Util;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Model.Common;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
+using CrystalDecisions.Shared;
 
 namespace ActivityApply
 {
@@ -16,6 +19,8 @@ namespace ActivityApply
     {
         static int ACT_IDN;
         static int AS_IDN;
+        static int AA_IDN;
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             ACT_IDN = Int32.Parse(Request["act_idn"]);
@@ -42,7 +47,7 @@ namespace ActivityApply
         }
 
         [System.Web.Services.WebMethod]
-        public static string saveUserData(List<UserData> userData)
+        public static bool saveUserData(List<UserData> userData)
         {
             Sign_UpBL _bl = new Sign_UpBL();
             CommonResult result;
@@ -59,7 +64,7 @@ namespace ActivityApply
 
             if (result.IsSuccess)
             {
-                int aad_apply_id = Int32.Parse(result.Message);
+                int aad_apply_id = AA_IDN = Int32.Parse(result.Message);
                 Dictionary<String, Object> save_Activity_apply_detai = new Dictionary<string, object>();
                 for (int i = 0; i < userData.Count; i++)
                 {
@@ -76,15 +81,15 @@ namespace ActivityApply
                     DataTable dt = _bl.GetActivityData(ACT_IDN, AS_IDN);
                     string act_title = dt.Rows[0]["act_title"].ToString();
                     CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubject(act_title), getMailContnet(dt, name));
-                    return "save success";
+                    return true;
                 }
                 else
                 {
-                    return "save detail fail";
+                    return false;
                 }
             }
             else {
-                return "save fail";
+                return false;
             }
 
         }
@@ -164,6 +169,19 @@ namespace ActivityApply
             public String Aad_title { get; set; }
             [Column("aad_val")]
             public String Aad_val { get; set; }
+        }
+
+        protected void print_ApplyProve(object sender, EventArgs e)
+        {
+            Sign_UpBL _bl = new Sign_UpBL();
+            DataTable dt = _bl.GetApplyProve(AA_IDN);
+            ReportDocument rd = new ReportDocument();
+            //載入該報表
+            rd.Load(Server.MapPath("~/applyProve.rpt"));
+            //設定資料
+            rd.SetDataSource(dt);
+            rd.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, true, "applyProve");
+            //rd.ExportToDisk(ExportFormatType.PortableDocFormat, "applyProve.pdf");
         }
     }
 }

@@ -12,10 +12,37 @@
         });
     </script>
 
+    <%--查看報名資料--%>
     <script type="text/javascript">
-        $(function Get() {
-            var url = document.getElementById('as_idn').value;
-            window.open("S02010102.aspx?sys_id=S01&sys_pid=S02010103&i=" + url, "_blank");
+        function GoTo(id) {
+            window.open("S02010102.aspx?sys_id=S02&sys_pid=S02010103&i=" + id, "_blank");
+        }
+    </script>
+
+    <%-- 檢視活動 --%>
+    <script type="text/javascript">
+        function GoToActivity(id) {
+            window.open("S02010104.aspx?sys_id=S02&sys_pid=S02010104&i=" + id, "_blank");
+        }
+    </script>
+
+    <%--將頁籤記錄到cookie--%>
+    <script type="text/javascript">
+        $(function () {
+            //tabs頁籤 使用cookie記住最後開啟的頁籤
+            $("#tabs").tabs({
+                //起始頁active: 導向cookie("tabs")所指頁籤
+                active: ($.cookie("tabs") || 0),  
+ 
+                //換頁動作activate
+                activate: function (event, ui) {   
+                //取得選取的頁籤編號
+                var newIndex = ui.newTab.parent().children().index(ui.newTab);  
+ 
+                //記錄到cookie
+                $.cookie("tabs", newIndex, { expires: 1 });                        
+                }
+            });          
         })
     </script>
 </asp:Content>
@@ -24,12 +51,6 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="mainContent_cph" runat="server">
-    <script type="text/javascript">
-        function GoTo(id) {
-            window.open("S02010102.aspx?sys_id=S01&sys_pid=S02010103&i=" + id, "_blank");
-        }
-    </script>
-
     <asp:Panel ID="form_panel" runat="server" Visible="true">
         <asp:UpdatePanel runat="server" ID="UpdatePanel3" ChildrenAsTriggers="false" UpdateMode="Conditional">
             <ContentTemplate>
@@ -42,7 +63,8 @@
                                 <asp:TextBox runat="server" ID="q_keyword_tb" />
                             </td>
                             <td rowspan="2" style="width: 100px; text-align: center;">
-                                <asp:Button runat="server" ID="q_query_btn" Text="查詢" OnClick="q_query_btn_Click" /></td>
+                                <asp:Button runat="server" ID="q_query_btn" Text="查詢" OnClick="q_query_btn_Click" />
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -77,10 +99,11 @@
                                                     <%-- 活動標題 --%> 
                                                     <asp:TemplateField HeaderText="活動標題">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="act_title_lbl" runat="server" Text='<%# Bind("act_title") %>'></asp:Label>
+                                                            <input id="viewActiviity" type="button" class="btn-link" value='<%# Eval("act_title") %>' Onclick="GoToActivity(<%# Eval("act_idn") %>);" />
                                                             <asp:HiddenField ID="as_idn_hf" runat="server" Value='<%# Eval("as_idn") %>' />
                                                             <asp:HiddenField ID="as_isopen_hf" runat="server" Value='<%# Eval("as_isopen") %>' />
                                                             <asp:HiddenField ID="act_idn_hf" runat="server" Value='<%# Eval("act_idn") %>' />
+                                                            <asp:HiddenField ID ="act_isopen_hf" runat="server" Value='<%# Eval("act_isopen") %>' />
                                                         </ItemTemplate>
 
                                                         <HeaderStyle />
@@ -134,10 +157,10 @@
                                                     <%-- 報名資料 --%>
                                                     <asp:TemplateField HeaderText="報名資料">
                                                         <ItemTemplate>
-                                                            <input id="checkApply" type="button" class="btn-link" value="查看" Onclick="GoTo(<%# Eval("as_idn") %>);" />/<a href="#">下載</a>
+                                                            <input id="checkApply" type="button" class="btn-link" value="查看" Onclick="GoTo(<%# Eval("as_idn") %>);" />/<asp:Button ID="download_btn" runat="server" CommandName="download" class="btn-link" Text="下載" ToolTip="下載" UseSubmitBehavior="False" CommandArgument='<%# Eval("as_idn") %>' />
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle Width="90px"/>
+                                                        <HeaderStyle Width="110px"/>
                                                         <ItemStyle CssClass="center" />
                                                     </asp:TemplateField>
 
@@ -147,7 +170,7 @@
                                                             <asp:Button ID="editActivity_btn" runat="server" CommandName="EditActivity" class="btn-link" Text="修改" ToolTip="修改" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" CommandArgument='<%# Eval("act_idn") %>'/>/<asp:Button ID="delete_btn" runat="server" CommandName="Delete" class="btn-link" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />/<asp:Button ID="edit_btn" runat="server" CommandName="Edit" class="btn-link" OnClientClick="if (!confirm(&quot;確定要關閉嗎?&quot;)) return false" Text="關閉" ToolTip="關閉" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />/<asp:Button ID="set_btn" runat="server" CommandName="Set" class="btn-link" Text="協作者" ToolTip="協作者" UseSubmitBehavior="False" />
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle Width="220px"/>
+                                                        <HeaderStyle Width="230px"/>
                                                         <ItemStyle CssClass="center" />
                                                     </asp:TemplateField>
                                                 </Columns>
@@ -284,10 +307,12 @@
                                                     <%-- 活動標題 --%>
                                                     <asp:TemplateField HeaderText="活動標題">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="act_title_lbl" runat="server" Text='<%# Bind("act_title") %>'></asp:Label>
+                                                            <%--<asp:Label ID="act_title_lbl" runat="server" Text='<%# Bind("act_title") %>'></asp:Label>--%>
+                                                            <input id="viewActiviity" type="button" class="btn-link" value='<%# Eval("act_title") %>' Onclick="GoToActivity(<%# Eval("act_idn") %>);" />
                                                             <asp:HiddenField ID="as_idn_hf" runat="server" Value='<%# Eval("as_idn") %>' />
                                                             <asp:HiddenField ID="as_isopen_hf" runat="server" Value='<%# Eval("as_isopen") %>' />
                                                             <asp:HiddenField ID="act_idn_hf" runat="server" Value='<%# Eval("act_idn") %>' />
+                                                            <asp:HiddenField ID="act_isopen_hf" runat="server" Value='<%# Eval("act_isopen") %>' />
                                                         </ItemTemplate>
 
                                                         <HeaderStyle />
@@ -341,20 +366,20 @@
                                                     <%-- 報名資料 --%>
                                                     <asp:TemplateField HeaderText="報名資料">
                                                         <ItemTemplate>
-                                                            <a href='../S02/S02010102.aspx' target='_blank' id="act_title">查看</a>/<a href="#">下載</a>
+                                                            <input id="checkApply" type="button" class="btn-link" value="查看" Onclick="GoTo(<%# Eval("as_idn") %>);" />/<asp:Button ID="download_btn" runat="server" CommandName="download" class="btn-link" Text="下載" ToolTip="下載" UseSubmitBehavior="False" CommandArgument='<%# Eval("as_idn") %>' />
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle Width="70px"/>
+                                                        <HeaderStyle Width="110px"/>
                                                         <ItemStyle CssClass="center" />
                                                     </asp:TemplateField>
 
                                                     <%-- 基本功能 --%>
                                                     <asp:TemplateField HeaderText="基本功能">
                                                         <ItemTemplate>
-                                                            <asp:Button ID="editActivity_btn" runat="server" CommandName="EditActivity" class="btn-link" Text="修改" ToolTip="修改" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" CommandArgument='<%# Eval("as_idn") %>'/>/<asp:Button ID="delete_btn" runat="server" CommandName="Delete" class="btn-link" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />/<asp:Button ID="edit_btn" runat="server" CommandName="Edit" class="btn-link" OnClientClick="if (!confirm(&quot;確定要發佈嗎?&quot;)) return false" Text="發佈" ToolTip="發佈" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />/<asp:Button ID="set_btn" runat="server" CommandName="Set_ready" class="btn-link" Text="協作者" ToolTip="協作者" UseSubmitBehavior="False" />
+                                                            <asp:Button ID="editActivity_btn" runat="server" CommandName="EditActivity" class="btn-link" Text="修改" ToolTip="修改" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" CommandArgument='<%# Eval("act_idn") %>'/>/<asp:Button ID="delete_btn" runat="server" CommandName="Delete" class="btn-link" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />/<asp:Button ID="edit_btn" runat="server" CommandName="Edit" class="btn-link" OnClientClick="if (!confirm(&quot;確定要發佈嗎?&quot;)) return false" Text="發佈" ToolTip="發佈" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />/<asp:Button ID="set_btn" runat="server" CommandName="Set_ready" class="btn-link" Text="協作者" ToolTip="協作者" UseSubmitBehavior="False" />
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle Width="220px"/>
+                                                        <HeaderStyle Width="230px"/>
                                                         <ItemStyle CssClass="center" />
                                                     </asp:TemplateField>
                                                 </Columns>
@@ -491,7 +516,8 @@
                                                     <%-- 活動標題 --%>
                                                     <asp:TemplateField HeaderText="活動標題">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="act_title_lbl" runat="server" Text='<%# Bind("act_title") %>'></asp:Label>
+                                                            <%--<asp:Label ID="act_title_lbl" runat="server" Text='<%# Bind("act_title") %>'></asp:Label>--%>
+                                                            <input id="viewActiviity" type="button" class="btn-link" value='<%# Eval("act_title") %>' Onclick="GoToActivity(<%# Eval("act_idn") %>);" />
                                                             <asp:HiddenField ID="as_idn_hf" runat="server" Value='<%# Eval("as_idn") %>' />
                                                         </ItemTemplate>
 
@@ -546,10 +572,10 @@
                                                     <%-- 報名資料 --%>
                                                     <asp:TemplateField HeaderText="報名資料">
                                                         <ItemTemplate>
-                                                            <a href='../S02/S02010102.aspx' target='_blank'>查看</a>/<a href="#">下載</a>
+                                                            <input id="checkApply" type="button" class="btn-link" value="查看" Onclick="GoTo(<%# Eval("as_idn") %>);" />/<asp:Button ID="download_btn" runat="server" CommandName="download" class="btn-link" Text="下載" ToolTip="下載" UseSubmitBehavior="False" CommandArgument='<%# Eval("as_idn") %>' />
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle Width="100px"/>
+                                                        <HeaderStyle Width="110px"/>
                                                         <ItemStyle CssClass="center" />
                                                     </asp:TemplateField>
                                                 </Columns>

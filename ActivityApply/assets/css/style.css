@@ -1681,14 +1681,15 @@ PANELS CONFIGURATIONS
 
 /* Gallery Configuration */
 .photo-wrapper {
-  display: block;
-  position: relative;
-  overflow: hidden;
-  background-color: #68dff0;
-  -webkit-transition: background-color 0.4s;
-  -moz-transition: background-color 0.4s;
-  -o-transition: background-color 0.4s;
-  transition: background-color 0.4s;
+    display: block;
+    background-image: url('../img/zoom.png');
+    position: relative;
+    overflow: hidden;
+    background-color: #68dff0;
+    -webkit-transition: background-color 0.4s;
+    -moz-transition: background-color 0.4s;
+    -o-transition: background-color 0.4s;
+    transition: background-color 0.4s;
 }
 .project .overlay {
   position: absolute;
@@ -1704,15 +1705,14 @@ PANELS CONFIGURATIONS
 }
 
 .project:hover .photo-wrapper {
-  background-color: #68dff0;
-	background-image:url(../img/zoom.png);
-	background-repeat:no-repeat;
-	background-position:center;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	position: relative;
+    background-color: #68dff0;
+    background-repeat: no-repeat;
+    background-position: center;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: relative;
 }
 .project:hover .photo {
   opacity: 10;

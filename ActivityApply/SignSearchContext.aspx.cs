@@ -41,6 +41,8 @@ namespace ActivityApply
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Session.Remove("aa_idn");
+
             if (!IsPostBack)
             {
                 BindGridView(GetData(true));
@@ -99,6 +101,25 @@ namespace ActivityApply
         /// <param name="e"></param>
         protected void main_gv_RowDataBound(object sender, GridViewRowEventArgs e)
         {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                GridViewRow gvr = e.Row;
+                Label As_date_end_hf = gvr.FindControl("As_date_end_lbl") as Label;
+                DateTime dt = Convert.ToDateTime(As_date_end_hf.Text);
+                // 顯示主廚、共廚為同間學校的新增按鈕
+                DateTime currentTime = new DateTime();
+                currentTime = DateTime.Now;
+                
+                if (DateTime.Compare(currentTime,dt)>0)
+                {
+                    Button edit_btn = gvr.FindControl("edit_btn") as Button;
+                    Button delete_btn = gvr.FindControl("delete_btn") as Button;
+                    edit_btn.Visible = false;
+                    delete_btn.Visible = false;
+                }
+                //gvr.BackColor = System.Drawing.Color.LightGray;
+
+            }
         }
 
         /// <summary>
@@ -154,7 +175,6 @@ namespace ActivityApply
                     break;
             }
         }
-
         #endregion
 
         #region 刪除
@@ -310,7 +330,8 @@ namespace ActivityApply
             //判斷使用者密碼是否正確以及是按了修改還是刪除按鈕
             if (user_password == password_txt.Text && gridview_event == "edit")
             {
-                Response.Redirect("SignChange.aspx?act_idn=" + act_idn + "&as_idn=" + as_idn + "&aa_idn="+ aa_idn +"&act_class=" + act_class + "&act_title=" + act_title);
+                Session["aa_idn"] = aa_idn;
+                Response.Redirect("SignChange.aspx?act_idn=" + act_idn + "&as_idn=" + as_idn);
             }
             else if(user_password == password_txt.Text && gridview_event == "delete")
             {

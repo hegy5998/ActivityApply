@@ -21,7 +21,20 @@ namespace ActivityApply
         {
             ACT_IDN = Int32.Parse(Request["act_idn"]);
             AS_IDN = Int32.Parse(Request["as_idn"]);
-            AA_IDN = Int32.Parse(Request["aa_idn"]);
+            //AA_IDN = Int32.Parse(Request["aa_idn"]);
+            //AA_IDN  = Session["aa_idn"];
+            //if (!IsPostBack)
+            //{
+                if(Session["aa_idn"]!=null)
+                    AA_IDN =  Int32.Parse(Session["aa_idn"].ToString());
+                else
+                {
+                    string error_msg = "請重新輸入密碼!";
+                    Response.Write("<script language='javascript'>alert('" + error_msg + "');</script>");
+                    Response.Redirect("SignSearchContext.aspx");
+                }
+            //}
+
         }
 
         #region 取得場次資料
@@ -62,54 +75,57 @@ namespace ActivityApply
         [System.Web.Services.WebMethod]
         public static string saveUserData(List<UserData> userData)
         {
-            SignChangeBL _bl = new SignChangeBL();
-            CommonResult result;
-            Dictionary<String, Object> old_Activity_apply = new Dictionary<string, object>();
-            string name;
-            string email;
-            //舊的報名資料
-            old_Activity_apply["aa_idn"] = userData[0].Aad_apply_id;
-            old_Activity_apply["aa_act"] = ACT_IDN;
-            old_Activity_apply["aa_as"] = AS_IDN;
-            Dictionary<String, Object> new_Activity_apply = new Dictionary<string, object>();
-            //新的報名資料
-            new_Activity_apply["aa_name"] = name = userData.Where(data => data.Aad_title.Contains("姓名")).Select(data => data.Aad_val).ToList()[0];
-            new_Activity_apply["aa_email"] = email = userData.Where(data => data.Aad_title.Contains("Email")).Select(data => data.Aad_val).ToList()[0];
-
-            result = _bl.UpdateApplyData(old_Activity_apply, new_Activity_apply);
-
-            if (result.IsSuccess)
+            if (AA_IDN > 0)
             {
-                Dictionary<String, Object> old_Activity_apply_detail = new Dictionary<string, object>();
-                Dictionary<String, Object> new_Activity_apply_detail = new Dictionary<string, object>();
-                for (int i = 0; i < userData.Count; i++)
-                {
-                    //舊的報名資料
-                    old_Activity_apply_detail["aad_apply_id"] = userData[0].Aad_apply_id;
-                    old_Activity_apply_detail["aad_col_id"] = userData[i].Aad_col_id;
-                    //新的報名資料
-                    new_Activity_apply_detail["aad_val"] = userData[i].Aad_val;
+                SignChangeBL _bl = new SignChangeBL();
+                CommonResult result;
+                Dictionary<String, Object> old_Activity_apply = new Dictionary<string, object>();
+                string name;
+                string email;
+                //舊的報名資料
+                old_Activity_apply["aa_idn"] = userData[0].Aad_apply_id;
+                old_Activity_apply["aa_act"] = ACT_IDN;
+                old_Activity_apply["aa_as"] = AS_IDN;
+                Dictionary<String, Object> new_Activity_apply = new Dictionary<string, object>();
+                //新的報名資料
+                new_Activity_apply["aa_name"] = name = userData.Where(data => data.Aad_title.Contains("姓名")).Select(data => data.Aad_val).ToList()[0];
+                new_Activity_apply["aa_email"] = email = userData.Where(data => data.Aad_title.Contains("Email")).Select(data => data.Aad_val).ToList()[0];
 
-                    result = _bl.UpdateApplyDetailData(old_Activity_apply_detail, new_Activity_apply_detail);
-                }
+                result = _bl.UpdateApplyData(old_Activity_apply, new_Activity_apply);
+
                 if (result.IsSuccess)
                 {
-                    //寄信通知報名資料變更
-                    SystemConfigInfo config_info = CommonHelper.GetSysConfig();
-                    DataTable dt = _bl.GetActivityData(ACT_IDN, AS_IDN);
-                    string act_title = dt.Rows[0]["act_title"].ToString();
-                    CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubject(act_title), getMailContnet(dt, name));
-                    return "save success";
+                    Dictionary<String, Object> old_Activity_apply_detail = new Dictionary<string, object>();
+                    Dictionary<String, Object> new_Activity_apply_detail = new Dictionary<string, object>();
+                    for (int i = 0; i < userData.Count; i++)
+                    {
+                        //舊的報名資料
+                        old_Activity_apply_detail["aad_apply_id"] = userData[0].Aad_apply_id;
+                        old_Activity_apply_detail["aad_col_id"] = userData[i].Aad_col_id;
+                        //新的報名資料
+                        new_Activity_apply_detail["aad_val"] = userData[i].Aad_val;
+
+                        result = _bl.UpdateApplyDetailData(old_Activity_apply_detail, new_Activity_apply_detail);
+                    }
+                    if (result.IsSuccess)
+                    {
+                        //寄信通知報名資料變更
+                        SystemConfigInfo config_info = CommonHelper.GetSysConfig();
+                        DataTable dt = _bl.GetActivityData(ACT_IDN, AS_IDN);
+                        string act_title = dt.Rows[0]["act_title"].ToString();
+                        CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubject(act_title), getMailContnet(dt, name));
+                        return "save success";
+                    }
+                    else
+                    {
+                        return "save detail fail";
+                    }
                 }
-                else
-                {
-                    return "save detail fail";
+                else {
+                    return "save fail";
                 }
             }
-            else {
-                return "save fail";
-            }
-            
+            return "save fail";
         }
         #endregion
 

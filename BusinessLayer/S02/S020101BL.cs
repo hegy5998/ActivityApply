@@ -25,6 +25,8 @@ namespace BusinessLayer.S02
         Activity_applyData _applydata = new Activity_applyData();
         //協作者
         Account_copperateData _cooperate = new Account_copperateData();
+        //報名資料(詳細)
+        Activity_apply_detailData _applyDetaildata = new Activity_apply_detailData();
         S020101Data _data = new S020101Data();
 
         #region 更新
@@ -60,25 +62,11 @@ namespace BusinessLayer.S02
             return res;
         }
 
-        //public CommonResult UpdateSessionCheckData(Dictionary<string, object> oldData_dict, Dictionary<string, object> newData_dict)
-        //{
-        //    //確定此活動是否還有其他場次
-        //    DataTable check = _data.CheckisopenData(Convert.ToInt32(oldData_dict["act_idn"]));
-        //    int a = Convert.ToInt32(check.Rows[0]["as_number"]);
-
-        //    //此活動沒有場次發佈
-        //    if (a == 0)
-        //    {
-        //        _activitydata.DeleteData(dict_act);
-
-        //        return _sessiondata.DeleteData(dict);
-        //    }
-        //    //此活動還有剩餘場次，因此只刪除場次
-        //    else
-        //    {
-        //        return _sessiondata.DeleteData(dict);
-        //    }
-        //}
+        //取得活動的場次
+        public DataTable CheckCloseData(int i)
+        {
+            return _data.CheckCloseData(i);
+        }
 
         //更新協作者資料
         public CommonResult UpdateCopData(Dictionary<string, object> oldData_dict, Dictionary<string, object> newData_dict)
@@ -88,6 +76,19 @@ namespace BusinessLayer.S02
             if (res.IsSuccess)
             {
                 return _cooperate.UpdateData(oldData_dict, newData_dict);
+            }
+
+            return res;
+        }
+
+        //更新報名資料
+        public CommonResult UpdateApplyData(Dictionary<string, object> oldData_dict, Dictionary<string, object> newData_dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_apply_detailInfo>(newData_dict);
+
+            if (res.IsSuccess)
+            {
+                return _applyDetaildata.UpdateData(oldData_dict, newData_dict);
             }
 
             return res;
@@ -112,30 +113,22 @@ namespace BusinessLayer.S02
             return res;
         }
 
-        //新增場次資料
-        public CommonResult InsertData_session(Dictionary<string, object> dict)
-        {
-            var res = CommonHelper.ValidateModel<Model.Activity_sessionInfo>(dict);
-
-            if (res.IsSuccess)
-            {
-                res = _sessiondata.InsertData(dict);
-            }
-
-            return res;
-        }
-
         //新增報名資料
-        public CommonResult InsertData_apply(Dictionary<string, object> dict)
+        public int InsertData_apply(Dictionary<string, object> dict)
         {
             var res = CommonHelper.ValidateModel<Model.Activity_applyInfo>(dict);
+            DataTable data;
+            int i = 0;
 
             if (res.IsSuccess)
             {
-                res = _applydata.InsertData(dict);
+                //res = _applydata.InsertData(dict);
+                data = _data.GetApplyidn(dict);
+
+                i = Convert.ToInt32(data.Rows[0][0]);
             }
 
-            return res;
+            return i;
         }
 
         //新增協作者資料
@@ -146,6 +139,19 @@ namespace BusinessLayer.S02
             if (res.IsSuccess)
             {
                 res = _cooperate.InsertData(dict);
+            }
+
+            return res;
+        }
+
+        //新增報名資料(欄位資料)
+        public CommonResult InsertData_column(Dictionary<string, object> dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_apply_detailInfo>(dict);
+
+            if (res.IsSuccess)
+            {
+                res = _applyDetaildata.InsertData(dict);
             }
 
             return res;
@@ -184,32 +190,67 @@ namespace BusinessLayer.S02
         {
             return _cooperate.DeleteData(dict);
         }
+
+        //刪除報名資料
+        public CommonResult DeleteApply(Dictionary<string, object> dict, Dictionary<string, object> dict_aa)
+        {
+            DataTable data = GetApplyDeleteData(Convert.ToInt32(dict["as_idn"]), Convert.ToInt32(dict_aa["aa_idn"]));
+            Dictionary<string, object> data_dict = new Dictionary<string,object>();
+            Dictionary<string, object> data_dict_apply = new Dictionary<string, object>();
+
+            foreach (DataRow r in data.Rows)
+            {
+                data_dict["aad_apply_id"] = dict_aa["aa_idn"].ToString();
+                data_dict["aad_col_id"] = r.ItemArray.GetValue(0);
+                _applyDetaildata.DeleteData(data_dict);
+            }
+
+            data_dict_apply["aa_idn"] = dict_aa["aa_idn"].ToString();
+            return _applydata.DeleteData(data_dict_apply);
+        }
         #endregion
 
         #region 查詢活動
-        /// <summary>
-        /// 取得所有資料
-        /// </summary>
-        /// <returns>所有資料</returns>
+        //取得活動資料
+        public List<ActivityInfo> getActivity(int act_idn)
+        {
+            return _data.getActivity(act_idn);
+        }
+        //取得活動資料
+        public List<Activity_sessionInfo> getSession(int as_act)
+        {
+            return _data.getSession(as_act);
+        }
+        //取得活動資料
+        public List<Activity_sectionInfo> getSection(int acs_act)
+        {
+            return _data.getSection(acs_act);
+        }
+        //取得活動資料
+        public List<Activity_columnInfo> getColumn(int acc_act)
+        {
+            return _data.getColumn(acc_act);
+        }
+
         /// 取得已發佈活動資料
-        public DataTable GetAlreadyData(Dictionary<string, object> Cond)
+        public DataTable GetAlreadyData()
         {
             return _data.GetAlreadyList();
         }
 
         //取得未發佈活動資料
-        public DataTable GetReadyData(Dictionary<string, object> Cond)
+        public DataTable GetReadyData()
         {
             return _data.GetReadyList();
         }
 
         //取得已結束活動資料
-        public DataTable GetEndData(Dictionary<string, object> Cond)
+        public DataTable GetEndData()
         {
             return _data.GetEndList();
         }
 
-        //取得修改資料
+        //取得修改活動資料
         public DataTable GetEditData(int i)
         {
             return _data.GetEditData(i);
@@ -233,10 +274,256 @@ namespace BusinessLayer.S02
             return new Account_copperateData().GetDataList(act_idn);
         }
 
+        //取得報名詳細資料(欄位資料)
+        public DataTable GetApplyDataDetail(int i)
+        {
+            return _data.GetApplyDataDetail(i);
+        }
+
+        //取得報名欄位實際資料
+        public DataTable GetApplyDataColumn(int col, int act)
+        {
+            return _data.GetApplyDataColumn(col, act);
+        }
+
+        //取得報名資料
         public DataTable GetApplyData(int i)
         {
-            return  _data.GetApplyData(i);
+            //報名資料
+            DataTable test = new DataTable();
+            //欄位資料
+            DataTable column;
+            //欄位實際值
+            DataTable columnDetail;
+
+            column = _data.GetApplyDataDetail(i);
+
+            if (column.Rows.Count != 0)
+            {
+                //新增key的值&Row
+                test.Columns.Add("aa_idn");
+                columnDetail = _data.GetApplyDataColumn((Convert.ToInt32(column.Rows[0][2])), i);
+                for (int j = 0; j < columnDetail.Rows.Count; j++)
+                {
+                    test.Rows.Add();
+                    test.Rows[j][0] = columnDetail.Rows[j][0].ToString();
+                }
+
+                //存入欄位的值
+                foreach (DataRow r in column.Rows)
+                {
+                    //增加欄位
+                    test.Columns.Add(r.ItemArray.GetValue(3).ToString());
+                    columnDetail = _data.GetApplyDataColumn(Convert.ToInt32(r.ItemArray.GetValue(2)), i);
+
+                    if (columnDetail.Rows.Count != 0)
+                    {
+                        //存入列的值
+                        for (int j = 0; j < columnDetail.Rows.Count; j++)
+                        {
+                            test.Rows[j][r.ItemArray.GetValue(3).ToString()] = columnDetail.Rows[j][1].ToString();
+                        }
+                    }
+                }
+            }
+
+            return test;
         }
+
+        //取得欲刪除的報名資料
+        public DataTable GetApplyDeleteData(int asidn, int aa)
+        {
+            return _data.GetApplyDeleteData(asidn, aa);
+        }
+
+        //取得活動idn
+        public int Getactidn(int asidn)
+        {
+            DataTable data = _data.Getactidn(asidn);
+
+            return Convert.ToInt32(data.Rows[0][0]);
+        }
+
+        //取得活動標題 & 場次標題
+        public DataTable Getactas(int i)
+        {
+            return _data.Getactas(i);
+        }
+
+        //取得查詢資料
+        public DataTable GetQueryData(string keyword, int tab)
+        {
+            DataTable data = new DataTable();
+
+            //已結束活動
+            if (tab == 2)
+            {
+                data = _data.GetQueryEndData(keyword);
+            }
+            //已發佈活動
+            else if (tab == 0)
+            {
+                data = _data.GetQueryData(keyword, 1);
+            }
+            //未發佈活動
+            else if (tab == 1)
+            {
+                data = _data.GetQueryData(keyword, 0);
+            }
+
+            return data;
+        }
+        #endregion
+
+        #region 修改報名表
+        #region 新增區塊資料
+        public CommonResult InsertData_Activity_Section(Dictionary<string, object> dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_sectionInfo>(dict);
+
+            if (res.IsSuccess)
+            {
+                res = _data.InsertData_Activity_Section(dict);
+            }
+
+            return res;
+        }
+        #endregion
+
+        #region 新增題目資料
+        public CommonResult InsertData_Activity_Column(Dictionary<string, object> dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_columnInfo>(dict);
+
+            if (res.IsSuccess)
+            {
+                res = _data.InsertData_Activity_Column(dict);
+            }
+
+            return res;
+        }
+        #endregion
+
+        #region 新增場次資料
+        public CommonResult InsertData_session(Dictionary<string, object> dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_sessionInfo>(dict);
+
+            if (res.IsSuccess)
+            {
+                res = _data.InsertData_session(dict);
+            }
+
+            return res;
+        }
+        #endregion
+
+        #region 刪除問題資料
+        public CommonResult Delete_Column_Data(Dictionary<string, object> dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_columnInfo>(dict);
+
+            if (res.IsSuccess)
+            {
+                res = _data.Delete_Column_Data(dict);
+            }
+            return res;
+        }
+        #endregion
+
+        #region 刪除場次報名資料
+        public int Delete_Session_apply_Data(string aa_as)
+        {
+            int res = _data.Delete_Session_apply_Data(aa_as);
+            return res;
+        }
+        #endregion
+
+        #region 刪除區塊資料
+        public CommonResult Delete_Section_Data(Dictionary<string, object> dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_sectionInfo>(dict);
+
+            if (res.IsSuccess)
+            {
+                res = _data.Delete_Section_Data(dict);
+            }
+            return res;
+        }
+        #endregion
+
+        #region 刪除報名細節資料
+        public int Delete_apply_detail(string aad_col_id)
+        {
+            int res = _data.Delete_apply_detail(aad_col_id);
+            return res;
+        }
+        #endregion
+
+        #region 刪除區塊資料
+        public CommonResult Delete_session(Dictionary<string, object> dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_sessionInfo>(dict);
+
+            if (res.IsSuccess)
+            {
+                res = _data.Delete_session(dict);
+            }
+            return res;
+        }
+        #endregion
+
+        #region 更新活動資料
+        public CommonResult Update_Activity_Data(Dictionary<string, object> old_dict, Dictionary<string, object> new_dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.ActivityInfo>(new_dict);
+
+            if (res.IsSuccess)
+            {
+                res = _data.Update_Activity_Data(old_dict, new_dict);
+            }
+            return res;
+        }
+        #endregion
+
+        #region 更新場次資料
+        public CommonResult Update_Session_Data(Dictionary<string, object> old_dict, Dictionary<string, object> new_dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_sessionInfo>(new_dict);
+
+            if (res.IsSuccess)
+            {
+                res = _data.Update_Session_Data(old_dict, new_dict);
+            }
+            return res;
+        }
+        #endregion
+
+        #region 更新區塊資料
+        public CommonResult Update_Section_Data(Dictionary<string, object> old_dict, Dictionary<string, object> new_dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_sectionInfo>(new_dict);
+
+            if (res.IsSuccess)
+            {
+                res = _data.Update_Section_Data(old_dict, new_dict);
+            }
+            return res;
+        }
+        #endregion
+
+        #region 更新題目資料
+        public CommonResult Update_Column_Data(Dictionary<string, object> old_dict, Dictionary<string, object> new_dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_columnInfo>(new_dict);
+
+            if (res.IsSuccess)
+            {
+                res = _data.Update_Column_Data(old_dict, new_dict);
+            }
+            return res;
+        }
+        #endregion
         #endregion
     }
 }
