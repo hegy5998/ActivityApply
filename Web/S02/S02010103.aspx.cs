@@ -179,13 +179,14 @@ namespace Web.S02
                     CommonResult result = _bl.InsertData_Activity_Column(save_Activity_Form);
                 }
             }
+
             return "活動儲存成功成功";
         }
         #endregion
 
         #region 儲存活動頁面
         [System.Web.Services.WebMethod]
-        public static string save_Activity(List<ActivityInfo> activity_List, List<Activity_sessionInfo> activity_Session_List,string del_as_idn)
+        public static string save_Activity(List<ActivityInfo> activity_List, List<Activity_sessionInfo> activity_Session_List,string del_as_idn,string if_delete_file,string if_img_file)
         {
             SystemConfigInfo sysConfig = CommonHelper.GetSysConfig();
             string shorterURL = Util.CustomHelper.URLshortener(sysConfig.SOLUTION_HTTPADDR + "activity.aspx?act_class=" + activity_List[0].Act_class + "&act_idn=" + activity_List[0].Act_idn + "&act_title=" + activity_List[0].Act_title, sysConfig.URL_SHORTENER_API_KEY);
@@ -205,6 +206,52 @@ namespace Web.S02
             new_Activity_Information["act_short_link"] = shorterURL;
             //new_Activity_Information["act_isopen"] = 0;
             CommonResult res = _bl.Update_Activity_Data(old_Activity_Information,new_Activity_Information);
+
+            if(if_delete_file == "true")
+            {
+                String fi = (@"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + act_idn + "/relateFile");
+                DirectoryInfo delete_fi = new DirectoryInfo(fi);
+                //判斷目錄是否存在，存在才刪除
+                if (delete_fi.Exists)
+                {
+                    try
+                    {
+                        delete_fi.Delete(true);
+                    }
+                    catch (System.IO.IOException e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+                Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
+                old_Activity_dict["act_idn"] = act_idn;
+                Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
+                new_Activity_dict["act_relate_file"] = "";
+                CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
+            }
+
+            if (if_img_file == "true")
+            {
+                String fi = (@"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + act_idn + "/img");
+                DirectoryInfo delete_fi = new DirectoryInfo(fi);
+                //判斷目錄是否存在，存在才刪除
+                if (delete_fi.Exists)
+                {
+                    try
+                    {
+                        delete_fi.Delete(true);
+                    }
+                    catch (System.IO.IOException e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+                Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
+                old_Activity_dict["act_idn"] = act_idn;
+                Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
+                new_Activity_dict["act_image"] = "";
+                CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
+            }
 
             //判斷使否有場次被刪除
             string[] del_as = del_as_idn.Split(',');
@@ -277,7 +324,7 @@ namespace Web.S02
 
             if (FileUpload.HasFile == false) return;
 
-
+            deletefile();
 
             // FU1.FileName 只有 "檔案名稱.附檔名"，並沒有 Client 端的完整理路徑
             string filename = FileUpload.FileName;
@@ -292,7 +339,7 @@ namespace Web.S02
                 return;
             }
 
-            // 限制檔案大小，限制為 2MB
+            // 限制檔案大小，限制為 4MB
             int filesize = FileUpload.PostedFile.ContentLength;
             if (filesize > 4100000)
             {
@@ -302,8 +349,6 @@ namespace Web.S02
             }
 
             // 檢查 Server 上該資料夾是否存在，不存在就自動建立
-            //string serverDir = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/"+as_act;
-            //if (Directory.Exists(serverDir) == false) Directory.CreateDirectory(serverDir);
             string serverDirRelate = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/relateFile";
             string act_relate_file = serverDirRelate + "/" + filename;
             if (Directory.Exists(serverDirRelate) == false) Directory.CreateDirectory(serverDirRelate);
@@ -312,7 +357,7 @@ namespace Web.S02
             Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
             old_Activity_dict["act_idn"] = act_idn;
             Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
-            new_Activity_dict["act_relate_file"] = act_relate_file;
+            new_Activity_dict["act_relate_file"] = @"../Uploads/" + as_act + "/relateFile" + "/" + filename;
             CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
 
             // 判斷 Server 上檔案名稱是否有重覆情況，有的話必須進行更名
@@ -336,11 +381,32 @@ namespace Web.S02
             try
             {
                 FileUpload.SaveAs(serverFilePath);
-                //Label1.Text = "檔案上傳成功";
             }
             catch (Exception ex)
             {
-                //Label1.Text = ex.Message;
+                Console.WriteLine(ex.Message);
+            }
+        }
+        #endregion
+
+        #region 刪除附加檔案目錄
+        private void deletefile()
+        {
+            int as_act = 0;
+            as_act = act_idn;
+            String fi = (@"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/relateFile");
+            DirectoryInfo delete_fi = new DirectoryInfo(fi);
+            //判斷目錄是否存在，存在才刪除
+            if (delete_fi.Exists)
+            {
+                try
+                {
+                    delete_fi.Delete(true);
+                }
+                catch (System.IO.IOException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
         }
         #endregion
@@ -353,7 +419,7 @@ namespace Web.S02
 
             if (imgUpload.HasFile == false) return;
 
-
+            deleteimg();
 
             // FU1.FileName 只有 "檔案名稱.附檔名"，並沒有 Client 端的完整理路徑
             string filename = imgUpload.FileName;
@@ -379,8 +445,6 @@ namespace Web.S02
             }
 
             // 檢查 Server 上該資料夾是否存在，不存在就自動建立
-            //string serverDir = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act;
-            //if (Directory.Exists(serverDir) == false) Directory.CreateDirectory(serverDir);
             string serverDirImg = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/Img";
             string act_image = serverDirImg + "/" + filename;
             if (Directory.Exists(serverDirImg) == false) Directory.CreateDirectory(serverDirImg);
@@ -389,7 +453,7 @@ namespace Web.S02
             Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
             old_Activity_dict["act_idn"] = act_idn;
             Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
-            new_Activity_dict["act_image"] = act_image;
+            new_Activity_dict["act_image"] = @"../Uploads/" + as_act + "/img" + "/" + filename;
             CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
 
             // 判斷 Server 上檔案名稱是否有重覆情況，有的話必須進行更名
@@ -413,11 +477,32 @@ namespace Web.S02
             try
             {
                 imgUpload.SaveAs(serverFilePath);
-                //Label1.Text = "檔案上傳成功";
             }
             catch (Exception ex)
             {
-                //Label1.Text = ex.Message;
+                Console.WriteLine(ex.Message);
+            }
+        }
+        #endregion
+
+        #region 刪除活動圖片目錄
+        private void deleteimg()
+        {
+            int as_act = 0;
+            as_act = act_idn;
+            String fi = (@"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/img");
+            DirectoryInfo delete_img = new DirectoryInfo(fi);
+            //判斷目錄是否存在，存在才刪除
+            if (delete_img.Exists)
+            {
+                try
+                {
+                    delete_img.Delete(true);
+                }
+                catch (System.IO.IOException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
         }
         #endregion

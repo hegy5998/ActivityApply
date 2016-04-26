@@ -313,6 +313,7 @@
     <Content Include="Scripts\Lib\assets\img\ui-sherman.jpg" />
     <Content Include="Scripts\Lib\assets\img\ui-zac.jpg" />
     <Content Include="Scripts\Lib\assets\img\weather.jpg" />
+    <Content Include="Scripts\Lib\assets\img\upload.png" />
     <Content Include="Scripts\Lib\assets\img\zoom.png" />
     <Content Include="Scripts\Lib\assets\js\bootstrap-inputmask\bootstrap-inputmask.min.js" />
     <Content Include="Scripts\Lib\assets\js\bootstrap-switch.js" />

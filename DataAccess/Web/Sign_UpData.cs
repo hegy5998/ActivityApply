@@ -41,6 +41,24 @@ namespace DataAccess.Web
             IDataParameter[] param = { Db.GetParam("@as_act", as_act), Db.GetParam("@as_idn", as_idn) };
             return Db.GetDataTable(sql, param);
         }
+
+        public DataTable GetApplyProve(int aa_idn)
+        {
+            string sql = @" SELECT  activity.act_title, 
+                                    activity_session.as_title, 
+                                    activity_session.as_date_start, 
+                                    activity_session.as_date_end, 
+                                    activity_apply.aa_name, 
+                                    activity_apply.updtime,
+                                    activity_apply.aa_email
+                            FROM    activity, activity_session, activity_apply
+                            WHERE   activity.act_idn = activity_session.as_act AND
+		                            activity_session.as_idn = activity_apply.aa_as AND
+		                            activity_session.as_act = activity_apply.aa_act AND
+		                            activity_apply.aa_idn = @aa_idn;";
+            IDataParameter[] param = { Db.GetParam("@aa_idn", aa_idn) };
+            return Db.GetDataTable(sql, param);
+        }
         #endregion
 
         #region 新增

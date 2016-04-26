@@ -18,7 +18,7 @@
     <!-- 上傳檔案 -->
     <input type="button" onclick="upload_File()" value="上傳檔案" />--%>
     <!-- 儲存活動 -->
-    <input type="button" onclick="save()" value="儲存整個活動" />
+    <input type="button" onclick="save()" value="儲存活動" />
     <!-- 檢視 -->
     <input type="button" onclick="view_Activity()" value="檢視報名表" />
     <!-- 新增問題 -->
@@ -925,7 +925,7 @@
                 }
                 else {
                     $(this).css({ "box-shadow": "" });
-                    $("#block_title_txt_error_" + id + (count + 1)).remove();
+                    $("#block_title_txt_error_" + blockId).remove();
                 }
             })
             //區塊ID加一

@@ -12,11 +12,11 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="mainContentSubFunction_cph" runat="server">
     <!-- 儲存活動 -->
-    <input type="button" onclick="save()" value="儲存整個活動" />
+    <input type="button" onclick="save()" value="儲存修改" />
     <!-- 檢視 -->
     <input type="button" onclick="view_Activity()" value="檢視報名表" />
     <!-- 新增問題 -->
-    <input id="add_qus_btn" type="button" onclick="add_Preset_Qus_Click('',null, null, null, 'text', '', false)" value="新增問題" style="display: none;" />
+    <input id="add_qus_btn" type="button" onclick="add_Preset_Qus_Click('', null, null, null, 'text', '', false)" value="新增問題" style="display: none;" />
     <!-- 新增區塊 -->
     <input id="add_block_btn" type="button" onclick="add_Block_Click('')" value="新增區塊" style="display: none;" />
     <!-- 常用欄位 -->
@@ -62,18 +62,13 @@
                         <div class="project">
                             <div class="photo-wrapper">
                                 <div class="photo">
-                                    <img class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" alt="" onclick="upload_img()" />
+                                    <img id="act_image"  class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" alt="" onclick="upload_img()" />
                                 </div>
                                 <div class="overlay"></div>
                             </div>
                         </div>
                         <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
                             <ContentTemplate>
-                                <label id="imgpath_lab">選擇圖片</label>
-                                <br />
-                                <label class="red">圖片僅限制上傳jpg、jpeg、png類型檔案</label>
-                                <br />
-                                <label class="red">大小限制為2MB</label>
                                 <asp:FileUpload ID="imgUpload" runat="server" onchange="upload_imgpath(this.value)" Style="display: none" accept=".png,.jpg,.jpeg,.gif" />
                                 <asp:Button ID="imageUpload_btn" runat="server" Style="display: none" OnClick="imageUpload_btn_Click" />
                             </ContentTemplate>
@@ -81,6 +76,13 @@
                                 <asp:PostBackTrigger ControlID="imageUpload_btn"></asp:PostBackTrigger>
                             </Triggers>
                         </asp:UpdatePanel>
+                        <label id="imgpath_lab">選擇圖片</label>
+                        <br />
+                        <input id="delete_img_btn" type="button" class="btn btn-theme" onclick="delete_img_btn_click()" value="刪除已上傳圖片" style="display:none"/>
+                        <br />
+                        <label class="red">圖片僅限制上傳jpg、jpeg、png類型檔案</label>
+                        <br />
+                        <label class="red">大小限制為2MB</label>
                     </div>
                     <div class="row"></div>
                 </div>
@@ -113,7 +115,7 @@
                                         <!-- 活動簡介，使用CKeditor -->
                                         <textarea cols="80" id="editor1" name="editor1" rows="10"></textarea>
                                         <script type="text/javascript">
-                                            CKEDITOR.replace('editor1',{});
+                                            CKEDITOR.replace('editor1', {});
                                         </script>
                                     </div>
                                 </div>
@@ -144,15 +146,16 @@
                                     <div class="col-sm-10">
                                         <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
                                             <ContentTemplate>
-                                                <input type="button" onclick="upload_file_btn()" class="btn btn-theme" value="選擇檔案"/>
+                                                <input type="button" onclick="upload_file_btn()" class="btn btn-theme" value="選擇檔案" />
                                                 <label id="filepath_lab">選擇檔案</label>
-                                                <asp:FileUpload ID="FileUpload" runat="server" onchange="upload_file(this.value)"  Style="display: none"/>
+                                                <asp:FileUpload ID="FileUpload" runat="server" onchange="upload_file(this.value)" Style="display: none" />
                                                 <asp:Button ID="btnUpload" runat="server" OnClick="btnUpload_Click1" Style="display: none" />
                                             </ContentTemplate>
                                             <Triggers>
                                                 <asp:PostBackTrigger ControlID="btnUpload"></asp:PostBackTrigger>
                                             </Triggers>
                                         </asp:UpdatePanel>
+                                        <input id="delete_file_btn" type="button" class="btn btn-theme" onclick="delete_file_btn_click()" value="刪除已上傳檔案" style="display:none"/>
                                         <br />
                                         <label class="red">僅限制上傳jpg、png、jpeg、gif、doc、docx、txt、ppt、pptx、xls、xlsx、pdf、rar、zip、7z類型檔案</label>
                                         <br />
@@ -174,7 +177,7 @@
                 <!-- 活動頁面內容_END -->
             </div>
             <!-- 活動頁面標籤_END -->
-            
+
             <!-- 活動報名表標籤_START-->
             <div class="row mt tab-pane fade" id="activityQus" role="tabpanel">
                 <!-- 新增區塊地方_START-->
@@ -313,6 +316,9 @@
         var del_acc_idn = '';
         var del_acs_idn = '';
         var del_as_idn = '';
+
+        var if_delete_file = "false";
+        var if_img_file = "false";
 
         //#region 頁面載入時自動產生問題
         $(document).ready(function () {
@@ -485,7 +491,7 @@
                                     value += val + ',';
                             })
                         }
-                        add_Preset_Qus_Click(columnInfo[count].Acc_idn,columnInfo[count].Acc_title, columnInfo[count].Acc_desc, columnInfo[count].Acc_asc, columnInfo[count].Acc_type, columnInfo[count].Acc_validation, value.split(','), required);
+                        add_Preset_Qus_Click(columnInfo[count].Acc_idn, columnInfo[count].Acc_title, columnInfo[count].Acc_desc, columnInfo[count].Acc_asc, columnInfo[count].Acc_type, columnInfo[count].Acc_validation, value.split(','), required);
                     }
                 },
                 //失敗時
@@ -506,11 +512,14 @@
             $("#contact_Person_txt").val(activityInfo[0].Act_contact_name);
             $("#contact_Person_Phone_txt").val(activityInfo[0].Act_contact_phone);
             $("#relate_Link").val(activityInfo[0].Act_relate_link);
-            if (activityInfo[0].Act_relate_file != "" &&activityInfo[0].Act_relate_file != null)
+            if (activityInfo[0].Act_relate_file != "" && activityInfo[0].Act_relate_file != null) {
                 $("#filepath_lab").text(activityInfo[0].Act_relate_file.split('/')[activityInfo[0].Act_relate_file.split('/').length - 1]);
+                $("#delete_file_btn").css({ 'display': '' });
+            }
             if (activityInfo[0].Act_image != "" && activityInfo[0].Act_image != null) {
                 $("#imgpath_lab").text(activityInfo[0].Act_image.split('/')[activityInfo[0].Act_image.split('/').length - 1]);
-                $("#img-responsive").attr("src", activityInfo[0].Act_image);
+                $("#act_image").attr("src", activityInfo[0].Act_image);
+                $("#delete_img_btn").css({ 'display': '' });
             }
         }
         function setSession(sessionInfo) {
@@ -582,7 +591,7 @@
         //#endregion
 
         //#region 新增問題分發
-        function add_Preset_Qus_Click(acc_idn,qus_Title, qus_Desc, add_Block, preset_Qus_Way, preset_Qus_validation, qus_Option, required) {
+        function add_Preset_Qus_Click(acc_idn, qus_Title, qus_Desc, add_Block, preset_Qus_Way, preset_Qus_validation, qus_Option, required) {
             //增加問題(加入區塊,是否必填)
             add_Qus_Click(add_Block, required, acc_idn);
             //增加問題內容 change_Qus_Way(問題模式,欲加入題目名稱的地方,欲加入選項的地方,欲加入題目名稱的內容,欲加入選項的第一個內容)
@@ -606,8 +615,8 @@
                 //隱藏刪除按鈕
                 $("#del_qus_btn_" + qusId).css({ 'display': 'none' });
             }
-                
-            
+
+
             //將預設文字加入選項中
             if (preset_Qus_Way != "text") {
                 var qus_Option_length = qus_Option.length;
@@ -650,7 +659,7 @@
         //#endregion
 
         //#region 新增問題
-        function add_Qus_Click(add_blockId, required,acc_idn) {
+        function add_Qus_Click(add_blockId, required, acc_idn) {
             //判斷是仔入預設問題還是新增問題
             if (add_blockId === null) {
                 //判斷區塊是否存在
@@ -673,7 +682,7 @@
                 var acc_idn_lb = '<label id="old_acc_idn_lb_' + acc_idn + '" style="display:none">' + acc_idn + '</label>';
             else
                 var acc_idn_lb = '<label id="new_acc_idn_lb_' + qusId + '" style="display:none">' + qusId + '</label>';
-            
+
             //新增問題至最後一個區塊內(預設文字問題)
             $('#add_Qus_div_' + chooseId).append('<div id="qus_div_' + qusId + '" class="form-group portlet showback" style="border: 0px; background: #ffffff;padding: 15px;margin-bottom: 15px;box-shadow: 0px 0px 2px #272727;border-radius: 20px;margin: 20px 0px 0px 1px;">' +
                                         '<div class="col-sm-1 portlet-header center" style="background-color: #F1F2F7;height:100px; width:35px">' +
@@ -713,7 +722,7 @@
                                                               '<option value="int">數字</option>' +
                                                               '<option value="date">日期</option>' +
                                                             '</select>' +
-                                                        '<a id="del_qus_btn_'+qusId+'" onclick="del_Qus_click(' + qusId + ')" type="submit" class="btn btn-theme" style="margin-left: 5px;">刪除</a>' +
+                                                        '<a id="del_qus_btn_' + qusId + '" onclick="del_Qus_click(' + qusId + ')" type="submit" class="btn btn-theme" style="margin-left: 5px;">刪除</a>' +
                                                     '</div>' +
                                                     //添加資料驗證數字最大最小值的地方
                                                     '<div class="row" id="add_Validation_div_' + qusId + '" style="margin-left: -25px;float: right;">' +
@@ -1066,13 +1075,13 @@
                 var display = "display:none";
             else
                 var display = "";
-            if (As_idn != 0) 
+            if (As_idn != 0)
                 var acc_idn_lb = '<label id="old_as_idn_lb_' + As_idn + '" style="display:none">' + As_idn + '</label>';
             else
                 var acc_idn_lb = '<label id="new_as_idn_lb_' + sessionId + '" style="display:none">' + sessionId + '</label>';
 
             //講場次新增至預設好的div裡面
-            $('#add_Session_div').append('<div class="showback" id="delete_Session_div_' + sessionId + '">' +acc_idn_lb+
+            $('#add_Session_div').append('<div class="showback" id="delete_Session_div_' + sessionId + '">' + acc_idn_lb +
                         '<div class="form-horizontal style-form">' +
 
                             '<div class="form-group">' +
@@ -1320,7 +1329,7 @@
         };
         //移除場次
         function del_Session_click(chooseId) {
-            
+
             if ($("#delete_Session_div_" + chooseId).find("[id^=old_as_idn_]").length) {
                 var if_del_session = confirm("確定刪除場次?所以場次內的報名資料會刪除!");
                 if (if_del_session == true) {
@@ -1469,65 +1478,67 @@
             //判斷資料是否正確 true:正確 false:錯誤
             check_Activity_Data = true;
             //把資料包成List
-            var jsondata = { activity_List: [], activity_Session_List: [] ,del_as_idn};
+            var jsondata = { activity_List: [], activity_Session_List: [], del_as_idn, if_delete_file, if_img_file};
             jsondata.del_as_idn = del_as_idn;
+            jsondata.if_delete_file = if_delete_file;
+            jsondata.if_img_file = if_img_file;
             //儲存活動場次資訊，迴圈依照目前場次ID做為要跑的次數
-            for (var temp = 1 ; temp < sessionId ; temp++) {
+            for (var temp = 1; temp < sessionId; temp++) {
                 //抓取場次區塊依照ID順序
-                var $delete_Session_div = $("#delete_Session_div_" + temp);
+                var $delete_Session_div = $("#delete_Session_div_" +temp);
                 //判斷這個場次區塊是否存在
                 if ($delete_Session_div.length > 0) {
-                    var session_Json_Data = {};
+                    var session_Json_Data = { };
                     //判斷是否為新場次
                     var As_idn = 0;
-                    if ($("#delete_Session_div_" + temp).find("[id^=old_as_idn_]").length) {
-                        $("#delete_Session_div_" + temp).find("[id^=old_as_idn_]").each(function () {
+                    if ($("#delete_Session_div_" +temp).find("[id^=old_as_idn_]").length) {
+                        $("#delete_Session_div_" +temp).find("[id^=old_as_idn_]").each(function () {
                             As_idn = $(this).text()
-                        })
-                    }
+            })
+            }
                     session_Json_Data.As_idn = As_idn;
                     //存入場次名稱
-                    session_Json_Data.As_title = $("#session_Name_txt_" + temp).val();
+                    session_Json_Data.As_title = $("#session_Name_txt_" +temp).val();
                     //存入場次活動開始日期
-                    session_Json_Data.As_date_start = $("#datetimepicker_Activity_Start_txt_" + temp).val();
+                    session_Json_Data.As_date_start = $("#datetimepicker_Activity_Start_txt_" +temp).val();
                     //存入場次活動結束日期
-                    session_Json_Data.As_date_end = $("#datetimepicker_Activity_End_txt_" + temp).val();
+                    session_Json_Data.As_date_end = $("#datetimepicker_Activity_End_txt_" +temp).val();
                     //存入場次活動報名開始日期
-                    session_Json_Data.As_apply_start = $("#datetimepicker_Activity_Sign_Start_txt_" + temp).val();
+                    session_Json_Data.As_apply_start = $("#datetimepicker_Activity_Sign_Start_txt_" +temp).val();
                     //存入場次活動報名結束日期
-                    session_Json_Data.As_apply_end = $("#datetimepicker_Activity_Sign_End_txt_" + temp).val();
+                    session_Json_Data.As_apply_end = $("#datetimepicker_Activity_Sign_End_txt_" +temp).val();
                     //存入場次活動地點
-                    session_Json_Data.As_position = $("#activity_Location_txt_" + temp).val();
+                    session_Json_Data.As_position = $("#activity_Location_txt_" +temp).val();
                     //存入場次活動人數限制
-                    session_Json_Data.As_num_limit = $("#activity_Limit_Num_txt_" + temp).val();
+                    session_Json_Data.As_num_limit = $("#activity_Limit_Num_txt_" +temp).val();
                     //判斷場次名不為空
                     if (!session_Json_Data.As_title) {
-                        $("#session_Name_txt_" + temp).css({ "box-shadow": "0px 0px 9px red" });
-                        if ($("#session_Name_txt_error_" + temp).length == 0)
-                            $("#session_Name_txt_" + temp).after('<em id="session_Name_txt_error_' + temp + '" class="error help-block red">必須填寫</em>');
+                        $("#session_Name_txt_" +temp).css({ "box-shadow": "0px 0px 9px red" });
+                        if ($("#session_Name_txt_error_" +temp).length == 0)
+                            $("#session_Name_txt_" +temp).after('<em id="session_Name_txt_error_' +temp + '" class="error help-block red">必須填寫</em>');
                         check_Activity_Data = false;
-                    }
-                    else {
-                        $("#session_Name_txt_" + temp).css({ "box-shadow": "" });
-                        $("#session_Name_txt_error_" + temp).remove();
-                    }
+            }
+            else {
+                        $("#session_Name_txt_" +temp).css({ "box-shadow": "" });
+                        $("#session_Name_txt_error_" +temp).remove();
+            }
                     //判斷活動地點不為空
                     if (!session_Json_Data.As_position) {
-                        $("#activity_Location_txt_" + temp).css({ "box-shadow": "0px 0px 9px red" });
-                        if ($("#activity_Location_txt_error_" + temp).length == 0)
-                            $("#activity_Location_txt_" + temp).after('<em id="activity_Location_txt_error_' + temp + '" class="error help-block red">必須填寫</em>');
+                        $("#activity_Location_txt_" +temp).css({ "box-shadow": "0px 0px 9px red" });
+                        if ($("#activity_Location_txt_error_" +temp).length == 0)
+                            $("#activity_Location_txt_" +temp).after('<em id="activity_Location_txt_error_' +temp + '" class="error help-block red">必須填寫</em>');
                         check_Activity_Data = false;
-                    }
-                    else {
-                        $("#activity_Location_txt_" + temp).css({ "box-shadow": "" });
-                        $("#sactivity_Location_txt_error_" + temp).remove();
-                    }
+            }
+            else {
+                        $("#activity_Location_txt_" +temp).css({ "box-shadow": "" });
+                        $("#sactivity_Location_txt_error_" +temp).remove();
+            }
                     //判斷報名人數限制不為空以及要是整數數字
                     var if_int = /^[0-9]*[1-9][0-9]*$/;
                     if (!session_Json_Data.As_num_limit || isNaN(session_Json_Data.As_num_limit) || !if_int.test(session_Json_Data.As_num_limit)) {
-                        $("#activity_Limit_Num_txt_" + temp).css({ "box-shadow": "0px 0px 9px red" });
-                        if ($("#activity_Limit_Num_txt_error_" + temp).length == 0)
-                            $("#activity_Limit_Num_txt_" + temp).after('<em id="activity_Limit_Num_txt_error_' + temp + '" class="error help-block red">必須填寫整數數字</em>');
+                        $("#activity_Limit_Num_txt_" +temp).css({ "box-shadow": "0px 0px 9px red" });
+                        if ($("#activity_Limit_Num_txt_error_" +temp).length == 0)
+                            $("#activity_Limit_Num_txt_" +temp).after('<em id="activity_Limit_Num_txt_error_' +temp + '" class="error help-block red">必須填寫整數數字</em>');
                         check_Activity_Data = false;
                     }
                     else {
@@ -1679,11 +1690,11 @@
             //區塊順序初始化
             var block_asc = 1;
             //迴圈依照blockID 判斷要跑幾次
-            for (var add_Qus_count = 1 ; add_Qus_count < blockId ; add_Qus_count++) {
+            for (var add_Qus_count = 1; add_Qus_count < blockId; add_Qus_count++) {
                 //抓取現在block的資訊
-                var $block_div = $("#block_div_" + add_Qus_count);
+                var $block_div = $("#block_div_" +add_Qus_count);
                 //抓取新增問題地方的資訊
-                var $add_Qus_div = $("#add_Qus_div_" + add_Qus_count);
+                var $add_Qus_div = $("#add_Qus_div_" +add_Qus_count);
                 //判斷block是否存在
                 if ($block_div.length > 0) {
                     //問題順序初始化
@@ -1692,36 +1703,36 @@
                     var $qus_sortable = $add_Qus_div.sortable("toArray");
                     //抓取現在的block的ID並進行切割取得純數字ID
                     var choose_blockId_temp = $block_div.attr("id");
-                    var choose_blockId = choose_blockId_temp.split("_")[choose_blockId_temp.split("_").length - 1];
+                    var choose_blockId = choose_blockId_temp.split("_")[choose_blockId_temp.split("_").length -1];
                     //依照陣列長度判斷是否有問題存在
                     if ($qus_sortable.length > 0) {
                         //如果陣列裡有問題則把紅色陰影去掉
-                        $("#block_div_" + choose_blockId).css({ "box-shadow": "" });
-                        var activity_Section_Json_Data = {};
+                        $("#block_div_" +choose_blockId).css({ "box-shadow": "" });
+                        var activity_Section_Json_Data = { };
                         //判斷block是否有標題
-                        if ($.trim($("#block_title_txt_" + choose_blockId).val()) == "") {
-                            $("#block_title_txt_" + choose_blockId).css({ "box-shadow": "0px 0px 9px red" });
-                            if ($("#block_title_txt_error_" + choose_blockId).length == 0)
-                                $("#block_title_txt_" + choose_blockId).after('<em id="block_title_txt_error_' + choose_blockId + '" class="error help-block red"><h6>必須填寫</h6></em>');
+                        if ($.trim($("#block_title_txt_" +choose_blockId).val()) == "") {
+                            $("#block_title_txt_" +choose_blockId).css({ "box-shadow": "0px 0px 9px red" });
+                            if ($("#block_title_txt_error_" +choose_blockId).length == 0)
+                                $("#block_title_txt_" +choose_blockId).after('<em id="block_title_txt_error_' +choose_blockId + '" class="error help-block red"><h6>必須填寫</h6></em>');
                             check_Activity_Column_Data = false;
-                        }
-                        else {
-                            $("#block_title_txt_" + choose_blockId).css({ "box-shadow": "" });
-                            $("#block_title_txt_error_" + choose_blockId).remove();
+            }
+            else {
+                            $("#block_title_txt_" +choose_blockId).css({ "box-shadow": "" });
+                            $("#block_title_txt_error_" +choose_blockId).remove();
                             //if (checkData != 0) checkData = 1;
-                        }
+            }
                         //判斷區塊是否為新
                         var Acs_idn = 0;
-                        if ($("#block_div_" + choose_blockId).find("[id^=old_acs_idn_]").length) {
-                            $("#block_div_" + choose_blockId).find("[id^=old_acs_idn_]").each(function () {
+                        if ($("#block_div_" +choose_blockId).find("[id^=old_acs_idn_]").length) {
+                            $("#block_div_" +choose_blockId).find("[id^=old_acs_idn_]").each(function () {
                                 Acs_idn = $(this).text()
-                            })
-                        }
+            })
+            }
                         activity_Section_Json_Data.Acs_idn = Acs_idn;
                         //儲存block名稱
-                        activity_Section_Json_Data.Acs_title = $("#block_div_" + choose_blockId).find("#block_title_txt_" + choose_blockId).val();
+                        activity_Section_Json_Data.Acs_title = $("#block_div_" +choose_blockId).find("#block_title_txt_" +choose_blockId).val();
                         //儲存block描述
-                        activity_Section_Json_Data.Acs_desc = $("#block_div_" + choose_blockId).find("#block_Description_txt_" + choose_blockId).val();
+                        activity_Section_Json_Data.Acs_desc = $("#block_div_" +choose_blockId).find("#block_Description_txt_" +choose_blockId).val();
                         //儲存block順序
                         activity_Section_Json_Data.Acs_seq = block_asc;
                         //將block資料push到jsondata的activity_Section[]裡面
@@ -1730,25 +1741,25 @@
                         for (var qus_count = 0; qus_count < $qus_sortable.length; qus_count++) {
                             var activity_Column_Json_Data = new Object;
                             //獲得這個問題的純數字ID
-                            var chooseId_temp = $("#" + $qus_sortable[qus_count]).attr("id");
-                            var chooseId = chooseId_temp.split("_")[chooseId_temp.split("_").length - 1];
+                            var chooseId_temp = $("#" +$qus_sortable[qus_count]).attr("id");
+                            var chooseId = chooseId_temp.split("_")[chooseId_temp.split("_").length -1];
                             //判斷是否為題目或舊題目
                             var acc_idn = 0;
-                            if ($("#qus_div_" + chooseId).find("[id^=old_acc_idn_lb_]").length) {
-                                $("#qus_div_" + chooseId).find("[id^=old_acc_idn_lb_]").each(function () {
+                            if ($("#qus_div_" +chooseId).find("[id^=old_acc_idn_lb_]").length) {
+                                $("#qus_div_" +chooseId).find("[id^=old_acc_idn_lb_]").each(function () {
                                     acc_idn = $(this).text()
-                                })
-                            }
+            })
+            }
                             activity_Column_Json_Data.Acc_idn = acc_idn;
                             //判斷問題是否有標題
-                            if ($.trim($("#qus_txt_" + chooseId).val()) == "") {
-                                $("#qus_txt_" + chooseId).css({ "box-shadow": "0px 0px 9px red" });
-                                if ($("#qus_txt_error_" + chooseId).length == 0)
-                                    $("#qus_txt_" + chooseId).after('<em id="qus_txt_error_' + chooseId + '" class="error help-block red">必須填寫</em>');
+                            if ($.trim($("#qus_txt_" +chooseId).val()) == "") {
+                                $("#qus_txt_" +chooseId).css({ "box-shadow": "0px 0px 9px red" });
+                                if ($("#qus_txt_error_" +chooseId).length == 0)
+                                    $("#qus_txt_" +chooseId).after('<em id="qus_txt_error_' +chooseId + '" class="error help-block red">必須填寫</em>');
                                 check_Activity_Column_Data = false;
-                            }
-                            else {
-                                $("#qus_txt_" + chooseId).css({ "box-shadow": "" });
+            }
+            else {
+                                $("#qus_txt_" +chooseId).css({ "box-shadow": "" });
                                 $("#qus_txt_error_" + chooseId).remove();
                             }
                             //儲存題目名稱
@@ -1890,8 +1901,10 @@
                     //設定上傳圖片檔名
                     $('#imgpath_lab').text(path);
             }
-            else
+            else if (activityInfo[0].Act_image.split('/')[activityInfo[0].Act_image.split('/').length - 1] != "")
                 $('#imgpath_lab').text(activityInfo[0].Act_image.split('/')[activityInfo[0].Act_image.split('/').length - 1]);
+            else
+                $('#imgpath_lab').text("選擇圖片");
         }
         //判斷使用者所選的檔案格式        
         function upload_file_btn() {
@@ -1911,10 +1924,37 @@
                 else
                     $("#filepath_lab").text(path);
             }
-            else
+            else if (activityInfo[0].Act_relate_file.split('/')[activityInfo[0].Act_relate_file.split('/').length - 1] != "")
                 $("#filepath_lab").text(activityInfo[0].Act_relate_file.split('/')[activityInfo[0].Act_relate_file.split('/').length - 1]);
+            else
+                $("#filepath_lab").text("選擇檔案");
         }
         //#endregion
+
+        //#region 是否刪除已上傳圖片
+        function delete_img_btn_click() {
+            var if_deleteimg = confirm("確定要刪除圖片檔案?");
+            if (if_deleteimg == true) {
+                activityInfo[0].Act_image = "";
+                $("#<%=imgUpload.ClientID %>").val("");
+                if_img_file = "true";
+                $("#imgpath_lab").text("選擇檔案");
+                $("#delete_img_btn").css({ 'display': 'none' });
+            }
+        }
+        //#endregion
+
+        //#region 是否刪除已上傳檔案
+        function delete_file_btn_click() {
+            var if_deletefile = confirm("確定要刪除附加檔案?");
+            if (if_deletefile == true) {
+                activityInfo[0].Act_relate_file = "";
+                $("#<%=FileUpload.ClientID %>").val("");
+                if_delete_file = "true";
+                $("#filepath_lab").text("選擇檔案");
+                $("#delete_file_btn").css({ 'display': 'none' });
+            }
+        }
     </script>
     <!-- JavaScript_END-->
 </asp:Content>

@@ -19,71 +19,73 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="baseContent_cph" runat="server">
-    <div class="row mt">
-        <div class="row mt">
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 desc">
-                <div class="project-wrapper" style="margin-bottom: 16px;">
-                    <div class="project">
-                        <div class="photo-wrapper">
-                            <div class="photo">
-                                <a data-toggle="modal" href="#myModal">
-                                    <img id="act_image" class="img-responsive" src="assets/img/fcu.jpg" /></a>
-                            </div>
-                            <div class="overlay"></div>
+    <div class="row mt" id="dispaly_div" style="display: none;margin-top: 15px;">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 desc">
+            <div class="project-wrapper" style="margin-bottom: 16px;">
+                <div class="project">
+                    <div class="photo-wrapper" style="background-image: url(../Scripts/Lib/assets/img/zoom.png)">
+                        <div class="photo">
+                            <a data-toggle="modal" href="#myModal">
+                                <img id="act_image" class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" />
+                            </a>
                         </div>
+                        <div class="overlay"></div>
                     </div>
-                </div>
-
-                <div class="showback">
-                    <h3>短網址</h3>
-                    <a id="short_link" href="#" target="_blank"></a>
-                </div>
-
-                <div class="photo">
-                    <a class="thumbnail">
-                        <img id="QRcode" class="imp-responsive" src="assets/img/qrcodetest.png" alt="" /></a>
                 </div>
             </div>
 
-            <!-- 活動頁面右半邊 -->
-            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 dexc">
-                <!-- 活動資訊 -->
-                <div class="showback">
-                    <label class="control-label">主辦單位</label>
-                    <br />
-                    <label id="unit"></label>
-                    <hr />
+            <div class="showback">
+                <h3>短網址</h3>
+                <a id="short_link" href="#" target="_blank"></a>
+            </div>
 
-                    <label class="control-label">聯絡資訊</label>
-                    <br />
-                    <label id="contact_name"></label>
-                    <br />
-                    <label id="contact_phone"></label>
-                    <hr />
+            <div class="photo">
+                <a class="thumbnail">
+                    <img id="QRcode" class="imp-responsive" src="assets/img/qrcodetest.png" alt="" /></a>
+            </div>
+        </div>
 
-                    <label class="control-label">活動簡介</label>
-                    <br />
+        <!-- 活動頁面右半邊 -->
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 dexc">
+            <!-- 活動資訊 -->
+            <div class="showback">
+                <label class="control-label">活動名稱</label>
+                <br />
+                <label id="act_title"></label>
+                <hr />
+                <label class="control-label">主辦單位</label>
+                <br />
+                <label id="unit"></label>
+                <hr />
+                <label class="control-label">聯絡資訊</label>
+                <br />
+                <label id="contact_name"></label>
+                <br />
+                <label id="contact_phone"></label>
+                <hr />
 
-                    <!-- 設定活動簡介大小，超出變成卷軸 -->
-                    <div style="width:auto;height:400px;overflow-x:auto;overflow-y:auto;background-color:white;">
-                        <asp:Label ID="Act_desc_lbl" runat="server" Text="Label" ></asp:Label>
-                    </div>
-                    <hr />
+                <label class="control-label">活動簡介</label>
+                <br />
 
-                    <label class="control-label">附加檔案</label>
-                    <br />
-                    <a id="relate_File" href="http://localhost:33206/Uploads/13/relateFile/S23060101.pdf">下載</a>
-                    <hr />
-
-                    <label class="control-label">相關連結</label>
-                    <br />
-                    <a id="relate_link" href="#" target="_blank"></a>
-                    <hr />
+                <!-- 設定活動簡介大小，超出變成卷軸 -->
+                <div id="desc_div" style="width: auto; height: auto; overflow-x: auto; overflow-y: auto; background-color: white;">
+                    <asp:Label ID="Act_desc_lbl" runat="server" Text="Label"></asp:Label>
                 </div>
+                <hr />
 
-                <div class="row" id="add_Session_div">
-                    <!-- 加入場次地方 -->
-                </div>
+                <label class="control-label">附加檔案</label>
+                <br />
+                <a id="relate_File" href="http://localhost:33206/Uploads/13/relateFile/S23060101.pdf">下載</a>
+                <hr />
+
+                <label class="control-label">相關連結</label>
+                <br />
+                <a id="relate_link" href="#" target="_blank">活動資訊</a>
+                <hr />
+            </div>
+
+            <div class="row" id="add_Session_div">
+                <!-- 加入場次地方 -->
             </div>
         </div>
     </div>
@@ -93,7 +95,7 @@
         <div class="modal-dialog" style="display: inline-block; width: auto;">
             <div class="modal-content">
                 <div class="modal-body">
-                    <img id="act_image_modal" class="img-responsive" src="assets/img/fcu.jpg"/>
+                    <img id="act_image_modal" class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" />
                 </div>
             </div>
         </div>
@@ -106,6 +108,12 @@
             getActivityList();
             //產生場次
             getSessionList();
+            //等資活動訊載入完才一次顯示資料
+            $("#dispaly_div").css({ 'display': '' });
+            //判斷活動簡介內容高度超過300px變成卷軸式
+            var obheight = 300;//超過容器高度自動捲軸
+            var mc = $("#desc_div").height();
+            if (mc > obheight) $("#desc_div").height(obheight + 'px');
         })
 
         // #region 產生活動資訊
@@ -160,7 +168,8 @@
             //轉換活動資訊的JSON字串成JSON物件
             var ActivityInfo = JSON.parse(ActivityInfo);
             var act_title = ActivityInfo[0].Act_title;
-
+            //設定活動標題
+            $("#act_title").text(ActivityInfo[0].Act_title);
             //設定主辦單位
             $("#unit").text(ActivityInfo[0].Act_unit);
             //設定聯絡人
@@ -174,9 +183,9 @@
             //設定QRcode圖片
             $("#QRcode").attr("src", ActivityInfo[0].Act_short_link + ".qr");
             //設定相關連結，如果沒有則不顯示
-            if (ActivityInfo[0].Act_relate_link != null){
+            if (ActivityInfo[0].Act_relate_link != null) {
                 $("#relate_link").attr("href", ActivityInfo[0].Act_relate_link);
-                $("#relate_link").html(ActivityInfo[0].Act_relate_link);
+                //$("#relate_link").html(ActivityInfo[0].Act_relate_link);
             }
             else
                 $("#relate_link").remove();
@@ -191,7 +200,7 @@
                 $("#act_image").attr("src", ActivityInfo[0].Act_image);
                 $("#act_image_modal").attr("src", ActivityInfo[0].Act_image);
             }
-                
+
         }
         //#endregion
 
@@ -215,8 +224,20 @@
                                              <a id="apply_btn_' + count + '" href="S02010105.aspx?sys_id=S02&sys_pid=S02010105&act_idn=' + SessionInfo[count].as_act + '&as_idn=' + SessionInfo[count].as_idn + '" class="btn btn-theme btn-lg" role="button">我要報名</a>\
                                          </div>');
                 if (SessionInfo[count].as_num_limit == SessionInfo[count].apply_num) {
-                    $("#apply_btn_" + count).attr("href", 'javascript:void(0)');
                     $("#apply_btn_" + count).html("名額已滿");
+                }
+                //將時間字串轉成DateTime格式
+                var apply_end = new Date(dateReviver(SessionInfo[count].as_apply_end));
+                var date_end = new Date(dateReviver(SessionInfo[count].as_date_end));
+                //取得目前時間
+                var NowDate = new Date();
+                //判斷報名結束時間是否結束
+                if (apply_end < NowDate) {
+                    $("#apply_btn_" + count).html("報名日期截止");
+                }
+                //判斷活動是否結束
+                if (date_end < NowDate) {
+                    $("#apply_btn_" + count).html("活動已結束");
                 }
             }
         }

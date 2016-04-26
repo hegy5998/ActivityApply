@@ -18,7 +18,6 @@ namespace BusinessLayer.S02
     public class S020102BL : BaseBL
     {
         ActivityData _data = new ActivityData();
-        ActivityData _activitydata = new ActivityData();
         Activity_sessionData _sessiondata = new Activity_sessionData();
         Activity_applyData _applydata = new Activity_applyData();
         Activity_columnData _columnData = new Activity_columnData();

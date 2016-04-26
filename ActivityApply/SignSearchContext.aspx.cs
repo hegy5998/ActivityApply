@@ -42,7 +42,6 @@ namespace ActivityApply
         protected void Page_Load(object sender, EventArgs e)
         {
             Session.Remove("aa_idn");
-
             if (!IsPostBack)
             {
                 BindGridView(GetData(true));
@@ -103,10 +102,11 @@ namespace ActivityApply
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
+                e.Row.Cells[2].Style.Add("word-break", "break-all");
                 GridViewRow gvr = e.Row;
                 Label As_date_end_hf = gvr.FindControl("As_date_end_lbl") as Label;
                 DateTime dt = Convert.ToDateTime(As_date_end_hf.Text);
-                // 顯示主廚、共廚為同間學校的新增按鈕
+                
                 DateTime currentTime = new DateTime();
                 currentTime = DateTime.Now;
                 
@@ -145,7 +145,7 @@ namespace ActivityApply
             //抓取報名人姓名
             HiddenField Aa_name_hf = main_gv.Rows[rowIndex].FindControl("Aa_name_hf") as HiddenField;
             //抓取活動標題隱藏欄位
-            Label Act_title_lbl = main_gv.Rows[rowIndex].FindControl("Act_title_lbl") as Label;
+            HiddenField Act_title_lbl = main_gv.Rows[rowIndex].FindControl("Act_title_lbl") as HiddenField;
             switch (e.CommandName)
             {
                 case "Custom_Edit"://修改報名資料
@@ -155,7 +155,7 @@ namespace ActivityApply
                     act_idn = Act_idn_hf.Value;
                     as_idn = As_idn_hf.Value;
                     act_class = Act_class_hf.Value;
-                    act_title = Act_title_lbl.Text;
+                    act_title = Act_title_lbl.Value;
                     aa_idn = Aa_idn_hf.Value;
                     //設定使用者選擇了修改
                     gridview_event = "edit";
@@ -167,7 +167,7 @@ namespace ActivityApply
                     act_idn = Act_idn_hf.Value;
                     as_idn = As_idn_hf.Value;
                     act_class = Act_class_hf.Value;
-                    act_title = Act_title_lbl.Text;
+                    act_title = Act_title_lbl.Value;
                     aa_idn = Aa_idn_hf.Value;
                     name = Aa_name_hf.Value;
                     //設定使用者選擇了刪除

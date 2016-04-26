@@ -45,6 +45,9 @@
     <Reference Include="BusinessLayerBase">
       <HintPath>..\BusinessLayer\Lib\BusinessLayerBase.dll</HintPath>
     </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="DataAccessBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DataAccess\Lib\DataAccessBase.dll</HintPath>
@@ -92,6 +95,7 @@
     <Content Include="assets\img\12767525_955825364513665_1121294852_n.jpg" />
     <Content Include="assets\img\blog-bg.jpg" />
     <Content Include="assets\img\checkbox-gray.png" />
+    <Content Include="assets\img\drag_pic.jpg" />
     <Content Include="assets\img\fcu.jpg" />
     <Content Include="assets\img\friends\fr-01.jpg" />
     <Content Include="assets\img\friends\fr-02.jpg" />
@@ -104,6 +108,7 @@
     <Content Include="assets\img\friends\fr-09.jpg" />
     <Content Include="assets\img\friends\fr-10.jpg" />
     <Content Include="assets\img\friends\fr-11.jpg" />
+    <Content Include="assets\img\ic_list.png" />
     <Content Include="assets\img\instagram.jpg" />
     <Content Include="assets\img\login-bg.jpg" />
     <Content Include="assets\img\lorde.jpg" />
@@ -184,7 +189,6 @@
     <Content Include="Global.asax" />
     <Content Include="activity_List.aspx" />
     <Content Include="activity_List.html" />
-    <Content Include="images\Bulletin_Board.jpg" />
     <Content Include="index.aspx" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -225,6 +229,12 @@
     </Compile>
     <Compile Include="activity.aspx.designer.cs">
       <DependentUpon>activity.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="applyProve.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>applyProve.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -329,6 +339,18 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="applyProve.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>applyProve.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="images\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

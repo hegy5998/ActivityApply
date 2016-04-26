@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true" CodeBehind="Sign_Up.aspx.cs" Inherits="ActivityApply.Sign_Up" %>
+<%@ Register Assembly="CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead" runat="server">
     <link href="<%=ResolveUrl("~/assets/css/jquery.steps.css")%>" rel="stylesheet" type="text/css" />
@@ -83,7 +84,8 @@
                     <h3>報名完成</h3>
                     <section>
                         <h3><i class="fa fa-angle-right"></i>報名完成</h3>
-                        <div id="finish_div" class="col-sm-8 form-panel">                            
+                        <div id="finish_div" class="col-sm-8 form-panel"> 
+                            <asp:Button runat="server" ID="print_btn" OnClick="print_ApplyProve" Text="下載報名證明" CssClass="btn btn-theme" />
                         </div>
                     </section>
                 </div>
@@ -95,6 +97,7 @@
         var sectionList;
         var questionList;
         var email;
+        var signFlag = false;
         
         $(document).ready(function () {
             var funcList = [getSectionList,
@@ -128,18 +131,29 @@
                     }
                     if (currentIndex === 2 && newIndex === 3) {
                         if ($("#form1").valid()) {
-                            SavePassword();
-                            SaveUserData();
-                            Add_Finish();
-                            return true;
+                            if (!signFlag) {
+                                if (!SavePassword()) {
+                                    alert("報名錯誤，請稍後再試！");
+                                    return false;
+                                }
+                            }
+                            if (SaveUserData()) {
+                                Add_Finish();
+                                return true;
+                            }
+                            else {
+                                alert("報名錯誤，請稍後再試！");
+                            }                            
                         }
                     }
                     return false;
                 },
                 onStepChanged: function (event, currentIndex, priorIndex) {
                     if (currentIndex === 2) {
-                        if (isSignUp())
+                        if (isSignUp()) {
+                            signFlag = true;
                             form.steps("next");
+                        }
                         else {
                             Add_SetPwd();
                             $("#password").rules("add", { required: true, minlength: 4 });
@@ -425,6 +439,7 @@
         //#endregion
         //#region 儲存使用者資料(POST)
         function SaveUserData() {
+            var res;
             var detailList = { userData: [] };
             for (var i = 0; i < questionList.length; i++) {
                 var detailJson = {}
@@ -441,15 +456,18 @@
                 data: JSON.stringify(detailList),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
+                async: false,
                 //成功時
                 success: function (result) {
+                    res = result.d;
                 },
                 //失敗時
                 error: function () {
                     alert("失敗!!!!");
-                    return false;
+                    res = false;
                 }
             });
+            return res;
         }
         //#endregion
         /* 設定密碼 */
@@ -479,7 +497,7 @@
                 //失敗時
                 error: function () {
                     alert("失敗!!!!");
-                    return false;
+                    res = false;
                 }
             });
             return res;
@@ -511,7 +529,8 @@
         }
         //#endregion
         //#region 儲存密碼
-        function SavePassword() {            
+        function SavePassword() {
+            var res;
             var password = $('input[name="password"]').val();
             var data = { Activity_apply_emailInfo: [] };
             var detailJson = {};
@@ -529,25 +548,28 @@
                 async: false,
                 //成功時
                 success: function (result) {
+                    res = result.d;
                 },
                 //失敗時
                 error: function () {
                     alert("儲存密碼錯誤!");
-                    return false;
+                    res =  false;
                 }
             });
+            return res;
         }
         //#endregion
         
         /* 報名完成 */
         //#region 新增報名完成提示
         function Add_Finish() {
-            $('#finish_div').append(Finish_Code());
+            $('#finish_div').prepend(Finish_Code());
         }
         //#endregion
         //#region 報名完成提示程式碼
         function Finish_Code() {
-            var code = '<label>報名完成，請至電子信箱查看報名成功確認信！</label>';
+            var code = '<p>報名完成，請至電子信箱查看報名成功確認信！</p>\
+                        <p>如有需要可自行下載活動證明</p>';
             return code;
         }
         //#endregion

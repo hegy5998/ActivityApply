@@ -71,6 +71,7 @@
     <Compile Include="S01\UCProcessSubFuncAuthManagerData.cs" />
     <Compile Include="S01\UCRoleUnitManagerData.cs" />
     <Compile Include="S01\UCRoleUnitManagerPositionData.cs" />
+    <Compile Include="S02\S020104Data.cs" />
     <Compile Include="S02\S020103Data.cs" />
     <Compile Include="S02\S020101Data.cs" />
     <Compile Include="Sys_accountData.cs" />

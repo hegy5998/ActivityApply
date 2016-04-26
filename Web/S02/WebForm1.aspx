@@ -11,6 +11,10 @@
 </head>
 
 <body>
+    <form runat="server">
+        <asp:Button ID="Button1" runat="server" Text="Button" OnClick="Button1_Click"/>
+    </form>
+    
 <ul id="myMenu">
     <li data-menuanchor="firstPage" class="active"><a href="#firstPage">First section</a></li>
     <li data-menuanchor="secondPage"><a href="#secondPage">Second section</a></li>

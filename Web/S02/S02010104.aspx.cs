@@ -5,6 +5,7 @@ using Model;
 using Newtonsoft.Json;
 using System.Data;
 using System.Web;
+using BusinessLayer.S01;
 
 namespace Web.S02
 {
@@ -33,7 +34,7 @@ namespace Web.S02
         [System.Web.Services.WebMethod]
         public static string getSessionList()
         {
-            activityBL _bl = new activityBL();
+            S020104BL _bl = new S020104BL();
             DataTable sessionList = _bl.GetSessionList(ACTIVITY);
             string json_data = JsonConvert.SerializeObject(sessionList);
             return json_data;

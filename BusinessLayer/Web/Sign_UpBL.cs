@@ -42,7 +42,13 @@ namespace BusinessLayer.Web
             return _emaildata.getPassword(aae_email);
         }
         #endregion
-
+        
+        #region 取得活動證明資訊
+        public DataTable GetApplyProve(int aa_idn)
+        {
+            return _data.GetApplyProve(aa_idn);
+        }
+        #endregion
         #endregion
 
         #region  --新增--
