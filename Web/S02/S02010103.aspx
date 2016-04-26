@@ -313,20 +313,28 @@
         //儲存區塊
         var sectionInfo;
 
+        //刪除的問題
         var del_acc_idn = '';
+        //刪除的區塊
         var del_acs_idn = '';
+        //刪除的場次
         var del_as_idn = '';
-
+        //是否刪除已上傳附加檔案
         var if_delete_file = "false";
+        //是否刪除已上傳活動圖片
         var if_img_file = "false";
 
         //#region 頁面載入時自動產生問題
         $(document).ready(function () {
             //設定分類下拉選單資料
             getClass();
+            //抓取活動資訊
             getActivity();
+            //抓取場次資訊
             getSession();
+            //抓取區塊資訊
             getSection();
+            //抓取題目資訊
             getColumn();
             //活動名稱判斷是否填寫
             $("#activity_Name_txt").blur(function () {
@@ -547,43 +555,42 @@
                 if ($(this).attr('checked')) {
                     switch ($(this).val()) {
                         case "姓名":
-                            add_Preset_Qus_Click("姓名", "請填寫完整名字", null, "text", "", [], true);
+                            add_Preset_Qus_Click('',"姓名", "請填寫完整名字", null, "text", "", [], true);
                             break;
                         case "身份證字號":
-                            add_Preset_Qus_Click("身份證字號", "英文字母請大寫", null, "text", "idNumber", [], true);
+                            add_Preset_Qus_Click('', "身份證字號", "英文字母請大寫", null, "text", "idNumber", [], true);
                             break;
                         case "出生年月日":
-                            add_Preset_Qus_Click("出生年月日", "ex:83/07/08", null, "text", "", [], true);
+                            add_Preset_Qus_Click('', "出生年月日", "ex:83/07/08", null, "text", "", [], true);
                             break;
                         case "服務單位":
-                            add_Preset_Qus_Click("服務單位", "請填寫完整名稱", null, "text", "", [], true);
+                            add_Preset_Qus_Click('', "服務單位", "請填寫完整名稱", null, "text", "", [], true);
                             break;
                         case "信箱Email":
-                            add_Preset_Qus_Click("信箱Email", "請填寫正確格式", null, "text", "email", [], true);
+                            add_Preset_Qus_Click('', "信箱Email", "請填寫正確格式", null, "text", "email", [], true);
                             break;
                         case "聯絡電話":
-                            add_Preset_Qus_Click("聯絡電話", "可填手機或是家裡電話", null, "text", "", [], true);
+                            add_Preset_Qus_Click('', "聯絡電話", "可填手機或是家裡電話", null, "text", "", [], true);
                             break;
                         case "公司電話":
-                            add_Preset_Qus_Click("公司電話", null, null, "text", "", [], false);
+                            add_Preset_Qus_Click('', "公司電話", null, null, "text", "", [], false);
                             break;
                         case "傳真":
-                            add_Preset_Qus_Click("傳真", null, null, "text", "", [], false);
+                            add_Preset_Qus_Click('', "傳真", null, null, "text", "", [], false);
                             break;
                         case "用餐":
-                            add_Preset_Qus_Click("用餐", null, null, "singleSelect", "", ["葷", "素", "不用餐"], true);
+                            add_Preset_Qus_Click('', "用餐", null, null, "singleSelect", "", ["葷", "素", "不用餐"], true);
                             break;
                         case "聯絡地址":
-                            add_Preset_Qus_Click("聯絡地址", "請填寫您收的到信的地址", null, "text", "", [], true);
+                            add_Preset_Qus_Click('', "聯絡地址", "請填寫您收的到信的地址", null, "text", "", [], true);
                             break;
                         case "職稱":
-                            add_Preset_Qus_Click("職稱", null, null, "text", "", [], true);
+                            add_Preset_Qus_Click('', "職稱", null, null, "text", "", [], true);
                             break;
                         case "備註":
-                            add_Preset_Qus_Click("備註", "若您有其他的問題,可以在此說明 ", null, "text", "", [], false);
+                            add_Preset_Qus_Click('', "備註", "若您有其他的問題,可以在此說明 ", null, "text", "", [], false);
                             break;
                     }
-                    //alert($(this).val());
                     $(this).prop("checked", false);
                 }
             });
@@ -800,7 +807,7 @@
                         acc_idn = $(this).text()
                     })
                     del_acc_idn += acc_idn + ',';
-                    alert(del_acc_idn);
+                    //alert(del_acc_idn);
                     $('#qus_div_' + chooseId).remove();
                 }
             }
@@ -813,13 +820,13 @@
         function change_Qus_Way(qus_way_int, chooseId, temp_change_Qus_Way_div, temp_change_Qus_Content_div, qus_Title_Value, qus_Desc, present_Qus_Option) {
             //判斷題目模式
             if (qus_way_int == "singleSelect")
-                var qus_title = "單選問題";
+                var qus_title = "單選標題";
             else if (qus_way_int == "multiSelect")
-                var qus_title = "多選問題";
+                var qus_title = "多選標題";
             else if (qus_way_int == "text")
-                var qus_title = "文字問題";
+                var qus_title = "文字標題";
             else if (qus_way_int == "dropDownList")
-                var qus_title = "選單問題";
+                var qus_title = "選單標題";
             //判斷是否有填入的題目名稱
             if (qus_Title_Value == null)
                 var title_Value = "";
@@ -952,7 +959,7 @@
                 if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#qus_Option_error_" + id + (count + 1)).length == 0)
-                        $(this).after('<em id="qus_Option_error_' + id + (count + 1) + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">必須填寫</em>');
+                        $(this).after('<em id="qus_Option_error_' + id + (count + 1) + '" class="error help-block red" style="width: 150px;margin-bottom: 5px;">必須填寫</em>');
                     check_Activity_Column_Data = false;
                 }
                 else {
@@ -1044,12 +1051,12 @@
                         Acs_idn = $(this).text()
                     })
                     del_acs_idn += Acs_idn + ',';
-                    alert(del_acs_idn);
+                    //alert(del_acs_idn);
 
                     $("#add_Qus_div_" + chooseId).find("[id^=old_acc_idn_lb_]").each(function () {
                         del_acc_idn += $(this).text() + ',';
                     })
-                    alert(del_acc_idn);
+                    //alert(del_acc_idn);
                     $('#block_div_' + chooseId).remove();
                 }
             }
@@ -1338,7 +1345,7 @@
                         As_idn = $(this).text()
                     })
                     del_as_idn += As_idn + ',';
-                    alert(del_as_idn);
+                    //alert(del_as_idn);
                     $('#delete_Session_div_' + chooseId).remove();
                 }
             }
@@ -1933,7 +1940,7 @@
 
         //#region 是否刪除已上傳圖片
         function delete_img_btn_click() {
-            var if_deleteimg = confirm("確定要刪除圖片檔案?");
+            var if_deleteimg = confirm("確定要刪除已上傳的活動圖片?");
             if (if_deleteimg == true) {
                 activityInfo[0].Act_image = "";
                 $("#<%=imgUpload.ClientID %>").val("");
@@ -1946,7 +1953,7 @@
 
         //#region 是否刪除已上傳檔案
         function delete_file_btn_click() {
-            var if_deletefile = confirm("確定要刪除附加檔案?");
+            var if_deletefile = confirm("確定要刪除已上傳的附加檔案?");
             if (if_deletefile == true) {
                 activityInfo[0].Act_relate_file = "";
                 $("#<%=FileUpload.ClientID %>").val("");

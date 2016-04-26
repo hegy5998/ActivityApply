@@ -75,7 +75,7 @@
 
                 <label class="control-label">附加檔案</label>
                 <br />
-                <a id="relate_File" href="http://localhost:33206/Uploads/13/relateFile/S23060101.pdf">下載</a>
+                <a id="relate_File" href="http://localhost:33206/Uploads/13/relateFile/S23060101.pdf" target="_blank">下載</a>
                 <hr />
 
                 <label class="control-label">相關連結</label>
@@ -210,6 +210,10 @@
             var SessionInfo = JSON.parse(SessionInfo);
             //產生場次
             for (var count = 0 ; count < SessionInfo.length ; count++) {
+                if ((SessionInfo[count].as_num_limit - SessionInfo[count].apply_num) < 0)
+                    SessionInfo[count].apply_num = 0;
+                else
+                    SessionInfo[count].apply_num = SessionInfo[count].as_num_limit - SessionInfo[count].apply_num;
                 $("#add_Session_div").append('<div class="showback">\
                                              <label class="session-control-label" id="as_title_">'+ SessionInfo[count].as_title + '</label>\
                                              <br />\
@@ -219,11 +223,11 @@
                                              <br />\
                                              <label class="session-control-label-context" id="as_apply_">報名日期：' + dateReviver(SessionInfo[count].as_apply_start) + ' ~ ' + dateReviver(SessionInfo[count].as_apply_end) + '</label>\
                                              <br />\
-                                             <label class="session-control-label-context" id="as_numlimit_">剩餘/限制人數：' + (SessionInfo[count].as_num_limit - SessionInfo[count].apply_num) + '/' + SessionInfo[count].as_num_limit + '人</label>\
+                                             <label class="session-control-label-context" id="as_numlimit_">剩餘/限制人數：' + SessionInfo[count].apply_num + '/' + SessionInfo[count].as_num_limit + '人</label>\
                                              <br />\
                                              <a id="apply_btn_' + count + '" href="S02010105.aspx?sys_id=S02&sys_pid=S02010105&act_idn=' + SessionInfo[count].as_act + '&as_idn=' + SessionInfo[count].as_idn + '" class="btn btn-theme btn-lg" role="button">我要報名</a>\
                                          </div>');
-                if (SessionInfo[count].as_num_limit == SessionInfo[count].apply_num) {
+                if (SessionInfo[count].apply_num <= 0) {
                     $("#apply_btn_" + count).html("名額已滿");
                 }
                 //將時間字串轉成DateTime格式

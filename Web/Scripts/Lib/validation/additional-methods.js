@@ -1054,7 +1054,7 @@ $.validator.addMethod( "ziprange", function( value, element ) {
 }, "Your ZIP-code must be in the range 902xx-xxxx to 905xx-xxxx" );
 
     // 台灣身份證字號格式檢查程式
-$.validator.addMethod("TWIDCheck", function (value, element, param) {
+$.validator.addMethod("TWIDCheck", function (value, element) {
     var a = new Array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'X', 'Y', 'W', 'Z', 'I', 'O');
     var b = new Array(1, 9, 8, 7, 6, 5, 4, 3, 2, 1);
     var c = new Array(2);

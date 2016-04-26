@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -231,8 +232,15 @@ namespace ActivityApply
                 Dictionary<string, object> newpassworddict = new Dictionary<string, object>();
                 newpassworddict["aae_password"] = user_password = new_password_txt.Text;
                 var upres = BL.UpdateData(oldpassworddict, newpassworddict);
-                if(upres.IsSuccess)
-                    Response.Write("<script language='javascript'>alert('成功更改密碼!!');</script>");
+                if (upres.IsSuccess)
+                {
+                    string msg = "成功更改密碼!";
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append("<script language='javascript'>");
+                    sb.Append("alert('" + msg + "')");
+                    sb.Append("</script>");
+                    ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
+                }
                 string email = aa_email_hf.Value;
                 SystemConfigInfo config_info = CommonHelper.GetSysConfig();
                 CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubjectChange(email), getMailContnetChange());
@@ -240,12 +248,20 @@ namespace ActivityApply
             else if(user_password != old_password_txt.Text)
             {
                 string error_msg = "密碼錯誤!";
-                Response.Write("<script language='javascript'>alert('" + error_msg + "');</script>");
+                StringBuilder sb = new StringBuilder();
+                sb.Append("<script language='javascript'>");
+                sb.Append("alert('" + error_msg + "')");
+                sb.Append("</script>");
+                ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
             }
             else if(new_password_txt.Text != new_password_check_txt.Text)
             {
                 string error_msg = "新密碼不相同!";
-                Response.Write("<script language='javascript'>alert('" + error_msg + "');</script>");
+                StringBuilder sb = new StringBuilder();
+                sb.Append("<script language='javascript'>");
+                sb.Append("alert('" + error_msg + "')");
+                sb.Append("</script>");
+                ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
             }
         }
         #endregion
@@ -366,7 +382,11 @@ namespace ActivityApply
             else
             {
                 string error_msg = "密碼錯誤!";
-                Response.Write("<script language='javascript'>alert('" + error_msg + "');</script>");
+                StringBuilder sb = new StringBuilder();
+                sb.Append("<script language='javascript'>");
+                sb.Append("alert('" + error_msg + "')");
+                sb.Append("</script>");
+                ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
             }
         }
         #endregion

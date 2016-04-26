@@ -143,19 +143,39 @@ namespace Web.S02
             dict["ac_desc"] = (gvr.FindControl("Ac_desc_txt") as TextBox).Text.Trim();
             dict["ac_seq"] = (gvr.FindControl("Ac_seq_txt") as TextBox).Text.Trim();
             // 新增資料
-            var res = _bl.InsertData(dict);
-            if (res.IsSuccess)
-            {
-                // 新增成功，切換回一般模式
-                GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, main_gv);
-                BindGridView(GetData(true));
-                main_gv.DataBind();
-                ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Insert);
-            }
+            Boolean titleRepaet = false;
+            
+            if(dict["ac_title"].ToString() == "")
+                ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, "請填寫分類名稱");
+            else if (dict["ac_seq"].ToString() == "")
+                ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, "請填寫分類順序");
             else
             {
-                // 新增失敗，顯示錯誤訊息
-                ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, res.Message);
+                List<Activity_classInfo> classlist = BL.GetClassList();
+                for (int count = 0; count < classlist.Count; count++)
+                {
+                    if (classlist[count].Ac_title == dict["ac_title"].ToString())
+                        titleRepaet = true;
+                }
+                if (titleRepaet != true)
+                {
+                    var res = _bl.InsertData(dict);
+                    if (res.IsSuccess)
+                    {
+                        // 新增成功，切換回一般模式
+                        GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, main_gv);
+                        BindGridView(GetData(true));
+                        main_gv.DataBind();
+                        ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Insert);
+                    }
+                    else
+                    {
+                        // 新增失敗，顯示錯誤訊息
+                        ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, res.Message);
+                    }
+                }
+                else
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, "標題名稱重複");
             }
         }
 

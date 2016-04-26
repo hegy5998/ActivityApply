@@ -13,12 +13,32 @@ namespace DataAccess.Web
     public class indexData : BaseData
     {
         CommonDbHelper Db = DAH.Db;
-        ActivityData _ActivityData = new ActivityData();
 
         #region 查詢
-        public DataTable GetActivityAllList()
+        public DataTable getActivityTopfive()
         {
-            return _ActivityData.GetActivityAllList();
+            string sql = @"SELECT TOP(5)activity.act_idn,activity.act_title,activity.act_isopen, act_class,
+                            ac_session.as_date_start,
+                            ac_session.as_date_end, 
+                            ac_session.as_apply_start, 
+                            ac_session.as_apply_end,session_count.num
+                            FROM activity
+                            cross apply 
+                                 (select top 1 *
+                                  from activity_session 
+                                  where   as_act = act_idn 
+                                          AND act_isopen = 1 
+                                          AND as_isopen = 1
+                                  order by as_date_start) as ac_session
+                            cross apply 
+                                 (select top 1 COUNT(*) as num
+                                  FROM activity_session 
+								  WHERE as_act = act_idn 
+								  AND as_isopen = 1 
+								  AND CONVERT(DATETIME, as_date_end, 121) >= CONVERT(varchar(256), GETDATE(), 121) )  as session_count
+                            WHERE session_count.num > 0
+                            ORDER BY   activity.updtime DESC";
+            return Db.GetDataTable(sql);
         }
         #endregion
 

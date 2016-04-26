@@ -76,6 +76,7 @@
     <Compile Include="SystemMenuBL.cs" />
     <Compile Include="UserControls\UCSystemModuleBL.cs" />
     <Compile Include="Web\activityBL.cs" />
+    <Compile Include="Web\indexBL .cs" />
     <Compile Include="Web\SignSearchContextBL.cs" />
     <Compile Include="Web\activity_ListBL.cs" />
     <Compile Include="Web\SignChangeBL.cs" />

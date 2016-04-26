@@ -180,7 +180,7 @@ namespace Web.S02
                 }
             }
 
-            return "活動儲存成功成功";
+            return "修改活動成功，如有新增場次請至活動列表發佈";
         }
         #endregion
 

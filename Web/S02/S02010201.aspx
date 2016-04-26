@@ -412,6 +412,7 @@
     <!-- JavaScript_START-->
     <script type="text/javascript">
 
+
         //#region 沒有開啟JavaScript閃爍文字提醒
         $(function () {
             setInterval(flicker, 1000);//迴圈閃爍，間隔1秒
@@ -748,13 +749,13 @@
         function change_Qus_Way(qus_way_int, chooseId, temp_change_Qus_Way_div, temp_change_Qus_Content_div, qus_Title_Value, qus_Desc, present_Qus_Option) {
             //判斷題目模式
             if (qus_way_int == "singleSelect")
-                var qus_title = "單選問題";
+                var qus_title = "單選標題";
             else if (qus_way_int == "multiSelect")
-                var qus_title = "多選問題";
+                var qus_title = "多選標題";
             else if (qus_way_int == "text")
-                var qus_title = "文字問題";
+                var qus_title = "文字標題";
             else if (qus_way_int == "dropDownList")
-                var qus_title = "選單問題";
+                var qus_title = "選單標題";
             //判斷是否有填入的題目名稱
             if (qus_Title_Value == null)
                 var title_Value = "";
@@ -887,7 +888,7 @@
                 if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#qus_Option_error_" + id + (count + 1)).length == 0)
-                        $(this).after('<em id="qus_Option_error_' + id + (count + 1) + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">必須填寫</em>');
+                        $(this).after('<em id="qus_Option_error_' + id + (count + 1) + '" class="error help-block red" style="width: 150px;margin-bottom: 5px;">必須填寫</em>');
                     check_Activity_Column_Data = false;
                 }
                 else {
@@ -1199,9 +1200,9 @@
                 else {
                     $(this).css({ "box-shadow": "" });
                     $("#datetimepicker_Activity_Sign_End_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).remove();
+                    $("#datetimepicker_Activity_Sign_Start_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).remove();
                     if ($("#datetimepicker_Activity_Sign_Start_txt_error_WithActStart_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0 && $("#datetimepicker_Activity_Sign_Start_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0)
                         $("#datetimepicker_Activity_Sign_Start_txt_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).css({ "box-shadow": "" });
-                    $("#datetimepicker_Activity_Sign_Start_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).remove();
                 }
                 //判斷在活動結束日期之前
                 if ($.trim($(this).val()) >= $.trim($("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).val()) && $.trim($("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).val()) != "") {
@@ -1211,9 +1212,9 @@
                     check_Activity_Data = false;
                 }
                 else {
+                    $("#datetimepicker_Activity_Sign_End_txt_error_withActEnd_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).remove();
                     if ($("#datetimepicker_Activity_Sign_End_txt_error_withActEnd_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0 && $("#datetimepicker_Activity_Sign_End_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0)
                         $(this).css({ "box-shadow": "" });
-                    $("#datetimepicker_Activity_Sign_End_txt_error_withActEnd_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).remove();
                 }
             })
             //場次ID加一

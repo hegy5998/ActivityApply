@@ -1,7 +1,12 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Base.master" AutoEventWireup="true" CodeBehind="S02010202.aspx.cs" Inherits="Web.S02.S02010202" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="baseHead_cph" runat="server">
-        <script type="text/javascript">
+    <!-- Jquery Validation -->
+    <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/validation/jquery.validate.js") %>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/validation/jquery.metadata.js") %>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/validation/messages_zh_TW.js") %>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/validation/additional-methods.js") %>"></script>
+    <script type="text/javascript">
         $(function () {
             //須與form表單ID名稱相同
             $("#form1").validate();
@@ -44,12 +49,12 @@
                     <div class="row"></div>
                     <h3><i class="fa fa-angle-right"></i>活動報名</h3>
                     <!-- 放置區塊區域 -->
-                    <div id="sections_div" style=" margin-right: 1%;">
-                    <!-- 放置問題區域 -->
+                    <div id="sections_div" style="margin-right: 1%;">
+                        <!-- 放置問題區域 -->
                     </div>
                     <!-- 送出按鈕 -->
                     <div class="row col-sm-12">
-                        <input role="button" type="submit" class="btn btn-theme btn-lg btn-block" value="送出"/>
+                        <input role="button" type="submit" class="btn btn-theme btn-lg btn-block" value="送出" />
                     </div>
                 </section>
             </section>

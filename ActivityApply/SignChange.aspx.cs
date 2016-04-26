@@ -9,6 +9,8 @@ using Util;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Model.Common;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
 
 namespace ActivityApply
 {
@@ -97,15 +99,28 @@ namespace ActivityApply
                 {
                     Dictionary<String, Object> old_Activity_apply_detail = new Dictionary<string, object>();
                     Dictionary<String, Object> new_Activity_apply_detail = new Dictionary<string, object>();
+                    Dictionary<String, Object> Activity_apply_detail = new Dictionary<string, object>();
                     for (int i = 0; i < userData.Count; i++)
                     {
-                        //舊的報名資料
-                        old_Activity_apply_detail["aad_apply_id"] = userData[0].Aad_apply_id;
-                        old_Activity_apply_detail["aad_col_id"] = userData[i].Aad_col_id;
-                        //新的報名資料
-                        new_Activity_apply_detail["aad_val"] = userData[i].Aad_val;
+                        //判斷填寫的問題為新問題或舊問題
+                        if (userData[i].ifnewqus == 0)
+                        {
+                            //舊的報名資料
+                            old_Activity_apply_detail["aad_apply_id"] = userData[i].Aad_apply_id;
+                            old_Activity_apply_detail["aad_col_id"] = userData[i].Aad_col_id;
+                            //新的報名資料
+                            new_Activity_apply_detail["aad_val"] = userData[i].Aad_val;
 
-                        result = _bl.UpdateApplyDetailData(old_Activity_apply_detail, new_Activity_apply_detail);
+                            result = _bl.UpdateApplyDetailData(old_Activity_apply_detail, new_Activity_apply_detail);
+                        }
+                        else if(userData[i].ifnewqus == 1)
+                        {
+                            Activity_apply_detail["aad_apply_id"] = userData[i].Aad_apply_id;
+                            Activity_apply_detail["aad_col_id"] = userData[i].Aad_col_id;
+                            Activity_apply_detail["aad_val"] = userData[i].Aad_val;
+                            result = _bl.InsertData_Activity_apply_detail(Activity_apply_detail);
+                        }
+                        
                     }
                     if (result.IsSuccess)
                     {
@@ -162,6 +177,19 @@ namespace ActivityApply
         }
         #endregion
 
+        protected void print_ApplyProve(object sender, EventArgs e)
+        {
+            Sign_UpBL _bl = new Sign_UpBL();
+            DataTable dt = _bl.GetApplyProve(AA_IDN);
+            ReportDocument rd = new ReportDocument();
+            //載入該報表
+            rd.Load(Server.MapPath("~/applyProve.rpt"));
+            //設定資料
+            rd.SetDataSource(dt);
+            rd.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, true, "applyProve");
+            //rd.ExportToDisk(ExportFormatType.PortableDocFormat, "applyProve.pdf");
+        }
+
         [Table("UserData")]
         public class UserData {
             [Column("aad_apply_id")]
@@ -172,6 +200,8 @@ namespace ActivityApply
             public String Aad_title { get; set; }
             [Column("aad_val")]
             public String Aad_val { get; set; }
+            [Column("ifnewqus")]
+            public Int32 ifnewqus { get; set; }
         }
     }
 }

@@ -105,7 +105,7 @@
             //設定分類內容
             getSubClass();
             //判斷這兩個URL參數都存在才執行，此時目錄在活動頁面
-            if ($.url().param("act_class") && $.url().param("act_idn")) {
+            if ($.url().param("act_class") && $.url().param("act_idn") || $.url().param("act_idn") && $.url().param("as_idn")) {
                 setSessionBread();
             }
         })
@@ -138,7 +138,7 @@
         function setSubClass(act_classInfo) {
             var act_classInfo = JSON.parse(act_classInfo);
             $("#add_sub").children().remove();
-            //$("#add_sub").append('<li><a href="activity_List.aspx?act_class=1">分類一</a></li>');
+            $("#add_sub").append('<li><a href="activity_List.aspx?act_class=0">全部活動</a></li>')
             for (var count = 0 ; count < act_classInfo.length ; count++) {
                 $("#add_sub").append('<li><a href="activity_List.aspx?act_class=' + (act_classInfo[count].Ac_idn) + '">' + act_classInfo[count].Ac_title + '</a></li>')
             }
