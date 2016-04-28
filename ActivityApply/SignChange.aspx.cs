@@ -21,20 +21,25 @@ namespace ActivityApply
         static int AA_IDN;
         protected void Page_Load(object sender, EventArgs e)
         {
-            ACT_IDN = Int32.Parse(Request["act_idn"]);
-            AS_IDN = Int32.Parse(Request["as_idn"]);
+            
+            //ACT_IDN = Int32.Parse(Request["act_idn"]);
+            //AS_IDN = Int32.Parse(Request["as_idn"]);
             //AA_IDN = Int32.Parse(Request["aa_idn"]);
             //AA_IDN  = Session["aa_idn"];
             //if (!IsPostBack)
             //{
-                if(Session["aa_idn"]!=null)
-                    AA_IDN =  Int32.Parse(Session["aa_idn"].ToString());
-                else
-                {
-                    string error_msg = "請重新輸入密碼!";
-                    Response.Write("<script language='javascript'>alert('" + error_msg + "');</script>");
-                    Response.Redirect("SignSearchContext.aspx");
-                }
+            if (Session["aa_idn"] != null)
+            {
+                ACT_IDN = Int32.Parse(Session["act_idn"].ToString());
+                AS_IDN = Int32.Parse(Session["as_idn"].ToString());
+                AA_IDN = Int32.Parse(Session["aa_idn"].ToString());
+            }
+            else
+            {
+                string error_msg = "請重新輸入密碼!";
+                Response.Write("<script language='javascript'>alert('" + error_msg + "');</script>");
+                Response.Redirect("SignSearchContext.aspx");
+            }
             //}
 
         }

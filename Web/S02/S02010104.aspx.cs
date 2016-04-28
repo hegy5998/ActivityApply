@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Data;
 using System.Web;
 using BusinessLayer.S01;
+using BusinessLayer.S02;
 
 namespace Web.S02
 {
@@ -18,15 +19,20 @@ namespace Web.S02
         {
             ACTIVITY = Int32.Parse(Request["i"]);
             activityBL _bl = new activityBL();
-            List<ActivityInfo> AvtivityList = _bl.GetActivityList(ACTIVITY);
-            Act_desc_lbl.Text = HttpUtility.UrlDecode(AvtivityList[0].Act_desc);
+            S020104BL _S020104Bl = new S020104BL();
+            List<ActivityInfo> AvtivityList = _S020104Bl.GetActivityList(ACTIVITY);
+            if (AvtivityList.Count > 0)
+                Act_desc_lbl.Text = HttpUtility.UrlDecode(AvtivityList[0].Act_desc);
+            else
+                Response.Redirect("../DefaultSystemIndex.aspx");
         }
 
         [System.Web.Services.WebMethod]
         public static string getActivityList()
         {
             activityBL _bl = new activityBL();
-            List<ActivityInfo> ActivityList = _bl.GetActivityList(ACTIVITY);
+            S020104BL _S020104Bl = new S020104BL();
+            List<ActivityInfo> ActivityList = _S020104Bl.GetActivityList(ACTIVITY);
             string json_data = JsonConvert.SerializeObject(ActivityList);
             return json_data;
         }

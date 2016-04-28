@@ -63,14 +63,6 @@ namespace Web.S02
         /// 取得已發佈活動資料
         private DataTable GetAlreadyData()
         {
-            //判斷是否有查詢條件
-            //Dictionary<string, object> Cond = new Dictionary<string, object>();
-
-            //if (!string.IsNullOrWhiteSpace(q_keyword_tb.Text))
-            //{
-            //    Cond.Add("keyword", q_keyword_tb.Text);
-            //}
-
             //顯示分頁
             ucGridViewPager.Visible = true;
             return _bl.GetAlreadyData();
@@ -79,13 +71,6 @@ namespace Web.S02
         //取得未發佈活動資料
         private DataTable GetReadyData()
         {
-            //Dictionary<string, object> Cond = new Dictionary<string, object>();
-
-            //if (!string.IsNullOrWhiteSpace(q_keyword_tb.Text))
-            //{
-            //    Cond.Add("keyword", q_keyword_tb.Text);
-            //}
-
             ucGridViewPagerReady.Visible = true;
             return _bl.GetReadyData();
         }
@@ -93,13 +78,6 @@ namespace Web.S02
         //取得已結束活動資料
         private DataTable GetEndData()
         {
-            //Dictionary<string, object> Cond = new Dictionary<string, object>();
-
-            //if (!string.IsNullOrWhiteSpace(q_keyword_tb.Text))
-            //{
-            //    Cond.Add("keyword", q_keyword_tb.Text);
-            //}
-
             ucGridViewPagerEnd.Visible = true;
             return _bl.GetEndData();
         }
@@ -128,8 +106,6 @@ namespace Web.S02
         //GridView排序
         protected void main_gv_Sorting(object sender, GridViewSortEventArgs e)
         {
-            //var alreadylst = GridViewHelper.SortGridView(sender as GridView, e, GetAlreadyData());
-            //BindGridView(alreadylst);
         }
 
         //關閉or發佈活動
@@ -216,14 +192,6 @@ namespace Web.S02
             }
         }
 
-        //protected void main_gv_Sorting(object sender, GridViewSortEventArgs e)
-        //{
-        //    var alreadylst = GridViewHelper.SortGridView(sender as GridView, e, GetAlreadyData());
-        //    var readylst = GridViewHelper.SortGridView(sender as GridView, e, GetReadyData());
-        //    var endlst = GridViewHelper.SortGridView(sender as GridView, e, GetEndData());
-        //    BindGridView(alreadylst, readylst, endlst);
-        //}
-
         //命令處理
         protected void main_gv_RowCommand(object sender, GridViewCommandEventArgs e)
         {
@@ -253,7 +221,7 @@ namespace Web.S02
 
                 //下載報名資料
                 case "download":
-                    downloadApply(Convert.ToInt32(e.CommandArgument));
+                    downloadApply(CommonConvert.GetIntOrZero(e.CommandArgument));
                     break;
             }
         }
@@ -264,16 +232,18 @@ namespace Web.S02
             DataTable data = _bl.GetApplyData(i);
             DataTable title = _bl.Getactas(i);
 
+            //新增Excel檔案
             XSSFWorkbook workbook = new XSSFWorkbook();
             ISheet u_sheet = workbook.CreateSheet(title.Rows[0][0].ToString() + "_" + title.Rows[0][1].ToString());
 
-            //u_sheet.CreateRow(0).CreateCell(0).SetCellValue(title.Rows[0][1].ToString());
+            //增加標頭列
             IRow u_row1 = u_sheet.CreateRow(0);
             for (int j = 1; j < data.Columns.Count; j++)
             {
                 u_row1.CreateCell(j - 1).SetCellValue(data.Columns[j].ColumnName);
             }
 
+            //產生內容資料列
             int x = 1;
             foreach (DataRow r in data.Rows)
             {
@@ -285,24 +255,18 @@ namespace Web.S02
                 }
             }
 
-            //MemoryStream MS = new MemoryStream();   //==需要 System.IO命名空間
-            //workbook.Write(MS);
+            MemoryStream MS = new MemoryStream();   //==需要 System.IO命名空間
+            workbook.Write(MS);
 
-            //Response.AddHeader("Content-Disposition", "attachment; filename=EmptyWorkbook_2007_2.xlsx");
-            //Response.BinaryWrite(MS.ToArray());
+            Response.AddHeader("Content-Disposition", "attachment; filename=" + title.Rows[0][0].ToString() + ".xlsx");
+            Response.BinaryWrite(MS.ToArray());
 
-            //workbook = null;   //== VB為 Nothing
-            //MS.Close();
-            //MS.Dispose();
+            workbook = null;   //== VB為 Nothing
+            MS.Close();
+            MS.Dispose();
 
-            //Response.Flush();
-            //Response.End();
-
-            using (FileStream fs =
-                new FileStream(@"D:\IKI\" + title.Rows[0][0].ToString() + ".xlsx", FileMode.Create))
-            {
-                workbook.Write(fs);
-            }
+            Response.Flush();
+            Response.End();
         }
 
         //刪除活動(場次)
@@ -568,12 +532,14 @@ namespace Web.S02
         {
             if (ProcessModifyAuth)
             {
+                //新資料
                 GridViewRow gvr = controlSet_gv.Rows[e.RowIndex];
                 var newData_dict = new Dictionary<string, object>();
                 newData_dict["cop_act"] = (gvr.FindControl("old_cop_act_hf") as HiddenField).Value;
                 newData_dict["cop_id"] = (gvr.FindControl("cop_id_txt") as TextBox).Text.Trim();
                 newData_dict["cop_authority"] = (gvr.FindControl("cop_authority_txt") as TextBox).Text.Trim();
 
+                //舊資料的key
                 var oldData_dict = new Dictionary<string, object>();
                 oldData_dict["cop_act"] = (gvr.FindControl("old_cop_act_hf") as HiddenField).Value;
                 oldData_dict["cop_id"] = (gvr.FindControl("old_cop_id_hf") as HiddenField).Value;
@@ -600,12 +566,14 @@ namespace Web.S02
         {
             if (ProcessModifyAuth)
             {
+                //新資料
                 GridViewRow gvr = ready_copperate.Rows[e.RowIndex];
                 var newData_dict = new Dictionary<string, object>();
                 newData_dict["cop_act"] = (gvr.FindControl("old_cop_act_hf") as HiddenField).Value;
                 newData_dict["cop_id"] = (gvr.FindControl("cop_id_txt") as TextBox).Text.Trim();
                 newData_dict["cop_authority"] = (gvr.FindControl("cop_authority_txt") as TextBox).Text.Trim();
 
+                //就資料的key
                 var oldData_dict = new Dictionary<string, object>();
                 oldData_dict["cop_act"] = (gvr.FindControl("old_cop_act_hf") as HiddenField).Value;
                 oldData_dict["cop_id"] = (gvr.FindControl("old_cop_id_hf") as HiddenField).Value;
@@ -670,11 +638,6 @@ namespace Web.S02
         }
         #endregion
 
-        protected void Back_btn_Click(object sender, EventArgs e)
-        {
-            BindGridView(GetAlreadyData(), GetReadyData(), GetEndData());
-        }
-
         #region 查詢按鈕
         protected void q_query_btn_Click(object sender, EventArgs e)
         {
@@ -683,77 +646,22 @@ namespace Web.S02
 
             DataTable data = _bl.GetQueryData(q_keyword_tb.Text, i);
 
+            //依頁簽區分查詢條件(已發佈)
             if (i == 0)
             {
                 BindGridView(data, GetReadyData(), GetEndData());
             }
+            //未發佈
             else if (i == 1)
             {
                 BindGridView(GetAlreadyData(), data, GetEndData());
             }
+            //已結束
             else if (i == 2)
             {
                 BindGridView(GetAlreadyData(), GetReadyData(), data);
             }
         }
         #endregion
-
-        #region 測試用的送出_活動
-        protected void test_submit_click(object sender, EventArgs e)
-        {
-            Dictionary<string, object> insert = new Dictionary<string, object>();
-
-            insert["act_title"] = act_title.Text;
-            insert["act_isopen"] = act_isopen.Text;
-
-            _bl.InsertData(insert);
-        }
-        #endregion
-
-        #region 測試用的修改_活動
-        protected void editTest_btn_click(object sender, EventArgs e)
-        {
-            Dictionary<string, object> update = new Dictionary<string, object>();
-            Dictionary<string, object> key = new Dictionary<string, object>();
-
-            key["act_idn"] = act_idn.Text;
-
-            update["act_title"] = act_title.Text;
-            update["act_isopen"] = act_isopen.Text;
-
-            _bl.UpdateData(key, update);
-        }
-        #endregion
-
-        protected void saveTestSession_btn_click(object sender, EventArgs e)
-        {
-            Dictionary<string, object> insert = new Dictionary<string, object>();
-
-            insert["as_act"] = as_act.Text;
-            insert["as_num_limit"] = as_num_limit.Text;
-
-            _bl.InsertData_session(insert);
-        }
-
-        protected void saveTestApply_btn_click(object sender, EventArgs e)
-        {
-            Dictionary<string, object> insert = new Dictionary<string, object>();
-
-            insert["aa_act"] = aa_act.Text;
-            insert["aa_as"] = aa_as.Text;
-
-            _bl.InsertData_apply(insert);
-        }
-
-        protected void saveTestCop_btn_click(object sender, EventArgs e)
-        {
-            Dictionary<string, object> insert = new Dictionary<string, object>();
-
-            insert["cop_act"] = cop_act.Text;
-            insert["cop_id"] = cop_id.Text;
-            insert["cop_authority"] = cop_authority.Text;
-
-            _bl.InsertData_cop(insert);
-        }
     }
 }

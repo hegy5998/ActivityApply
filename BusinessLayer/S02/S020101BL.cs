@@ -29,6 +29,8 @@ namespace BusinessLayer.S02
         Activity_apply_detailData _applyDetaildata = new Activity_apply_detailData();
         S020101Data _data = new S020101Data();
 
+
+
         #region 更新
         /// <summary>
         /// 更新資料
@@ -114,21 +116,21 @@ namespace BusinessLayer.S02
         }
 
         //新增報名資料
-        public int InsertData_apply(Dictionary<string, object> dict)
+        public CommonResult InsertData_apply(Dictionary<string, object> dict)
         {
             var res = CommonHelper.ValidateModel<Model.Activity_applyInfo>(dict);
-            DataTable data;
-            int i = 0;
+            //DataTable data;
+            //int i = 0;
 
             if (res.IsSuccess)
             {
-                //res = _applydata.InsertData(dict);
-                data = _data.GetApplyidn(dict);
+                res = _applydata.InsertData(dict);
+                //data = _data.GetApplyidn(dict);
 
-                i = Convert.ToInt32(data.Rows[0][0]);
+                //i = Convert.ToInt32(data.Rows[0][0]);
             }
 
-            return i;
+            return res;
         }
 
         //新增協作者資料
@@ -194,7 +196,7 @@ namespace BusinessLayer.S02
         //刪除報名資料
         public CommonResult DeleteApply(Dictionary<string, object> dict, Dictionary<string, object> dict_aa)
         {
-            DataTable data = GetApplyDeleteData(Convert.ToInt32(dict["as_idn"]), Convert.ToInt32(dict_aa["aa_idn"]));
+            DataTable data = GetApplyDeleteData(CommonConvert.GetIntOrZero(dict["as_idn"]), Convert.ToInt32(dict_aa["aa_idn"]));
             Dictionary<string, object> data_dict = new Dictionary<string,object>();
             Dictionary<string, object> data_dict_apply = new Dictionary<string, object>();
 
@@ -216,17 +218,20 @@ namespace BusinessLayer.S02
         {
             return _data.getActivity(act_idn);
         }
-        //取得活動資料
+
+        //取得場次資料
         public List<Activity_sessionInfo> getSession(int as_act)
         {
             return _data.getSession(as_act);
         }
-        //取得活動資料
+
+        //取得報名表區塊資料
         public List<Activity_sectionInfo> getSection(int acs_act)
         {
             return _data.getSection(acs_act);
         }
-        //取得活動資料
+
+        //取得報明表欄位資料
         public List<Activity_columnInfo> getColumn(int acc_act)
         {
             return _data.getColumn(acc_act);
@@ -302,7 +307,7 @@ namespace BusinessLayer.S02
             {
                 //新增key的值&Row
                 test.Columns.Add("aa_idn");
-                columnDetail = _data.GetApplyDataColumn((Convert.ToInt32(column.Rows[0][2])), i);
+                columnDetail = _data.GetApplyDataColumn(CommonConvert.GetIntOrZero(column.Rows[0][2]), i);
                 for (int j = 0; j < columnDetail.Rows.Count; j++)
                 {
                     test.Rows.Add();
@@ -314,14 +319,26 @@ namespace BusinessLayer.S02
                 {
                     //增加欄位
                     test.Columns.Add(r.ItemArray.GetValue(3).ToString());
-                    columnDetail = _data.GetApplyDataColumn(Convert.ToInt32(r.ItemArray.GetValue(2)), i);
+                    columnDetail = _data.GetApplyDataColumn(CommonConvert.GetIntOrZero(r.ItemArray.GetValue(2)), i);
 
                     if (columnDetail.Rows.Count != 0)
                     {
+                        int k = 0;
+
                         //存入列的值
-                        for (int j = 0; j < columnDetail.Rows.Count; j++)
+                        for (int j = 0; j < test.Rows.Count; j++)
                         {
-                            test.Rows[j][r.ItemArray.GetValue(3).ToString()] = columnDetail.Rows[j][1].ToString();
+                            //判斷是否有跳資料
+                            if (test.Rows[j][0].ToString() == columnDetail.Rows[k][0].ToString())
+                            {
+                                test.Rows[j][r.ItemArray.GetValue(3).ToString()] = columnDetail.Rows[k][1].ToString();
+                                k++;
+                            }
+                            //若此欄位是空的則補null
+                            else
+                            {
+                                test.Rows[j][r.ItemArray.GetValue(3).ToString()] = null;
+                            }
                         }
                     }
                 }
@@ -372,6 +389,14 @@ namespace BusinessLayer.S02
             }
 
             return data;
+        }
+
+        //取得多選的選項資料
+        public string GetMultiOption (string multi)
+        {
+            string option = _data.GetMultiOption(CommonConvert.GetIntOrZero(multi)).Rows[0][0].ToString();
+
+            return option;
         }
         #endregion
 

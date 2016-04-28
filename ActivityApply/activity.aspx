@@ -29,7 +29,7 @@
                             <div class="photo-wrapper">
                                 <div class="photo">
                                     <a data-toggle="modal" href="#myModal">
-                                        <img id="act_image" class="img-responsive" src="assets/img/fcu.jpg" />
+                                        <img id="act_image" class="img-responsive" src="#" />
                                     </a>
                                 </div>
                                 <div class="overlay"></div>
@@ -43,7 +43,7 @@
                     </div>
                     <div class="photo">
                         <a class="thumbnail">
-                            <img id="QRcode" class="imp-responsive" src="assets/img/qrcodetest.png" alt="" /></a>
+                            <img id="QRcode" class="imp-responsive" src="#" alt="" /></a>
                     </div>
                 </div>
                 <!-- 活動頁面右半邊 -->
@@ -104,10 +104,10 @@
         $(document).ready(function () {
             //產生活動資訊
             getActivityList();
+            $("#dispaly_div").css({ 'display': '' });
             //產生場次
             getSessionList();
             //等資活動訊載入完才一次顯示資料
-            $("#dispaly_div").css({ 'display': '' });
             //判斷活動簡介內容高度超過300px變成卷軸式
             var obheight = 300;//超過容器高度自動捲軸
             var mc = $("#desc_div").height();
@@ -216,7 +216,10 @@
                 $("#act_image").attr("src", ActivityInfo[0].Act_image);
                 $("#act_image_modal").attr("src", ActivityInfo[0].Act_image);
             }
-
+            else {
+                $("#act_image").attr("src", "assets/img/fcu.jpg");
+                $("#act_image_modal").attr("src", "assets/img/fcu.jpg");
+            }
         }
         //#endregion
 

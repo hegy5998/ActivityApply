@@ -26,7 +26,7 @@
                     <div class="photo-wrapper" style="background-image: url(../Scripts/Lib/assets/img/zoom.png)">
                         <div class="photo">
                             <a data-toggle="modal" href="#myModal">
-                                <img id="act_image" class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" />
+                                <img id="act_image" class="img-responsive" src="#" />
                             </a>
                         </div>
                         <div class="overlay"></div>
@@ -41,7 +41,7 @@
 
             <div class="photo">
                 <a class="thumbnail">
-                    <img id="QRcode" class="imp-responsive" src="assets/img/qrcodetest.png" alt="" /></a>
+                    <img id="QRcode" class="imp-responsive" src="#" alt="" /></a>
             </div>
         </div>
 
@@ -199,6 +199,10 @@
             if (ActivityInfo[0].Act_image != "") {
                 $("#act_image").attr("src", ActivityInfo[0].Act_image);
                 $("#act_image_modal").attr("src", ActivityInfo[0].Act_image);
+            }
+            else {
+                $("#act_image").attr("src", "../Scripts/Lib/assets/img/fcu.jpg");
+                $("#act_image_modal").attr("src", "../Scripts/Lib/assets/img/fcu.jpg");
             }
 
         }

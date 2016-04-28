@@ -32,7 +32,8 @@
             //tabs頁籤 使用cookie記住最後開啟的頁籤
             $("#tabs").tabs({
                 //起始頁active: 導向cookie("tabs")所指頁籤
-                active: ($.cookie("tabs") || 0),  
+                //active: ($.cookie("tabs") || 0),  
+                active: (0), 
  
                 //換頁動作activate
                 activate: function (event, ui) {   
@@ -83,7 +84,6 @@
                                 <li role="presentation" class="active"><a href="#already" aria-controls="already" role="tab" data-toggle="pill">已發佈</a></li>
                                 <li role="presentation"><a href="#ready" aria-controls="ready" role="tab" data-toggle="pill">未發佈</a></li>
                                 <li role="presentation"><a href="#end" aria-controls="end" role="tab" data-toggle="pill">已結束</a></li>
-                                <li role="presentation"><a href="#test" aria-controls="end" role="tab" data-toggle="pill">測試用</a></li>
                             </ul>
                             <!-- 頁籤標題 END -->
 
@@ -91,7 +91,6 @@
                                 <!--已發佈活動 START-->
                                 <div role="tabpanel" class="tab-pane active" id="already">
                                     <br />
-
                                     <asp:UpdatePanel ID="upl" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="true">
                                         <ContentTemplate>
                                             <asp:GridView ID="main_gv" runat="server" class="table table-striped" AutoGenerateColumns="False" ShowHeaderWhenEmpty="True" OnRowCommand="main_gv_RowCommand" OnRowDeleting="main_gv_RowDeleting" OnSorting="main_gv_Sorting" ViewStateMode="Enabled" OnRowEditing="main_gv_RowClose">
@@ -158,6 +157,11 @@
                                                     <asp:TemplateField HeaderText="報名資料">
                                                         <ItemTemplate>
                                                             <input id="checkApply" type="button" class="btn-link" value="查看" Onclick="GoTo(<%# Eval("as_idn") %>);" />/<asp:Button ID="download_btn" runat="server" CommandName="download" class="btn-link" Text="下載" ToolTip="下載" UseSubmitBehavior="False" CommandArgument='<%# Eval("as_idn") %>' />
+                                                            <asp:UpdatePanel runat="server" ID="download_upd">
+                                                                <Triggers>
+                                                                    <asp:PostBackTrigger ControlID="download_btn" />
+                                                                </Triggers>
+                                                            </asp:UpdatePanel>
                                                         </ItemTemplate>
 
                                                         <HeaderStyle Width="110px"/>
@@ -307,7 +311,6 @@
                                                     <%-- 活動標題 --%>
                                                     <asp:TemplateField HeaderText="活動標題">
                                                         <ItemTemplate>
-                                                            <%--<asp:Label ID="act_title_lbl" runat="server" Text='<%# Bind("act_title") %>'></asp:Label>--%>
                                                             <input id="viewActiviity" type="button" class="btn-link" value='<%# Eval("act_title") %>' Onclick="GoToActivity(<%# Eval("act_idn") %>);" />
                                                             <asp:HiddenField ID="as_idn_hf" runat="server" Value='<%# Eval("as_idn") %>' />
                                                             <asp:HiddenField ID="as_isopen_hf" runat="server" Value='<%# Eval("as_isopen") %>' />
@@ -516,8 +519,7 @@
                                                     <%-- 活動標題 --%>
                                                     <asp:TemplateField HeaderText="活動標題">
                                                         <ItemTemplate>
-                                                            <%--<asp:Label ID="act_title_lbl" runat="server" Text='<%# Bind("act_title") %>'></asp:Label>--%>
-                                                            <input id="viewActiviity" type="button" class="btn-link" value='<%# Eval("act_title") %>' Onclick="GoToActivity(<%# Eval("act_idn") %>);" />
+                                                            <asp:Label ID="act_title_lbl" runat="server" Text='<%# Bind("act_title") %>'></asp:Label>
                                                             <asp:HiddenField ID="as_idn_hf" runat="server" Value='<%# Eval("as_idn") %>' />
                                                         </ItemTemplate>
 
@@ -593,36 +595,6 @@
                                     <br />
                                 </div>
                                 <!--已結束活動 END-->
-
-                                <div role="tabpanel" class="tab-pane" id="test">
-                                    活動<br />
-                                    活動標題：<asp:TextBox runat="server" ID="act_title" /><br />
-                                    是否發布：<asp:TextBox runat="server" ID="act_isopen" /><br />
-                                    活動編號：<asp:TextBox runat="server" ID="act_idn" /><br />
-
-                                    <asp:Button runat="server" ID="test_submit" OnClick="test_submit_click" Text="送出" />
-                                    <asp:Button runat="server" ID="editTest_btn" OnClick="editTest_btn_click" Text="修改" />
-                                    <br />
-
-                                    活動場次<br />
-                                    活動序號：<asp:TextBox runat="server" ID="as_act" /><br />
-                                    報名人數限制：<asp:TextBox runat="server" ID="as_num_limit" /><br />
-
-                                    <asp:Button runat="server" ID="saveTestSession_btn" OnClick="saveTestSession_btn_click" Text="送出" /><br />
-
-                                    活動報名<br />
-                                    活動序號：<asp:TextBox runat="server" ID="aa_act" /><br />
-                                    場次序號：<asp:TextBox runat="server" ID="aa_as" /><br />
-
-                                    <asp:Button runat="server" ID="saveTestApply_btn" OnClick="saveTestApply_btn_click" Text="送出" /><br />
-
-                                    協作者<br />
-                                    協同活動：<asp:TextBox runat="server" ID="cop_act" /><br />
-                                    協同帳號：<asp:TextBox runat="server" ID="cop_id" /><br />
-                                    權限：<asp:TextBox runat="server" ID="cop_authority" /><br />
-
-                                    <asp:Button runat="server" ID="saveTestCop_btn" OnClick="saveTestCop_btn_click" Text="送出" />
-                                </div>
                             </div>
                         </div>
                         <!--頁籤 END-->

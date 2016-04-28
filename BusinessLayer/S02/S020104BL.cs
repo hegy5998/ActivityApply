@@ -22,5 +22,12 @@ namespace BusinessLayer.S01
             return _data.GetSessionList(as_act);
         }
         #endregion
+
+        #region 取得活動列表
+        public List<ActivityInfo> GetActivityList(int act_idn)
+        {
+            return _data.GetActivityList(act_idn);
+        }
+        #endregion
     }
 }

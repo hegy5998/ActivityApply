@@ -12,6 +12,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 using System.Data;
+using DataAccess.S01;
 
 namespace BusinessLayer.S02
 {
@@ -43,6 +44,8 @@ namespace BusinessLayer.S02
             return res;
         }
         #endregion
+
+        
 
         #region 新增
         /// <summary>

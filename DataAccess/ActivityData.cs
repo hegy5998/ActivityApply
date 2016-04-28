@@ -57,9 +57,16 @@ namespace DataAccess
 
         public List<ActivityInfo> GetActivityList(int act_idn)
         {
-            string sql = @"SELECT   activity.*
-                           FROM    activity
-                           WHERE   (act_idn = @act_idn) ";
+            string sql = @" SELECT   activity.*
+                            FROM    activity
+                            cross apply 
+                                    (select top 1 COUNT(*) as num
+                                    from activity_session 
+                                    where   as_act = @act_idn 
+                                            AND act_isopen = 1 
+                                            AND as_isopen = 1
+				                            AND CONVERT(DATETIME, as_date_end, 121) >=  CONVERT(varchar(256), GETDATE(), 121)) as ac_session
+                            WHERE   (act_idn = @act_idn)  AND ac_session.num > 0";
             IDataParameter[] param = { Db.GetParam("@act_idn", act_idn) };
             return Db.GetEnumerable<ActivityInfo>(sql, param).ToList();
         }

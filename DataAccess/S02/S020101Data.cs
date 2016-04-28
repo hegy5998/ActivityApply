@@ -19,7 +19,6 @@ namespace DataAccess
         /// </summary>
         public CommonDbHelper Db = DAH.Db;
         ActivityData activityData = new ActivityData();
-
         Activity_columnData _columnda = new Activity_columnData();
         Activity_sectionData _sectionData = new Activity_sectionData();
         Activity_sessionData _sessionData = new Activity_sessionData();
@@ -44,7 +43,7 @@ namespace DataAccess
         }
         #endregion
 
-        #region 取得活動資料
+        #region 取得區塊資料
         public List<Activity_sectionInfo> getSection(int acs_act)
         {
             string sql = @"SELECT   activity_section.*
@@ -293,11 +292,12 @@ namespace DataAccess
             StringBuilder sql_sb = new StringBuilder();
 
             sql_sb.Append(@"
-                SELECT act_idn, act_title, acc_idn, acc_title, as_idn, as_title
+                SELECT act_idn, act_title, acc_idn, acc_title, as_idn, as_title, acc_type, acc_option
                 FROM activity, activity_column, activity_session
                 WHERE acc_act = act_idn AND
 	                  as_act = act_idn AND
-	                  as_idn = @i");
+	                  as_idn = @i
+                ORDER BY acc_seq");
 
             //欲取得報名資料的場次序號
             var param_lst = new List<IDataParameter>() {
@@ -472,6 +472,25 @@ namespace DataAccess
             //關鍵字
             var param_lst = new List<IDataParameter>() {
                 Db.GetParam("@keyword", keyword),
+            };
+
+            return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
+        }
+        #endregion
+
+        #region 取得多選的選項資料
+        public DataTable GetMultiOption(int i)
+        {
+            StringBuilder sql_sb = new StringBuilder();
+
+            sql_sb.Append(@"
+                SELECT acc_option
+                FROM activity_column
+                WHERE acc_idn = @i");
+
+            //欄位key
+            var param_lst = new List<IDataParameter>() {
+                Db.GetParam("@i", i),
             };
 
             return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());

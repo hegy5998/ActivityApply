@@ -40,7 +40,7 @@
                         <h4>Firefox : 工具 -> 網頁開發者 -> 網頁工具箱 -> 選項 -> 取消打勾「停用JavaScript」</h4>
                         <h4>Chrome : 設定 -> 顯示進階設定 -> 隱私權 -> 內容定... -> JavaScript -> 選擇「允許所有網站執行JavaScript」</h4>
                     </noscript>
-                    <p id ="new" class="red center blink" style="font-size: -webkit-xxx-large;display:none">最近活動!!</p>
+                    <p id ="new" class="red center" style="font-size: -webkit-xxx-large;display:none">最近活動!!</p>
                 </div>
             </section>
         </section>

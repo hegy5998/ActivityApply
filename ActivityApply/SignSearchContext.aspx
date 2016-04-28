@@ -233,6 +233,10 @@
         function GoToActivity(act_idn) { 
             window.open("activity.aspx?act_idn=" + act_idn, "_blank"); 
         } 
+
+        function al() {
+            alert("ss");
+        }
     </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="pageUnitEnd" runat="server">

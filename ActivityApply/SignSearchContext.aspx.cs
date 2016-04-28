@@ -43,6 +43,8 @@ namespace ActivityApply
         protected void Page_Load(object sender, EventArgs e)
         {
             Session.Remove("aa_idn");
+            Session.Remove("act_idn");
+            Session.Remove("as_idn");
             if (!IsPostBack)
             {
                 BindGridView(GetData(true));
@@ -352,7 +354,10 @@ namespace ActivityApply
             if (user_password == password_txt.Text && gridview_event == "edit")
             {
                 Session["aa_idn"] = aa_idn;
-                Response.Redirect("SignChange.aspx?act_idn=" + act_idn + "&as_idn=" + as_idn);
+                Session["act_idn"] = act_idn;
+                Session["as_idn"] = as_idn;
+                Response.Redirect("SignChange.aspx");
+                //Response.Redirect("SignChange.aspx?act_idn=" + act_idn + "&as_idn=" + as_idn);
             }
             else if (user_password == password_txt.Text && gridview_event == "delete")
             {

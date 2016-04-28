@@ -1,4 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Base.Master" AutoEventWireup="true" CodeBehind="S02010102.aspx.cs" Inherits="Web.S02.S02010102" %>
+<%@ Register Src="~/UserControls/UCSystemModule.ascx" TagPrefix="uc1" TagName="UCSystemModule" %>
+<%@ Import Namespace="Util" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="baseHead_cph" runat="server">
 </asp:Content>
@@ -6,16 +9,10 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="baseContent_cph" runat="server">
     <h2>逢甲大學活動報名系統</h2>
 
-    <%--<div> 
-        <asp:Label ID="act_idn_hf" runat="server" />
-        <asp:Label ID="as_idn_hf" runat="server" />
-    </div>--%>
-
     <a href="#">匯出</a>
     <br /><br />
 
     <div class="row">
-        <%--<asp:GridView ID="main_gv" runat="server" AutoGenerateColumns="False" ShowHeaderWhenEmpty="True" OnRowCommand="main_gv_RowCommand" OnRowDeleting="main_gv_RowDeleting" OnSorting="main_gv_Sorting" OnRowEditing="main_gv_RowClose">--%>
         <asp:GridView ID="main_gv" runat="server" AutoGenerateColumns="False" ShowHeaderWhenEmpty="True" OnRowCreated="main_gv_RowCreated" OnRowDeleting="main_gv_RowDeleting" OnRowCommand="main_gv_RowCommand" OnRowEditing="main_gv_RowEditing" OnRowCancelingEdit="main_gv_RowCancelingEdit" OnRowDataBound="main_gv_RowDataBound" OnRowUpdating="main_gv_RowUpdating" ViewStateMode="Enabled">
             <Columns>
                 <%--操作--%>
@@ -47,14 +44,43 @@
                 </asp:TemplateField>
             </Columns>
         </asp:GridView>
+
+        <%--多選跳出視窗--%>
+        <asp:ModalPopupExtender ID="multi_mpe" runat="server" PopupControlID="multi_pl" TargetControlID="control_OK_btn" BackgroundCssClass="popupWindowOverlay" OkControlID="control_cancel_btn"></asp:ModalPopupExtender>
+
+        <!-- 多選 START -->
+        <asp:Panel ID="multi_pl" class="popupWindow" runat="server" Visible="false">
+            <asp:ScriptManager ID="ScriptManager" runat="server">
+            </asp:ScriptManager>
+
+            <!-- 多選標頭 START -->
+            <div class="popupWindowHeader">
+                <!-- 標題 -->
+                <div class="title">
+                    <asp:UpdatePanel ID="control_title_upl" runat="server">
+                        <ContentTemplate>
+                            <asp:Label ID="control_tilte_lbl" runat="server" Text="請選擇"></asp:Label>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                </div>
+
+                <!-- 關閉按鈕 -->
+                <asp:Button ID="control_cancel_btn" CssClass="close" runat="server" Text="關閉" ToolTip="關閉" OnClick="control_cancel_btn_Click" UseSubmitBehavior="False" />
+                <asp:Button ID="control_OK_btn" CssClass="open"  runat="server" Text="開啟" ToolTip="開啟" UseSubmitBehavior="False" />
+            </div>
+            <!-- 標頭 END -->
+
+            <!-- 內容 START -->
+            <div class="popupWindowContent">
+                <asp:Panel ID="multioption_pl" runat="server">
+                    <asp:HiddenField ID="col_idn_hf" runat="server" />
+                    <asp:HiddenField ID="row_idn_hf" runat="server" />
+                    <asp:HiddenField ID="new_hf" runat="server" />
+                    <asp:Button runat="server" CssClass="btn-large" Text="確認" UseSubmitBehavior="false" OnClick="checkmulti_btn_Click" /><br />
+                </asp:Panel>
+            </div>
+            <!-- 協作者內容 END -->
+        </asp:Panel>
+        <!-- 協作者 END -->
     </div>
-    
-    <script type="text/javascript">
-        window.onbeforeunload = function () {
-            window.event.returnValue = "尚未儲存資料";
-            if (window.event.reason == false) {
-                window.event.cancelBubble = true;
-            }
-        }
-    </script>
 </asp:Content>
