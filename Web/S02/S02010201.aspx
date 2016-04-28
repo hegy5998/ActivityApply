@@ -1352,7 +1352,10 @@
                         async: false,
                         //成功時
                         success: function (result) {
-
+                            if(result.d == "true") 
+                                Save_Activity_btn_Click();
+                            else
+                                alert("活動儲存失敗");
                         },
                         //失敗時
                         error: function () {
@@ -1549,8 +1552,10 @@
                     async: false,
                     //成功時
                     success: function (result) {
-                        alert(result.d);
-                        upload_File();
+                        if (result.d == "true")
+                            upload_File();
+                        else
+                            alert("活動儲存失敗");
                     },
                     //失敗時
                     error: function () {
@@ -1741,9 +1746,6 @@
         //#region 儲存活動
         function save() {
             Save_btn_Click();
-            Save_Activity_btn_Click();
-            //upload_File();
-            //window.location.href = '/S02/S02010101.aspx?sys_id=S01&sys_pid=S02010101';
         }
         //#endregion
 

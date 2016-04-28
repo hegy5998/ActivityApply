@@ -87,7 +87,7 @@ namespace Web.S02
                         save_Activity_Form["acc_required"] = activity_Form[count].Acc_required;
                         CommonResult result = _bl.InsertData_Activity_Column(save_Activity_Form);
                     }
-                    return "活動儲存成功";
+                    return "true";
                 }
                 else
                 {
@@ -107,11 +107,11 @@ namespace Web.S02
                         _bl.DeleteSessionData(delete_Activity_Session);
                     }
                     if_upload = false;
-                    return "活動儲存失敗";
+                    return "false";
                 }
             }
             else
-                return "活動儲存失敗";
+                return "false";
         }
         #endregion
 
@@ -173,15 +173,15 @@ namespace Web.S02
                     }
                     act_idn = 0;
                     if_upload = false;
-                    return "活動儲存失敗";
+                    return "false";
                 }
                 else
-                    return "活動儲存成功";
+                    return "true";
             }
             else
             {
                 if_upload = false;
-                return "活動儲存失敗";
+                return "false";
             }
 
         }
