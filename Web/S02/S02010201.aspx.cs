@@ -18,6 +18,7 @@ using System.Web.Configuration;
 using Newtonsoft.Json;
 using Model.Common;
 using Web.CommonPages;
+using System.Text;
 
 namespace Web.S02
 {
@@ -26,10 +27,15 @@ namespace Web.S02
         //private static string act_relate_file = "";
         //private static string act_image  = "";
         private static int act_idn = 0;
+        private static Boolean if_upload = true;
+        private static List<int> sessioncount = new List<int>();
+        private static List<int> sectioncount = new List<int>();
         protected void Page_Load(object sender, EventArgs e)
         {
             //act_relate_file = "";
             //act_image = "";
+            if(!IsPostBack)
+                act_idn = 0;
         }
 
 
@@ -42,14 +48,15 @@ namespace Web.S02
 
         #region 儲存報名表
         [System.Web.Services.WebMethod]
-        public static string save_Activity_Form(List<Activity_columnInfo> activity_Form , List<Activity_sectionInfo> activity_Section)
+        public static string save_Activity_Form(List<Activity_columnInfo> activity_Form, List<Activity_sectionInfo> activity_Section)
         {
             if (act_idn != 0)
             {
                 int as_act = 0;
                 as_act = act_idn;
+                //int[] sectioncount;
                 S020102BL _bl = new S020102BL();
-
+                Boolean sectionSuccess = true;
                 Dictionary<String, Object> save_Activity_Section = new Dictionary<string, object>();
                 for (int count = 0; count < activity_Section.Count; count++)
                 {
@@ -57,35 +64,60 @@ namespace Web.S02
                     save_Activity_Section["acs_title"] = activity_Section[count].Acs_title;
                     save_Activity_Section["acs_desc"] = activity_Section[count].Acs_desc;
                     save_Activity_Section["acs_seq"] = activity_Section[count].Acs_seq;
-                    _bl.InsertData_Activity_Section(save_Activity_Section);
+                    CommonResult section_res = _bl.InsertData_Activity_Section(save_Activity_Section);
+                    if (!section_res.IsSuccess)
+                        sectionSuccess = false;
+                    else
+                        sectioncount.Add(Int32.Parse(section_res.Message));
                 }
-
-
-                for (int count = 0; count < activity_Form.Count; count++)
+                if (sectionSuccess == true)
                 {
-                    Dictionary<string, Object> save_Activity_Form = new Dictionary<string, object>();
-                    save_Activity_Form["acc_asc"] = activity_Form[count].Acc_asc;
-                    save_Activity_Form["acc_act"] = as_act;
-                    save_Activity_Form["acc_title"] = activity_Form[count].Acc_title;
-                    save_Activity_Form["acc_desc"] = activity_Form[count].Acc_desc;
-                    save_Activity_Form["acc_seq"] = activity_Form[count].Acc_seq;
-                    save_Activity_Form["acc_type"] = activity_Form[count].Acc_type;
-                    if (activity_Form[count].Acc_option != null)
-                        save_Activity_Form["acc_option"] = activity_Form[count].Acc_option;
-                    save_Activity_Form["acc_validation"] = activity_Form[count].Acc_validation;
-                    save_Activity_Form["acc_required"] = activity_Form[count].Acc_required;
-                    CommonResult result = _bl.InsertData_Activity_Column(save_Activity_Form);
+                    for (int count = 0; count < activity_Form.Count; count++)
+                    {
+                        Dictionary<string, Object> save_Activity_Form = new Dictionary<string, object>();
+                        save_Activity_Form["acc_asc"] = activity_Form[count].Acc_asc;
+                        save_Activity_Form["acc_act"] = as_act;
+                        save_Activity_Form["acc_title"] = activity_Form[count].Acc_title;
+                        save_Activity_Form["acc_desc"] = activity_Form[count].Acc_desc;
+                        save_Activity_Form["acc_seq"] = activity_Form[count].Acc_seq;
+                        save_Activity_Form["acc_type"] = activity_Form[count].Acc_type;
+                        if (activity_Form[count].Acc_option != null)
+                            save_Activity_Form["acc_option"] = activity_Form[count].Acc_option;
+                        save_Activity_Form["acc_validation"] = activity_Form[count].Acc_validation;
+                        save_Activity_Form["acc_required"] = activity_Form[count].Acc_required;
+                        CommonResult result = _bl.InsertData_Activity_Column(save_Activity_Form);
+                    }
+                    return "活動儲存成功";
                 }
-                return "活動儲存成功成功";
+                else
+                {
+                    Dictionary<string, Object> delete_Activity_Information = new Dictionary<string, object>();
+                    delete_Activity_Information["act_idn"] = act_idn;
+                    _bl.DeleteActivityData(delete_Activity_Information);
+                    for (int count = 0; count < sectioncount.Count; count++)
+                    {
+                        Dictionary<String, Object> delete_Activity_Section = new Dictionary<string, object>();
+                        delete_Activity_Section["acs_idn"] = sectioncount[count];
+                        _bl.DeleteSectionData(delete_Activity_Section);
+                    }
+                    for (int count = 0; count < sessioncount.Count; count++)
+                    {
+                        Dictionary<String, Object> delete_Activity_Session = new Dictionary<string, object>();
+                        delete_Activity_Session["as_idn"] = sessioncount[count];
+                        _bl.DeleteSessionData(delete_Activity_Session);
+                    }
+                    if_upload = false;
+                    return "活動儲存失敗";
+                }
             }
             else
-                return "儲存失敗";
+                return "活動儲存失敗";
         }
         #endregion
 
         #region 儲存活動頁面
         [System.Web.Services.WebMethod]
-        public static string save_Activity(List<ActivityInfo> activity_List,List<Activity_sessionInfo> activity_Session_List)
+        public static string save_Activity(List<ActivityInfo> activity_List, List<Activity_sessionInfo> activity_Session_List)
         {
             SystemConfigInfo sysConfig = CommonHelper.GetSysConfig();
             string shorterURL = Util.CustomHelper.URLshortener(sysConfig.SOLUTION_HTTPADDR + "activity.aspx?act_class=" + activity_List[0].Act_class + "&act_idn=" + activity_List[0].Act_idn + "&act_title=" + activity_List[0].Act_title, sysConfig.URL_SHORTENER_API_KEY);
@@ -102,27 +134,56 @@ namespace Web.S02
             save_Activity_Information["act_relate_link"] = activity_List[0].Act_relate_link;
             save_Activity_Information["act_short_link"] = shorterURL;
             save_Activity_Information["act_isopen"] = 0;
-            CommonResult res = _bl.InsertData(save_Activity_Information);       
+            CommonResult res = _bl.InsertData(save_Activity_Information);
 
-            //將活動場次資料insert到資料庫
-            Dictionary<string, Object> save_Session_Information = new Dictionary<string, Object>();
-
-            save_Session_Information["as_act"] = act_idn = Int32.Parse(res.Message);
-
-            //多筆場次insert到資料庫
-            for (int count = 0; count < activity_Session_List.Count ; count++)
+            if (res.IsSuccess)
             {
-                save_Session_Information["as_title"] = activity_Session_List[count].As_title;
-                save_Session_Information["as_date_start"] = activity_Session_List[count].As_date_start;
-                save_Session_Information["as_date_end"] = activity_Session_List[count].As_date_end;
-                save_Session_Information["as_apply_start"] = activity_Session_List[count].As_apply_start;
-                save_Session_Information["as_apply_end"] = activity_Session_List[count].As_apply_end;
-                save_Session_Information["as_position"] = activity_Session_List[count].As_position;
-                save_Session_Information["as_num_limit"] = activity_Session_List[count].As_num_limit;
-                save_Session_Information["as_isopen"] = 0;
-                _bl.InsertData_session(save_Session_Information);
+                //將活動場次資料insert到資料庫
+                Dictionary<string, Object> save_Session_Information = new Dictionary<string, Object>();
+
+                save_Session_Information["as_act"] = act_idn = Int32.Parse(res.Message);
+                Boolean sessionSuccess = true;
+                //多筆場次insert到資料庫
+                for (int count = 0; count < activity_Session_List.Count; count++)
+                {
+                    save_Session_Information["as_title"] = activity_Session_List[count].As_title;
+                    save_Session_Information["as_date_start"] = activity_Session_List[count].As_date_start;
+                    save_Session_Information["as_date_end"] = activity_Session_List[count].As_date_end;
+                    save_Session_Information["as_apply_start"] = activity_Session_List[count].As_apply_start;
+                    save_Session_Information["as_apply_end"] = activity_Session_List[count].As_apply_end;
+                    save_Session_Information["as_position"] = activity_Session_List[count].As_position;
+                    save_Session_Information["as_num_limit"] = activity_Session_List[count].As_num_limit;
+                    save_Session_Information["as_isopen"] = 0;
+                    CommonResult session_res = _bl.InsertData_session(save_Session_Information);
+                    if (!session_res.IsSuccess)
+                        sessionSuccess = false;
+                    else
+                        sessioncount.Add(Int32.Parse(session_res.Message));
+                }
+                if (sessionSuccess == false)
+                {
+                    Dictionary<string, Object> delete_Activity_Information = new Dictionary<string, object>();
+                    delete_Activity_Information["act_idn"] = act_idn;
+                    _bl.DeleteActivityData(delete_Activity_Information);
+                    for (int count = 0; count < sessioncount.Count; count++)
+                    {
+                        Dictionary<String, Object> delete_Activity_Session = new Dictionary<string, object>();
+                        delete_Activity_Session["as_idn"] = sessioncount[count];
+                        _bl.DeleteSessionData(delete_Activity_Session);
+                    }
+                    act_idn = 0;
+                    if_upload = false;
+                    return "活動儲存失敗";
+                }
+                else
+                    return "活動儲存成功";
             }
-            return "成功";
+            else
+            {
+                if_upload = false;
+                return "活動儲存失敗";
+            }
+
         }
         #endregion
 
@@ -150,72 +211,84 @@ namespace Web.S02
         {
             int as_act = 0;
             as_act = act_idn;
-            imageUpload_btn_Click(sender, e);
-
-            if (FileUpload.HasFile == false) return;
-
-            
-
-            // FU1.FileName 只有 "檔案名稱.附檔名"，並沒有 Client 端的完整理路徑
-            string filename = FileUpload.FileName;
-
-            string extension = Path.GetExtension(filename).ToLowerInvariant();
-            // 判斷是否為允許上傳的檔案附檔名
-            List<string> allowedExtextsion = new List<string> { ".jpg", ".png", ".jpeg", ".gif", ".doc", ".docx", ".txt", ".ppt", ".pptx", ".xls", ".xlsx", ".pdf", ".rar", ".zip", ".7z" };
-            if (allowedExtextsion.IndexOf(extension) == -1)
+            if(if_upload == true)
             {
-                string error_msg = "附加檔案不允許該類型檔案上傳!";
-                Response.Write("<script language='javascript'>alert('" + error_msg + "');</script>");
-                return;
-            }
+                imageUpload_btn_Click(sender, e);
 
-            // 限制檔案大小，限制為 2MB
-            int filesize = FileUpload.PostedFile.ContentLength;
-            if (filesize > 4100000)
-            {
-                string error_msg = "《附加檔案上傳失敗》，超過上限 4MB，如須重新上傳請至活動列表編輯內上傳";
-                Response.Write("<script language='javascript'>alert('" + error_msg + "');</script>");
-                return;
-            }
+                if (FileUpload.HasFile == false)
+                {
+                    act_idn = 0;
+                    return;
+                }
 
-            // 檢查 Server 上該資料夾是否存在，不存在就自動建立
-            string serverDirRelate =  @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act+"/relateFile";
-            string act_relate_file = serverDirRelate + "/" + filename;
-            if (Directory.Exists(serverDirRelate) == false) Directory.CreateDirectory(serverDirRelate);
 
-            S020102BL _bl = new S020102BL();
-            Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
-            old_Activity_dict["act_idn"] = act_idn;
-            Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
-            new_Activity_dict["act_relate_file"] = @"../Uploads/" + as_act + "/relateFile" + "/" + filename;
-            CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
+                // FU1.FileName 只有 "檔案名稱.附檔名"，並沒有 Client 端的完整理路徑
+                string filename = FileUpload.FileName;
 
-            // 判斷 Server 上檔案名稱是否有重覆情況，有的話必須進行更名
-            // 使用 Path.Combine 來集合路徑的優點
-            //  以前發生過儲存 Table 內的是 \\ServerName\Dir（最後面沒有 \ 符號），
-            //  直接跟 FileName 來進行結合，會變成 \\ServerName\DirFileName 的情況，
-            //  資料夾路徑的最後面有沒有 \ 符號變成還需要判斷，但用 Path.Combine 來結合的話，
-            //  資料夾路徑沒有 \ 符號，會自動補上，有的話，就直接結合
-            string serverFilePath = Path.Combine(serverDirRelate, filename);
-            string fileNameOnly = Path.GetFileNameWithoutExtension(filename);
-            int fileCount = 1;
-            while (File.Exists(serverFilePath))
-            {
-                // 重覆檔案的命名規則為 檔名_1、檔名_2 以此類推
-                filename = string.Concat(fileNameOnly, "_", fileCount, extension);
-                serverFilePath = Path.Combine(serverDirRelate, filename);
-                fileCount++;
-            }
+                string extension = Path.GetExtension(filename).ToLowerInvariant();
+                // 判斷是否為允許上傳的檔案附檔名
+                List<string> allowedExtextsion = new List<string> { ".jpg", ".png", ".jpeg", ".gif", ".doc", ".docx", ".txt", ".ppt", ".pptx", ".xls", ".xlsx", ".pdf", ".rar", ".zip", ".7z" };
+                if (allowedExtextsion.IndexOf(extension) == -1)
+                {
+                    string error_msg = "附加檔案不允許該類型檔案上傳!";
+                    Response.Write("<script language='javascript'>alert('" + error_msg + "');</script>");
+                    return;
+                }
 
-            // 把檔案傳入指定的 Server 內路徑
-            try
-            {
-                FileUpload.SaveAs(serverFilePath);
-            }
-            catch (Exception ex)
-            {
-                //Label1.Text = "檔案上傳成功";
+                // 限制檔案大小，限制為 2MB
+                int filesize = FileUpload.PostedFile.ContentLength;
+                if (filesize > 4100000)
+                {
+                    string error_msg = "《附加檔案上傳失敗》，超過上限 4MB，如須重新上傳請至活動列表編輯內上傳";
+                    Response.Write("<script language='javascript'>alert('" + error_msg + "');</script>");
+                    return;
+                }
 
+                // 檢查 Server 上該資料夾是否存在，不存在就自動建立
+                string serverDirRelate = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/relateFile";
+                string act_relate_file = serverDirRelate + "/" + filename;
+                if (Directory.Exists(serverDirRelate) == false) Directory.CreateDirectory(serverDirRelate);
+
+                S020102BL _bl = new S020102BL();
+
+
+                // 判斷 Server 上檔案名稱是否有重覆情況，有的話必須進行更名
+                // 使用 Path.Combine 來集合路徑的優點
+                //  以前發生過儲存 Table 內的是 \\ServerName\Dir（最後面沒有 \ 符號），
+                //  直接跟 FileName 來進行結合，會變成 \\ServerName\DirFileName 的情況，
+                //  資料夾路徑的最後面有沒有 \ 符號變成還需要判斷，但用 Path.Combine 來結合的話，
+                //  資料夾路徑沒有 \ 符號，會自動補上，有的話，就直接結合
+                string serverFilePath = Path.Combine(serverDirRelate, filename);
+                string fileNameOnly = Path.GetFileNameWithoutExtension(filename);
+                int fileCount = 1;
+                while (File.Exists(serverFilePath))
+                {
+                    // 重覆檔案的命名規則為 檔名_1、檔名_2 以此類推
+                    filename = string.Concat(fileNameOnly, "_", fileCount, extension);
+                    serverFilePath = Path.Combine(serverDirRelate, filename);
+                    fileCount++;
+                }
+
+                // 把檔案傳入指定的 Server 內路徑
+                try
+                {
+                    FileUpload.SaveAs(serverFilePath);
+                    Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
+                    old_Activity_dict["act_idn"] = act_idn;
+                    Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
+                    new_Activity_dict["act_relate_file"] = @"../Uploads/" + as_act + "/relateFile" + "/" + filename;
+                    CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
+                }
+                catch (Exception ex)
+                {
+                    string msg = "附加檔案上傳失敗，如需重新上傳請至修改頁面重新上傳，謝謝!!";
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append("<script language='javascript'>");
+                    sb.Append("alert('" + msg + "')");
+                    sb.Append("</script>");
+                    ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
+                }
+                act_idn = 0;
             }
         }
         #endregion
@@ -225,7 +298,7 @@ namespace Web.S02
         {
             int as_act = 0;
             as_act = act_idn;
-            
+
             if (imgUpload.HasFile == false) return;
 
             // FU1.FileName 只有 "檔案名稱.附檔名"，並沒有 Client 端的完整理路徑
@@ -251,16 +324,11 @@ namespace Web.S02
             }
 
             // 檢查 Server 上該資料夾是否存在，不存在就自動建立
-            string serverDirImg =  @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/Img";
+            string serverDirImg = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/Img";
             string act_image = serverDirImg + "/" + filename;
             if (Directory.Exists(serverDirImg) == false) Directory.CreateDirectory(serverDirImg);
 
             S020102BL _bl = new S020102BL();
-            Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
-            old_Activity_dict["act_idn"] = act_idn;
-            Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
-            new_Activity_dict["act_image"] = @"../Uploads/" + as_act + "/img" + "/" + filename;
-            CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
 
             // 判斷 Server 上檔案名稱是否有重覆情況，有的話必須進行更名
             // 使用 Path.Combine 來集合路徑的優點
@@ -283,10 +351,20 @@ namespace Web.S02
             try
             {
                 imgUpload.SaveAs(serverFilePath);
+                Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
+                old_Activity_dict["act_idn"] = act_idn;
+                Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
+                new_Activity_dict["act_image"] = @"../Uploads/" + as_act + "/img" + "/" + filename;
+                CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                string msg = "活動圖片上傳失敗，如需重新上傳請至修改頁面重新上傳，謝謝!!";
+                StringBuilder sb = new StringBuilder();
+                sb.Append("<script language='javascript'>");
+                sb.Append("alert('" + msg + "')");
+                sb.Append("</script>");
+                ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
             }
         }
         #endregion

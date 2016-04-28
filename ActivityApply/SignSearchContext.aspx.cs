@@ -103,15 +103,20 @@ namespace ActivityApply
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
+                //e.Row.Attributes.Add("OnMouseover", "this.style.background='#33CCFF'");
+                //e.Row.Attributes.Add("OnMouseout", "this.style.background='#E7E7FF'");
+                e.Row.Attributes.Add("OnMouseover", "c=this.style.backgroundColor;this.style.backgroundColor='#C0C3C9'");
+                e.Row.Attributes.Add("OnMouseout", "this.style.background=c");
+
                 e.Row.Cells[2].Style.Add("word-break", "break-all");
                 GridViewRow gvr = e.Row;
                 Label As_date_end_hf = gvr.FindControl("As_date_end_lbl") as Label;
                 DateTime dt = Convert.ToDateTime(As_date_end_hf.Text);
-                
+
                 DateTime currentTime = new DateTime();
                 currentTime = DateTime.Now;
-                
-                if (DateTime.Compare(currentTime,dt)>0)
+
+                if (DateTime.Compare(currentTime, dt) > 0)
                 {
                     Button edit_btn = gvr.FindControl("edit_btn") as Button;
                     Button delete_btn = gvr.FindControl("delete_btn") as Button;
@@ -205,7 +210,7 @@ namespace ActivityApply
                 //抓取使用者密碼
                 DataTable dt_password = BL.GetEmailData(aa_email_hf.Value);
                 //儲存使用者密碼
-                if(dt_password.Rows.Count != 0)
+                if (dt_password.Rows.Count != 0)
                     user_password = dt_password.Rows[0]["aae_password"].ToString();
             }
             else
@@ -224,7 +229,7 @@ namespace ActivityApply
         protected void change_password_ok_btn_Click(object sender, EventArgs e)
         {
             //判斷使用者輸入密碼資料是否正確
-            if(user_password == old_password_txt.Text && new_password_txt.Text == new_password_check_txt.Text)
+            if (user_password == old_password_txt.Text && new_password_txt.Text == new_password_check_txt.Text)
             {
                 Dictionary<string, object> oldpassworddict = new Dictionary<string, object>();
                 oldpassworddict["aae_email"] = aa_email_hf.Value;
@@ -245,7 +250,7 @@ namespace ActivityApply
                 SystemConfigInfo config_info = CommonHelper.GetSysConfig();
                 CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubjectChange(email), getMailContnetChange());
             }
-            else if(user_password != old_password_txt.Text)
+            else if (user_password != old_password_txt.Text)
             {
                 string error_msg = "密碼錯誤!";
                 StringBuilder sb = new StringBuilder();
@@ -254,7 +259,7 @@ namespace ActivityApply
                 sb.Append("</script>");
                 ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
             }
-            else if(new_password_txt.Text != new_password_check_txt.Text)
+            else if (new_password_txt.Text != new_password_check_txt.Text)
             {
                 string error_msg = "新密碼不相同!";
                 StringBuilder sb = new StringBuilder();
@@ -269,7 +274,7 @@ namespace ActivityApply
         #region 忘記密碼按鈕確認事件
         protected void get_password_ok_btn_Click(object sender, EventArgs e)
         {
-            string email= email_txt.Text;
+            string email = email_txt.Text;
             //寄信
             SystemConfigInfo config_info = CommonHelper.GetSysConfig();
             DataTable dt_password = BL.GetEmailData(email);
@@ -283,8 +288,8 @@ namespace ActivityApply
             string aae_password = dt_password.Rows[0]["aae_password"].ToString();                  // 活動名稱
             string content = "<p> 您好：</p>" +
                                 "<br/>--------------------------------------------------------------------------------------" +
-                                "<p>您的密碼為 : " + aae_password  + ""+
-                                "<br/>為了您的帳戶安全，請您立即更改您的密碼"+
+                                "<p>您的密碼為 : " + aae_password + "" +
+                                "<br/>為了您的帳戶安全，請您立即更改您的密碼" +
                                 "<br/>--------------------------------------------------------------------------------------" +
                                 "<p>※這是由系統自動發出的通知信，請勿回覆，感謝您的配合。</p>";
             return content;
@@ -342,23 +347,23 @@ namespace ActivityApply
         #region 修改報名資料、刪除按鈕，輸入密碼確認事件
         protected void password_ok_btn_Click(object sender, EventArgs e)
         {
-            
+
             //判斷使用者密碼是否正確以及是按了修改還是刪除按鈕
             if (user_password == password_txt.Text && gridview_event == "edit")
             {
                 Session["aa_idn"] = aa_idn;
                 Response.Redirect("SignChange.aspx?act_idn=" + act_idn + "&as_idn=" + as_idn);
             }
-            else if(user_password == password_txt.Text && gridview_event == "delete")
+            else if (user_password == password_txt.Text && gridview_event == "delete")
             {
                 DataTable columndt = BL.GetColumnData(act_idn);
-                for(int count = 0; count < columndt.Rows.Count;count++)
+                for (int count = 0; count < columndt.Rows.Count; count++)
                 {
                     Dictionary<string, object> detaildict = new Dictionary<string, object>();
                     detaildict["aad_apply_id"] = aa_idn;
                     detaildict["aad_col_id"] = columndt.Rows[count][0].ToString();
                     var detailres = BL.DeleteDetailData(detaildict);
-                    
+
                 }
                 Dictionary<string, object> applydict = new Dictionary<string, object>();
                 applydict["aa_idn"] = aa_idn;
@@ -369,7 +374,7 @@ namespace ActivityApply
                     string email = aa_email_hf.Value;
                     SystemConfigInfo config_info = CommonHelper.GetSysConfig();
                     DataTable dt_email = _bl.GetActivityData(Int32.Parse(act_idn), Int32.Parse(as_idn));
-                    CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubjectDelete(), getMailContnetDelete(dt_email,name));
+                    CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubjectDelete(), getMailContnetDelete(dt_email, name));
                 }
                 DataTable dt = GetData(true);
                 if (dt.Rows.Count == 0)

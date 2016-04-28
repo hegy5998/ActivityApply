@@ -14,6 +14,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Model.Common;
 using BusinessLayer.S01;
+using System.Text;
 
 namespace Web.S02
 {
@@ -217,17 +218,17 @@ namespace Web.S02
                     try
                     {
                         delete_fi.Delete(true);
+                        Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
+                        old_Activity_dict["act_idn"] = act_idn;
+                        Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
+                        new_Activity_dict["act_relate_file"] = "";
+                        CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
                     }
                     catch (System.IO.IOException e)
                     {
-                        Console.WriteLine(e.Message);
+                        //Console.WriteLine(e.Message);
                     }
                 }
-                Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
-                old_Activity_dict["act_idn"] = act_idn;
-                Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
-                new_Activity_dict["act_relate_file"] = "";
-                CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
             }
 
             if (if_img_file == "true")
@@ -240,17 +241,17 @@ namespace Web.S02
                     try
                     {
                         delete_fi.Delete(true);
+                        Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
+                        old_Activity_dict["act_idn"] = act_idn;
+                        Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
+                        new_Activity_dict["act_image"] = "";
+                        CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
                     }
                     catch (System.IO.IOException e)
                     {
-                        Console.WriteLine(e.Message);
+                        //Console.WriteLine(e.Message);
                     }
                 }
-                Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
-                old_Activity_dict["act_idn"] = act_idn;
-                Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
-                new_Activity_dict["act_image"] = "";
-                CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
             }
 
             //判斷使否有場次被刪除
@@ -354,11 +355,7 @@ namespace Web.S02
             if (Directory.Exists(serverDirRelate) == false) Directory.CreateDirectory(serverDirRelate);
 
             S020102BL _bl = new S020102BL();
-            Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
-            old_Activity_dict["act_idn"] = act_idn;
-            Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
-            new_Activity_dict["act_relate_file"] = @"../Uploads/" + as_act + "/relateFile" + "/" + filename;
-            CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
+            
 
             // 判斷 Server 上檔案名稱是否有重覆情況，有的話必須進行更名
             // 使用 Path.Combine 來集合路徑的優點
@@ -381,10 +378,20 @@ namespace Web.S02
             try
             {
                 FileUpload.SaveAs(serverFilePath);
+                Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
+                old_Activity_dict["act_idn"] = act_idn;
+                Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
+                new_Activity_dict["act_relate_file"] = @"../Uploads/" + as_act + "/relateFile" + "/" + filename;
+                CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                string msg = "附加檔案上傳失敗，請重新上傳謝謝!!";
+                StringBuilder sb = new StringBuilder();
+                sb.Append("<script language='javascript'>");
+                sb.Append("alert('" + msg + "')");
+                sb.Append("</script>");
+                ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
             }
         }
         #endregion
@@ -450,11 +457,7 @@ namespace Web.S02
             if (Directory.Exists(serverDirImg) == false) Directory.CreateDirectory(serverDirImg);
 
             S020102BL _bl = new S020102BL();
-            Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
-            old_Activity_dict["act_idn"] = act_idn;
-            Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
-            new_Activity_dict["act_image"] = @"../Uploads/" + as_act + "/img" + "/" + filename;
-            CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
+            
 
             // 判斷 Server 上檔案名稱是否有重覆情況，有的話必須進行更名
             // 使用 Path.Combine 來集合路徑的優點
@@ -477,10 +480,20 @@ namespace Web.S02
             try
             {
                 imgUpload.SaveAs(serverFilePath);
+                Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
+                old_Activity_dict["act_idn"] = act_idn;
+                Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
+                new_Activity_dict["act_image"] = @"../Uploads/" + as_act + "/img" + "/" + filename;
+                CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                string msg = "活動圖片上傳失敗，請重新上傳謝謝!!";
+                StringBuilder sb = new StringBuilder();
+                sb.Append("<script language='javascript'>");
+                sb.Append("alert('" + msg + "')");
+                sb.Append("</script>");
+                ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
             }
         }
         #endregion

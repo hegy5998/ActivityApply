@@ -25,7 +25,7 @@
                             </HeaderTemplate>
                             <ItemTemplate>
                                 <asp:Button ID="edit_btn" runat="server" Text="修改報名資料" CommandName="Edit" ToolTip="編輯" CssClass="btnGrv edit" UseSubmitBehavior="false" CommandArgument='<%# Container.DataItemIndex%>' />
-                                &nbsp;<asp:Button ID="delete_btn" runat="server" CommandName="Delete" Text="取消" ToolTip="刪除" CssClass="btnGrv delete" UseSubmitBehavior="false" OnClientClick="if (!confirm(&quot;確定要刪除嗎?該分類內的活動將不被看到!&quot;)) return false" CommandArgument='<%# Container.DataItemIndex%>' />
+                                &nbsp;<asp:Button ID="delete_btn" runat="server" CommandName="Delete" Text="取消" ToolTip="刪除" CssClass="btnGrv delete" UseSubmitBehavior="false" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" CommandArgument='<%# Container.DataItemIndex%>' />
                                 <asp:HiddenField ID="rowDefaultTriggerControlID_hf" runat="server" EnableViewState="False" Value="edit_btn" />
                             </ItemTemplate>
                             <FooterStyle HorizontalAlign="Center" />

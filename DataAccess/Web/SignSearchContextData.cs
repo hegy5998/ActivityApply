@@ -20,13 +20,17 @@ namespace DataAccess.Web
         public DataTable GetActivityData(string aa_email)
         {
             string sql = @"SELECT activity.act_idn,activity.act_title,activity.act_class,
-                                  activity_session.as_idn,activity_session.as_title,activity_session.as_date_end,activity_session.as_date_start,
-		                          activity_apply.aa_name,activity_apply.aa_idn,activity_apply.updtime
+                                  activity_session.as_idn,activity_session.as_title,
+		                          activity_apply.aa_name,activity_apply.aa_idn
+								  ,CONCAT( CONVERT(varchar(256), activity_session.as_date_end, 111),' ' , SUBSTRING(CONVERT(char(8), activity_session.as_date_end, 108), 0, 6) ) as as_date_end
+								  ,CONCAT( CONVERT(varchar(256), activity_apply.updtime, 111),' ' , SUBSTRING(CONVERT(char(8), activity_apply.updtime, 108), 0, 6) ) as updtime
+								  ,CONCAT( CONVERT(varchar(256), activity_session.as_date_start, 111),' ' , SUBSTRING(CONVERT(char(8), activity_session.as_date_start, 108), 0, 6) ) as as_date_start
                            From activity,activity_session,activity_apply
                            WHERE activity_apply.aa_act = activity.act_idn 
                            AND activity_apply.aa_as = activity_session.as_idn 
                            AND activity_apply.aa_email = @aa_email
-                           ORDER BY activity_apply.updtime";
+                           AND DATEDIFF (DAY ,CONVERT(varchar(256), GETDATE(), 121) ,activity_session.as_date_end ) > -30
+                           ORDER BY activity_apply.updtime DESC";
             IDataParameter[] param = { Db.GetParam("@aa_email", aa_email) };
             return Db.GetDataTable(sql, param);
         }

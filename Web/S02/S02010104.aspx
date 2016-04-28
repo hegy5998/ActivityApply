@@ -233,6 +233,7 @@
                 //將時間字串轉成DateTime格式
                 var apply_end = new Date(dateReviver(SessionInfo[count].as_apply_end));
                 var date_end = new Date(dateReviver(SessionInfo[count].as_date_end));
+                var apply_start = new Date(dateReviver(SessionInfo[count].as_apply_start));
                 //取得目前時間
                 var NowDate = new Date();
                 //判斷報名結束時間是否結束
@@ -242,6 +243,11 @@
                 //判斷活動是否結束
                 if (date_end < NowDate) {
                     $("#apply_btn_" + count).html("活動已結束");
+                }
+                //判斷是否開始報名
+                if (apply_start > NowDate) {
+                    $("#apply_btn_" + count).attr("href", 'javascript:void(0)');
+                    $("#apply_btn_" + count).html("尚未開放報名");
                 }
             }
         }

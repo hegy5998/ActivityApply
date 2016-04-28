@@ -24,6 +24,22 @@
         .grid td, .grid th {
             text-align: center;
         }
+
+        table {
+            border-spacing: 0;
+            border-collapse: collapse;
+        }
+
+        /*.table-striped > tbody > tr:nth-child(odd) > td,
+        .table-striped > tbody > tr:nth-child(odd) > th {
+            background-color: #f9f9f9;
+        }*/
+
+        .div_table-cell {
+            display: table-cell;
+            text-align: center;
+            vertical-align: middle;
+        }
     </style>
     <script type="text/javascript">
         $(function () {
@@ -98,66 +114,66 @@
                     <!-- modal -->
                 </div>
                 <!-- 報名資料GridView -->
-                <div class="advanced-form row">
+                <div class="advanced-form row div_table-cell">
                     <asp:UpdatePanel ID="lup" runat="server" ChildrenAsTriggers="False" UpdateMode="Conditional">
                         <ContentTemplate>
-                            <asp:GridView ID="main_gv" CssClass="grid" runat="server" AutoGenerateColumns="False" ViewStateMode="Enabled" PageSize="5" OnRowCommand="main_gv_RowCommand" OnRowDeleting="main_gv_RowDeleting" OnRowDataBound="main_gv_RowDataBound" CellPadding="4" ForeColor="#333333" GridLines="None">
+                            <asp:GridView ID="main_gv" class="table table-striped" CssClass="grid" runat="server" AutoGenerateColumns="False" ViewStateMode="Enabled" PageSize="5" OnRowCommand="main_gv_RowCommand" OnRowDeleting="main_gv_RowDeleting" OnRowDataBound="main_gv_RowDataBound" CellPadding="4" ForeColor="#333333" GridLines="None">
                                 <AlternatingRowStyle BackColor="White" />
                                 <Columns>
                                     <asp:TemplateField HeaderText="活動名稱" ItemStyle-HorizontalAlign="Center">
                                         <ItemTemplate>
-                                            <input id="Act_title" type="button" class="btn-link" value='<%# Eval("Act_title") %>' Onclick="GoToActivity(<%# Eval("Act_idn") %>);"  style="width:200px"/>
+                                            <input id="Act_title" type="button" class="btn-link" value='<%# Eval("Act_title") %>' onclick="GoToActivity(<%# Eval("Act_idn") %>);" style="width: 200px" />
                                             <asp:HiddenField ID="Aa_idn_hf" runat="server" Value='<%# Bind("Aa_idn") %>' Visible="false" ViewStateMode="Enabled" />
                                             <asp:HiddenField ID="Act_idn_hf" runat="server" Value='<%# Bind("Act_idn") %>' Visible="false" ViewStateMode="Enabled" />
                                             <asp:HiddenField ID="Act_class_hf" runat="server" Value='<%# Bind("Act_class") %>' Visible="false" ViewStateMode="Enabled" />
                                             <asp:HiddenField ID="Act_title_lbl" runat="server" Value='<%# Bind("Act_title") %>' Visible="false" ViewStateMode="Enabled" />
                                         </ItemTemplate>
-                                        <ItemStyle CssClass="rowTrigger" HorizontalAlign="Center" Width="200px" Wrap="true"/>
+                                        <ItemStyle CssClass="rowTrigger" HorizontalAlign="Center" Width="200px" Wrap="true" />
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="場次名稱" ItemStyle-HorizontalAlign="Center">
                                         <ItemTemplate>
                                             <asp:Label ID="As_title_lbl" runat="server" Text='<%# Bind("As_title") %>'></asp:Label>
                                             <asp:HiddenField ID="As_idn_hf" runat="server" Value='<%# Bind("As_idn") %>' Visible="false" ViewStateMode="Enabled" />
                                         </ItemTemplate>
-                                        <ItemStyle CssClass="rowTrigger" HorizontalAlign="Center"/>
+                                        <ItemStyle CssClass="rowTrigger" HorizontalAlign="Center" Width="130px" />
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="報名人" ItemStyle-HorizontalAlign="Center">
                                         <ItemTemplate>
                                             <asp:Label ID="Aa_name_lbl" runat="server" Text='<%# Bind("Aa_name") %>'></asp:Label>
                                             <asp:HiddenField ID="Aa_name_hf" runat="server" Value='<%# Bind("Aa_name") %>' Visible="false" ViewStateMode="Enabled" />
                                         </ItemTemplate>
-                                        <ItemStyle CssClass="rowTrigger" HorizontalAlign="Center" />
+                                        <ItemStyle CssClass="rowTrigger" HorizontalAlign="Center" Width="100px" />
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="活動開始日期" ItemStyle-HorizontalAlign="Center">
                                         <ItemTemplate>
                                             <asp:Label ID="As_date_start_lbl" runat="server" Text='<%# Bind("As_date_start") %>'></asp:Label>
                                         </ItemTemplate>
-                                        <ItemStyle CssClass="rowTrigger" HorizontalAlign="Center" />
+                                        <ItemStyle CssClass="rowTrigger" HorizontalAlign="Center" Width="130px" />
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="活動結束日期" ItemStyle-HorizontalAlign="Center">
                                         <ItemTemplate>
                                             <asp:Label ID="As_date_end_lbl" runat="server" Text='<%# Bind("As_date_end") %>'></asp:Label>
                                         </ItemTemplate>
-                                        <ItemStyle CssClass="rowTrigger" HorizontalAlign="Center" />
+                                        <ItemStyle CssClass="rowTrigger" HorizontalAlign="Center" Width="130px" />
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="報名日期" ItemStyle-HorizontalAlign="Center">
                                         <ItemTemplate>
                                             <asp:Label ID="Updtime_lbl" runat="server" Text='<%# Bind("Updtime") %>'></asp:Label>
                                         </ItemTemplate>
-                                        <ItemStyle CssClass="rowTrigger" HorizontalAlign="Center" />
+                                        <ItemStyle CssClass="rowTrigger" HorizontalAlign="Center" Width="130px" />
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="編輯" ShowHeader="false">
                                         <ItemTemplate>
-                                            <asp:Button ID="edit_btn" runat="server" Text="修改報名資料" CommandName="Custom_Edit" ToolTip="編輯" CssClass="btnGrv edit" UseSubmitBehavior="false" CommandArgument='<%# Container.DataItemIndex%>' />
-                                            <asp:Button ID="delete_btn" runat="server" CommandName="Custom_Delete" Text="取消報名" ToolTip="刪除" CssClass="btnGrv delete" UseSubmitBehavior="false" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" CommandArgument='<%# Container.DataItemIndex%>' />
+                                            <asp:Button ID="edit_btn" runat="server" Text="修改報名資料" CommandName="Custom_Edit" ToolTip="編輯" CssClass="btnGrv edit" UseSubmitBehavior="false" CommandArgument='<%# Container.DataItemIndex%>' Style="background-color: rgba(0, 0, 0, 0); border-color: rgba(250, 235, 215, 0); color: #2C71BD;" />
+                                            <asp:Button ID="delete_btn" runat="server" CommandName="Custom_Delete" Text="取消報名" ToolTip="刪除" CssClass="btnGrv delete" UseSubmitBehavior="false" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" CommandArgument='<%# Container.DataItemIndex%>' Style="background-color: rgba(0, 0, 0, 0); border-color: rgba(250, 235, 215, 0); color: #2C71BD;" />
                                         </ItemTemplate>
-                                        <HeaderStyle  />
+                                        <HeaderStyle />
                                         <ItemStyle HorizontalAlign="Center" />
                                     </asp:TemplateField>
                                 </Columns>
                                 <EditRowStyle BackColor="#2461BF" />
                                 <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-                                <HeaderStyle Wrap="False" BackColor="#68dff0" Font-Bold="True" ForeColor="White" height="38px"/>
+                                <HeaderStyle Wrap="False" BackColor="#68dff0" Font-Bold="True" ForeColor="White" Height="38px" />
                                 <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
                                 <RowStyle Wrap="true" BackColor="#EFF3FB" />
                                 <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />

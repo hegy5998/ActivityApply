@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true" CodeBehind="SignChange.aspx.cs" Inherits="ActivityApply.SignChange" %>
+
 <%@ Register Assembly="CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
 
 
@@ -50,7 +51,7 @@
     <section id="container">
         <section id="main-content">
             <section class="wrapper">
-                <div class="advanced-form row" style="display:none;">
+                <div class="advanced-form row" style="display: none;">
                     <h3>修改報名資料</h3>
                     <fieldset>
                         <h3><i class="fa fa-angle-right"></i>報名資料</h3>
@@ -281,18 +282,20 @@
                 $("#question_div_" + questionInfo[i].Acc_asc).append(decodeURI(code));
                 //將報名資料填入
                 //判斷
-                if (applyDetailInfo[i] != undefined && applyDetailInfo[i].Aad_col_id == questionInfo[i].Acc_idn) {
-                    applyId = applyDetailInfo[i].Aad_apply_id;
-                    switch (questionInfo[i].Acc_type) {
-                        case "text": $("[name=qus_txt_" + i + "]").val(applyDetailInfo[i].Aad_val); break;
-                        case "singleSelect": $("[name=qus_radio_" + i + "]" + "[value='" + applyDetailInfo[i].Aad_val + "']").attr('checked', true); break;
-                        case "multiSelect":
-                            var multiSelectValue = applyDetailInfo[i].Aad_val.split(",");
-                            for (var count = 0 ; count < multiSelectValue.length ; count++) {
-                                $("[name=qus_checkbox_" + i + "]" + "[value='" + multiSelectValue[count] + "']").attr('checked', true);
-                            }
-                            break;
-                        case "dropDownList": $("[name=qus_ddl_" + i + "]").val(applyDetailInfo[i].Aad_val); break;
+                for (var count = 0 ; count < applyDetailInfo.length ; count++) {
+                    if (applyDetailInfo[count] != undefined && applyDetailInfo[count].Aad_col_id == questionInfo[i].Acc_idn) {
+                        applyId = applyDetailInfo[count].Aad_apply_id;
+                        switch (questionInfo[i].Acc_type) {
+                            case "text": $("[name=qus_txt_" + i + "]").val(applyDetailInfo[count].Aad_val); break;
+                            case "singleSelect": $("[name=qus_radio_" + i + "]" + "[value='" + applyDetailInfo[count].Aad_val + "']").attr('checked', true); break;
+                            case "multiSelect":
+                                var multiSelectValue = applyDetailInfo[count].Aad_val.split(",");
+                                for (var count = 0 ; count < multiSelectValue.length ; count++) {
+                                    $("[name=qus_checkbox_" + i + "]" + "[value='" + multiSelectValue[count] + "']").attr('checked', true);
+                                }
+                                break;
+                            case "dropDownList": $("[name=qus_ddl_" + i + "]").val(applyDetailInfo[count].Aad_val); break;
+                        }
                     }
                 }
             }
@@ -502,19 +505,24 @@
 
         //#region 儲存使用者資料(POST)
         function SaveUserData() {
-            var detailList = { userData: []};
+            var detailList = { userData: [] };
             for (var i = 0; i < questionList.length; i++) {
                 var detailJson = {}
+                var ifnew = true;
                 //判斷填寫的問題為新問題或舊問題
-                if (applyDetailList[i] != undefined) {
-                    detailJson.Aad_apply_id = applyDetailList[i].Aad_apply_id;
-                    detailJson.Aad_col_id = questionList[i].Acc_idn;
-                    detailJson.Aad_title = questionList[i].Acc_title;
-                    detailJson.Aad_val = questionList[i].Acc_val;
-                    detailJson.ifnewqus = 0;
-                    detailList.userData.push(detailJson);
+                for (var count = 0 ; count < applyDetailList.length ; count++) {
+                    if (applyDetailList[count] != undefined && applyDetailList[count].Aad_col_id == questionList[i].Acc_idn) {
+                        detailJson.Aad_apply_id = applyDetailList[count].Aad_apply_id;
+                        detailJson.Aad_col_id = questionList[i].Acc_idn;
+                        detailJson.Aad_title = questionList[i].Acc_title;
+                        detailJson.Aad_val = questionList[i].Acc_val;
+                        detailJson.ifnewqus = 0;
+                        detailList.userData.push(detailJson);
+                        ifnew = false;
+                    }
+
                 }
-                else {
+                if (ifnew == true) {
                     detailJson.Aad_apply_id = applyId
                     detailJson.Aad_col_id = questionList[i].Acc_idn;
                     detailJson.Aad_title = questionList[i].Acc_title;
@@ -522,6 +530,8 @@
                     detailJson.ifnewqus = 1;
                     detailList.userData.push(detailJson);
                 }
+
+
             }
             $.ajax({
                 type: 'post',
@@ -543,7 +553,7 @@
         }
         //#endregion
 
-        
+
 
         //#region 設定麵包削尋覽列
         function setSessionBread() {

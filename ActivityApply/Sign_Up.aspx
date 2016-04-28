@@ -515,13 +515,13 @@
                             <div class="form-group">\
                                 <label class="col-sm-2 control-label">密碼<label style="color:red">*</label></label>\
                                 <div class="col-sm-10">\
-                                    <input type="text" id="password" name="password" class="form-control">\
+                                    <input type="password" id="password" name="password" class="form-control">\
                                 </div>\
                             </div>\
                             <div id="" class="form-group">\
                                 <label class="col-sm-2 control-label">確認密碼<label style="color:red">*</label></label>\
                                 <div class="col-sm-10">\
-                                    <input type="text" id="confirm_password" name="confirm_password" class="form-control">\
+                                    <input type="password" id="confirm_password" name="confirm_password" class="form-control">\
                                 </div>\
                             </div>\
                         </div>';

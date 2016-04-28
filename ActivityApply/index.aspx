@@ -2,9 +2,27 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead" runat="server">
     <style type="text/css">
-        .center{
+        .center {
             text-align: center;
         }
+        .red{
+            color:red;
+        }
+        .blink {
+            animation-duration: 1s;
+            animation-name: blink;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+            animation-timing-function: ease-in-out;
+            }
+            @keyframes blink {
+                from {
+                    opacity: 1;
+                }
+                to {
+                    opacity: 0;
+                }
+            }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="sideCon" runat="server">
@@ -14,16 +32,25 @@
         <section id="main-content">
             <section class="wrapper">
                 <div id="add_activity_list" class="advanced-form row">
-                    <p class="center" style="color:red;font-size:-webkit-xxx-large">最新活動!!</p>
-                    
+                    <!-- 如果沒有開啟JavaScript則會請她凱起才能使用本網頁的功能 -->
+                    <noscript>
+                        <h1 class="red blink">您沒有開啟JavaScript的功能，請您開啟才能使用本網站的功能!!</h1>
+                        <h3>開啟方法如下:</h3>
+                        <h4>IE : 網際網路選項 -> 安全性 -> 網際網路 -> 自訂等級 -> 指令碼處理 -> 啟用</h4>
+                        <h4>Firefox : 工具 -> 網頁開發者 -> 網頁工具箱 -> 選項 -> 取消打勾「停用JavaScript」</h4>
+                        <h4>Chrome : 設定 -> 顯示進階設定 -> 隱私權 -> 內容定... -> JavaScript -> 選擇「允許所有網站執行JavaScript」</h4>
+                    </noscript>
+                    <p id ="new" class="red center blink" style="font-size: -webkit-xxx-large;display:none">最近活動!!</p>
                 </div>
             </section>
         </section>
     </section>
-    
+
     <script type="text/javascript">
+
         //#region 初始化
         $(document).ready(function () {
+            $("#new").css({ 'display': '' });
             searchActivityAllList();
         })
         //#endregion
@@ -80,6 +107,7 @@
 
         }
         //#endregion
+
 
     </script>
 </asp:Content>

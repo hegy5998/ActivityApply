@@ -188,23 +188,34 @@ namespace Web.S02
         protected void main_gv_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             GridViewRow gvr = (sender as GridView).Rows[e.RowIndex];
-            Dictionary<string, object> dict = new Dictionary<string, object>();
-            dict["ac_idn"] = (gvr.FindControl("Ac_idn_hf") as HiddenField).Value.Trim();
-            // 刪除資料
-            var res = _bl.DeleteData(dict);
-            if (res.IsSuccess)
+            string ac_idn = (gvr.FindControl("Ac_idn_hf") as HiddenField).Value.Trim();
+            DataTable class_num = _bl.GetClassNum(ac_idn);
+            if(Int32.Parse(class_num.Rows[0]["class_num"].ToString()) == 0)
             {
-                // 刪除成功，切換回一般模式
-                GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, main_gv);
-                BindGridView(GetData(true));
-                main_gv.DataBind();
-                ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Delete);
+                Dictionary<string, object> dict = new Dictionary<string, object>();
+                dict["ac_idn"] = ac_idn;
+                // 刪除資料
+                var res = _bl.DeleteData(dict);
+                if (res.IsSuccess)
+                {
+                    // 刪除成功，切換回一般模式
+                    GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, main_gv);
+                    BindGridView(GetData(true));
+                    main_gv.DataBind();
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Delete);
+                }
+                else
+                {
+                    // 刪除失敗，顯示錯誤訊息
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Delete, res.Message);
+                }
             }
             else
             {
                 // 刪除失敗，顯示錯誤訊息
-                ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Delete, res.Message);
+                ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Delete, "無法刪除，分類目前尚有未結束的活動");
             }
+            
         }
         #endregion
         #endregion

@@ -36,8 +36,9 @@ namespace DataAccess.Web
 								  WHERE as_act = act_idn 
 								  AND as_isopen = 1 
 								  AND CONVERT(DATETIME, as_date_end, 121) >= CONVERT(varchar(256), GETDATE(), 121) )  as session_count
-                            WHERE session_count.num > 0
-                            ORDER BY   activity.updtime DESC";
+                            WHERE session_count.num > 0 
+                                  AND  ac_session.as_date_start > CONVERT(varchar(256), GETDATE(), 121)
+                            ORDER BY   ac_session.as_date_start";
             return Db.GetDataTable(sql);
         }
         #endregion

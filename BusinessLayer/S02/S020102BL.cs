@@ -112,9 +112,18 @@ namespace BusinessLayer.S02
         /// </summary>
         /// <param name="dict">資料</param>
         /// <returns></returns>
-        public CommonResult DeleteData(Dictionary<string, object> dict)
+        public CommonResult DeleteActivityData(Dictionary<string, object> dict)
         {
             return _data.DeleteData(dict);
+        }
+
+        public CommonResult DeleteSectionData(Dictionary<string, object> dict)
+        {
+            return _sectionData.DeleteData(dict);
+        }
+        public CommonResult DeleteSessionData(Dictionary<string, object> dict)
+        {
+            return _sessiondata.DeleteData(dict);
         }
         #endregion
 
