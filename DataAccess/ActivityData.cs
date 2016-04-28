@@ -94,7 +94,6 @@ namespace DataAccess
                                           AND as_isopen = 1
                                           AND act_title LIKE @act_title 
                                           AND (act_class = @act_class  OR 0 = @act_class) 
-                                          AND as_apply_end > CONVERT(varchar(256), GETDATE(), 121)
                                   order by as_date_start) as ac_session
                             cross apply 
                                  (select top 1 COUNT(*) as num
