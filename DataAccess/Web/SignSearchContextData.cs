@@ -21,7 +21,8 @@ namespace DataAccess.Web
         {
             string sql = @"SELECT activity.act_idn,activity.act_title,activity.act_class,
                                   activity_session.as_idn,activity_session.as_title,
-		                          activity_apply.aa_name,activity_apply.aa_idn
+		                          activity_apply.aa_name,activity_apply.aa_idn,
+                                  activity_session.as_apply_end
 								  ,CONCAT( CONVERT(varchar(256), activity_session.as_date_end, 111),' ' , SUBSTRING(CONVERT(char(8), activity_session.as_date_end, 108), 0, 6) ) as as_date_end
 								  ,CONCAT( CONVERT(varchar(256), activity_apply.updtime, 111),' ' , SUBSTRING(CONVERT(char(8), activity_apply.updtime, 108), 0, 6) ) as updtime
 								  ,CONCAT( CONVERT(varchar(256), activity_session.as_date_start, 111),' ' , SUBSTRING(CONVERT(char(8), activity_session.as_date_start, 108), 0, 6) ) as as_date_start

@@ -106,10 +106,12 @@
         $(document).ready(function () {
             //產生活動資訊
             getActivityList();
-            //產生場次
-            getSessionList();
             //等資活動訊載入完才一次顯示資料
             $("#dispaly_div").css({ 'display': '' });
+            //產生場次
+            getSessionList();
+            
+            
             //判斷活動簡介內容高度超過300px變成卷軸式
             var obheight = 300;//超過容器高度自動捲軸
             var mc = $("#desc_div").height();
@@ -214,10 +216,11 @@
             var SessionInfo = JSON.parse(SessionInfo);
             //產生場次
             for (var count = 0 ; count < SessionInfo.length ; count++) {
+                var apply_num;
                 if ((SessionInfo[count].as_num_limit - SessionInfo[count].apply_num) < 0)
-                    SessionInfo[count].apply_num = 0;
+                    apply_num = 0;
                 else
-                    SessionInfo[count].apply_num = SessionInfo[count].as_num_limit - SessionInfo[count].apply_num;
+                    apply_num = SessionInfo[count].as_num_limit - SessionInfo[count].apply_num;
                 $("#add_Session_div").append('<div class="showback">\
                                              <label class="session-control-label" id="as_title_">'+ SessionInfo[count].as_title + '</label>\
                                              <br />\
@@ -231,7 +234,7 @@
                                              <br />\
                                              <a id="apply_btn_' + count + '" href="S02010105.aspx?sys_id=S02&sys_pid=S02010105&act_idn=' + SessionInfo[count].as_act + '&as_idn=' + SessionInfo[count].as_idn + '" class="btn btn-theme btn-lg" role="button">我要報名</a>\
                                          </div>');
-                if (SessionInfo[count].apply_num <= 0) {
+                if (apply_num <= 0) {
                     $("#apply_btn_" + count).html("名額已滿");
                 }
                 //將時間字串轉成DateTime格式

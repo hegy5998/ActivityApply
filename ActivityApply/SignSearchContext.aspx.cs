@@ -1,5 +1,7 @@
 ﻿using AjaxControlToolkit;
 using BusinessLayer.Web;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
 using Model.Common;
 using System;
 using System.Collections.Generic;
@@ -105,19 +107,17 @@ namespace ActivityApply
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                //e.Row.Attributes.Add("OnMouseover", "this.style.background='#33CCFF'");
-                //e.Row.Attributes.Add("OnMouseout", "this.style.background='#E7E7FF'");
                 e.Row.Attributes.Add("OnMouseover", "c=this.style.backgroundColor;this.style.backgroundColor='#C0C3C9'");
                 e.Row.Attributes.Add("OnMouseout", "this.style.background=c");
 
                 e.Row.Cells[2].Style.Add("word-break", "break-all");
                 GridViewRow gvr = e.Row;
-                Label As_date_end_hf = gvr.FindControl("As_date_end_lbl") as Label;
-                DateTime dt = Convert.ToDateTime(As_date_end_hf.Text);
+                HiddenField As_apply_end = gvr.FindControl("As_apply_end_hf") as HiddenField;
+                DateTime dt = Convert.ToDateTime(As_apply_end.Value);
 
                 DateTime currentTime = new DateTime();
                 currentTime = DateTime.Now;
-
+                //判斷如果報名日期已結束則不修改報名資料以及取消報名
                 if (DateTime.Compare(currentTime, dt) > 0)
                 {
                     Button edit_btn = gvr.FindControl("edit_btn") as Button;
@@ -125,8 +125,6 @@ namespace ActivityApply
                     edit_btn.Visible = false;
                     delete_btn.Visible = false;
                 }
-                //gvr.BackColor = System.Drawing.Color.LightGray;
-
             }
         }
 
@@ -159,6 +157,7 @@ namespace ActivityApply
                 case "Custom_Edit"://修改報名資料
                     //ModalPopupExtender顯示
                     password_pop.Show();
+                    password_txt.Focus();
                     //設定資料
                     act_idn = Act_idn_hf.Value;
                     as_idn = As_idn_hf.Value;
@@ -171,6 +170,7 @@ namespace ActivityApply
                 case "Custom_Delete":
                     //ModalPopupExtender顯示
                     password_pop.Show();
+                    password_txt.Focus();
                     //設定資料
                     act_idn = Act_idn_hf.Value;
                     as_idn = As_idn_hf.Value;
@@ -181,7 +181,26 @@ namespace ActivityApply
                     //設定使用者選擇了刪除
                     gridview_event = "delete";
                     break;
+                case "Custom_dowload":
+                    aa_idn = Aa_idn_hf.Value;
+                    print_ApplyProve(Int32.Parse(aa_idn));
+                    break;
             }
+        }
+        #endregion
+
+        #region 報名資訊下載
+        protected void print_ApplyProve(int AA_IDN)
+        {
+            Sign_UpBL _bl = new Sign_UpBL();
+            DataTable dt = _bl.GetApplyProve(AA_IDN);
+            ReportDocument rd = new ReportDocument();
+            //載入該報表
+            rd.Load(Server.MapPath("~/applyProve.rpt"));
+            //設定資料
+            rd.SetDataSource(dt);
+            rd.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, true, "applyProve");
+            rd.Close();
         }
         #endregion
 

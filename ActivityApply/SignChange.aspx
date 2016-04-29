@@ -79,7 +79,7 @@
                         <div id="finish_div" class="col-sm-8 form-panel">
                             <p>修改完成，請至電子信箱查看報名資料修改成功確認信！</p>
                             <p>如有需要可重新下載活動證明</p>
-                            <asp:Button runat="server" ID="print_btn" OnClick="print_ApplyProve" Text="下載報名證明" CssClass="btn btn-theme" />
+                            <asp:Button runat="server" ID="print_btn" OnClick="print_ApplyProve" Text="下載報名資訊" CssClass="btn btn-theme" />
                         </div>
                     </fieldset>
                 </div>
@@ -111,6 +111,8 @@
                             resizeJquerySteps];
             $(document).queue("myQueue", funcList);
             $(document).dequeue("myQueue");
+
+            setSessionBread();
 
             //#region jQuery steps
             var form = $(".advanced-form");
@@ -290,8 +292,8 @@
                             case "singleSelect": $("[name=qus_radio_" + i + "]" + "[value='" + applyDetailInfo[count].Aad_val + "']").attr('checked', true); break;
                             case "multiSelect":
                                 var multiSelectValue = applyDetailInfo[count].Aad_val.split(",");
-                                for (var count = 0 ; count < multiSelectValue.length ; count++) {
-                                    $("[name=qus_checkbox_" + i + "]" + "[value='" + multiSelectValue[count] + "']").attr('checked', true);
+                                for (var mulcount = 0 ; mulcount < multiSelectValue.length ; mulcount++) {
+                                    $("[name=qus_checkbox_" + i + "]" + "[value='" + multiSelectValue[mulcount] + "']").attr('checked', true);
                                 }
                                 break;
                             case "dropDownList": $("[name=qus_ddl_" + i + "]").val(applyDetailInfo[count].Aad_val); break;

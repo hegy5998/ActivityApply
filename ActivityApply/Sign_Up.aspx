@@ -85,7 +85,7 @@
                     <section>
                         <h3><i class="fa fa-angle-right"></i>報名完成</h3>
                         <div id="finish_div" class="col-sm-8 form-panel"> 
-                            <asp:Button runat="server" ID="print_btn" OnClick="print_ApplyProve" Text="下載報名證明" CssClass="btn btn-theme" />
+                            <asp:Button runat="server" ID="print_btn" OnClick="print_ApplyProve" Text="下載報名資訊" CssClass="btn btn-theme" />
                         </div>
                     </section>
                 </div>
@@ -152,10 +152,11 @@
                     if (currentIndex === 2) {
                         if (isSignUp()) {
                             signFlag = true;
+                            Add_SetPwd(false);
                             form.steps("next");
                         }
                         else {
-                            Add_SetPwd();
+                            Add_SetPwd(true);
                             $("#password").rules("add", { required: true, minlength: 4 });
                             $("#confirm_password").rules("add", { required: true, equalTo: "#password" });
                         }
@@ -504,13 +505,15 @@
         }
         //#endregion
         //#region 新增設定密碼欄位
-        function Add_SetPwd() {
-            $('#password_div').append(SetPwd_Code());
+        function Add_SetPwd(setFlag) {
+            $('#password_div').append(SetPwd_Code(setFlag));
         }
         //#endregion
         //#region 設定密碼欄位程式碼
-        function SetPwd_Code() {
-            var code = '<div class="form-horizontal style-form">\
+        function SetPwd_Code(setFlag) {
+            var code;
+            if (setFlag) {
+                code = '<div class="form-horizontal style-form">\
                             <label class="desc">您是第一次使用本報名系統，請設定一組個人密碼，供日後修改報名資料時驗證，謝謝。</label>\
                             <div class="form-group">\
                                 <label class="col-sm-2 control-label">密碼<label style="color:red">*</label></label>\
@@ -525,6 +528,13 @@
                                 </div>\
                             </div>\
                         </div>';
+            }
+            else {
+                code = '<div class="form-horizontal style-form">\
+                            <label class="desc">您好，歡迎回來！請使用之前設定的密碼即可，謝謝。</label>\
+                        </div>';
+            }
+                
             return code;
         }
         //#endregion

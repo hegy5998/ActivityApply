@@ -115,9 +115,6 @@ namespace Web.S02
                 }
             }
 
-            
-
-
             for (int count = 0; count < activity_Section.Count; count++)
             {
                 //update舊區塊
@@ -285,7 +282,6 @@ namespace Web.S02
                     new_Session_Information["as_apply_end"] = activity_Session_List[count].As_apply_end;
                     new_Session_Information["as_position"] = activity_Session_List[count].As_position;
                     new_Session_Information["as_num_limit"] = activity_Session_List[count].As_num_limit;
-                    //new_Session_Information["as_isopen"] = 0;
                     _bl.Update_Session_Data(old_Session_Information, new_Session_Information);
                 }
                 //新增場次資料

@@ -159,23 +159,33 @@ namespace Web.S02
                 }
                 if (titleRepaet != true)
                 {
-                    var res = _bl.InsertData(dict);
-                    if (res.IsSuccess)
+
+                    try
                     {
-                        // 新增成功，切換回一般模式
-                        GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, main_gv);
-                        BindGridView(GetData(true));
-                        main_gv.DataBind();
-                        ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Insert);
+                        Int32.Parse(dict["ac_seq"].ToString());
+                        var res = _bl.InsertData(dict);
+                        if (res.IsSuccess)
+                        {
+                            // 新增成功，切換回一般模式
+                            GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, main_gv);
+                            BindGridView(GetData(true));
+                            main_gv.DataBind();
+                            ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Insert);
+                        }
+                        else
+                        {
+                            // 新增失敗，顯示錯誤訊息
+                            ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, res.Message);
+                        }
                     }
-                    else
+                    catch(FormatException)
                     {
-                        // 新增失敗，顯示錯誤訊息
-                        ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, res.Message);
+                        ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, "順序只能填寫數字");
                     }
+                    
                 }
                 else
-                    ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, "標題名稱重複");
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, "分類名稱重複");
             }
         }
 

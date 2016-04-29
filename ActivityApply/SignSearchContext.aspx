@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true" CodeBehind="SignSearchContext.aspx.cs" Inherits="ActivityApply.SignSearchContext" %>
 
+<%@ Register Assembly="CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead" runat="server">
@@ -127,6 +128,7 @@
                                             <asp:HiddenField ID="Act_idn_hf" runat="server" Value='<%# Bind("Act_idn") %>' Visible="false" ViewStateMode="Enabled" />
                                             <asp:HiddenField ID="Act_class_hf" runat="server" Value='<%# Bind("Act_class") %>' Visible="false" ViewStateMode="Enabled" />
                                             <asp:HiddenField ID="Act_title_lbl" runat="server" Value='<%# Bind("Act_title") %>' Visible="false" ViewStateMode="Enabled" />
+                                            <asp:HiddenField ID="As_apply_end_hf" runat="server" Value='<%# Bind("As_apply_end") %>' Visible="false" ViewStateMode="Enabled" />
                                         </ItemTemplate>
                                         <ItemStyle CssClass="rowTrigger" HorizontalAlign="Center" Width="200px" Wrap="true" />
                                     </asp:TemplateField>
@@ -166,6 +168,12 @@
                                         <ItemTemplate>
                                             <asp:Button ID="edit_btn" runat="server" Text="修改報名資料" CommandName="Custom_Edit" ToolTip="編輯" CssClass="btnGrv edit" UseSubmitBehavior="false" CommandArgument='<%# Container.DataItemIndex%>' Style="background-color: rgba(0, 0, 0, 0); border-color: rgba(250, 235, 215, 0); color: #2C71BD;" />
                                             <asp:Button ID="delete_btn" runat="server" CommandName="Custom_Delete" Text="取消報名" ToolTip="刪除" CssClass="btnGrv delete" UseSubmitBehavior="false" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" CommandArgument='<%# Container.DataItemIndex%>' Style="background-color: rgba(0, 0, 0, 0); border-color: rgba(250, 235, 215, 0); color: #2C71BD;" />
+                                            <asp:Button runat="server" ID="print_btn" CommandName="Custom_dowload" Text="下載資訊" ToolTip="下載" UseSubmitBehavior="false" CommandArgument='<%# Container.DataItemIndex%>' Style="background-color: rgba(0, 0, 0, 0); border-color: rgba(250, 235, 215, 0); color: #2C71BD;" />
+                                            <asp:UpdatePanel runat="server" ID="download_upd">
+                                                <Triggers>
+                                                    <asp:PostBackTrigger ControlID="print_btn" />
+                                                </Triggers>
+                                            </asp:UpdatePanel>
                                         </ItemTemplate>
                                         <HeaderStyle />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -230,13 +238,10 @@
         }
         //#endregion
 
-        function GoToActivity(act_idn) { 
+        function GoToActivity(act_idn,As_date_end) { 
             window.open("activity.aspx?act_idn=" + act_idn, "_blank"); 
         } 
 
-        function al() {
-            alert("ss");
-        }
     </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="pageUnitEnd" runat="server">

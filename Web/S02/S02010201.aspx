@@ -1552,8 +1552,10 @@
                     async: false,
                     //成功時
                     success: function (result) {
-                        if (result.d == "true")
+                        if (result.d == "true") {
+                            alert("活動儲存成功");
                             upload_File();
+                        }
                         else
                             alert("活動儲存失敗");
                     },

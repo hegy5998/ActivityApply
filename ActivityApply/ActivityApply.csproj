@@ -216,9 +216,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
-    <Content Include="SignSearch.aspx" />
     <Content Include="Sign_Up.aspx" />
-    <Content Include="Sign_Up_Check.aspx" />
     <Content Include="Web.config" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
   </ItemGroup>
@@ -275,13 +273,6 @@
     <Compile Include="SignSearchContext.aspx.designer.cs">
       <DependentUpon>SignSearchContext.aspx</DependentUpon>
     </Compile>
-    <Compile Include="SignSearch.aspx.cs">
-      <DependentUpon>SignSearch.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SignSearch.aspx.designer.cs">
-      <DependentUpon>SignSearch.aspx</DependentUpon>
-    </Compile>
     <Compile Include="SignChange.aspx.cs">
       <DependentUpon>SignChange.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -295,13 +286,6 @@
     </Compile>
     <Compile Include="Sign_Up.aspx.designer.cs">
       <DependentUpon>Sign_Up.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Sign_Up_Check.aspx.cs">
-      <DependentUpon>Sign_Up_Check.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Sign_Up_Check.aspx.designer.cs">
-      <DependentUpon>Sign_Up_Check.aspx</DependentUpon>
     </Compile>
     <Compile Include="WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
