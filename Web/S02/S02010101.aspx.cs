@@ -310,6 +310,8 @@ namespace Web.S02
             BindControlSetGridView(GetControlSetData());
             controlSet_mpe.Show();  // Popup Window
             controlSet_pl.Visible = true;
+            main_pl.Visible = true;
+            mv.SetActiveView(main_view);
         }
 
         // 設定編輯協作者彈出視窗(Ready)
@@ -430,6 +432,7 @@ namespace Web.S02
         {
             switch (e.Row.RowType)
             {
+                //一般資料列
                 case DataControlRowType.DataRow:
                     if (e.Row.RowState.ToString().Contains("Edit") == false)
                     {
@@ -438,6 +441,29 @@ namespace Web.S02
                         string cop_authority = (e.Row.FindControl("cop_authority_lbl") as Label).Text;
                         (e.Row.FindControl("delete_btn") as Button).OnClientClick = "if (!confirm(\"帳號：" + cop_id + "\\n權限：" + cop_authority + "\\n\\n確定要刪除嗎?\")) return false";
                     }
+                    else
+                    {
+                        //抓取帳號的值
+                        string s = (e.Row.FindControl("old_cop_id_hf") as HiddenField).Value.ToString();
+                        Label label = e.Row.FindControl("accountEdit_lbl") as Label;
+                        label.Text = s;
+
+                        //抓取權限的值
+                        DropDownList dropdownlistedit = e.Row.FindControl("copEdit_authority_dll") as DropDownList;
+                        dropdownlistedit.Items.Insert(0, new ListItem("編輯", "編輯"));
+                        dropdownlistedit.Items.Insert(1, new ListItem("閱讀", "閱讀"));
+
+                        Account_copperateInfo rowView = (Account_copperateInfo)e.Row.DataItem;
+                        String state = rowView.Cop_authority.ToString();
+                        dropdownlistedit.SelectedValue = state;
+                    }
+                    break;
+                //頁尾列
+                case DataControlRowType.Footer :
+                    DropDownList dropdownlist = e.Row.FindControl("cop_authority_dll") as DropDownList;
+                    dropdownlist.Items.Insert(0, new ListItem("請選擇", ""));
+                    dropdownlist.Items.Insert(1, new ListItem("編輯", "編輯"));
+                    dropdownlist.Items.Insert(2, new ListItem("閱讀", "閱讀"));
                     break;
             }
         }
@@ -468,7 +494,18 @@ namespace Web.S02
                 case "AddSaveReady":
                     AddSaveReadyControl();
                     break;
+
+                //編輯帳號
+                case "account" :
+                    SetAccount();
+                    break;
             }
+        }
+
+        //設定帳號彈出視窗
+        private void SetAccount()
+        {
+            mv.SetActiveView(auth_view);
         }
 
         //新增協作者
@@ -479,8 +516,10 @@ namespace Web.S02
                 GridViewRow gvr = controlSet_gv.FooterRow;
                 var dict = new Dictionary<string, object>();
                 dict["cop_act"] = copperate_cop_act_hf.Value;
-                dict["cop_id"] = (gvr.FindControl("cop_id_txt") as TextBox).Text.Trim();
-                dict["cop_authority"] = (gvr.FindControl("cop_authority_txt") as TextBox).Text.Trim();
+                Label label = gvr.FindControl("account_lbl") as Label;
+                dict["cop_id"] = label.Text;
+                DropDownList dropdownlist = gvr.FindControl("cop_authority_dll") as DropDownList;
+                dict["cop_authority"] = dropdownlist.SelectedValue;
 
                 // 新增資料
                 var res = _bl.InsertData_cop(dict);
@@ -536,8 +575,8 @@ namespace Web.S02
                 GridViewRow gvr = controlSet_gv.Rows[e.RowIndex];
                 var newData_dict = new Dictionary<string, object>();
                 newData_dict["cop_act"] = (gvr.FindControl("old_cop_act_hf") as HiddenField).Value;
-                newData_dict["cop_id"] = (gvr.FindControl("cop_id_txt") as TextBox).Text.Trim();
-                newData_dict["cop_authority"] = (gvr.FindControl("cop_authority_txt") as TextBox).Text.Trim();
+                newData_dict["cop_id"] = (gvr.FindControl("accountEdit_lbl") as Label).Text.Trim();
+                newData_dict["cop_authority"] = (gvr.FindControl("copEdit_authority_dll") as DropDownList).SelectedValue;
 
                 //舊資料的key
                 var oldData_dict = new Dictionary<string, object>();
@@ -573,7 +612,7 @@ namespace Web.S02
                 newData_dict["cop_id"] = (gvr.FindControl("cop_id_txt") as TextBox).Text.Trim();
                 newData_dict["cop_authority"] = (gvr.FindControl("cop_authority_txt") as TextBox).Text.Trim();
 
-                //就資料的key
+                //舊資料的key
                 var oldData_dict = new Dictionary<string, object>();
                 oldData_dict["cop_act"] = (gvr.FindControl("old_cop_act_hf") as HiddenField).Value;
                 oldData_dict["cop_id"] = (gvr.FindControl("old_cop_id_hf") as HiddenField).Value;
@@ -635,6 +674,50 @@ namespace Web.S02
                 else
                     ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Delete, res.Message);
             }
+        }
+
+        //RowCreated事件
+        protected void controlSet_gv_RowCreated(object sender, GridViewRowEventArgs e)
+        {
+            switch (e.Row.RowType)
+            {
+                //資料列
+                case DataControlRowType.DataRow:
+                    //編輯列
+                    if (e.Row.RowState.ToString().Contains("Edit") == true)
+                    {
+                        
+                    }
+                    break;
+
+                //頁尾列
+                case DataControlRowType.Footer:
+                    DataTable accountData = _bl.GetAccountData();
+                    account_radiobuttonlist.Items.Clear();
+
+                    for (int i = 0; i < accountData.Rows.Count; i++)
+                    {
+                        ListItem listitem = new ListItem();
+                        listitem.Text = accountData.Rows[i][0].ToString();
+                        listitem.Selected = false;
+                        account_radiobuttonlist.Items.Add(listitem);
+
+                        Literal literal = new Literal();
+                        literal.Text = "<br />";
+                        account_pl.Controls.Add(literal);
+                    }
+                    break;
+            }
+        }
+
+        //確認設定帳號
+        protected void setAccount_btn_Click(object sender, EventArgs e)
+        {
+            //關閉設定密碼視窗
+            mv.SetActiveView(main_view);
+            //將選擇的選項顯示在GridView
+            Label label = controlSet_gv.FooterRow.FindControl("account_lbl") as Label;
+            label.Text = account_radiobuttonlist.SelectedValue.ToString();
         }
         #endregion
 

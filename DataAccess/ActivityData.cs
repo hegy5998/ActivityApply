@@ -60,7 +60,7 @@ namespace DataAccess
             string sql = @" SELECT   activity.*
                             FROM    activity
                             cross apply 
-                                    (select top 1 COUNT(*) as num
+                                    (select COUNT(*) as num
                                     from activity_session 
                                     where   as_act = @act_idn 
                                             AND act_isopen = 1 
@@ -70,6 +70,8 @@ namespace DataAccess
             IDataParameter[] param = { Db.GetParam("@act_idn", act_idn) };
             return Db.GetEnumerable<ActivityInfo>(sql, param).ToList();
         }
+
+
 
         public DataTable GetActivityAllList(string act_title,string act_class)
         {
@@ -86,21 +88,28 @@ namespace DataAccess
                             ac_session.as_apply_start, 
                             ac_session.as_apply_end,session_count.num
                             FROM activity
+                            OUTER apply (SELECT TOP 1 * 
+                                FROM   (SELECT TOP 1 * 
+                                        FROM   activity_session 
+                                        WHERE  as_act = act_idn 
+                                               AND act_isopen = 1 
+                                               AND as_isopen = 1 
+                                               AND CONVERT(DATETIME, as_apply_end, 121) >= 
+                                                   CONVERT(VARCHAR(256), Getdate(), 121) 
+                                        UNION ALL 
+                                        SELECT TOP 1 * 
+                                        FROM   activity_session 
+                                        WHERE  as_act = act_idn 
+                                               AND act_isopen = 1 
+                                               AND as_isopen = 1 
+                                        ORDER  BY as_apply_end DESC) d 
+                                ORDER  BY as_apply_end DESC) AS ac_session 
                             cross apply 
-                                 (select top 1 *
-                                  from activity_session 
-                                  where   as_act = act_idn 
-                                          AND act_isopen = 1 
-                                          AND as_isopen = 1
-                                          AND act_title LIKE @act_title 
-                                          AND (act_class = @act_class  OR 0 = @act_class) 
-                                  order by as_date_start) as ac_session
-                            cross apply 
-                                 (select top 1 COUNT(*) as num
-                                  FROM activity_session 
-								  WHERE as_act = act_idn 
-								  AND as_isopen = 1 
-								  AND CONVERT(DATETIME, as_date_end, 121) >= CONVERT(varchar(256), GETDATE(), 121) )  as session_count
+                                    (select COUNT(*) as num
+                                    FROM activity_session 
+								    WHERE as_act = act_idn 
+								    AND as_isopen = 1 
+								    AND CONVERT(DATETIME, as_date_end, 121) >= CONVERT(varchar(256), GETDATE(), 121) )  as session_count
                             WHERE session_count.num > 0
                             ORDER BY   activity.updtime DESC";
             IDataParameter[] param = { Db.GetParam("@act_title", act_title),Db.GetParam("@act_class", act_class) };

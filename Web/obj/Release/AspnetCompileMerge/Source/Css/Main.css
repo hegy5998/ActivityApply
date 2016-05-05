@@ -1,0 +1,365 @@
+﻿/* ---------- Wrapper ---------- */
+#mainWrapper
+{
+    min-width: 100%;
+    width: auto;
+    margin: 0 auto;
+	background-color: #FFF;
+	display: inline-block;
+}
+
+/* ---------- Header ---------- */
+#mainHeader
+{
+    height: 90px;
+    background: #e3f8c0 no-repeat left;
+    text-indent: -999px;
+    margin-bottom: 3px;
+}
+#mainHeaderSysName
+{
+    font-size: 24.5px;
+    font-weight: bold;
+	display: none;
+}
+
+/* ---------- SubWrapper ---------- */
+#mainSubWrapper
+{
+    zoom:1;
+    background: url(Images/mainContentBg.jpg) top repeat-x;
+    /*overflow: hidden;*/
+    position:relative;
+}
+#mainSubWrapper>div
+{
+    background: url(Images/mainMenuExtendBg.jpg) repeat-y;
+	display: table;
+}
+#mainSubWrapper > div.fullview
+{
+	background: none;
+    width:100%;
+}
+/* ---------- Menu ---------- */
+#mainMenuOp
+{
+	float: left;
+	position: absolute;
+	left: 170px;
+	width: 20px;
+	height: 16px;
+	display: inline-block;
+    background: url(Images/arrowLeft.png) right -24px no-repeat;
+    margin-top: 3px;
+    top:0px;
+}
+#mainMenuOp:hover
+{
+    background-position: right top;
+}
+#mainMenuOp.fullview
+{
+	left: 0;
+    background: url(Images/arrowRight.png) 2px -24px no-repeat;
+}
+#mainMenuOp.fullview:hover
+{
+    background-position: 2px top;
+}
+#mainMenu
+{
+    /*float: left;*/
+    width: 185px;
+	position: relative;
+    background: url(Images/mainMenuBg.jpg) #e0e8c1 repeat-y;
+    min-height: 443px;
+    font-family: '微軟正黑體',sans-serif;
+	display: table-cell;
+	vertical-align: top;
+}
+#mainMenu>div
+{
+    padding: 5px;
+}
+#mainMenu.fullview
+{
+	/*position: absolute;*/
+	display: none;
+	width: 0px;
+	overflow: hidden;
+}
+#mainLoginInfo
+{
+    margin-top: 3px;
+    margin-bottom: 7px;
+    color: #124a25;
+    padding-left: 6px;
+    font-size: 13px;
+}
+#mainMenuBottomOp
+{
+    text-align: center;
+    margin-top: 10px;
+    margin-left: -5px;
+}
+#mainMenuBottomOp a
+{
+    color: #526346;
+}
+.mainMenuModule
+{
+    margin: 0;
+}
+.mainMenuModule>li
+{
+    margin-bottom: 5px;
+}
+.mainMenuModule>li>a
+{
+    display: block;
+    position: relative;
+    left: -3px;
+    width: 182px;
+    height: 41px;
+    background: url(Images/mainMenuModuledBg.png);
+    font-size: 14px;
+    margin-bottom: 3px;
+    color: #2a6009; 
+}
+.mainMenuModule>li>a:hover
+{
+    text-decoration: none;
+    color: #FFF;
+}
+.mainMenuModule>li>a>div
+{
+	width: 130px;
+    line-height: 38px;
+    padding-left: 40px;
+    font-weight:bold;
+    opacity: 0.95;
+    filter: alpha(opacity = 95);
+}
+.mainMenuModule>li>a>div.longText
+{
+	line-height: 14px;
+	padding-top: 6px;
+}
+.mainMenuProcess
+{
+    margin-left: 3px;
+    padding-top: 1px;
+}
+.mainMenuProcess > li
+{
+    position: relative;
+    min-height: 31px;
+}
+.mainMenuProcess>li>a
+{
+    color:#526346;
+    background: url(Images/mainMenuProcessBg.jpg) no-repeat top #dfecce;
+    width: 169px;
+    min-height: 26px;
+    display: block;
+}
+.mainMenuProcess>li>a:hover
+{
+    /*text-decoration: none;*/
+    color:#4c9e11;
+}
+.mainMenuProcess>li>a>div
+{
+    padding: 3px 0 3px 33px;
+}
+.mainMenuProcess > li > a.active
+{
+    background: url(Images/mainMenuProcessActiveBg.jpg) no-repeat top #dfecce;
+    color:#54a114;
+    font-weight: bold;
+}
+
+/* ---------- Content ---------- */
+#mainContent
+{
+    /*float: right;*/
+    width: 100%;
+    /*margin-left: -196px;*/
+    /*background: url(Images/mainMenuExtendBg.jpg) repeat-y;*/
+	display: table-cell;
+	vertical-align: top;
+}
+#mainContent.fullview
+{
+    margin-left: 0px;
+    background: none;
+}
+
+#mainContentInner
+{
+    /*position: relative;*/
+    /*margin-left: 187px;*/
+    padding: 0 9px;
+}
+#mainContentInner.fullview
+{
+    margin-left: 0;
+}
+
+#processHeader
+{
+    font-family: '微軟正黑體',sans-serif;
+    height: 55px;
+    background: url(Images/mainTitleBg.png) no-repeat left;
+    padding-left: 50px;
+    margin-left: -4px;
+    margin-top: 7px;
+    line-height: 58px;
+    font-size: 18px;
+    color:#2b681d;
+}
+
+#processContentSubFunction
+{
+    min-height: 40px;
+    line-height: 40px;
+    margin-top: 8px;
+}
+
+#processContentSubFunctionInner 
+{
+    min-height: 40px;
+    border-top: 1px solid #ced9a2;
+    border-bottom: 1px solid #ced9a2;
+    background: #ebf2d8;
+    padding: 0 5px;
+}
+
+#processContentSubFunctionInner.stick
+{
+	position: fixed;
+	z-index: 10;
+	top: 0;
+	left: 0;
+	width: 100%;
+	margin-top: 0;
+	text-align: center;
+    -webkit-box-shadow: #888 0px 3px 20px;
+    -moz-box-shadow: #888 0px 3px 20px;
+    box-shadow: #888 0px 3px 20px;
+}
+
+#processContentSubFunctionInner>div>input
+{
+    display: inline-block;
+    text-align: center;
+    font-family: 微軟正黑體,sans-serif;
+    font-size: 13px;
+    text-decoration: none;
+    background-image: url(Images/bt_bg01.jpg);
+    color: #000;
+    border: #fff 1px solid;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    box-shadow: 1px 1px 5px #485a34;
+    margin: 7px 5px;
+    padding: 3px 10px;
+    cursor:pointer;
+}
+
+#processContentSubFunctionInner>div>input:hover
+{
+    background-image: url(Images/bt_bg02.jpg);
+    color: #FFF;
+    border: #fff 1px solid;
+}
+
+#processContent
+{
+    position: relative;
+    /*min-height: 485px;*/
+	min-height: 700px;
+	padding: 8px 2px 15px 2px;
+	width: auto;
+}
+#processHelpLink
+{
+	font-size: 13px;
+	margin-left: 5px;
+}
+
+/* ---------- Footer ---------- */
+#mainFooter
+{
+    height: 70px;
+    background: url(Images/mainMenuExtendBg.jpg);
+    margin-top: 3px;
+	position: relative;
+}
+#mainFooter>div
+{
+    height: 70px;
+    background: url(Images/mainFooterBg.jpg) right no-repeat;
+	padding: 5px 0 0 20px;
+}
+
+#mainFooter > div > p
+{
+	font-size: 12px;
+	font-family: 微軟正黑體,sans-serif;
+	line-height: 7px;
+	color: #103a06;
+	letter-spacing: .1em;
+}
+
+#mainFooter > div .footerRBtitle
+{
+	position: absolute;
+	bottom: 0px;
+	right: 3px;
+	font-size: 12px;
+	line-height: 12px;
+	color: #f4f8e7;
+}
+
+/* ITC UI */
+.ITC-combobox-wrapper {
+    position: relative;
+    border: 1px solid #aaaaaa;
+    background: #FFF;
+}
+
+input.ITC-combobox {
+    outline:  none;
+    border: none;
+    margin-left: 2px;
+    height: 19px;
+}
+
+ul.ITC-combobox-ul {
+    position: absolute;
+	z-index: 100;
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+    display:none;
+    left: -1px;
+	font-size: 13px;
+    border-top: 1px solid #aaaaaa;
+    border-bottom: 1px solid #aaaaaa;
+    border-right: 1px solid #aaaaaa;
+    border-left: 1px solid #aaaaaa;
+}
+
+ul.ITC-combobox-ul li {
+    background: #FFF;
+    cursor: default;
+    line-height: 22px;
+    padding-left: 3px;
+}
+
+ul.ITC-combobox-ul li:hover {
+	background: #EEE;
+}

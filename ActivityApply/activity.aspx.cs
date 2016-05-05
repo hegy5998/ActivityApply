@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using System.Data;
 using System.Web;
 
-namespace Register
+namespace ActivityApply
 {
     public partial class activity : System.Web.UI.Page
     {

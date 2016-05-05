@@ -182,7 +182,10 @@
                 //成功時
                 success: function (result) {
                     // 加入區塊
-                    Add_Section(result.d);
+                    if (result.d != "false")
+                        Add_Section(result.d);
+                    else
+                        window.location.replace("index.aspx");
                 },
                 //失敗時
                 error: function () {
@@ -204,8 +207,10 @@
                 dataType: "json",
                 //成功時
                 success: function (result) {
-                    // 加入問題
-                    Add_Question(result.d);
+                    if (result.d != "flase")
+                        Add_Question(result.d);
+                    else
+                        window.location.replace("index.aspx");
                 },
                 //失敗時
                 error: function () {

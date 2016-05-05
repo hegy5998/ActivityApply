@@ -138,13 +138,13 @@ namespace DataAccess
 
 
         #region 查詢
-        public List<Activity_columnInfo> GetList(int acc_act)
+        public List<Activity_columnInfo> GetList(int acc_act, int as_idn)
         {
             string sql = @" SELECT activity_column.*
-                            FROM activity_column
-                            WHERE acc_act = @acc_act
+                            FROM activity_column,activity_session
+                            WHERE acc_act = @acc_act AND as_idn = @as_idn AND CONVERT(DATETIME, as_apply_end, 121) >= CONVERT(VARCHAR(256), Getdate(), 121) 
                             ORDER BY acc_asc, acc_seq;";
-            IDataParameter[] param = { Db.GetParam("@acc_act", acc_act) };
+            IDataParameter[] param = { Db.GetParam("@acc_act", acc_act) , Db.GetParam("@as_idn", as_idn) };
             return Db.GetEnumerable<Activity_columnInfo>(sql, param).ToList();
         }
         #endregion

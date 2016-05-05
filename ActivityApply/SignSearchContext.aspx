@@ -127,7 +127,7 @@
                                             <asp:HiddenField ID="Aa_idn_hf" runat="server" Value='<%# Bind("Aa_idn") %>' Visible="false" ViewStateMode="Enabled" />
                                             <asp:HiddenField ID="Act_idn_hf" runat="server" Value='<%# Bind("Act_idn") %>' Visible="false" ViewStateMode="Enabled" />
                                             <asp:HiddenField ID="Act_class_hf" runat="server" Value='<%# Bind("Act_class") %>' Visible="false" ViewStateMode="Enabled" />
-                                            <asp:HiddenField ID="Act_title_lbl" runat="server" Value='<%# Bind("Act_title") %>' Visible="false" ViewStateMode="Enabled" />
+                                            <asp:HiddenField ID="Act_title_hf" runat="server" Value='<%# Bind("Act_title") %>' Visible="false" ViewStateMode="Enabled" />
                                             <asp:HiddenField ID="As_apply_end_hf" runat="server" Value='<%# Bind("As_apply_end") %>' Visible="false" ViewStateMode="Enabled" />
                                         </ItemTemplate>
                                         <ItemStyle CssClass="rowTrigger" HorizontalAlign="Center" Width="200px" Wrap="true" />
@@ -136,6 +136,7 @@
                                         <ItemTemplate>
                                             <asp:Label ID="As_title_lbl" runat="server" Text='<%# Bind("As_title") %>'></asp:Label>
                                             <asp:HiddenField ID="As_idn_hf" runat="server" Value='<%# Bind("As_idn") %>' Visible="false" ViewStateMode="Enabled" />
+                                            <asp:HiddenField ID="As_title_hf" runat="server" Value='<%# Bind("As_title") %>' Visible="false" ViewStateMode="Enabled" />
                                         </ItemTemplate>
                                         <ItemStyle CssClass="rowTrigger" HorizontalAlign="Center" Width="130px" />
                                     </asp:TemplateField>
@@ -197,7 +198,7 @@
                         </Triggers>
                     </asp:UpdatePanel>
                 </div>
-
+                <asp:Button ID="download" runat="server" Text="Button" Style="display: none" OnClick="download_Click"/>
                 <!-- ModalPopupExtender設定按鈕 -->
                 <asp:Button ID="Button1" runat="server" Text="Button" Style="display: none" />
                 <!-- ModalPopupExtender顯示的Panel -->
@@ -240,8 +241,16 @@
 
         function GoToActivity(act_idn,As_date_end) { 
             window.open("activity.aspx?act_idn=" + act_idn, "_blank"); 
+            //window.location.replace("activity.aspx?act_idn=" + act_idn);
         } 
 
+        function change(){
+            window.open("SignChange.aspx", "_blank");
+        }
+
+        function download(){
+            $("#<%=download.ClientID%>").click();
+        }
     </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="pageUnitEnd" runat="server">

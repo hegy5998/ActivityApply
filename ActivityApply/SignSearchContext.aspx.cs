@@ -32,6 +32,7 @@ namespace ActivityApply
         private static string act_title;
         //報名序號
         private static string aa_idn;
+        private static string as_title;
         //報名人姓名
         private static string name;
         //按鈕事件
@@ -151,39 +152,65 @@ namespace ActivityApply
             //抓取報名人姓名
             HiddenField Aa_name_hf = main_gv.Rows[rowIndex].FindControl("Aa_name_hf") as HiddenField;
             //抓取活動標題隱藏欄位
-            HiddenField Act_title_lbl = main_gv.Rows[rowIndex].FindControl("Act_title_lbl") as HiddenField;
+            HiddenField Act_title_hf = main_gv.Rows[rowIndex].FindControl("Act_title_hf") as HiddenField;
+
+            HiddenField As_title_hf = main_gv.Rows[rowIndex].FindControl("As_title_hf") as HiddenField;
             switch (e.CommandName)
             {
                 case "Custom_Edit"://修改報名資料
-                    //ModalPopupExtender顯示
-                    password_pop.Show();
-                    password_txt.Focus();
+                    
                     //設定資料
                     act_idn = Act_idn_hf.Value;
                     as_idn = As_idn_hf.Value;
                     act_class = Act_class_hf.Value;
-                    act_title = Act_title_lbl.Value;
+                    act_title = Act_title_hf.Value;
                     aa_idn = Aa_idn_hf.Value;
                     //設定使用者選擇了修改
                     gridview_event = "edit";
+
+                    //ModalPopupExtender顯示
+                    if (Session["user_password"] == null)
+                    {
+                        password_pop.Show();
+                        password_txt.Focus();
+                    }
+                    else
+                        password_ok_btn_Click(sender, e);
                     break;
                 case "Custom_Delete":
-                    //ModalPopupExtender顯示
-                    password_pop.Show();
-                    password_txt.Focus();
+                    
                     //設定資料
                     act_idn = Act_idn_hf.Value;
                     as_idn = As_idn_hf.Value;
                     act_class = Act_class_hf.Value;
-                    act_title = Act_title_lbl.Value;
+                    act_title = Act_title_hf.Value;
                     aa_idn = Aa_idn_hf.Value;
                     name = Aa_name_hf.Value;
                     //設定使用者選擇了刪除
                     gridview_event = "delete";
+
+                    //ModalPopupExtender顯示
+                    if (Session["user_password"] == null)
+                    {
+                        password_pop.Show();
+                        password_txt.Focus();
+                    }
+                    else
+                        password_ok_btn_Click(sender, e);
                     break;
                 case "Custom_dowload":
                     aa_idn = Aa_idn_hf.Value;
-                    print_ApplyProve(Int32.Parse(aa_idn));
+                    act_title = Act_title_hf.Value;
+                    as_title = As_title_hf.Value;
+                    gridview_event = "Custom_dowload";
+
+                    if (Session["user_password"] == null)
+                    {
+                        password_pop.Show();
+                        password_txt.Focus();
+                    }
+                    else
+                        password_ok_btn_Click(sender, e);
                     break;
             }
         }
@@ -199,7 +226,7 @@ namespace ActivityApply
             rd.Load(Server.MapPath("~/applyProve.rpt"));
             //設定資料
             rd.SetDataSource(dt);
-            rd.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, true, "applyProve");
+            rd.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, true, act_title+"_"+ as_title+"_報名資訊");
             rd.Close();
         }
         #endregion
@@ -222,6 +249,7 @@ namespace ActivityApply
             aa_email_hf.Value = aa_email_txt.Text.Trim();
             //抓取報名資料
             DataTable dt = GetData(true);
+            Session.Remove("user_password");
             //判斷是否有報名資料
             if (dt.Rows.Count != 0)
             {
@@ -300,6 +328,13 @@ namespace ActivityApply
             SystemConfigInfo config_info = CommonHelper.GetSysConfig();
             DataTable dt_password = BL.GetEmailData(email);
             CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubject(email), getMailContnet(dt_password));
+            //Page.RegisterStartupScript("Show", "<script language=\"JavaScript\">closeme();</script>");
+            string error_msg = "已寄送Email到 : " + email;
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<script language='javascript'>");
+            sb.Append("alert('" + error_msg + "')");
+            sb.Append("</script>");
+            ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
         }
         #endregion
 
@@ -368,17 +403,21 @@ namespace ActivityApply
         #region 修改報名資料、刪除按鈕，輸入密碼確認事件
         protected void password_ok_btn_Click(object sender, EventArgs e)
         {
+            if (user_password == password_txt.Text && Session["user_password"] == null)
+                Session["user_password"] = password_txt.Text;
 
             //判斷使用者密碼是否正確以及是按了修改還是刪除按鈕
-            if (user_password == password_txt.Text && gridview_event == "edit")
+            if (Session["user_password"] != null && Session["user_password"].ToString() == user_password && gridview_event == "edit")
             {
                 Session["aa_idn"] = aa_idn;
                 Session["act_idn"] = act_idn;
                 Session["as_idn"] = as_idn;
                 Response.Redirect("SignChange.aspx");
+                //Server.Transfer("SignChange.aspx",true);
+                //Page.RegisterStartupScript("Show", "<script language=\"JavaScript\">change();</script>");
                 //Response.Redirect("SignChange.aspx?act_idn=" + act_idn + "&as_idn=" + as_idn);
             }
-            else if (user_password == password_txt.Text && gridview_event == "delete")
+            else if (Session["user_password"] != null && Session["user_password"].ToString() == user_password && gridview_event == "delete")
             {
                 DataTable columndt = BL.GetColumnData(act_idn);
                 for (int count = 0; count < columndt.Rows.Count; count++)
@@ -408,6 +447,12 @@ namespace ActivityApply
                 }
                 BindGridView(GetData(true));
             }
+            else if(Session["user_password"] != null && Session["user_password"].ToString() == user_password && gridview_event == "Custom_dowload")
+            {
+                password_pop.Hide();
+                Page.RegisterStartupScript("Show", "<script language=\"JavaScript\">download();</script>");
+                //print_ApplyProve(Int32.Parse(aa_idn));
+            }
             else
             {
                 string error_msg = "密碼錯誤!";
@@ -420,5 +465,21 @@ namespace ActivityApply
         }
         #endregion
 
+        protected void download_Click(object sender, EventArgs e)
+        {
+            Sign_UpBL _bl = new Sign_UpBL();
+            DataTable dt = _bl.GetApplyProve(Int32.Parse(aa_idn));
+            //ReportDocument rd = new ReportDocument();
+            
+            using (ReportDocument rd = new ReportDocument())
+            {
+                //載入該報表
+                rd.Load(Server.MapPath("~/applyProve.rpt"));
+                //設定資料
+                rd.SetDataSource(dt);
+                rd.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, true, act_title + "_" + as_title + "_報名資訊");
+                rd.Close();
+            }
+        }
     }
 }

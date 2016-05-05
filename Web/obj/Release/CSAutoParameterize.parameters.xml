@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="DbConn-Web.config Connection String" description="DbConn 應用程式在 web.config 中用來存取資料庫的連接字串。" defaultValue="Data Source=140.134.23.68;Initial Catalog=signup;User ID=SignupUser;Password=Aa123456;Integrated Security=False" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Saki\\Desktop\\ActivityApply\\Web\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DbConn']/@connectionString" />
+  </parameter>
+</parameters>

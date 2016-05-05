@@ -20,9 +20,9 @@ namespace BusinessLayer.Web
         #endregion
 
         #region 取得問題列表
-        public List<Activity_columnInfo> GetQuestionList(int acc_act)
+        public List<Activity_columnInfo> GetQuestionList(int acc_act,int as_idn)
         {
-            return _data.GetQuestionList(acc_act);
+            return _data.GetQuestionList(acc_act, as_idn);
         }
         #endregion
 

@@ -11,7 +11,7 @@ using System.Web.UI;
 using System.Configuration;
 using System.Data.Common;
 
-namespace Web
+namespace ActivityApply
 {
     public class Global : System.Web.HttpApplication
     {

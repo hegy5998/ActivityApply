@@ -883,6 +883,7 @@
     <Content Include="Scripts\Lib\assets\lineicons\fonts\linecons.woff" />
     <Content Include="Css\Lib\_titatoggle.less" />
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\Web.pubxml" />
     <None Include="Scripts\Lib\jquery-1.9.1.min.intellisense.js" />
     <Content Include="Scripts\Lib\jquery-1.9.1.min.js" />
     <Content Include="Scripts\Lib\jquery-migrate-1.2.1.min.js" />

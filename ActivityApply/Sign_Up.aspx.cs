@@ -32,18 +32,29 @@ namespace ActivityApply
         {
             Sign_UpBL _bl = new Sign_UpBL();
             List<Activity_sectionInfo> sectionList = _bl.GetSectionList(ACT_IDN);
-
-            string json_data = JsonConvert.SerializeObject(sectionList);
-            return json_data;
+            if(sectionList.Count == 0)
+                return "false";
+            else
+            {
+                string json_data = JsonConvert.SerializeObject(sectionList);
+                return json_data;
+            }
+            
         }
 
         [System.Web.Services.WebMethod]
         public static string getQuestionList()
         {
             Sign_UpBL _bl = new Sign_UpBL();
-            List<Activity_columnInfo> questionList = _bl.GetQuestionList(ACT_IDN);
-            string json_data = JsonConvert.SerializeObject(questionList);
-            return json_data;
+            List<Activity_columnInfo> questionList = _bl.GetQuestionList(ACT_IDN, AS_IDN);
+            if (questionList.Count == 0)
+                return "false";
+            else
+            {
+                string json_data = JsonConvert.SerializeObject(questionList);
+                return json_data;
+            }
+            
         }
 
         [System.Web.Services.WebMethod]

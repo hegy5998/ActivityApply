@@ -50,9 +50,13 @@ namespace ActivityApply
         {
             SignChangeBL _bl = new SignChangeBL();
             List<Activity_sectionInfo> sectionList = _bl.GetSectionList(ACT_IDN);
-            
-            string json_data = JsonConvert.SerializeObject(sectionList);
-            return json_data;
+            if (sectionList.Count == 0)
+                return "false";
+            else
+            {
+                string json_data = JsonConvert.SerializeObject(sectionList);
+                return json_data;
+            }
         }
         #endregion
 
@@ -61,9 +65,14 @@ namespace ActivityApply
         public static string getQuestionList()
         {
             SignChangeBL _bl = new SignChangeBL();
-            List<Activity_columnInfo> questionList = _bl.GetQuestionList(ACT_IDN);
-            string json_data = JsonConvert.SerializeObject(questionList);
-            return json_data;
+            List<Activity_columnInfo> questionList = _bl.GetQuestionList(ACT_IDN,AS_IDN);
+            if (questionList.Count == 0)
+                return "false";
+            else
+            {
+                string json_data = JsonConvert.SerializeObject(questionList);
+                return json_data;
+            }
         }
         #endregion
 

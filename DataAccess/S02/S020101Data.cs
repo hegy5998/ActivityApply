@@ -28,7 +28,16 @@ namespace DataAccess
         #region 取得活動資料
         public List<ActivityInfo> getActivity(int act_idn)
         {
-            return activityData.GetActivityList(act_idn);
+            string sql = @" SELECT   activity.*
+                            FROM    activity
+                            cross apply 
+                                    (select top 1 COUNT(*) as num
+                                    from activity_session 
+                                    where   as_act = @act_idn 
+				                            AND CONVERT(DATETIME, as_date_end, 121) >=  CONVERT(varchar(256), GETDATE(), 121)) as ac_session
+                            WHERE   (act_idn = @act_idn)  AND ac_session.num > 0";
+            IDataParameter[] param = { Db.GetParam("@act_idn", act_idn) };
+            return Db.GetEnumerable<ActivityInfo>(sql, param).ToList();
         }
         #endregion
 
@@ -314,7 +323,7 @@ namespace DataAccess
             StringBuilder sql_sb = new StringBuilder();
 
             sql_sb.Append(@"
-                SELECT aa_idn, aad_val
+                SELECT aa_idn, aad_val, activity_apply.createtime
                 FROM activity, activity_apply, activity_apply_detail, activity_column, activity_session
                 WHERE as_act = act_idn AND
 	                  aa_as = as_idn AND	  
@@ -362,7 +371,7 @@ namespace DataAccess
         #endregion
 
         #region 取得活動idn
-        public DataTable Getactidn (int asidn)
+        public DataTable Getactidn(int asidn)
         {
             StringBuilder sql_sb = new StringBuilder();
 
@@ -496,5 +505,90 @@ namespace DataAccess
             return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
         }
         #endregion
+
+        //取得場次的限制人數
+        public DataTable GetApplyLimit(int i)
+        {
+            StringBuilder sql_sb = new StringBuilder();
+
+            sql_sb.Append(@"
+                SELECT as_num_limit
+                FROM activity_session
+                WHERE as_idn = @i");
+
+            //場次idn
+            var param_lst = new List<IDataParameter>() {
+                Db.GetParam("@i", i),
+            };
+
+            return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
+        }
+
+        //取得email資料
+        public DataTable GetEmailData()
+        {
+            StringBuilder sql_sb = new StringBuilder();
+
+            sql_sb.Append(@"
+            SELECT aae_email
+            FROM activity_apply_email");
+
+            return Db.GetDataTable(sql_sb.ToString());
+        }
+
+        //取得帳號資料
+        public DataTable GetAccountData()
+        {
+            StringBuilder sql_sb = new StringBuilder();
+
+            sql_sb.Append(@"
+            SELECT act_id
+            FROM sys_account");
+
+            return Db.GetDataTable(sql_sb.ToString());
+        }
+
+        //取得報名者的報名資料(activity_apply)
+        public DataTable GetApplyData(int i)
+        {
+            StringBuilder sql_sb = new StringBuilder();
+
+            sql_sb.Append(@"
+                SELECT aa_idn, aa_name
+                FROM activity, activity_session, activity_apply
+                WHERE as_act = act_idn AND
+		                aa_as = as_idn AND
+	                    as_idn = @i
+                ORDER BY aa_idn");
+
+            //場次idn
+            var param_lst = new List<IDataParameter>() {
+                Db.GetParam("@i", i)};
+
+            return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
+        }
+
+        //取得報名者的實際報名資料(activity_apply_detail)
+        public DataTable GetApplyDetailData(int i)
+        {
+            StringBuilder sql_sb = new StringBuilder();
+
+            sql_sb.Append(@"
+                SELECT acc_title, aad_apply_id, aad_col_id, aad_val
+                FROM activity, activity_column, activity_session, activity_apply_detail, activity_apply
+                WHERE acc_act = act_idn AND
+	                    as_act = act_idn AND
+		                aad_apply_id = aa_idn AND
+		                aad_col_id = acc_idn AND
+	                    as_idn = @i
+                ORDER BY acc_seq");
+
+            //場次idn
+            var param_lst = new List<IDataParameter>() {
+                Db.GetParam("@i", i)};
+
+            return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
+        }
     }
+
 }

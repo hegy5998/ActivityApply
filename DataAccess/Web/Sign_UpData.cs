@@ -24,9 +24,9 @@ namespace DataAccess.Web
             return _sectionData.GetList(acs_act);
         }
 
-        public List<Activity_columnInfo> GetQuestionList(int acc_act)
+        public List<Activity_columnInfo> GetQuestionList(int acc_act, int as_idn)
         {
-            return _columnData.GetList(acc_act);
+            return _columnData.GetList(acc_act,as_idn);
         }
 
         public DataTable GetActivityData(int as_act, int as_idn)

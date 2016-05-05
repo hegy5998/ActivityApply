@@ -139,6 +139,33 @@ namespace Web.S02 {
         protected global::System.Web.UI.UpdatePanel controlSet_content_upl;
         
         /// <summary>
+        /// main_pl 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel main_pl;
+        
+        /// <summary>
+        /// mv 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.MultiView mv;
+        
+        /// <summary>
+        /// main_view 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View main_view;
+        
+        /// <summary>
         /// copperate_cop_act_hf 控制項。
         /// </summary>
         /// <remarks>
@@ -155,6 +182,51 @@ namespace Web.S02 {
         /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView controlSet_gv;
+        
+        /// <summary>
+        /// auth_view 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View auth_view;
+        
+        /// <summary>
+        /// account_pl 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel account_pl;
+        
+        /// <summary>
+        /// accountpassword_lbl 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label accountpassword_lbl;
+        
+        /// <summary>
+        /// setAccount_btn 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button setAccount_btn;
+        
+        /// <summary>
+        /// account_radiobuttonlist 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButtonList account_radiobuttonlist;
         
         /// <summary>
         /// UpdatePanel2 控制項。

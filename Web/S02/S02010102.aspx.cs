@@ -8,6 +8,11 @@ using BusinessLayer.S02;
 using System.Data;
 using Util;
 using AjaxControlToolkit;
+using NPOI.HSSF.UserModel;
+using NPOI;
+using NPOI.XSSF.UserModel;
+using NPOI.SS.UserModel;
+using System.IO;
 
 namespace Web.S02
 {
@@ -48,6 +53,21 @@ namespace Web.S02
             main_gv.AutoGenerateColumns = true;
             main_gv.DataSource = lst;
             main_gv.DataBind();
+
+            if (main_gv.Rows.Count == 0)
+            {
+                // 避免無資料列時，無法顯示footer新增資料
+                DataRow row = lst.NewRow();
+                for (int i = 0; i < lst.Columns.Count; i++)
+                {
+                    row[i] = null;
+                }
+                lst.Rows.Add(row);
+
+                main_gv.DataSource = lst;
+                main_gv.DataBind();
+                main_gv.Rows[0].Attributes.Add("style", "display: none");
+            }
         }
 
         //編輯
@@ -81,6 +101,7 @@ namespace Web.S02
                         int iEdit = Convert.ToInt32(Request.QueryString["i"]);
                         GridViewRow gvrEdit = e.Row;
                         DataTable colEdit = _bl.GetApplyDataDetail(iEdit);
+                        new_hf.Value = "Edit";
 
                         //設定起始參數
                         int checkEdit = 2;
@@ -122,9 +143,9 @@ namespace Web.S02
                                 String state = rowView[checkEdit - 1].ToString();
 
                                 //顯示未修改的值在GridView上
-                                Label label = new Label();
+                                Label label = gvrEdit.Cells[checkEdit].Controls[1] as Label;
                                 label.Text = state;
-                                gvrEdit.Cells[checkEdit].Controls.Add(label);
+                                //gvrEdit.Cells[checkEdit].Controls.Add(label);
 
                                 //判斷選項是否已被勾選
                                 string[] states = state.Split(',');
@@ -138,6 +159,10 @@ namespace Web.S02
                                         {
                                             option.Checked = true;
                                             j++;
+                                        }
+                                        else
+                                        {
+                                            option.Checked = false;
                                         }
                                     }
                                 }
@@ -158,7 +183,25 @@ namespace Web.S02
                 //新增Row
                 case "Add":
                     int i = Convert.ToInt32(Request.QueryString["i"]);
+
+                    //若是超出場次限制人數則跳出提醒
+                    int limit = _bl.GetApplyLimit(i);
+                    if (main_gv.Rows.Count >= limit)
+                    {
+                        ShowPopupMessage(ITCEnum.PopupMessageType.Error, "警告", "已超過此場次限制人數，請謹慎思考是否要新增");
+                    }
+
                     new_hf.Value = "Add";
+
+                    //將多選的選項清空
+                    for (int j = 0; j < multioption_pl.Controls.Count; j++)
+                    {
+                        CheckBox checkbox = multioption_pl.Controls[j] as CheckBox;
+                        if (checkbox != null)
+                        {
+                            checkbox.Checked = false;
+                        }
+                    }
 
                     GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Insert, main_gv);
                     BindGridView(GetData(i));
@@ -180,8 +223,6 @@ namespace Web.S02
         //多選跳出視窗
         private void InitControlPopupWindow(object sender, GridViewCommandEventArgs e)
         {
-            GridViewRow gvr = (e.CommandSource as Button).NamingContainer as GridViewRow;
-
             multi_mpe.Show();  // Popup Window
             multi_pl.Visible = true;
         }
@@ -231,6 +272,7 @@ namespace Web.S02
             {
                 dict_col["aad_col_id"] = r.ItemArray.GetValue(2).ToString();
 
+                //文字輸入
                 if (r.ItemArray.GetValue(6).ToString() == "text")
                 {
                     textbox = gvr.Cells[check].Controls[0] as TextBox;
@@ -239,6 +281,7 @@ namespace Web.S02
 
                     res_col = _bl.InsertData_column(dict_col);
                 }
+                //單選 & 下拉式選單
                 else if ((r.ItemArray.GetValue(6).ToString() == "singleSelect") || (r.ItemArray.GetValue(6).ToString() == "dropDownList"))
                 {
                     DropDownList d = gvr.Cells[check].Controls[0] as DropDownList;
@@ -247,6 +290,7 @@ namespace Web.S02
 
                     res_col = _bl.InsertData_column(dict_col);
                 }
+                //多選
                 else if (r.ItemArray.GetValue(6).ToString() == "multiSelect")
                 {
                     Label s = gvr.Cells[check].Controls[1] as Label;
@@ -257,17 +301,42 @@ namespace Web.S02
                 }
             }
 
-            if (res_col.IsSuccess)
+            //若是第一次申請email則需要新增密碼
+            DataTable emailData = _bl.GetEmailData();
+            int emailcheck = 0;
+            foreach (DataRow r in emailData.Rows)
             {
-                // 新增成功，切換回一般模式
-                GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, main_gv);
-                BindGridView(GetData(i));
-                ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Insert);
+                if (r[0].ToString() == dict["aa_email"].ToString())
+                {
+                    emailcheck = 1;
+                    break;
+                }
             }
+            //跳出設定密碼的視窗
+            if (emailcheck == 0)
+            {
+                email_hf.Value = dict["aa_email"].ToString();
+                password_txt.Text = null;
+                passwordcheck_txt.Text = null;
+
+                emailpassword_mpe.Show();  // Popup Window
+                emailpassword_pl.Visible = true;
+            }
+            //新增成功
             else
             {
-                // 新增失敗，顯示錯誤訊息
-                ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, res_col.Message);
+                if (res_col.IsSuccess)
+                {
+                    // 新增成功，切換回一般模式
+                    GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, main_gv);
+                    BindGridView(GetData(CommonConvert.GetIntOrZero(Request.QueryString["i"])));
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Insert);
+                }
+                else
+                {
+                    // 新增失敗，顯示錯誤訊息
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, res_col.Message);
+                }
             }
         }
 
@@ -283,8 +352,8 @@ namespace Web.S02
 
             //欲刪除報名資料的報名序號
             var data_dict_aa = new Dictionary<string, object>();
-            Label aa_idn = gvr.Cells[1].Controls[0] as Label;
-            data_dict_aa["aa_idn"] = CommonConvert.GetStringOrEmptyString(aa_idn.Text);
+            string aa_idn = gvr.Cells[1].Text;
+            data_dict_aa["aa_idn"] = aa_idn;
 
             //刪除資料
             var res = _bl.DeleteApply(data_dict, data_dict_aa);
@@ -311,6 +380,14 @@ namespace Web.S02
             TextBox textbox = new TextBox();
             new_hf.Value = "Edit";
 
+            //修改Apply資料
+            var newApplyData_dict = new Dictionary<string, object>();
+            var oldApplyData_dict = new Dictionary<string, object>();
+            //newApplyData_dict["aa_idn"] = (gvr.FindControl("old_aa_idn_hf") as HiddenField).Value;
+            newApplyData_dict["aa_act"] = _bl.Getactidn(i);
+            newApplyData_dict["aa_as"] = i;
+            oldApplyData_dict["aa_idn"] = (gvr.FindControl("old_aa_idn_hf") as HiddenField).Value;
+
             //取得欄位資料
             DataTable col_id = _bl.GetApplyDataDetail(i);
             
@@ -328,34 +405,56 @@ namespace Web.S02
                 newData_dict["aad_col_id"] = r.ItemArray.GetValue(2).ToString();
                 oldData_dict["aad_col_id"] = r.ItemArray.GetValue(2).ToString();
 
+                //文字輸入
                 if (r.ItemArray.GetValue(6).ToString() == "text")
                 {
+                    //尋找姓名 & email
                     textbox = gvr.Cells[check].Controls[0] as TextBox;
+                    if (r.ItemArray.GetValue(3).ToString() == "姓名")
+                    {
+                        newApplyData_dict["aa_name"] = textbox.Text;
+                    }
+
+                    if (r.ItemArray.GetValue(3).ToString() == "電子信箱Email")
+                    {
+                        newApplyData_dict["aa_email"] = textbox.Text;
+                    }
+                    
                     newData_dict["aad_val"] = textbox.Text;
                 
-                    res = _bl.UpdateApplyData(oldData_dict, newData_dict);
+                    res = _bl.UpdateApplyDetailData(oldData_dict, newData_dict);
 
                     check++;
                 }
+                //單選 & 下拉式選單
                 else if ((r.ItemArray.GetValue(6).ToString() == "singleSelect") || (r.ItemArray.GetValue(6).ToString() == "dropDownList"))
                 {
                     DropDownList dropdownlist = gvr.Cells[check].Controls[0] as DropDownList;
                     newData_dict["aad_val"] = dropdownlist.SelectedValue;
 
-                    res = _bl.UpdateApplyData(oldData_dict, newData_dict);
+                    res = _bl.UpdateApplyDetailData(oldData_dict, newData_dict);
 
                     check++;
                 }
+                //多選
                 else if (r.ItemArray.GetValue(6).ToString() == "multiSelect")
                 {
                     string s = (gvr.Cells[check].Controls[1] as Label).Text;
                     newData_dict["aad_val"] = s;
 
-                    res = _bl.UpdateApplyData(oldData_dict, newData_dict);
+                    res = _bl.UpdateApplyDetailData(oldData_dict, newData_dict);
 
                     check++;
                 }
+
+                //修改失敗，此問題為後來新增的問題(需用新增的方式)
+                if (!res.IsSuccess)
+                {
+                    res = _bl.InsertData_column(newData_dict);
+                }
             }
+
+            res = _bl.UpdateApplyData(oldApplyData_dict, newApplyData_dict);
 
             if (res.IsSuccess)
             {
@@ -443,6 +542,7 @@ namespace Web.S02
 
                                     //加入選項的值(第一次為空)
                                     Label label = new Label();
+                                    label.Text = null;
                                     gvrEdit.Cells[checkEdit].Controls.Add(label);
 
                                     row_idn_hf.Value = e.Row.RowIndex.ToString();
@@ -528,6 +628,7 @@ namespace Web.S02
                                     string option = optionArrayS[1];
                                     CheckBox checkbox = new CheckBox();
                                     checkbox.Text = option;
+                                    checkbox.Checked = false;
 
                                     multioption_pl.Controls.Add(checkbox);
                                     Literal literal = new Literal();
@@ -543,7 +644,7 @@ namespace Web.S02
             }
         }
 
-        //多選跳出視窗關閉按鈕
+        //多選 & 設定密碼跳出視窗關閉按鈕
         protected void control_cancel_btn_Click(object sender, EventArgs e)
         {
             BindGridView(GetData(CommonConvert.GetIntOrZero(Request.QueryString["i"])));
@@ -568,13 +669,22 @@ namespace Web.S02
                 }
             }
             
-            //判斷是否為頁尾列
+            //判斷是否為頁尾列(編輯列)
             if (new_hf.Value == "Edit")
             {
                 Label l = main_gv.Rows[CommonConvert.GetIntOrZero(row_idn_hf.Value)].Cells[CommonConvert.GetIntOrZero(col_idn_hf.Value)].Controls[1] as Label;
-                l.Text = s.Substring(1);
-                main_gv.Rows[CommonConvert.GetIntOrZero(row_idn_hf.Value)].Cells[CommonConvert.GetIntOrZero(col_idn_hf.Value)].Controls.Add(l);
+                //若有選資料
+                if (s != null)
+                {
+                    l.Text = s.Substring(1);
+                }
+                //若沒選資料
+                else
+                {
+                    l.Text = null;
+                }
             }
+            //新增列(頁尾列)
             else if (new_hf.Value == "Add")
             {
                 Label l = main_gv.FooterRow.Cells[CommonConvert.GetIntOrZero(col_idn_hf.Value)].Controls[1] as Label;
@@ -586,7 +696,89 @@ namespace Web.S02
             multi_mpe.Hide();
             multi_pl.Visible = false;
         }
+
+        //設定密碼確認
+        protected void checkpassword_btn_Click(object sender, EventArgs e)
+        {
+            if (password_txt.Text == passwordcheck_txt.Text)
+            {
+                //新增密碼
+                Dictionary<string, object> dict = new Dictionary<string, object>();
+                dict["aae_email"] = email_hf.Value;
+                dict["aae_password"] = password_txt.Text;
+
+                var res = _bl.InsertEmailData(dict);
+
+                if (res.IsSuccess)
+                {
+                    // 新增成功，切換回一般模式
+                    GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, main_gv);
+                    BindGridView(GetData(CommonConvert.GetIntOrZero(Request.QueryString["i"])));
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Insert);
+                }
+                else
+                {
+                    // 新增失敗，顯示錯誤訊息
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, res.Message);
+                }
+
+                //隱藏跳出視窗
+                emailpassword_mpe.Hide();
+                emailpassword_pl.Visible = false;
+            }
+        }
+
+        //main_gv排序
+        protected void main_gv_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            var lst = GridViewHelper.SortGridView(sender as GridView, e, GetData(CommonConvert.GetIntOrZero(Request.QueryString["i"])));
+            BindGridView(lst);
+        }
         #endregion
+
+        //下載按鈕
+        protected void download_btn_Click(object sender, EventArgs e)
+        {
+            int i = CommonConvert.GetIntOrZero(Request.QueryString["i"]);
+            DataTable data = _bl.GetApplyData(i);
+            DataTable title = _bl.Getactas(i);
+
+            //新增Excel檔案
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            ISheet u_sheet = workbook.CreateSheet(title.Rows[0][0].ToString() + "_" + title.Rows[0][1].ToString());
+
+            //增加標頭列
+            IRow u_row1 = u_sheet.CreateRow(0);
+            for (int j = 1; j < data.Columns.Count; j++)
+            {
+                u_row1.CreateCell(j - 1).SetCellValue(data.Columns[j].ColumnName);
+            }
+
+            //產生內容資料列
+            int x = 1;
+            foreach (DataRow r in data.Rows)
+            {
+                IRow u_row = u_sheet.CreateRow(x);    // 在工作表裡面，產生一列。
+                x++;
+                for (int j = 1; j < data.Columns.Count; j++)
+                {
+                    u_row.CreateCell(j - 1).SetCellValue(r.ItemArray.GetValue(j).ToString());     // 在這一列裡面，產生格子（儲存格）並寫入資料。
+                }
+            }
+
+            MemoryStream MS = new MemoryStream();   //==需要 System.IO命名空間
+            workbook.Write(MS);
+
+            Response.AddHeader("Content-Disposition", "attachment; filename=" + title.Rows[0][0].ToString() + ".xlsx");
+            Response.BinaryWrite(MS.ToArray());
+
+            workbook = null;   //== VB為 Nothing
+            MS.Close();
+            MS.Dispose();
+
+            Response.Flush();
+            Response.End();
+        }
 
         #region 顯示資料處理提示訊息
         //顯示資料處理提示訊息

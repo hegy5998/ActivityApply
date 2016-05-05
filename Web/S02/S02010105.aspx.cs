@@ -1,4 +1,5 @@
-﻿using BusinessLayer.Web;
+﻿using BusinessLayer.S01;
+using BusinessLayer.Web;
 using Model;
 using Newtonsoft.Json;
 using System;
@@ -18,9 +19,8 @@ namespace Web.S02
         [System.Web.Services.WebMethod]
         public static string getSectionList()
         {
-            Sign_UpBL _bl = new Sign_UpBL();
+            S020105BL _bl = new S020105BL();
             List<Activity_sectionInfo> sectionList = _bl.GetSectionList(ACT_IDN);
-
             string json_data = JsonConvert.SerializeObject(sectionList);
             return json_data;
         }
@@ -28,7 +28,7 @@ namespace Web.S02
         [System.Web.Services.WebMethod]
         public static string getQuestionList()
         {
-            Sign_UpBL _bl = new Sign_UpBL();
+            S020105BL _bl = new S020105BL();
             List<Activity_columnInfo> questionList = _bl.GetQuestionList(ACT_IDN);
             string json_data = JsonConvert.SerializeObject(questionList);
             return json_data;

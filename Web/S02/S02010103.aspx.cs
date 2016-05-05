@@ -307,7 +307,7 @@ namespace Web.S02
         #region 返回首頁
         protected void Back_btn_Click(object sender, EventArgs e)
         {
-            Response.Redirect("S02010101.aspx?sys_id=S01&sys_pid=S0201010");
+            Response.Redirect("S02010101.aspx?sys_id=S01&sys_pid=S02010101");
             Response.End();
         }
         #endregion
@@ -319,7 +319,11 @@ namespace Web.S02
             as_act = act_idn;
             imageUpload_btn_Click(sender, e);
 
-            if (FileUpload.HasFile == false) return;
+            if (FileUpload.HasFile == false)
+            {
+                Response.Redirect("S02010101.aspx?sys_id=S01&sys_pid=S02010101");
+                return;
+            }
 
             deletefile();
 
@@ -379,6 +383,7 @@ namespace Web.S02
                 Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
                 new_Activity_dict["act_relate_file"] = @"../Uploads/" + as_act + "/relateFile" + "/" + filename;
                 CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
+                Response.Redirect("S02010101.aspx?sys_id=S01&sys_pid=S02010101");
             }
             catch (Exception ex)
             {

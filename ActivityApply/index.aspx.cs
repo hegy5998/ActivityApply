@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace Register
+namespace ActivityApply
 {
     public partial class index : System.Web.UI.Page
     {

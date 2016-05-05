@@ -201,7 +201,7 @@ namespace Web.S02
         #region 返回首頁
         protected void Back_btn_Click(object sender, EventArgs e)
         {
-            Response.Redirect("S02010101.aspx?sys_id=S01&sys_pid=S0201010");
+            Response.Redirect("S02010101.aspx?sys_id=S01&sys_pid=S02010101");
             Response.End();
         }
         #endregion
