@@ -123,7 +123,7 @@
                                 <Columns>
                                     <asp:TemplateField HeaderText="活動名稱" ItemStyle-HorizontalAlign="Center">
                                         <ItemTemplate>
-                                            <input id="Act_title" type="button" class="btn-link" value='<%# Eval("Act_title") %>' onclick="GoToActivity(<%# Eval("Act_idn") %>);" style="width: 200px" />
+                                            <input id="Act_title" type="button" class="btn-link" value='<%# Eval("Act_title") %>' onclick="GoToActivity(<%# Eval("Act_idn") %> , '<%# Eval("As_date_end") %>');" style="width: 200px;" />
                                             <asp:HiddenField ID="Aa_idn_hf" runat="server" Value='<%# Bind("Aa_idn") %>' Visible="false" ViewStateMode="Enabled" />
                                             <asp:HiddenField ID="Act_idn_hf" runat="server" Value='<%# Bind("Act_idn") %>' Visible="false" ViewStateMode="Enabled" />
                                             <asp:HiddenField ID="Act_class_hf" runat="server" Value='<%# Bind("Act_class") %>' Visible="false" ViewStateMode="Enabled" />
@@ -225,9 +225,26 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+            //判斷更改密碼內新密碼確是否相同
             $("#<%=new_password_txt.ClientID %>").rules("add", { required: true, minlength: 4 });
             $("#<%=new_password_check_txt.ClientID %>").rules("add", { required: true, equalTo: $("#<%=new_password_txt.ClientID %>") });
+            //設定麵包削尋覽
             setSessionBread();
+
+            //打完Email按下Enter會去按查詢按鈕
+            $("#<%=aa_email_txt.ClientID %>").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    $("#<%=search_btn.ClientID %>").click();
+                    return false;
+                }
+            });
+            //打完密碼按下Enter會去按確認按鈕
+            $("#<%=password_txt.ClientID %>").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    $("#<%=password_ok_btn.ClientID %>").click();
+                    return false;
+                }
+            });
         })
         //#region 設定麵包削尋覽列
         function setSessionBread() {
@@ -239,15 +256,19 @@
         }
         //#endregion
 
-        function GoToActivity(act_idn,As_date_end) { 
-            window.open("activity.aspx?act_idn=" + act_idn, "_blank"); 
-            //window.location.replace("activity.aspx?act_idn=" + act_idn);
+        //#region 活動頁面跳頁
+        function GoToActivity(act_idn,as_date_end) { 
+            var NowDate = new Date();
+            var date_end = new Date(as_date_end);
+            //如果活動已結束則不跳頁
+            if(date_end > NowDate)
+                window.open("activity.aspx?act_idn=" + act_idn, "_blank"); 
+            else
+                alert("活動已結束");
         } 
+        //#endregion 
 
-        function change(){
-            window.open("SignChange.aspx", "_blank");
-        }
-
+        //下載報名資訊
         function download(){
             $("#<%=download.ClientID%>").click();
         }

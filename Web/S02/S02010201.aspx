@@ -17,6 +17,8 @@
     <input type="button" onclick="Save_Activity_btn_Click()" value="儲存報名表" />
     <!-- 上傳檔案 -->
     <input type="button" onclick="upload_File()" value="上傳檔案" />--%>
+    <!-- 隱藏按鈕防止按下Enter返回列表 -->
+    <asp:Button ID="Button1" runat="server" Text="Button"  OnClientClick="return false;" Style="display:none;"/>
     <!-- 儲存活動 -->
     <input type="button" onclick="save()" value="儲存活動" />
     <!-- 檢視 -->
@@ -510,9 +512,26 @@
         function setSelect(act_classInfo) {
             var act_classInfo = JSON.parse(act_classInfo);
             $("#select_class").children().remove();
+            $("#select_class").append('<option value="0">請選擇分類</option>');
             for (var count = 0 ; count < act_classInfo.length ; count++) {
                 $("#select_class").append('<option value="' + act_classInfo[count].Ac_idn + '">' + act_classInfo[count].Ac_title + '</option>');
             }
+            $("#select_class").val('0');
+
+            //判斷分類必選
+            $("#select_class").blur(function () {
+                if ($(this).val() == 0) {
+                    $("#select_class").css({ "box-shadow": "0px 0px 9px red" });
+                    if ($("#select_class_txt_error").length == 0)
+                        $("#select_class").after('<em id="select_class_txt_error" class="error help-block red" style="margin-top: -10px;">必須選擇</em>');
+                    check_Activity_Data = false;
+                }
+                else {
+                    $("#select_class").css({ "box-shadow": "" });
+                    $("#select_class_txt_error").remove();
+                }
+
+            })
         }
         //#endregion
 
@@ -1505,7 +1524,18 @@
             //儲存相關連結
             activity_Json_Data.Act_relate_link = $("#relate_Link").val();
             //儲存活動分類
-            activity_Json_Data.Act_class = $("#select_class").val();
+            if ($("#select_class").val() == 0){
+                $("#select_class").css({ "box-shadow": "0px 0px 9px red" });
+                if ($("#select_class_txt_error").length == 0)
+                    $("#select_class").after('<em id="select_class_txt_error" class="error help-block red" style="margin-top: -10px;">必須選擇</em>');
+                check_Activity_Data = false;
+            }
+            else {
+                $("#select_class").css({ "box-shadow": "" });
+                $("#select_class_txt_error").remove();
+                activity_Json_Data.Act_class = $("#select_class").val();
+            }
+                
             jsondata.activity_List.push(activity_Json_Data);
             //判斷活動名稱不能為空
             if (!activity_Json_Data.Act_title) {

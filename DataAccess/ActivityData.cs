@@ -94,8 +94,7 @@ namespace DataAccess
                                         WHERE  as_act = act_idn 
                                                AND act_isopen = 1 
                                                AND as_isopen = 1 
-                                               AND CONVERT(DATETIME, as_apply_end, 121) >= 
-                                                   CONVERT(VARCHAR(256), Getdate(), 121) 
+                                               AND CONVERT(DATETIME, as_apply_end, 121) >= CONVERT(VARCHAR(256), Getdate(), 121)
                                         UNION ALL 
                                         SELECT TOP 1 * 
                                         FROM   activity_session 
@@ -111,6 +110,8 @@ namespace DataAccess
 								    AND as_isopen = 1 
 								    AND CONVERT(DATETIME, as_date_end, 121) >= CONVERT(varchar(256), GETDATE(), 121) )  as session_count
                             WHERE session_count.num > 0
+                                  AND act_title LIKE @act_title 
+                                  AND (act_class = @act_class  OR 0 = @act_class)
                             ORDER BY   activity.updtime DESC";
             IDataParameter[] param = { Db.GetParam("@act_title", act_title),Db.GetParam("@act_class", act_class) };
             return Db.GetDataTable(sql,param); 

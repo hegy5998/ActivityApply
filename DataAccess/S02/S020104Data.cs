@@ -15,7 +15,7 @@ namespace DataAccess.S01
     {
 
         Activity_classData _da = new Activity_classData();
-
+        Activity_apply_emailData _emaildata = new Activity_apply_emailData();
         CommonDbHelper Db = DAH.Db;
 
         #region 取得特定模組或特定系統的作業
@@ -84,6 +84,13 @@ namespace DataAccess.S01
             IDataParameter[] param = { Db.GetParam("@act_idn", act_idn) };
             return Db.GetEnumerable<ActivityInfo>(sql, param).ToList();
         }
+
+        //新增Email資料
+        public List<Activity_apply_emailInfo> setPassword(string aae_email)
+        {
+            return _emaildata.setPassword(aae_email);
+        }
+
 
     }
 }

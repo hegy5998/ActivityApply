@@ -1,2 +1,0 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="UCRoleUnitPositionDDL.ascx.cs" Inherits="Web.UserControls.UCRoleUnitPositionDDL" %>
-<asp:DropDownList ID="ddl" runat="server" OnSelectedIndexChanged="ddl_SelectedIndexChanged"></asp:DropDownList>

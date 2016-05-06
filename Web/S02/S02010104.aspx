@@ -75,7 +75,7 @@
 
                 <label class="control-label">附加檔案</label>
                 <br />
-                <a id="relate_File" href="http://localhost:33206/Uploads/13/relateFile/S23060101.pdf" target="_blank">下載</a>
+                <a id="relate_File" href="#" target="_blank">下載</a>
                 <hr />
 
                 <label class="control-label">相關連結</label>
@@ -185,7 +185,7 @@
             //設定QRcode圖片
             $("#QRcode").attr("src", ActivityInfo[0].Act_short_link + ".qr");
             //設定相關連結，如果沒有則不顯示
-            if (ActivityInfo[0].Act_relate_link != null) {
+            if (ActivityInfo[0].Act_relate_link != "") {
                 $("#relate_link").attr("href", ActivityInfo[0].Act_relate_link);
                 //$("#relate_link").html(ActivityInfo[0].Act_relate_link);
             }
@@ -198,7 +198,7 @@
             else
                 $("#relate_File").remove();
             //設定活動圖片
-            if (ActivityInfo[0].Act_image != "") {
+            if (ActivityInfo[0].Act_image != null) {
                 $("#act_image").attr("src", ActivityInfo[0].Act_image);
                 $("#act_image_modal").attr("src", ActivityInfo[0].Act_image);
             }

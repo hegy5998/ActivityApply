@@ -15,6 +15,8 @@ namespace BusinessLayer.S01
     public class S020104BL
     {
         S020104Data _data = new S020104Data();
+        //Email資料
+        Activity_apply_emailData _emaildata = new Activity_apply_emailData();
 
         #region 取得場次列表
         public DataTable GetSessionList(int as_act)
@@ -29,5 +31,14 @@ namespace BusinessLayer.S01
             return _data.GetActivityList(act_idn);
         }
         #endregion
+
+        #region 取得信箱
+        public List<Activity_apply_emailInfo> setPassword(string aae_email)
+        {
+            return _data.setPassword(aae_email);
+        }
+        #endregion
+
+
     }
 }

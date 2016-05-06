@@ -204,13 +204,27 @@ namespace ActivityApply
                     as_title = As_title_hf.Value;
                     gridview_event = "Custom_dowload";
 
-                    if (Session["user_password"] == null)
+                    //if (Session["user_password"] == null)
+                    //{
+                    //    password_pop.Show();
+                    //    password_txt.Focus();
+                    //}
+                    //else
+                    //    password_ok_btn_Click(sender, e);
+
+                    Sign_UpBL _bl = new Sign_UpBL();
+                    DataTable dd = _bl.GetApplyProve(Int32.Parse(aa_idn));
+                    //ReportDocument rd = new ReportDocument();
+
+                    using (ReportDocument rd = new ReportDocument())
                     {
-                        password_pop.Show();
-                        password_txt.Focus();
+                        //載入該報表
+                        rd.Load(Server.MapPath("~/applyProve.rpt"));
+                        //設定資料
+                        rd.SetDataSource(dd);
+                        rd.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, true, act_title + "_" + as_title + "_報名資訊");
+                        rd.Close();
                     }
-                    else
-                        password_ok_btn_Click(sender, e);
                     break;
             }
         }
@@ -449,7 +463,7 @@ namespace ActivityApply
             }
             else if(Session["user_password"] != null && Session["user_password"].ToString() == user_password && gridview_event == "Custom_dowload")
             {
-                password_pop.Hide();
+                //password_pop.Hide();
                 Page.RegisterStartupScript("Show", "<script language=\"JavaScript\">download();</script>");
                 //print_ApplyProve(Int32.Parse(aa_idn));
             }

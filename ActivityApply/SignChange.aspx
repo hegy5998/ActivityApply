@@ -305,6 +305,11 @@
                         }
                     }
                 }
+                if (questionInfo[i].Acc_title == "電子信箱Email") {
+                    $("[name=qus_txt_" + i + "]").attr('disabled', 'disabled');
+                    $("[name=qus_txt_" + i + "]").css({ 'background': '#EEEEEE' });
+                }
+                    
             }
             $(document).dequeue("myQueue");
         }

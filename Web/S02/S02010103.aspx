@@ -62,7 +62,7 @@
                         <div class="project">
                             <div class="photo-wrapper">
                                 <div class="photo">
-                                    <img id="act_image"  class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" alt="" onclick="upload_img()" />
+                                    <img id="act_image"  class="img-responsive" src="#" alt="" onclick="upload_img()" />
                                 </div>
                                 <div class="overlay"></div>
                             </div>
@@ -528,6 +528,9 @@
                 $("#imgpath_lab").text(activityInfo[0].Act_image.split('/')[activityInfo[0].Act_image.split('/').length - 1]);
                 $("#act_image").attr("src", activityInfo[0].Act_image);
                 $("#delete_img_btn").css({ 'display': '' });
+            }
+            else {
+                $("#act_image").attr("src", '../Scripts/Lib/assets/img/fcu.jpg');
             }
         }
         function setSession(sessionInfo) {

@@ -35,6 +35,21 @@ namespace DataAccess
         }
         #endregion
 
+        #region 查詢Email資訊
+        public List<Activity_apply_emailInfo> setPassword(string aae_email)
+        {
+            string sql = @" UPDATE activity_apply_email
+                               SET aae_password = round(rand(),6)*1000000 
+                             WHERE aae_email = @aae_email;
+
+                            SELECT aae_password
+                            FROM activity_apply_email
+                            WHERE aae_email = @aae_email;";
+            IDataParameter[] param = { Db.GetParam("@aae_email", aae_email) };
+            return Db.GetEnumerable<Activity_apply_emailInfo>(sql, param).ToList();
+        }
+        #endregion
+
         #region 單筆資料維護
         #region 單筆新增
         /// <summary>
