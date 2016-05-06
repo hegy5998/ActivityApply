@@ -120,7 +120,7 @@ namespace Web.S02
         public static string save_Activity(List<ActivityInfo> activity_List, List<Activity_sessionInfo> activity_Session_List)
         {
             SystemConfigInfo sysConfig = CommonHelper.GetSysConfig();
-            string shorterURL = Util.CustomHelper.URLshortener(sysConfig.SOLUTION_HTTPADDR + "activity.aspx?act_class=" + activity_List[0].Act_class + "&act_idn=" + activity_List[0].Act_idn + "&act_title=" + activity_List[0].Act_title, sysConfig.URL_SHORTENER_API_KEY);
+            
 
             S020102BL _bl = new S020102BL();
             //將活動資訊資料insert到資料庫
@@ -132,17 +132,25 @@ namespace Web.S02
             save_Activity_Information["act_contact_phone"] = activity_List[0].Act_contact_phone;
             save_Activity_Information["act_class"] = activity_List[0].Act_class;
             save_Activity_Information["act_relate_link"] = activity_List[0].Act_relate_link;
-            save_Activity_Information["act_short_link"] = shorterURL;
+            
             save_Activity_Information["act_isopen"] = 0;
             CommonResult res = _bl.InsertData(save_Activity_Information);
 
             if (res.IsSuccess)
             {
+                
                 //將活動場次資料insert到資料庫
                 Dictionary<string, Object> save_Session_Information = new Dictionary<string, Object>();
-
                 save_Session_Information["as_act"] = act_idn = Int32.Parse(res.Message);
                 Boolean sessionSuccess = true;
+
+                string shorterURL = Util.CustomHelper.URLshortener(sysConfig.SOLUTION_HTTPADDR + "activity.aspx?act_class=" + activity_List[0].Act_class + "&act_idn=" + act_idn + "&act_title=" + HttpUtility.UrlEncode(activity_List[0].Act_title), sysConfig.URL_SHORTENER_API_KEY);
+                Dictionary<string, Object> old_shorlink = new Dictionary<string, Object>();
+                old_shorlink["act_idn"] = act_idn;
+                Dictionary<string, Object> new_shorlink = new Dictionary<string, Object>();
+                new_shorlink["act_short_link"] = shorterURL;
+                _bl.UpdateData(old_shorlink, new_shorlink);
+
                 //多筆場次insert到資料庫
                 for (int count = 0; count < activity_Session_List.Count; count++)
                 {

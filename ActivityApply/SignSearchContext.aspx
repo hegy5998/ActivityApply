@@ -230,7 +230,7 @@
             $("#<%=new_password_check_txt.ClientID %>").rules("add", { required: true, equalTo: $("#<%=new_password_txt.ClientID %>") });
             //設定麵包削尋覽
             setSessionBread();
-
+            
             //打完Email按下Enter會去按查詢按鈕
             $("#<%=aa_email_txt.ClientID %>").keypress(function (event) {
                 if (event.keyCode == 13) {
@@ -242,6 +242,32 @@
             $("#<%=password_txt.ClientID %>").keypress(function (event) {
                 if (event.keyCode == 13) {
                     $("#<%=password_ok_btn.ClientID %>").click();
+                    return false;
+                }
+            });
+            //更改密碼Enter事件
+            $("#<%=old_password_txt.ClientID %>").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    $("#<%=change_password_ok_btn.ClientID %>").click();
+                    return false;
+                }
+            });
+            $("#<%=new_password_txt.ClientID %>").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    $("#<%=change_password_ok_btn.ClientID %>").click();
+                    return false;
+                }
+            });
+            $("#<%=new_password_check_txt.ClientID %>").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    $("#<%=change_password_ok_btn.ClientID %>").click();
+                    return false;
+                }
+            });
+            //忘記密碼Enter事件
+            $("#<%=email_txt.ClientID %>").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    $("#<%=get_password_ok_btn.ClientID %>").click();
                     return false;
                 }
             });

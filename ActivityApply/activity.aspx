@@ -104,9 +104,10 @@
         $(document).ready(function () {
             //產生活動資訊
             getActivityList();
-            $("#dispaly_div").css({ 'display': '' });
+            
             //產生場次
             getSessionList();
+            $("#dispaly_div").css({ 'display': '' });
             //等資活動訊載入完才一次顯示資料
             //判斷活動簡介內容高度超過300px變成卷軸式
             var obheight = 300;//超過容器高度自動捲軸

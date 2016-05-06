@@ -187,7 +187,7 @@ namespace Web.S02
         public static string save_Activity(List<ActivityInfo> activity_List, List<Activity_sessionInfo> activity_Session_List,string del_as_idn,string if_delete_file,string if_img_file)
         {
             SystemConfigInfo sysConfig = CommonHelper.GetSysConfig();
-            string shorterURL = Util.CustomHelper.URLshortener(sysConfig.SOLUTION_HTTPADDR + "activity.aspx?act_class=" + activity_List[0].Act_class + "&act_idn=" + activity_List[0].Act_idn + "&act_title=" + activity_List[0].Act_title, sysConfig.URL_SHORTENER_API_KEY);
+            string shorterURL = Util.CustomHelper.URLshortener(sysConfig.SOLUTION_HTTPADDR + "activity.aspx?act_class=" + activity_List[0].Act_class + "&act_idn=" + act_idn + "&act_title=" + HttpUtility.UrlEncode(activity_List[0].Act_title), sysConfig.URL_SHORTENER_API_KEY);
 
             S020101BL _bl = new S020101BL();
             //將活動資訊資料Update到資料庫
