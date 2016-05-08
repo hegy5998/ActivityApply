@@ -8,6 +8,7 @@ using DataAccess;
 using BusinessLayer;
 using DataAccess.S01;
 using Util;
+using System.Data;
 
 namespace BusinessLayer.S01
 {
@@ -47,6 +48,13 @@ namespace BusinessLayer.S01
         public List<Activity_classInfo> GetClassList()
         {
             return _classdata.GetClassList();
+        }
+        #endregion
+
+        #region 取得分類資料
+        public DataTable GetClassNum(string ac_idn)
+        {
+            return _classdata.GetClassNum(ac_idn);
         }
         #endregion
 

@@ -14,6 +14,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Model.Common;
 using BusinessLayer.S01;
+using System.Text;
 
 namespace Web.S02
 {
@@ -114,9 +115,6 @@ namespace Web.S02
                 }
             }
 
-            
-
-
             for (int count = 0; count < activity_Section.Count; count++)
             {
                 //update舊區塊
@@ -180,7 +178,7 @@ namespace Web.S02
                 }
             }
 
-            return "活動儲存成功成功";
+            return "修改活動成功，如有新增場次請至活動列表發佈";
         }
         #endregion
 
@@ -189,7 +187,7 @@ namespace Web.S02
         public static string save_Activity(List<ActivityInfo> activity_List, List<Activity_sessionInfo> activity_Session_List,string del_as_idn,string if_delete_file,string if_img_file)
         {
             SystemConfigInfo sysConfig = CommonHelper.GetSysConfig();
-            string shorterURL = Util.CustomHelper.URLshortener(sysConfig.SOLUTION_HTTPADDR + "activity.aspx?act_class=" + activity_List[0].Act_class + "&act_idn=" + activity_List[0].Act_idn + "&act_title=" + activity_List[0].Act_title, sysConfig.URL_SHORTENER_API_KEY);
+            string shorterURL = Util.CustomHelper.URLshortener(sysConfig.SOLUTION_HTTPADDR + "activity.aspx?act_class=" + activity_List[0].Act_class + "&act_idn=" + act_idn + "&act_title=" + HttpUtility.UrlEncode(activity_List[0].Act_title), sysConfig.URL_SHORTENER_API_KEY);
 
             S020101BL _bl = new S020101BL();
             //將活動資訊資料Update到資料庫
@@ -210,6 +208,7 @@ namespace Web.S02
             if(if_delete_file == "true")
             {
                 String fi = (@"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + act_idn + "/relateFile");
+                //String fi = (@"C:/inetpub/wwwroot/Uploads/" + act_idn + "/relateFile");
                 DirectoryInfo delete_fi = new DirectoryInfo(fi);
                 //判斷目錄是否存在，存在才刪除
                 if (delete_fi.Exists)
@@ -217,22 +216,23 @@ namespace Web.S02
                     try
                     {
                         delete_fi.Delete(true);
+                        Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
+                        old_Activity_dict["act_idn"] = act_idn;
+                        Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
+                        new_Activity_dict["act_relate_file"] = "";
+                        CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
                     }
                     catch (System.IO.IOException e)
                     {
-                        Console.WriteLine(e.Message);
+                        //Console.WriteLine(e.Message);
                     }
                 }
-                Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
-                old_Activity_dict["act_idn"] = act_idn;
-                Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
-                new_Activity_dict["act_relate_file"] = "";
-                CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
             }
 
             if (if_img_file == "true")
             {
                 String fi = (@"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + act_idn + "/img");
+                //String fi = (@"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + act_idn + "/Img");
                 DirectoryInfo delete_fi = new DirectoryInfo(fi);
                 //判斷目錄是否存在，存在才刪除
                 if (delete_fi.Exists)
@@ -240,17 +240,17 @@ namespace Web.S02
                     try
                     {
                         delete_fi.Delete(true);
+                        Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
+                        old_Activity_dict["act_idn"] = act_idn;
+                        Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
+                        new_Activity_dict["act_image"] = "";
+                        CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
                     }
                     catch (System.IO.IOException e)
                     {
-                        Console.WriteLine(e.Message);
+                        //Console.WriteLine(e.Message);
                     }
                 }
-                Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
-                old_Activity_dict["act_idn"] = act_idn;
-                Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
-                new_Activity_dict["act_image"] = "";
-                CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
             }
 
             //判斷使否有場次被刪除
@@ -284,7 +284,6 @@ namespace Web.S02
                     new_Session_Information["as_apply_end"] = activity_Session_List[count].As_apply_end;
                     new_Session_Information["as_position"] = activity_Session_List[count].As_position;
                     new_Session_Information["as_num_limit"] = activity_Session_List[count].As_num_limit;
-                    //new_Session_Information["as_isopen"] = 0;
                     _bl.Update_Session_Data(old_Session_Information, new_Session_Information);
                 }
                 //新增場次資料
@@ -310,7 +309,7 @@ namespace Web.S02
         #region 返回首頁
         protected void Back_btn_Click(object sender, EventArgs e)
         {
-            Response.Redirect("S02010101.aspx?sys_id=S01&sys_pid=S0201010");
+            Response.Redirect("S02010101.aspx?sys_id=S01&sys_pid=S02010101");
             Response.End();
         }
         #endregion
@@ -322,7 +321,11 @@ namespace Web.S02
             as_act = act_idn;
             imageUpload_btn_Click(sender, e);
 
-            if (FileUpload.HasFile == false) return;
+            if (FileUpload.HasFile == false)
+            {
+                Response.Redirect("S02010101.aspx?sys_id=S01&sys_pid=S02010101");
+                return;
+            }
 
             deletefile();
 
@@ -350,15 +353,12 @@ namespace Web.S02
 
             // 檢查 Server 上該資料夾是否存在，不存在就自動建立
             string serverDirRelate = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/relateFile";
+            //string serverDirRelate = @"C:/inetpub/wwwroot/Uploads/" + as_act + "/relateFile";
             string act_relate_file = serverDirRelate + "/" + filename;
             if (Directory.Exists(serverDirRelate) == false) Directory.CreateDirectory(serverDirRelate);
 
             S020102BL _bl = new S020102BL();
-            Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
-            old_Activity_dict["act_idn"] = act_idn;
-            Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
-            new_Activity_dict["act_relate_file"] = act_relate_file;
-            CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
+            
 
             // 判斷 Server 上檔案名稱是否有重覆情況，有的話必須進行更名
             // 使用 Path.Combine 來集合路徑的優點
@@ -381,10 +381,22 @@ namespace Web.S02
             try
             {
                 FileUpload.SaveAs(serverFilePath);
+                Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
+                old_Activity_dict["act_idn"] = act_idn;
+                Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
+                new_Activity_dict["act_relate_file"] = @"../Uploads/" + as_act + "/relateFile" + "/" + filename;
+                //new_Activity_dict["act_relate_file"] = @"http:///140.134.23.127/Uploads/" + as_act + "/relateFile" + "/" + filename;
+                CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
+                Response.Redirect("S02010101.aspx?sys_id=S01&sys_pid=S02010101");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                string msg = "附加檔案上傳失敗，請重新上傳謝謝!!";
+                StringBuilder sb = new StringBuilder();
+                sb.Append("<script language='javascript'>");
+                sb.Append("alert('" + msg + "')");
+                sb.Append("</script>");
+                ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
             }
         }
         #endregion
@@ -395,6 +407,7 @@ namespace Web.S02
             int as_act = 0;
             as_act = act_idn;
             String fi = (@"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/relateFile");
+            //String fi = (@"C:/inetpub/wwwroot/Uploads/" + as_act + "/relateFile");
             DirectoryInfo delete_fi = new DirectoryInfo(fi);
             //判斷目錄是否存在，存在才刪除
             if (delete_fi.Exists)
@@ -446,15 +459,12 @@ namespace Web.S02
 
             // 檢查 Server 上該資料夾是否存在，不存在就自動建立
             string serverDirImg = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/Img";
+            //string serverDirImg = @"C:/inetpub/wwwroot/Uploads/" + as_act + "/Img";
             string act_image = serverDirImg + "/" + filename;
             if (Directory.Exists(serverDirImg) == false) Directory.CreateDirectory(serverDirImg);
 
             S020102BL _bl = new S020102BL();
-            Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
-            old_Activity_dict["act_idn"] = act_idn;
-            Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
-            new_Activity_dict["act_image"] = act_image;
-            CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
+            
 
             // 判斷 Server 上檔案名稱是否有重覆情況，有的話必須進行更名
             // 使用 Path.Combine 來集合路徑的優點
@@ -477,10 +487,21 @@ namespace Web.S02
             try
             {
                 imgUpload.SaveAs(serverFilePath);
+                Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
+                old_Activity_dict["act_idn"] = act_idn;
+                Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
+                new_Activity_dict["act_image"] = @"../Uploads/" + as_act + "/img" + "/" + filename;
+                //new_Activity_dict["act_image"] = @"http:///140.134.23.127/Uploads/" + as_act + "/img" + "/" + filename;
+                CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                string msg = "活動圖片上傳失敗，請重新上傳謝謝!!";
+                StringBuilder sb = new StringBuilder();
+                sb.Append("<script language='javascript'>");
+                sb.Append("alert('" + msg + "')");
+                sb.Append("</script>");
+                ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
             }
         }
         #endregion
@@ -489,8 +510,9 @@ namespace Web.S02
         private void deleteimg()
         {
             int as_act = 0;
-            as_act = act_idn;
-            String fi = (@"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/img");
+            as_act = act_idn; 
+            String fi = (@"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/Img");
+            //String fi = (@"C:/inetpub/wwwroot/Uploads/" + as_act + "/Img");
             DirectoryInfo delete_img = new DirectoryInfo(fi);
             //判斷目錄是否存在，存在才刪除
             if (delete_img.Exists)

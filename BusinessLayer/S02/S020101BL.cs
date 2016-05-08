@@ -27,7 +27,12 @@ namespace BusinessLayer.S02
         Account_copperateData _cooperate = new Account_copperateData();
         //報名資料(詳細)
         Activity_apply_detailData _applyDetaildata = new Activity_apply_detailData();
+        //Email資料
+        Activity_apply_emailData _emaildata = new Activity_apply_emailData();
+
         S020101Data _data = new S020101Data();
+
+
 
         #region 更新
         /// <summary>
@@ -82,13 +87,26 @@ namespace BusinessLayer.S02
         }
 
         //更新報名資料
-        public CommonResult UpdateApplyData(Dictionary<string, object> oldData_dict, Dictionary<string, object> newData_dict)
+        public CommonResult UpdateApplyDetailData(Dictionary<string, object> oldData_dict, Dictionary<string, object> newData_dict)
         {
             var res = CommonHelper.ValidateModel<Model.Activity_apply_detailInfo>(newData_dict);
 
             if (res.IsSuccess)
             {
                 return _applyDetaildata.UpdateData(oldData_dict, newData_dict);
+            }
+
+            return res;
+        }
+
+        //更新報名者資料
+        public CommonResult UpdateApplyData(Dictionary<string, object> oldData_dict, Dictionary<string, object> newData_dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_applyInfo>(newData_dict);
+
+            if (res.IsSuccess)
+            {
+                return _applydata.UpdateData(oldData_dict, newData_dict);
             }
 
             return res;
@@ -114,21 +132,15 @@ namespace BusinessLayer.S02
         }
 
         //新增報名資料
-        public int InsertData_apply(Dictionary<string, object> dict)
+        public CommonResult InsertData_apply(Dictionary<string, object> dict)
         {
             var res = CommonHelper.ValidateModel<Model.Activity_applyInfo>(dict);
-            DataTable data;
-            int i = 0;
-
             if (res.IsSuccess)
             {
-                //res = _applydata.InsertData(dict);
-                data = _data.GetApplyidn(dict);
-
-                i = Convert.ToInt32(data.Rows[0][0]);
+                res = _applydata.InsertData(dict);
             }
 
-            return i;
+            return res;
         }
 
         //新增協作者資料
@@ -152,6 +164,19 @@ namespace BusinessLayer.S02
             if (res.IsSuccess)
             {
                 res = _applyDetaildata.InsertData(dict);
+            }
+
+            return res;
+        }
+
+        //新增Email資料
+        public CommonResult InsertEmailData(Dictionary<string, object> dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_apply_emailInfo>(dict);
+
+            if (res.IsSuccess)
+            {
+                res = _emaildata.InsertData(dict);
             }
 
             return res;
@@ -181,6 +206,27 @@ namespace BusinessLayer.S02
             //此活動還有剩餘場次，因此只刪除場次
             else
             {
+                //刪除報名者的實際報名資料(activity_apply_detail)
+                DataTable applyDetaildata = _data.GetApplyDetailData(CommonConvert.GetIntOrZero(dict["as_idn"]));
+                var dict_applyDetail = new Dictionary<string, object>();
+                for (int i = 0; i < applyDetaildata.Rows.Count; i++)
+                {
+                    dict_applyDetail["aad_apply_id"] = applyDetaildata.Rows[i][1].ToString();
+                    dict_applyDetail["aad_col_id"] = applyDetaildata.Rows[i][2].ToString();
+
+                    _applyDetaildata.DeleteData(dict_applyDetail);
+                }
+
+                //刪除報名者的資料(activity_apply)
+                DataTable applydata = _data.GetApplyData(CommonConvert.GetIntOrZero(dict["as_idn"]));
+                var dict_apply = new Dictionary<string, object>();
+                for (int i = 0; i < applydata.Rows.Count; i++)
+                {
+                    dict_apply["aa_idn"] = applydata.Rows[i][0].ToString();
+
+                    _applydata.DeleteData(dict_apply);
+                }
+
                 return _sessiondata.DeleteData(dict);
             }
         }
@@ -194,8 +240,8 @@ namespace BusinessLayer.S02
         //刪除報名資料
         public CommonResult DeleteApply(Dictionary<string, object> dict, Dictionary<string, object> dict_aa)
         {
-            DataTable data = GetApplyDeleteData(Convert.ToInt32(dict["as_idn"]), Convert.ToInt32(dict_aa["aa_idn"]));
-            Dictionary<string, object> data_dict = new Dictionary<string,object>();
+            DataTable data = GetApplyDeleteData(CommonConvert.GetIntOrZero(dict["as_idn"]), Convert.ToInt32(dict_aa["aa_idn"]));
+            Dictionary<string, object> data_dict = new Dictionary<string, object>();
             Dictionary<string, object> data_dict_apply = new Dictionary<string, object>();
 
             foreach (DataRow r in data.Rows)
@@ -216,17 +262,20 @@ namespace BusinessLayer.S02
         {
             return _data.getActivity(act_idn);
         }
-        //取得活動資料
+
+        //取得場次資料
         public List<Activity_sessionInfo> getSession(int as_act)
         {
             return _data.getSession(as_act);
         }
-        //取得活動資料
+
+        //取得報名表區塊資料
         public List<Activity_sectionInfo> getSection(int acs_act)
         {
             return _data.getSection(acs_act);
         }
-        //取得活動資料
+
+        //取得報明表欄位資料
         public List<Activity_columnInfo> getColumn(int acc_act)
         {
             return _data.getColumn(acc_act);
@@ -294,7 +343,8 @@ namespace BusinessLayer.S02
             //欄位資料
             DataTable column;
             //欄位實際值
-            DataTable columnDetail;
+            DataTable columnDetail = new DataTable();
+            DataTable time = new DataTable();
 
             column = _data.GetApplyDataDetail(i);
 
@@ -302,28 +352,67 @@ namespace BusinessLayer.S02
             {
                 //新增key的值&Row
                 test.Columns.Add("aa_idn");
-                columnDetail = _data.GetApplyDataColumn((Convert.ToInt32(column.Rows[0][2])), i);
-                for (int j = 0; j < columnDetail.Rows.Count; j++)
+                //找到姓名欄位
+                foreach (DataRow r in column.Rows)
+                {
+                    if (r.ItemArray.GetValue(3).ToString() == "姓名")
+                    {
+                        time = _data.GetApplyDataColumn(CommonConvert.GetIntOrZero(r.ItemArray.GetValue(2)), i);
+                    }
+                }
+                for (int j = 0; j < time.Rows.Count; j++)
                 {
                     test.Rows.Add();
-                    test.Rows[j][0] = columnDetail.Rows[j][0].ToString();
+                    test.Rows[j][0] = time.Rows[j][0].ToString();
                 }
 
+                int count = 0;
                 //存入欄位的值
                 foreach (DataRow r in column.Rows)
                 {
+                    int checkcolumn = 1;
+                    for (int j = 0; j < count; j++)
+                    {
+                        if (column.Rows[j].ItemArray.GetValue(3).ToString() == r.ItemArray.GetValue(3).ToString())
+                        {
+                            r.ItemArray.SetValue(r.ItemArray.GetValue(3) + "(" + checkcolumn + ")", 3);
+                            checkcolumn++;
+                        }
+                    }
+
                     //增加欄位
                     test.Columns.Add(r.ItemArray.GetValue(3).ToString());
-                    columnDetail = _data.GetApplyDataColumn(Convert.ToInt32(r.ItemArray.GetValue(2)), i);
+                    columnDetail = _data.GetApplyDataColumn(CommonConvert.GetIntOrZero(r.ItemArray.GetValue(2)), i);
 
                     if (columnDetail.Rows.Count != 0)
                     {
+                        int k = 0;
+
                         //存入列的值
-                        for (int j = 0; j < columnDetail.Rows.Count; j++)
+                        for (int j = 0; j < test.Rows.Count; j++)
                         {
-                            test.Rows[j][r.ItemArray.GetValue(3).ToString()] = columnDetail.Rows[j][1].ToString();
+                            //判斷是否有跳資料
+                            if (test.Rows[j][0].ToString() == columnDetail.Rows[k][0].ToString())
+                            {
+                                test.Rows[j][r.ItemArray.GetValue(3).ToString()] = columnDetail.Rows[k][1].ToString();
+                                k++;
+                            }
+                            //若此欄位是空的則補null
+                            else
+                            {
+                                test.Rows[j][r.ItemArray.GetValue(3).ToString()] = null;
+                            }
                         }
                     }
+
+                    count++;
+                }
+
+                //加入報名時間
+                test.Columns.Add("報名時間");
+                for (int j = 0; j < time.Rows.Count; j++)
+                {
+                    test.Rows[j]["報名時間"] = time.Rows[j][2].ToString();
                 }
             }
 
@@ -372,6 +461,36 @@ namespace BusinessLayer.S02
             }
 
             return data;
+        }
+
+        //取得多選的選項資料
+        public string GetMultiOption(string multi)
+        {
+            string option = _data.GetMultiOption(CommonConvert.GetIntOrZero(multi)).Rows[0][0].ToString();
+
+            return option;
+        }
+
+        //取得場次的限制人數
+        public int GetApplyLimit(int i)
+        {
+            DataTable data = _data.GetApplyLimit(i);
+
+            int limit = CommonConvert.GetIntOrZero(data.Rows[0][0]);
+
+            return limit;
+        }
+
+        //取得email資料
+        public DataTable GetEmailData()
+        {
+            return _data.GetEmailData();
+        }
+
+        //取得帳號資料
+        public DataTable GetAccountData()
+        {
+            return _data.GetAccountData();
         }
         #endregion
 

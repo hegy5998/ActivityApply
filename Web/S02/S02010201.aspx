@@ -17,8 +17,10 @@
     <input type="button" onclick="Save_Activity_btn_Click()" value="儲存報名表" />
     <!-- 上傳檔案 -->
     <input type="button" onclick="upload_File()" value="上傳檔案" />--%>
+    <!-- 隱藏按鈕防止按下Enter返回列表 -->
+    <asp:Button ID="Button1" runat="server" Text="Button"  OnClientClick="return false;" Style="display:none;"/>
     <!-- 儲存活動 -->
-    <input type="button" onclick="save()" value="儲存整個活動" />
+    <input type="button" onclick="save()" value="儲存活動" />
     <!-- 檢視 -->
     <input type="button" onclick="view_Activity()" value="檢視報名表" />
     <!-- 新增問題 -->
@@ -37,7 +39,7 @@
         <h3>開啟方法如下:</h3>
         <h4>IE : 網際網路選項 -> 安全性 -> 網際網路 -> 自訂等級 -> 指令碼處理 -> 啟用</h4>
         <h4>Firefox : 工具 -> 網頁開發者 -> 網頁工具箱 -> 選項 -> 取消打勾「停用JavaScript」</h4>
-        <h4>IChrome : 設定 -> 顯示進階設定 -> 隱私權 -> 內容定... -> JavaScript -> 選擇「允許所有網站執行JavaScript」</h4>
+        <h4>Chrome : 設定 -> 顯示進階設定 -> 隱私權 -> 內容定... -> JavaScript -> 選擇「允許所有網站執行JavaScript」</h4>
     </noscript>
     <!-- 統一公告事項 START -->
     <div class="alert alert-danger" role="alert" style="margin-bottom: 0px;">
@@ -412,6 +414,7 @@
     <!-- JavaScript_START-->
     <script type="text/javascript">
 
+
         //#region 沒有開啟JavaScript閃爍文字提醒
         $(function () {
             setInterval(flicker, 1000);//迴圈閃爍，間隔1秒
@@ -488,7 +491,7 @@
                 type: 'post',
                 traditional: true,
                 //傳送資料到後台為getActivityAllList的function
-                url: '/S02/S02010201.aspx/getClassList',
+                url: 'S02010201.aspx/getClassList',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 async: false,
@@ -509,9 +512,26 @@
         function setSelect(act_classInfo) {
             var act_classInfo = JSON.parse(act_classInfo);
             $("#select_class").children().remove();
+            $("#select_class").append('<option value="0">請選擇分類</option>');
             for (var count = 0 ; count < act_classInfo.length ; count++) {
                 $("#select_class").append('<option value="' + act_classInfo[count].Ac_idn + '">' + act_classInfo[count].Ac_title + '</option>');
             }
+            $("#select_class").val('0');
+
+            //判斷分類必選
+            $("#select_class").blur(function () {
+                if ($(this).val() == 0) {
+                    $("#select_class").css({ "box-shadow": "0px 0px 9px red" });
+                    if ($("#select_class_txt_error").length == 0)
+                        $("#select_class").after('<em id="select_class_txt_error" class="error help-block red" style="margin-top: -10px;">必須選擇</em>');
+                    check_Activity_Data = false;
+                }
+                else {
+                    $("#select_class").css({ "box-shadow": "" });
+                    $("#select_class_txt_error").remove();
+                }
+
+            })
         }
         //#endregion
 
@@ -748,13 +768,13 @@
         function change_Qus_Way(qus_way_int, chooseId, temp_change_Qus_Way_div, temp_change_Qus_Content_div, qus_Title_Value, qus_Desc, present_Qus_Option) {
             //判斷題目模式
             if (qus_way_int == "singleSelect")
-                var qus_title = "單選問題";
+                var qus_title = "單選標題";
             else if (qus_way_int == "multiSelect")
-                var qus_title = "多選問題";
+                var qus_title = "多選標題";
             else if (qus_way_int == "text")
-                var qus_title = "文字問題";
+                var qus_title = "文字標題";
             else if (qus_way_int == "dropDownList")
-                var qus_title = "選單問題";
+                var qus_title = "選單標題";
             //判斷是否有填入的題目名稱
             if (qus_Title_Value == null)
                 var title_Value = "";
@@ -887,7 +907,7 @@
                 if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#qus_Option_error_" + id + (count + 1)).length == 0)
-                        $(this).after('<em id="qus_Option_error_' + id + (count + 1) + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">必須填寫</em>');
+                        $(this).after('<em id="qus_Option_error_' + id + (count + 1) + '" class="error help-block red" style="width: 150px;margin-bottom: 5px;">必須填寫</em>');
                     check_Activity_Column_Data = false;
                 }
                 else {
@@ -925,7 +945,7 @@
                 }
                 else {
                     $(this).css({ "box-shadow": "" });
-                    $("#block_title_txt_error_" + id + (count + 1)).remove();
+                    $("#block_title_txt_error_" + blockId).remove();
                 }
             })
             //區塊ID加一
@@ -1095,7 +1115,8 @@
                 else {
                     $(this).css({ "box-shadow": "" });
                     $("#datetimepicker_Activity_Start_txt_error_" + datetimepicker_Activity_Start_txtId).remove();
-                    $("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Start_txtId).css({ "box-shadow": "" });
+                    if ($("#datetimepicker_Activity_Start_txt_error_" + datetimepicker_Activity_Start_txtId).length == 0 && $("#datetimepicker_Activity_End_txt_error_withSignEnd_" + datetimepicker_Activity_Start_txtId).length == 0)
+                        $("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Start_txtId).css({ "box-shadow": "" });
                     $("#datetimepicker_Activity_End_txt_error_" + datetimepicker_Activity_Start_txtId).remove();
                 }
                 //判斷在活動報名開始日期之後
@@ -1199,9 +1220,9 @@
                 else {
                     $(this).css({ "box-shadow": "" });
                     $("#datetimepicker_Activity_Sign_End_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).remove();
+                    $("#datetimepicker_Activity_Sign_Start_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).remove();
                     if ($("#datetimepicker_Activity_Sign_Start_txt_error_WithActStart_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0 && $("#datetimepicker_Activity_Sign_Start_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0)
                         $("#datetimepicker_Activity_Sign_Start_txt_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).css({ "box-shadow": "" });
-                    $("#datetimepicker_Activity_Sign_Start_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).remove();
                 }
                 //判斷在活動結束日期之前
                 if ($.trim($(this).val()) >= $.trim($("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).val()) && $.trim($("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).val()) != "") {
@@ -1211,9 +1232,12 @@
                     check_Activity_Data = false;
                 }
                 else {
-                    if ($("#datetimepicker_Activity_Sign_End_txt_error_withActEnd_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0 && $("#datetimepicker_Activity_Sign_End_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0)
-                        $(this).css({ "box-shadow": "" });
+                    $("#datetimepicker_Activity_End_txt_error_withSignEnd_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).remove();
+                    if ($("#datetimepicker_Activity_End_txt_error_withSignEnd_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0 && $("#datetimepicker_Activity_End_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0)
+                        $("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).css({ "box-shadow": "" });
                     $("#datetimepicker_Activity_Sign_End_txt_error_withActEnd_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).remove();
+                    if ($("#datetimepicker_Activity_Sign_End_txt_error_withActEnd_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0 && $("#datetimepicker_Activity_End_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0 && $("#datetimepicker_Activity_Sign_End_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0)
+                        $(this).css({ "box-shadow": "" });
                 }
             })
             //場次ID加一
@@ -1261,7 +1285,7 @@
         //#region 回到頂端按鈕 
         (function () {
             $("body").append("<img id='goTopButton' style='display: none; z-index: 5; cursor: pointer;' title='回到頂端'/>");
-            var img = "/Images/go-top.png",
+            var img = "../Images/go-top.png",
             locatioin = 9 / 10, // 按鈕出現在螢幕的高度
             right = 10, // 距離右邊 px 值
             opacity = 0.8, // 透明度
@@ -1315,7 +1339,7 @@
                             type: 'post',
                             traditional: true,
                             //將資料傳到後台save_Activity這個function
-                            url: '/S02/S02010201.aspx/save_Activity',
+                            url: 'S02010201.aspx/save_Activity',
                             data: JSON.stringify(jsondata),
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
@@ -1329,7 +1353,7 @@
                             },
                             //失敗時
                             error: function () {
-                                alert("失敗");
+                                alert("活動儲存失敗");
                             }
                         });
                     }
@@ -1339,7 +1363,7 @@
                         type: 'post',
                         traditional: true,
                         //將資料傳到後台save_Activity這個function
-                        url: '/S02/S02010201.aspx/save_Activity',
+                        url: 'S02010201.aspx/save_Activity',
                         data: JSON.stringify(jsondata),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
@@ -1347,12 +1371,14 @@
                         async: false,
                         //成功時
                         success: function (result) {
-                            //alert(result.d);
-                            //upload_File();
+                            if(result.d == "true") 
+                                Save_Activity_btn_Click();
+                            else
+                                alert("活動儲存失敗");
                         },
                         //失敗時
                         error: function () {
-                            alert("失敗");
+                            alert("活動儲存失敗");
                         }
                     });
                 }
@@ -1498,7 +1524,18 @@
             //儲存相關連結
             activity_Json_Data.Act_relate_link = $("#relate_Link").val();
             //儲存活動分類
-            activity_Json_Data.Act_class = $("#select_class").val();
+            if ($("#select_class").val() == 0){
+                $("#select_class").css({ "box-shadow": "0px 0px 9px red" });
+                if ($("#select_class_txt_error").length == 0)
+                    $("#select_class").after('<em id="select_class_txt_error" class="error help-block red" style="margin-top: -10px;">必須選擇</em>');
+                check_Activity_Data = false;
+            }
+            else {
+                $("#select_class").css({ "box-shadow": "" });
+                $("#select_class_txt_error").remove();
+                activity_Json_Data.Act_class = $("#select_class").val();
+            }
+                
             jsondata.activity_List.push(activity_Json_Data);
             //判斷活動名稱不能為空
             if (!activity_Json_Data.Act_title) {
@@ -1538,19 +1575,23 @@
                     type: 'post',
                     traditional: true,
                     //傳送資料到後台為save_Activity_Form的function
-                    url: '/S02/S02010201.aspx/save_Activity_Form',
+                    url: 'S02010201.aspx/save_Activity_Form',
                     data: JSON.stringify(jsondata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     async: false,
                     //成功時
                     success: function (result) {
-                        alert(result.d);
-                        upload_File();
+                        if (result.d == "true") {
+                            alert("活動儲存成功");
+                            upload_File();
+                        }
+                        else
+                            alert("活動儲存失敗");
                     },
                     //失敗時
                     error: function () {
-                        alert("失敗!!!!");
+                        alert("活動儲存失敗");
                     }
                 });
             }
@@ -1737,9 +1778,6 @@
         //#region 儲存活動
         function save() {
             Save_btn_Click();
-            Save_Activity_btn_Click();
-            //upload_File();
-            //window.location.href = '/S02/S02010101.aspx?sys_id=S01&sys_pid=S02010101';
         }
         //#endregion
 

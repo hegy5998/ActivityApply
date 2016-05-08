@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using System.Data;
 using System.Web;
 
-namespace Register
+namespace ActivityApply
 {
     public partial class activity : System.Web.UI.Page
     {
@@ -18,7 +18,10 @@ namespace Register
             ACTIVITY = Int32.Parse(Request["act_idn"]);
             activityBL _bl = new activityBL();
             List<ActivityInfo> AvtivityList = _bl.GetActivityList(ACTIVITY);
-            Act_desc_lbl.Text = HttpUtility.UrlDecode(AvtivityList[0].Act_desc);
+            if (AvtivityList.Count > 0)
+                Act_desc_lbl.Text = HttpUtility.UrlDecode(AvtivityList[0].Act_desc);
+            else
+                Response.Redirect("index.aspx");
         }
         [System.Web.Services.WebMethod]
         public static string getActivityList()

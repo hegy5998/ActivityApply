@@ -55,9 +55,9 @@ namespace DataAccess
                 string sql = @"
                     insert into [" + _modelType.GetTableName() + @"] 
                         (" + Db.GetSqlInsertField(_modelType, data_dict) + @", [createid], [createtime], [updid], [updtime]) 
-                    values (" + Db.GetSqlInsertValue(data_dict) + ", '" + loginUser.Act_id + "'" + ", (" + Db.DbNowTimeSQL + ")" + ", '" + loginUser.Act_id + "'" + ", (" + Db.DbNowTimeSQL + ")" + ")";
-                res.AffectedRows = Db.ExecuteNonQuery(trans, sql, Db.GetParam(_modelType, data_dict));
-                if (res.AffectedRows <= 0) res.IsSuccess = false;
+                    values (" + Db.GetSqlInsertValue(data_dict) + ", '" + loginUser.Act_id + "'" + ", (" + Db.DbNowTimeSQL + ")" + ", '" + loginUser.Act_id + "'" + ", (" + Db.DbNowTimeSQL + ")" + ")select @@identity";
+                res.Message = Db.ExecuteScalar(trans, sql, Db.GetParam(_modelType, data_dict)).ToString();
+                if (res.Message.Equals("")) res.IsSuccess = false;
             }
             return res;
         }
@@ -139,10 +139,10 @@ namespace DataAccess
         public List<Activity_sectionInfo> GetList(int acs_act)
         {
             string sql = @" SELECT activity_section.*
-                            FROM activity_section
-                            WHERE acs_act = @acs_act
-                            ORDER BY acs_seq;";
-            IDataParameter[] param = { Db.GetParam("@acs_act", acs_act) };
+                            FROM activity_section,activity_session
+                            WHERE acs_act = @acs_act AND as_act = @as_act AND CONVERT(DATETIME, as_apply_end, 121) >= CONVERT(VARCHAR(256), Getdate(), 121) 
+                            ORDER BY acs_seq";
+            IDataParameter[] param = { Db.GetParam("@acs_act", acs_act) ,Db.GetParam("@as_act", acs_act) };
             return Db.GetEnumerable<Activity_sectionInfo>(sql, param).ToList();
         }
         #endregion

@@ -143,19 +143,49 @@ namespace Web.S02
             dict["ac_desc"] = (gvr.FindControl("Ac_desc_txt") as TextBox).Text.Trim();
             dict["ac_seq"] = (gvr.FindControl("Ac_seq_txt") as TextBox).Text.Trim();
             // 新增資料
-            var res = _bl.InsertData(dict);
-            if (res.IsSuccess)
-            {
-                // 新增成功，切換回一般模式
-                GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, main_gv);
-                BindGridView(GetData(true));
-                main_gv.DataBind();
-                ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Insert);
-            }
+            Boolean titleRepaet = false;
+            
+            if(dict["ac_title"].ToString() == "")
+                ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, "請填寫分類名稱");
+            else if (dict["ac_seq"].ToString() == "")
+                ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, "請填寫分類順序");
             else
             {
-                // 新增失敗，顯示錯誤訊息
-                ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, res.Message);
+                List<Activity_classInfo> classlist = BL.GetClassList();
+                for (int count = 0; count < classlist.Count; count++)
+                {
+                    if (classlist[count].Ac_title == dict["ac_title"].ToString())
+                        titleRepaet = true;
+                }
+                if (titleRepaet != true)
+                {
+
+                    try
+                    {
+                        Int32.Parse(dict["ac_seq"].ToString());
+                        var res = _bl.InsertData(dict);
+                        if (res.IsSuccess)
+                        {
+                            // 新增成功，切換回一般模式
+                            GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, main_gv);
+                            BindGridView(GetData(true));
+                            main_gv.DataBind();
+                            ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Insert);
+                        }
+                        else
+                        {
+                            // 新增失敗，顯示錯誤訊息
+                            ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, res.Message);
+                        }
+                    }
+                    catch(FormatException)
+                    {
+                        ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, "順序只能填寫數字");
+                    }
+                    
+                }
+                else
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, "分類名稱重複");
             }
         }
 
@@ -168,23 +198,34 @@ namespace Web.S02
         protected void main_gv_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             GridViewRow gvr = (sender as GridView).Rows[e.RowIndex];
-            Dictionary<string, object> dict = new Dictionary<string, object>();
-            dict["ac_idn"] = (gvr.FindControl("Ac_idn_hf") as HiddenField).Value.Trim();
-            // 刪除資料
-            var res = _bl.DeleteData(dict);
-            if (res.IsSuccess)
+            string ac_idn = (gvr.FindControl("Ac_idn_hf") as HiddenField).Value.Trim();
+            DataTable class_num = _bl.GetClassNum(ac_idn);
+            if(Int32.Parse(class_num.Rows[0]["class_num"].ToString()) == 0)
             {
-                // 刪除成功，切換回一般模式
-                GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, main_gv);
-                BindGridView(GetData(true));
-                main_gv.DataBind();
-                ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Delete);
+                Dictionary<string, object> dict = new Dictionary<string, object>();
+                dict["ac_idn"] = ac_idn;
+                // 刪除資料
+                var res = _bl.DeleteData(dict);
+                if (res.IsSuccess)
+                {
+                    // 刪除成功，切換回一般模式
+                    GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, main_gv);
+                    BindGridView(GetData(true));
+                    main_gv.DataBind();
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Delete);
+                }
+                else
+                {
+                    // 刪除失敗，顯示錯誤訊息
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Delete, res.Message);
+                }
             }
             else
             {
                 // 刪除失敗，顯示錯誤訊息
-                ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Delete, res.Message);
+                ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Delete, "無法刪除，分類目前尚有未結束的活動");
             }
+            
         }
         #endregion
         #endregion

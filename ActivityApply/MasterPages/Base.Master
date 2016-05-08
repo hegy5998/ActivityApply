@@ -90,7 +90,7 @@
     <!-- js placed at the end of the document so the pages load faster -->
     <script class="include" type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery.dcjqaccordion.2.7.js") %>"></script>
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery.scrollTo.min.js") %>"></script>
-    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery.nicescroll.js") %>"></script>
+    <%--<script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery.nicescroll.js") %>"></script>--%>
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery.sparkline.js") %>"></script>
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery-ui.js") %>"></script>
     

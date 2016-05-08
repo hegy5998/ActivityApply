@@ -5,7 +5,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="mainContentSubFunction_cph" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="mainContent_cph" runat="server">
-    <!-- 報名資料GridView -->
+    <!-- 分類資料GridView -->
     <div class="advanced-form row">
         <asp:UpdatePanel ID="lup" runat="server" ChildrenAsTriggers="False" UpdateMode="Conditional">
             <ContentTemplate>

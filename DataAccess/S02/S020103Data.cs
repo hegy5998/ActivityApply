@@ -67,6 +67,19 @@ namespace DataAccess.S01
         }
         #endregion
 
+        #region 查詢分類
+        public DataTable GetClassNum(string ac_idn)
+        {
+            string sql = @" SELECT COUNT(activity_session.as_act) as class_num
+                            FROM activity,activity_session
+                            WHERE activity.act_class = @act_class 
+                            AND activity_session.as_act = activity.act_idn 
+                            AND CONVERT(DATETIME, activity_session.as_date_end, 121) >= CONVERT(varchar(256), GETDATE(), 121)";
+            IDataParameter[] param = { Db.GetParam("@act_class", ac_idn)};
+            return Db.GetDataTable(sql,param);
+        }
+        #endregion
+
         #region 新增分類
         public CommonResult InsertData(Dictionary<string, object> dict)
         {

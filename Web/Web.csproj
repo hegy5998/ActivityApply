@@ -265,6 +265,7 @@
     <Content Include="S02\S02010201.aspx" />
     <Content Include="S02\S02010202.aspx" />
     <Content Include="S02\S02010301.aspx" />
+    <Content Include="S02\S02010401.aspx" />
     <Content Include="S02\WebForm1.aspx" />
     <Content Include="Scripts\ITCFunctions.js" />
     <Content Include="Scripts\Lib\assets\css\style-responsive.css" />
@@ -313,6 +314,7 @@
     <Content Include="Scripts\Lib\assets\img\ui-sherman.jpg" />
     <Content Include="Scripts\Lib\assets\img\ui-zac.jpg" />
     <Content Include="Scripts\Lib\assets\img\weather.jpg" />
+    <Content Include="Scripts\Lib\assets\img\upload.png" />
     <Content Include="Scripts\Lib\assets\img\zoom.png" />
     <Content Include="Scripts\Lib\assets\js\bootstrap-inputmask\bootstrap-inputmask.min.js" />
     <Content Include="Scripts\Lib\assets\js\bootstrap-switch.js" />
@@ -882,6 +884,7 @@
     <Content Include="Scripts\Lib\assets\lineicons\fonts\linecons.woff" />
     <Content Include="Css\Lib\_titatoggle.less" />
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\Web.pubxml" />
     <None Include="Scripts\Lib\jquery-1.9.1.min.intellisense.js" />
     <Content Include="Scripts\Lib\jquery-1.9.1.min.js" />
     <Content Include="Scripts\Lib\jquery-migrate-1.2.1.min.js" />
@@ -1287,6 +1290,13 @@
     </Compile>
     <Compile Include="S02\S02010301.aspx.designer.cs">
       <DependentUpon>S02010301.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="S02\S02010401.aspx.cs">
+      <DependentUpon>S02010401.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S02\S02010401.aspx.designer.cs">
+      <DependentUpon>S02010401.aspx</DependentUpon>
     </Compile>
     <Compile Include="S02\WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>

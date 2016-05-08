@@ -7,7 +7,7 @@
 // </自動產生的>
 //------------------------------------------------------------------------------
 
-namespace Register {
+namespace ActivityApply {
     
     
     public partial class index {

@@ -31,7 +31,7 @@
         <h3>開啟方法如下:</h3>
         <h4>IE : 網際網路選項 -> 安全性 -> 網際網路 -> 自訂等級 -> 指令碼處理 -> 啟用</h4>
         <h4>Firefox : 工具 -> 網頁開發者 -> 網頁工具箱 -> 選項 -> 取消打勾「停用JavaScript」</h4>
-        <h4>IChrome : 設定 -> 顯示進階設定 -> 隱私權 -> 內容定... -> JavaScript -> 選擇「允許所有網站執行JavaScript」</h4>
+        <h4>Chrome : 設定 -> 顯示進階設定 -> 隱私權 -> 內容定... -> JavaScript -> 選擇「允許所有網站執行JavaScript」</h4>
     </noscript>
     <!-- 統一公告事項 START -->
     <div class="alert alert-danger" role="alert" style="margin-bottom: 0px;">
@@ -62,7 +62,7 @@
                         <div class="project">
                             <div class="photo-wrapper">
                                 <div class="photo">
-                                    <img class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" alt="" onclick="upload_img()" />
+                                    <img id="act_image"  class="img-responsive" src="#" alt="" onclick="upload_img()" />
                                 </div>
                                 <div class="overlay"></div>
                             </div>
@@ -313,20 +313,28 @@
         //儲存區塊
         var sectionInfo;
 
+        //刪除的問題
         var del_acc_idn = '';
+        //刪除的區塊
         var del_acs_idn = '';
+        //刪除的場次
         var del_as_idn = '';
-
+        //是否刪除已上傳附加檔案
         var if_delete_file = "false";
+        //是否刪除已上傳活動圖片
         var if_img_file = "false";
 
         //#region 頁面載入時自動產生問題
         $(document).ready(function () {
             //設定分類下拉選單資料
             getClass();
+            //抓取活動資訊
             getActivity();
+            //抓取場次資訊
             getSession();
+            //抓取區塊資訊
             getSection();
+            //抓取題目資訊
             getColumn();
             //活動名稱判斷是否填寫
             $("#activity_Name_txt").blur(function () {
@@ -362,7 +370,7 @@
                 type: 'post',
                 traditional: true,
                 //傳送資料到後台為getActivityAllList的function
-                url: '/S02/S02010201.aspx/getClassList',
+                url: 'S02010201.aspx/getClassList',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 async: false,
@@ -396,7 +404,7 @@
                 type: 'post',
                 traditional: true,
                 //將資料傳到後台save_Activity這個function
-                url: '/S02/S02010103.aspx/getActivity',
+                url: 'S02010103.aspx/getActivity',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 async: false,
@@ -417,7 +425,7 @@
                 type: 'post',
                 traditional: true,
                 //將資料傳到後台getSession這個function
-                url: '/S02/S02010103.aspx/getSession',
+                url: 'S02010103.aspx/getSession',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 async: false,
@@ -443,7 +451,7 @@
                 type: 'post',
                 traditional: true,
                 //將資料傳到後台getSection這個function
-                url: '/S02/S02010103.aspx/getSection',
+                url: 'S02010103.aspx/getSection',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 async: false,
@@ -469,7 +477,7 @@
                 type: 'post',
                 traditional: true,
                 //將資料傳到後台getColumn這個function
-                url: '/S02/S02010103.aspx/getColumn',
+                url: 'S02010103.aspx/getColumn',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 async: false,
@@ -518,8 +526,11 @@
             }
             if (activityInfo[0].Act_image != "" && activityInfo[0].Act_image != null) {
                 $("#imgpath_lab").text(activityInfo[0].Act_image.split('/')[activityInfo[0].Act_image.split('/').length - 1]);
-                $("#img-responsive").attr("src", activityInfo[0].Act_image);
+                $("#act_image").attr("src", activityInfo[0].Act_image);
                 $("#delete_img_btn").css({ 'display': '' });
+            }
+            else {
+                $("#act_image").attr("src", '../Scripts/Lib/assets/img/fcu.jpg');
             }
         }
         function setSession(sessionInfo) {
@@ -547,43 +558,42 @@
                 if ($(this).attr('checked')) {
                     switch ($(this).val()) {
                         case "姓名":
-                            add_Preset_Qus_Click("姓名", "請填寫完整名字", null, "text", "", [], true);
+                            add_Preset_Qus_Click('',"姓名", "請填寫完整名字", null, "text", "", [], true);
                             break;
                         case "身份證字號":
-                            add_Preset_Qus_Click("身份證字號", "英文字母請大寫", null, "text", "idNumber", [], true);
+                            add_Preset_Qus_Click('', "身份證字號", "英文字母請大寫", null, "text", "idNumber", [], true);
                             break;
                         case "出生年月日":
-                            add_Preset_Qus_Click("出生年月日", "ex:83/07/08", null, "text", "", [], true);
+                            add_Preset_Qus_Click('', "出生年月日", "ex:83/07/08", null, "text", "", [], true);
                             break;
                         case "服務單位":
-                            add_Preset_Qus_Click("服務單位", "請填寫完整名稱", null, "text", "", [], true);
+                            add_Preset_Qus_Click('', "服務單位", "請填寫完整名稱", null, "text", "", [], true);
                             break;
                         case "信箱Email":
-                            add_Preset_Qus_Click("信箱Email", "請填寫正確格式", null, "text", "email", [], true);
+                            add_Preset_Qus_Click('', "信箱Email", "請填寫正確格式", null, "text", "email", [], true);
                             break;
                         case "聯絡電話":
-                            add_Preset_Qus_Click("聯絡電話", "可填手機或是家裡電話", null, "text", "", [], true);
+                            add_Preset_Qus_Click('', "聯絡電話", "可填手機或是家裡電話", null, "text", "", [], true);
                             break;
                         case "公司電話":
-                            add_Preset_Qus_Click("公司電話", null, null, "text", "", [], false);
+                            add_Preset_Qus_Click('', "公司電話", null, null, "text", "", [], false);
                             break;
                         case "傳真":
-                            add_Preset_Qus_Click("傳真", null, null, "text", "", [], false);
+                            add_Preset_Qus_Click('', "傳真", null, null, "text", "", [], false);
                             break;
                         case "用餐":
-                            add_Preset_Qus_Click("用餐", null, null, "singleSelect", "", ["葷", "素", "不用餐"], true);
+                            add_Preset_Qus_Click('', "用餐", null, null, "singleSelect", "", ["葷", "素", "不用餐"], true);
                             break;
                         case "聯絡地址":
-                            add_Preset_Qus_Click("聯絡地址", "請填寫您收的到信的地址", null, "text", "", [], true);
+                            add_Preset_Qus_Click('', "聯絡地址", "請填寫您收的到信的地址", null, "text", "", [], true);
                             break;
                         case "職稱":
-                            add_Preset_Qus_Click("職稱", null, null, "text", "", [], true);
+                            add_Preset_Qus_Click('', "職稱", null, null, "text", "", [], true);
                             break;
                         case "備註":
-                            add_Preset_Qus_Click("備註", "若您有其他的問題,可以在此說明 ", null, "text", "", [], false);
+                            add_Preset_Qus_Click('', "備註", "若您有其他的問題,可以在此說明 ", null, "text", "", [], false);
                             break;
                     }
-                    //alert($(this).val());
                     $(this).prop("checked", false);
                 }
             });
@@ -800,7 +810,7 @@
                         acc_idn = $(this).text()
                     })
                     del_acc_idn += acc_idn + ',';
-                    alert(del_acc_idn);
+                    //alert(del_acc_idn);
                     $('#qus_div_' + chooseId).remove();
                 }
             }
@@ -813,13 +823,13 @@
         function change_Qus_Way(qus_way_int, chooseId, temp_change_Qus_Way_div, temp_change_Qus_Content_div, qus_Title_Value, qus_Desc, present_Qus_Option) {
             //判斷題目模式
             if (qus_way_int == "singleSelect")
-                var qus_title = "單選問題";
+                var qus_title = "單選標題";
             else if (qus_way_int == "multiSelect")
-                var qus_title = "多選問題";
+                var qus_title = "多選標題";
             else if (qus_way_int == "text")
-                var qus_title = "文字問題";
+                var qus_title = "文字標題";
             else if (qus_way_int == "dropDownList")
-                var qus_title = "選單問題";
+                var qus_title = "選單標題";
             //判斷是否有填入的題目名稱
             if (qus_Title_Value == null)
                 var title_Value = "";
@@ -952,7 +962,7 @@
                 if ($.trim($(this).val()) == "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#qus_Option_error_" + id + (count + 1)).length == 0)
-                        $(this).after('<em id="qus_Option_error_' + id + (count + 1) + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">必須填寫</em>');
+                        $(this).after('<em id="qus_Option_error_' + id + (count + 1) + '" class="error help-block red" style="width: 150px;margin-bottom: 5px;">必須填寫</em>');
                     check_Activity_Column_Data = false;
                 }
                 else {
@@ -1044,12 +1054,12 @@
                         Acs_idn = $(this).text()
                     })
                     del_acs_idn += Acs_idn + ',';
-                    alert(del_acs_idn);
+                    //alert(del_acs_idn);
 
                     $("#add_Qus_div_" + chooseId).find("[id^=old_acc_idn_lb_]").each(function () {
                         del_acc_idn += $(this).text() + ',';
                     })
-                    alert(del_acc_idn);
+                    //alert(del_acc_idn);
                     $('#block_div_' + chooseId).remove();
                 }
             }
@@ -1203,7 +1213,8 @@
                 else {
                     $(this).css({ "box-shadow": "" });
                     $("#datetimepicker_Activity_Start_txt_error_" + datetimepicker_Activity_Start_txtId).remove();
-                    $("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Start_txtId).css({ "box-shadow": "" });
+                    if ($("#datetimepicker_Activity_Start_txt_error_" + datetimepicker_Activity_Start_txtId).length == 0 && $("#datetimepicker_Activity_End_txt_error_withSignEnd_" + datetimepicker_Activity_Start_txtId).length == 0)
+                        $("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Start_txtId).css({ "box-shadow": "" });
                     $("#datetimepicker_Activity_End_txt_error_" + datetimepicker_Activity_Start_txtId).remove();
                 }
                 //判斷在活動報名開始日期之後
@@ -1280,7 +1291,7 @@
                 if ($.trim($(this).val()) >= $.trim($("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).val()) && $.trim($("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).val()) != "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#datetimepicker_Activity_Sign_Start_txt_error_WithActStart_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).length == 0)
-                        $(this).after('<em id="datetimepicker_Activity_Sign_Start_txt_error_WithActStart_' + datetimepicker_Activity_Sign_Start_txt_temp_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">報名開始日期必須在活動開始日期之前</em>');
+                        $(this).after('<em id="datetimepicker_Activity_Sign_Start_txt_error_WithActStart_' + datetimepicker_Activity_Sign_Start_txt_temp_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">報名開始日期必須在活動開始日期之前</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1288,7 +1299,7 @@
                         $(this).css({ "box-shadow": "" });
                     $("#datetimepicker_Activity_Sign_Start_txt_error_WithActStart_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).remove();
                     $("#datetimepicker_Activity_Start_txt_error_WithSignStart_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).remove();
-                    if ($("#datetimepicker_Activity_Start_txt_error_WithSignStart_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).length == 0 && $("#datetimepicker_Activity_Start_txt_error_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).length == 0)
+                    if ($("#datetimepicker_Activity_Start_txt_error_WithSignStart_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).length == 0 && $("#datetimepicker_Activity_Start_txt_error_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).length == 0 )
                         $("#datetimepicker_Activity_Start_txt_" + datetimepicker_Activity_Sign_Start_txt_temp_txtId).css({ "box-shadow": "" });
                 }
             })
@@ -1307,9 +1318,9 @@
                 else {
                     $(this).css({ "box-shadow": "" });
                     $("#datetimepicker_Activity_Sign_End_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).remove();
+                    $("#datetimepicker_Activity_Sign_Start_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).remove();
                     if ($("#datetimepicker_Activity_Sign_Start_txt_error_WithActStart_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0 && $("#datetimepicker_Activity_Sign_Start_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0)
                         $("#datetimepicker_Activity_Sign_Start_txt_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).css({ "box-shadow": "" });
-                    $("#datetimepicker_Activity_Sign_Start_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).remove();
                 }
                 //判斷在活動結束日期之前
                 if ($.trim($(this).val()) >= $.trim($("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).val()) && $.trim($("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).val()) != "") {
@@ -1319,9 +1330,12 @@
                     check_Activity_Data = false;
                 }
                 else {
-                    if ($("#datetimepicker_Activity_Sign_End_txt_error_withActEnd_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0 && $("#datetimepicker_Activity_Sign_End_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0)
-                        $(this).css({ "box-shadow": "" });
+                    $("#datetimepicker_Activity_End_txt_error_withSignEnd_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).remove();
+                    if ($("#datetimepicker_Activity_End_txt_error_withSignEnd_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0 && $("#datetimepicker_Activity_End_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0)
+                        $("#datetimepicker_Activity_End_txt_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).css({ "box-shadow": "" });
                     $("#datetimepicker_Activity_Sign_End_txt_error_withActEnd_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).remove();
+                    if ($("#datetimepicker_Activity_Sign_End_txt_error_withActEnd_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0 && $("#datetimepicker_Activity_End_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0 && $("#datetimepicker_Activity_Sign_End_txt_error_" + datetimepicker_Activity_Sign_End_txt_temp_txtId).length == 0)
+                        $(this).css({ "box-shadow": "" });
                 }
             })
             //場次ID加一
@@ -1338,7 +1352,7 @@
                         As_idn = $(this).text()
                     })
                     del_as_idn += As_idn + ',';
-                    alert(del_as_idn);
+                    //alert(del_as_idn);
                     $('#delete_Session_div_' + chooseId).remove();
                 }
             }
@@ -1383,7 +1397,7 @@
         //#region 回到頂端按鈕 
         (function () {
             $("body").append("<img id='goTopButton' style='display: none; z-index: 5; cursor: pointer;' title='回到頂端'/>");
-            var img = "/Images/go-top.png",
+            var img = "../Images/go-top.png",
             locatioin = 9 / 10, // 按鈕出現在螢幕的高度
             right = 10, // 距離右邊 px 值
             opacity = 0.8, // 透明度
@@ -1426,7 +1440,7 @@
                             type: 'post',
                             traditional: true,
                             //將資料傳到後台save_Activity這個function
-                            url: '/S02/S02010103.aspx/save_Activity',
+                            url: 'S02010103.aspx/save_Activity',
                             data: JSON.stringify(jsondata),
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
@@ -1439,7 +1453,7 @@
                             },
                             //失敗時
                             error: function () {
-                                alert("失敗");
+                                alert("活動修改失敗");
                             }
                         });
                     }
@@ -1449,7 +1463,7 @@
                         type: 'post',
                         traditional: true,
                         //將資料傳到後台save_Activity這個function
-                        url: '/S02/S02010103.aspx/save_Activity',
+                        url: 'S02010103.aspx/save_Activity',
                         data: JSON.stringify(jsondata),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
@@ -1462,7 +1476,7 @@
                         },
                         //失敗時
                         error: function () {
-                            alert("失敗");
+                            alert("活動修改失敗");
                         }
                     });
                 }
@@ -1659,7 +1673,7 @@
                     type: 'post',
                     traditional: true,
                     //傳送資料到後台為save_Activity_Form的function
-                    url: '/S02/S02010103.aspx/save_Activity_Form',
+                    url: 'S02010103.aspx/save_Activity_Form',
                     data: JSON.stringify(jsondata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -1671,7 +1685,7 @@
                     },
                     //失敗時
                     error: function () {
-                        alert("失敗!!!!");
+                        alert("活動儲存失敗");
                     }
                 });
             }
@@ -1933,7 +1947,7 @@
 
         //#region 是否刪除已上傳圖片
         function delete_img_btn_click() {
-            var if_deleteimg = confirm("確定要刪除圖片檔案?");
+            var if_deleteimg = confirm("確定要刪除已上傳的活動圖片?");
             if (if_deleteimg == true) {
                 activityInfo[0].Act_image = "";
                 $("#<%=imgUpload.ClientID %>").val("");
@@ -1946,7 +1960,7 @@
 
         //#region 是否刪除已上傳檔案
         function delete_file_btn_click() {
-            var if_deletefile = confirm("確定要刪除附加檔案?");
+            var if_deletefile = confirm("確定要刪除已上傳的附加檔案?");
             if (if_deletefile == true) {
                 activityInfo[0].Act_relate_file = "";
                 $("#<%=FileUpload.ClientID %>").val("");

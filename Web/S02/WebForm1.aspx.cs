@@ -14,6 +14,10 @@ namespace Web.S02
         {
 
         }
-       
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("sssssssss");
+        }
     }
 }

@@ -9,6 +9,8 @@ using Util;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Model.Common;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
 
 namespace ActivityApply
 {
@@ -19,20 +21,25 @@ namespace ActivityApply
         static int AA_IDN;
         protected void Page_Load(object sender, EventArgs e)
         {
-            ACT_IDN = Int32.Parse(Request["act_idn"]);
-            AS_IDN = Int32.Parse(Request["as_idn"]);
+            
+            //ACT_IDN = Int32.Parse(Request["act_idn"]);
+            //AS_IDN = Int32.Parse(Request["as_idn"]);
             //AA_IDN = Int32.Parse(Request["aa_idn"]);
             //AA_IDN  = Session["aa_idn"];
             //if (!IsPostBack)
             //{
-                if(Session["aa_idn"]!=null)
-                    AA_IDN =  Int32.Parse(Session["aa_idn"].ToString());
-                else
-                {
-                    string error_msg = "請重新輸入密碼!";
-                    Response.Write("<script language='javascript'>alert('" + error_msg + "');</script>");
-                    Response.Redirect("SignSearchContext.aspx");
-                }
+            if (Session["aa_idn"] != null)
+            {
+                ACT_IDN = Int32.Parse(Session["act_idn"].ToString());
+                AS_IDN = Int32.Parse(Session["as_idn"].ToString());
+                AA_IDN = Int32.Parse(Session["aa_idn"].ToString());
+            }
+            else
+            {
+                string error_msg = "請重新輸入密碼!";
+                Response.Write("<script language='javascript'>alert('" + error_msg + "');</script>");
+                Response.Redirect("SignSearchContext.aspx");
+            }
             //}
 
         }
@@ -43,9 +50,13 @@ namespace ActivityApply
         {
             SignChangeBL _bl = new SignChangeBL();
             List<Activity_sectionInfo> sectionList = _bl.GetSectionList(ACT_IDN);
-            
-            string json_data = JsonConvert.SerializeObject(sectionList);
-            return json_data;
+            if (sectionList.Count == 0)
+                return "false";
+            else
+            {
+                string json_data = JsonConvert.SerializeObject(sectionList);
+                return json_data;
+            }
         }
         #endregion
 
@@ -54,9 +65,14 @@ namespace ActivityApply
         public static string getQuestionList()
         {
             SignChangeBL _bl = new SignChangeBL();
-            List<Activity_columnInfo> questionList = _bl.GetQuestionList(ACT_IDN);
-            string json_data = JsonConvert.SerializeObject(questionList);
-            return json_data;
+            List<Activity_columnInfo> questionList = _bl.GetQuestionList(ACT_IDN,AS_IDN);
+            if (questionList.Count == 0)
+                return "false";
+            else
+            {
+                string json_data = JsonConvert.SerializeObject(questionList);
+                return json_data;
+            }
         }
         #endregion
 
@@ -97,15 +113,28 @@ namespace ActivityApply
                 {
                     Dictionary<String, Object> old_Activity_apply_detail = new Dictionary<string, object>();
                     Dictionary<String, Object> new_Activity_apply_detail = new Dictionary<string, object>();
+                    Dictionary<String, Object> Activity_apply_detail = new Dictionary<string, object>();
                     for (int i = 0; i < userData.Count; i++)
                     {
-                        //舊的報名資料
-                        old_Activity_apply_detail["aad_apply_id"] = userData[0].Aad_apply_id;
-                        old_Activity_apply_detail["aad_col_id"] = userData[i].Aad_col_id;
-                        //新的報名資料
-                        new_Activity_apply_detail["aad_val"] = userData[i].Aad_val;
+                        //判斷填寫的問題為新問題或舊問題
+                        if (userData[i].ifnewqus == 0)
+                        {
+                            //舊的報名資料
+                            old_Activity_apply_detail["aad_apply_id"] = userData[i].Aad_apply_id;
+                            old_Activity_apply_detail["aad_col_id"] = userData[i].Aad_col_id;
+                            //新的報名資料
+                            new_Activity_apply_detail["aad_val"] = userData[i].Aad_val;
 
-                        result = _bl.UpdateApplyDetailData(old_Activity_apply_detail, new_Activity_apply_detail);
+                            result = _bl.UpdateApplyDetailData(old_Activity_apply_detail, new_Activity_apply_detail);
+                        }
+                        else if(userData[i].ifnewqus == 1)
+                        {
+                            Activity_apply_detail["aad_apply_id"] = userData[i].Aad_apply_id;
+                            Activity_apply_detail["aad_col_id"] = userData[i].Aad_col_id;
+                            Activity_apply_detail["aad_val"] = userData[i].Aad_val;
+                            result = _bl.InsertData_Activity_apply_detail(Activity_apply_detail);
+                        }
+                        
                     }
                     if (result.IsSuccess)
                     {
@@ -162,6 +191,19 @@ namespace ActivityApply
         }
         #endregion
 
+        protected void print_ApplyProve(object sender, EventArgs e)
+        {
+            Sign_UpBL _bl = new Sign_UpBL();
+            DataTable dt = _bl.GetApplyProve(AA_IDN);
+            ReportDocument rd = new ReportDocument();
+            //載入該報表
+            rd.Load(Server.MapPath("~/applyProve.rpt"));
+            //設定資料
+            rd.SetDataSource(dt);
+            rd.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, true, "applyProve");
+            //rd.ExportToDisk(ExportFormatType.PortableDocFormat, "applyProve.pdf");
+        }
+
         [Table("UserData")]
         public class UserData {
             [Column("aad_apply_id")]
@@ -172,6 +214,8 @@ namespace ActivityApply
             public String Aad_title { get; set; }
             [Column("aad_val")]
             public String Aad_val { get; set; }
+            [Column("ifnewqus")]
+            public Int32 ifnewqus { get; set; }
         }
     }
 }

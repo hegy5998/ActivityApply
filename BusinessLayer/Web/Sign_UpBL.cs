@@ -23,9 +23,9 @@ namespace BusinessLayer.Web
         #endregion
 
         #region 取得問題列表
-        public List<Activity_columnInfo> GetQuestionList(int acc_act)
+        public List<Activity_columnInfo> GetQuestionList(int acc_act,int as_idn)
         {
-            return _data.GetQuestionList(acc_act);
+            return _data.GetQuestionList(acc_act,as_idn);
         }
         #endregion
 
@@ -47,6 +47,35 @@ namespace BusinessLayer.Web
         public DataTable GetApplyProve(int aa_idn)
         {
             return _data.GetApplyProve(aa_idn);
+        }
+        #endregion
+
+        #region 判斷是否在報名日期內
+        public bool isBetweenApplyDate(int as_idn)
+        {
+            List<Activity_sessionInfo> asList = _data.isBetweenApplyDate(as_idn);            
+            return asList.Count > 0 ? true : false;
+        }
+        #endregion
+        #region 判斷場次是否開放
+        public bool isOpen(int as_idn)
+        {
+            List<Activity_sessionInfo> asList = _data.isOpen(as_idn);
+            return asList.Count > 0 ? true : false;
+        }
+        #endregion
+        #region 判斷報名人數是否額滿
+        public bool isFull(int aa_as)
+        {
+            List<Activity_sessionInfo> asList = _data.isFull(aa_as);
+            return asList.Count > 0 ? false : true;
+        }
+        #endregion
+        #region 判斷是否重複報名
+        public bool isRepeatApply(int aa_as, string aa_email, string aa_name)
+        {
+            List<Activity_applyInfo> aaList = _data.isRepeatApply(aa_as, aa_email, aa_name);
+            return aaList.Count > 0 ? true : false;
         }
         #endregion
         #endregion

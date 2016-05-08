@@ -71,6 +71,8 @@
     <Compile Include="S01\UCProcessSubFuncAuthManagerData.cs" />
     <Compile Include="S01\UCRoleUnitManagerData.cs" />
     <Compile Include="S01\UCRoleUnitManagerPositionData.cs" />
+    <Compile Include="S02\S020105Data.cs" />
+    <Compile Include="S02\S020104Data.cs" />
     <Compile Include="S02\S020103Data.cs" />
     <Compile Include="S02\S020101Data.cs" />
     <Compile Include="Sys_accountData.cs" />
@@ -90,6 +92,7 @@
     <Compile Include="Sys_role_unitData.cs" />
     <Compile Include="Sys_systemData.cs" />
     <Compile Include="Sys_unitData.cs" />
+    <Compile Include="Web\indexData.cs" />
     <Compile Include="Web\SignSearchContextData.cs" />
     <Compile Include="Web\activityData.cs" />
     <Compile Include="Web\activity_ListData.cs" />

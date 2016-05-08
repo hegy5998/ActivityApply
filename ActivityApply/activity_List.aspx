@@ -119,8 +119,10 @@
                         $("#add_breach").append('<li><a href="activity_List.aspx?act_class=' + act_classInfo[count].Ac_idn + '">' + act_classInfo[count].Ac_title + '</a></li>');
                     }
                 }
+                if(act_class == 0)
+                    $("#add_breach").append('<li><a href="activity_List.aspx?act_class=0">全部活動</a></li>');
             }
-                //如果是搜尋按牛執行這裡
+                //如果是搜尋按鈕執行這裡
             else {
                 //將滅包削內容清空
                 $("#add_breach").children().remove();

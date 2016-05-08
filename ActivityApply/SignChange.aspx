@@ -1,5 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true" CodeBehind="SignChange.aspx.cs" Inherits="ActivityApply.SignChange" %>
 
+<%@ Register Assembly="CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
+
+
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead" runat="server">
     <link href="<%=ResolveUrl("~/assets/css/jquery.steps.css")%>" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery.steps.js") %>"></script>
@@ -48,7 +51,7 @@
     <section id="container">
         <section id="main-content">
             <section class="wrapper">
-                <div class="advanced-form row" style="display:none;">
+                <div class="advanced-form row" style="display: none;">
                     <h3>修改報名資料</h3>
                     <fieldset>
                         <h3><i class="fa fa-angle-right"></i>報名資料</h3>
@@ -74,7 +77,9 @@
                     <fieldset>
                         <h3><i class="fa fa-angle-right"></i>修改完成</h3>
                         <div id="finish_div" class="col-sm-8 form-panel">
-                            <label>修改完成，請至電子信箱查看報名資料修改成功確認信！</label>
+                            <p>修改完成，請至電子信箱查看報名資料修改成功確認信！</p>
+                            <p>如有需要可重新下載活動證明</p>
+                            <asp:Button runat="server" ID="print_btn" OnClick="print_ApplyProve" Text="下載報名資訊" CssClass="btn btn-theme" />
                         </div>
                     </fieldset>
                 </div>
@@ -97,6 +102,7 @@
         var sectionList;
         var questionList;
         var applyDetailList;
+        var applyId;
 
         $(document).ready(function () {
             var funcList = [getSectionList,
@@ -105,6 +111,8 @@
                             resizeJquerySteps];
             $(document).queue("myQueue", funcList);
             $(document).dequeue("myQueue");
+
+            setSessionBread();
 
             //#region jQuery steps
             var form = $(".advanced-form");
@@ -174,7 +182,10 @@
                 //成功時
                 success: function (result) {
                     // 加入區塊
-                    Add_Section(result.d);
+                    if (result.d != "false")
+                        Add_Section(result.d);
+                    else
+                        window.location.replace("index.aspx");
                 },
                 //失敗時
                 error: function () {
@@ -196,8 +207,10 @@
                 dataType: "json",
                 //成功時
                 success: function (result) {
-                    // 加入問題
-                    Add_Question(result.d);
+                    if (result.d != "flase")
+                        Add_Question(result.d);
+                    else
+                        window.location.replace("index.aspx");
                 },
                 //失敗時
                 error: function () {
@@ -275,17 +288,28 @@
                 }
                 $("#question_div_" + questionInfo[i].Acc_asc).append(decodeURI(code));
                 //將報名資料填入
-                switch (questionInfo[i].Acc_type) {
-                    case "text": $("[name=qus_txt_" + i + "]").val(applyDetailInfo[i].Aad_val);break;
-                    case "singleSelect": $("[name=qus_radio_" + i + "]" + "[value='" + applyDetailInfo[i].Aad_val + "']").attr('checked', true);break;
-                    case "multiSelect":
-                        var multiSelectValue = applyDetailInfo[i].Aad_val.split(",");
-                        for (var count = 0 ; count < multiSelectValue.length ; count++) {
-                            $("[name=qus_checkbox_" + i + "]" + "[value='" + multiSelectValue[count] + "']").attr('checked', true);
+                //判斷
+                for (var count = 0 ; count < applyDetailInfo.length ; count++) {
+                    if (applyDetailInfo[count] != undefined && applyDetailInfo[count].Aad_col_id == questionInfo[i].Acc_idn) {
+                        applyId = applyDetailInfo[count].Aad_apply_id;
+                        switch (questionInfo[i].Acc_type) {
+                            case "text": $("[name=qus_txt_" + i + "]").val(applyDetailInfo[count].Aad_val); break;
+                            case "singleSelect": $("[name=qus_radio_" + i + "]" + "[value='" + applyDetailInfo[count].Aad_val + "']").attr('checked', true); break;
+                            case "multiSelect":
+                                var multiSelectValue = applyDetailInfo[count].Aad_val.split(",");
+                                for (var mulcount = 0 ; mulcount < multiSelectValue.length ; mulcount++) {
+                                    $("[name=qus_checkbox_" + i + "]" + "[value='" + multiSelectValue[mulcount] + "']").attr('checked', true);
+                                }
+                                break;
+                            case "dropDownList": $("[name=qus_ddl_" + i + "]").val(applyDetailInfo[count].Aad_val); break;
                         }
-                        break;
-                    case "dropDownList": $("[name=qus_ddl_" + i + "]").val(applyDetailInfo[i].Aad_val); break;
+                    }
                 }
+                if (questionInfo[i].Acc_title == "電子信箱Email") {
+                    $("[name=qus_txt_" + i + "]").attr('disabled', 'disabled');
+                    $("[name=qus_txt_" + i + "]").css({ 'background': '#EEEEEE' });
+                }
+                    
             }
             $(document).dequeue("myQueue");
         }
@@ -493,14 +517,33 @@
 
         //#region 儲存使用者資料(POST)
         function SaveUserData() {
-            var detailList = { userData: []};
+            var detailList = { userData: [] };
             for (var i = 0; i < questionList.length; i++) {
                 var detailJson = {}
-                detailJson.Aad_apply_id = applyDetailList[i].Aad_apply_id;
-                detailJson.Aad_col_id = applyDetailList[i].Aad_col_id;
-                detailJson.Aad_title = questionList[i].Acc_title;
-                detailJson.Aad_val = questionList[i].Acc_val;
-                detailList.userData.push(detailJson);
+                var ifnew = true;
+                //判斷填寫的問題為新問題或舊問題
+                for (var count = 0 ; count < applyDetailList.length ; count++) {
+                    if (applyDetailList[count] != undefined && applyDetailList[count].Aad_col_id == questionList[i].Acc_idn) {
+                        detailJson.Aad_apply_id = applyDetailList[count].Aad_apply_id;
+                        detailJson.Aad_col_id = questionList[i].Acc_idn;
+                        detailJson.Aad_title = questionList[i].Acc_title;
+                        detailJson.Aad_val = questionList[i].Acc_val;
+                        detailJson.ifnewqus = 0;
+                        detailList.userData.push(detailJson);
+                        ifnew = false;
+                    }
+
+                }
+                if (ifnew == true) {
+                    detailJson.Aad_apply_id = applyId
+                    detailJson.Aad_col_id = questionList[i].Acc_idn;
+                    detailJson.Aad_title = questionList[i].Acc_title;
+                    detailJson.Aad_val = questionList[i].Acc_val;
+                    detailJson.ifnewqus = 1;
+                    detailList.userData.push(detailJson);
+                }
+
+
             }
             $.ajax({
                 type: 'post',
