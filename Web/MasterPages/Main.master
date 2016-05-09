@@ -19,6 +19,7 @@
     <asp:ToolkitScriptManager ID="tsm" runat="server" AsyncPostBackTimeout="300"></asp:ToolkitScriptManager>
     <div id="mainWrapper">
         <div id="mainHeader" <%=HeaderBannerStyle %>>
+            <a id="mainMenuOp" class="fa fa-bars tooltips" href="javascript: void(0)" onclick="opMenu()"></a>
             <h3 id="mainHeaderSysName">
                 <asp:Literal ID="mainHeaderSysName_l" runat="server"></asp:Literal></h3>
         </div>
@@ -48,6 +49,7 @@
                 <div id="mainContent">
                     <div id="mainContentInner">
                         <div id="processHeader">
+                            <i class="fa fa-angle-right"></i>
                             <asp:Label ID="processName_lbl" runat="server"></asp:Label>
                         </div>
                         <%-- 子功能列 --%>
@@ -69,8 +71,7 @@
                             </asp:UpdatePanel>
                         </div>
                     </div>
-                </div>
-                <a id="mainMenuOp" href="javascript: void(0)" onclick="opMenu()"></a>
+                </div>                
             </div>
         </div>
         <%-- 頁尾 --%>
