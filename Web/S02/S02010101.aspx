@@ -61,6 +61,7 @@
                         <tr class="grvDataRow">
                             <th style="width: 100px;">活動查詢</th>
                             <td>
+                                <asp:DropDownList runat="server" ID="q_keyword_ddl" ></asp:DropDownList>
                                 <asp:TextBox runat="server" ID="q_keyword_tb" />
                             </td>
                             <td rowspan="2" style="width: 100px; text-align: center;">
@@ -217,6 +218,7 @@
                                                                         <!-- 設定協作者的key -->
                                                                         <div> 
                                                                             <asp:HiddenField ID="copperate_cop_act_hf" runat="server" />
+                                                                            <asp:HiddenField ID="new_hf" runat="server" />
                                                                         </div>
 
                                                                         <!-- GridView START -->
@@ -301,6 +303,7 @@
                                                                             <asp:Button ID="setAccount_btn" runat="server" CssClass="btn-large" Text="確認" UseSubmitBehavior="false" OnClick="setAccount_btn_Click" /><br /><br />
                                                                             <asp:RadioButtonList id="account_radiobuttonlist" runat="server">
                                                                             </asp:RadioButtonList>
+                                                                            <asp:HiddenField ID="row_idn_hf" runat="server" />
                                                                         </asp:Panel>
                                                                     </asp:View>
                                                                     <%--設定帳號 END--%>

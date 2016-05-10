@@ -98,6 +98,13 @@
         var questionList;
         var email;
         var signFlag = false;
+        // Enter 事件：改為按下一步
+        $(document).keydown(function(){
+            if (event.keyCode == 13) {
+                $(".advanced-form").steps("next");
+                return false;
+            }
+        });
         
         $(document).ready(function () {
             var funcList = [getSectionList,
@@ -140,12 +147,10 @@
                             if (SaveUserData()) {
                                 Add_Finish();
                                 return true;
-                            }
-                            else {
-                                alert("報名錯誤，請稍後再試！");
-                            }                            
-                        }
+                            }                         
+                        }                        
                     }
+                    resizeJquerySteps();
                     return false;
                 },
                 onStepChanged: function (event, currentIndex, priorIndex) {
@@ -156,7 +161,7 @@
                         }
                         else {
                             Add_SetPwd();
-                            $("#password").rules("add", { required: true, minlength: 4 });
+                            $("#password").rules("add", { required: true, minlength: 4 ,maxlength : 20});
                             $("#confirm_password").rules("add", { required: true, equalTo: "#password" });
                         }
                     }
@@ -463,11 +468,18 @@
                 async: false,
                 //成功時
                 success: function (result) {
-                    res = result.d;
+                    res = true;
+                    var msg = result.d;
+                    if (msg.split(":")[0] == "Error") {
+                        alert(msg.split(":")[1]);
+                        res = false;
+                        window.location.replace("index.aspx");
+                        window.event.returnValue = false;
+                    }                    
                 },
                 //失敗時
                 error: function () {
-                    alert("失敗!!!!");
+                    alert("報名錯誤，請稍後再試！");
                     res = false;
                 }
             });
@@ -519,13 +531,13 @@
                             <div class="form-group">\
                                 <label class="col-sm-2 control-label">密碼<label style="color:red">*</label></label>\
                                 <div class="col-sm-10">\
-                                    <input type="text" id="password" name="password" class="form-control">\
+                                    <input type="password" id="password" name="password" class="form-control">\
                                 </div>\
                             </div>\
                             <div id="" class="form-group">\
                                 <label class="col-sm-2 control-label">確認密碼<label style="color:red">*</label></label>\
                                 <div class="col-sm-10">\
-                                    <input type="text" id="confirm_password" name="confirm_password" class="form-control">\
+                                    <input type="password" id="confirm_password" name="confirm_password" class="form-control">\
                                 </div>\
                             </div>\
                         </div>';

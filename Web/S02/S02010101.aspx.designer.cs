@@ -31,6 +31,15 @@ namespace Web.S02 {
         protected global::System.Web.UI.UpdatePanel UpdatePanel3;
         
         /// <summary>
+        /// q_keyword_ddl 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList q_keyword_ddl;
+        
+        /// <summary>
         /// q_keyword_tb 控制項。
         /// </summary>
         /// <remarks>
@@ -175,6 +184,15 @@ namespace Web.S02 {
         protected global::System.Web.UI.WebControls.HiddenField copperate_cop_act_hf;
         
         /// <summary>
+        /// new_hf 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField new_hf;
+        
+        /// <summary>
         /// controlSet_gv 控制項。
         /// </summary>
         /// <remarks>
@@ -220,6 +238,15 @@ namespace Web.S02 {
         protected global::System.Web.UI.WebControls.Button setAccount_btn;
         
         /// <summary>
+        /// back_btn 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button back_btn;
+        
+        /// <summary>
         /// account_radiobuttonlist 控制項。
         /// </summary>
         /// <remarks>
@@ -227,6 +254,15 @@ namespace Web.S02 {
         /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButtonList account_radiobuttonlist;
+        
+        /// <summary>
+        /// row_idn_hf 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField row_idn_hf;
         
         /// <summary>
         /// UpdatePanel2 控制項。

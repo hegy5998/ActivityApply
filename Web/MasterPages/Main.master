@@ -19,6 +19,7 @@
     <asp:ToolkitScriptManager ID="tsm" runat="server" AsyncPostBackTimeout="300"></asp:ToolkitScriptManager>
     <div id="mainWrapper">
         <div id="mainHeader" <%=HeaderBannerStyle %>>
+            <a id="mainMenuOp" class="fa fa-bars tooltips" href="javascript: void(0)" onclick="opMenu()" style="width: 24px;height: 24px;margin-left: 10px;margin-top: 17px;"></a>
             <h3 id="mainHeaderSysName">
                 <asp:Literal ID="mainHeaderSysName_l" runat="server"></asp:Literal></h3>
         </div>
@@ -33,7 +34,9 @@
                             <div>名稱：<%= CommonHelper.GetLoginUser().Act_name %></div>
                             <div>身份：<ucsm:UCRoleChg runat="server" ID="UCRoleChg" /></div>
                         </div>
+                        <hr />
                         <asp:Literal ID="mainMenu_l" runat="server" EnableViewState="False"></asp:Literal>
+                        <hr />
                         <div id="mainMenuBottomOp">
                             <a id="mainLogout" href="<%=ResolveUrl("~/Logout.aspx") %>">登出</a><span style="margin: 0 7px">|</span><%
                              if (new BusinessLayer.SystemMenuBL().IsShowSystemMenu().Item1) { 
@@ -48,6 +51,7 @@
                 <div id="mainContent">
                     <div id="mainContentInner">
                         <div id="processHeader">
+                            <i class="fa fa-angle-right"></i>
                             <asp:Label ID="processName_lbl" runat="server"></asp:Label>
                         </div>
                         <%-- 子功能列 --%>
@@ -69,13 +73,12 @@
                             </asp:UpdatePanel>
                         </div>
                     </div>
-                </div>
-                <a id="mainMenuOp" href="javascript: void(0)" onclick="opMenu()"></a>
+                </div>                
             </div>
         </div>
         <%-- 頁尾 --%>
         <div id="mainFooter">
-            <div>
+            <div style="background-color: #68dff0;">
                 <p></p>
                 <span class="footerRBtitle"></span>
             </div>

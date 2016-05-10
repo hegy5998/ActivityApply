@@ -23,12 +23,10 @@ namespace DataAccess.Web
         {
             return _sectionData.GetList(acs_act);
         }
-
         public List<Activity_columnInfo> GetQuestionList(int acc_act, int as_idn)
         {
             return _columnData.GetList(acc_act,as_idn);
         }
-
         public DataTable GetActivityData(int as_act, int as_idn)
         {
             string sql = @" SELECT  activity.act_title, activity.act_unit,
@@ -41,7 +39,6 @@ namespace DataAccess.Web
             IDataParameter[] param = { Db.GetParam("@as_act", as_act), Db.GetParam("@as_idn", as_idn) };
             return Db.GetDataTable(sql, param);
         }
-
         public DataTable GetApplyProve(int aa_idn)
         {
             string sql = @" SELECT  activity.act_title, 
@@ -58,6 +55,51 @@ namespace DataAccess.Web
 		                            activity_apply.aa_idn = @aa_idn;";
             IDataParameter[] param = { Db.GetParam("@aa_idn", aa_idn) };
             return Db.GetDataTable(sql, param);
+        }
+        public List<Activity_sessionInfo> isBetweenApplyDate(int as_idn)
+        {
+            string sql = @" SELECT  activity_session.*
+                            FROM    activity_session
+                            WHERE   CONVERT(varchar(256), GETDATE(), 121) > activity_session.as_apply_start AND
+							        CONVERT(varchar(256), GETDATE(), 121) < activity_session.as_apply_end AND
+		                            activity_session.as_idn = @as_idn;";
+            IDataParameter[] param = { Db.GetParam("@as_idn", as_idn) };
+            return Db.GetEnumerable<Activity_sessionInfo>(sql, param).ToList();
+        }
+        public List<Activity_sessionInfo> isOpen(int as_idn)
+        {
+            string sql = @" SELECT  activity_session.*
+                            FROM    activity_session
+                            WHERE   activity_session.as_isopen = 1 AND
+		                            activity_session.as_idn = @as_idn;";
+            IDataParameter[] param = { Db.GetParam("@as_idn", as_idn) };
+            return Db.GetEnumerable<Activity_sessionInfo>(sql, param).ToList();
+        }
+        public List<Activity_sessionInfo> isFull(int aa_as)
+        {
+            string sql = @" SELECT as_idn 
+                            FROM activity_session 
+                            cross apply 
+                                (SELECT COUNT(*) as num 
+                                FROM activity_apply 
+                                WHERE aa_as = @aa_as ) as apply 
+                            WHERE as_idn = @aa_as 
+                            GROUP BY as_num_limit,apply.num,as_idn 
+                            HAVING apply.num < as_num_limit;";
+            IDataParameter[] param = { Db.GetParam("@aa_as", aa_as) };
+            return Db.GetEnumerable<Activity_sessionInfo>(sql, param).ToList();
+        }
+        public List<Activity_applyInfo> isRepeatApply(int aa_as, string aa_email, string aa_name)
+        {
+            string sql = @" SELECT  activity_apply.*
+                            FROM    activity_apply
+                            WHERE   activity_apply.aa_as = @aa_as AND
+                                    activity_apply.aa_email = @aa_email AND
+                                    activity_apply.aa_name = @aa_name;";
+            IDataParameter[] param = { Db.GetParam("@aa_as", aa_as),
+                                        Db.GetParam("@aa_email", aa_email),
+                                        Db.GetParam("@aa_name", aa_name)};
+            return Db.GetEnumerable<Activity_applyInfo>(sql, param).ToList();
         }
         #endregion
 

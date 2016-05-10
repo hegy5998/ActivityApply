@@ -12,6 +12,7 @@ using Model.Common;
 using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
 using CrystalDecisions.Shared;
+using System.Web.UI;
 
 namespace ActivityApply
 {
@@ -19,7 +20,7 @@ namespace ActivityApply
     {
         static int ACT_IDN;
         static int AS_IDN;
-        static int AA_IDN;
+        static int AA_IDN;   
         
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -58,18 +59,38 @@ namespace ActivityApply
         }
 
         [System.Web.Services.WebMethod]
-        public static bool saveUserData(List<UserData> userData)
+        public static string saveUserData(List<UserData> userData)
         {
             Sign_UpBL _bl = new Sign_UpBL();
-            CommonResult result;
-            Dictionary<String, Object> save_Activity_apply = new Dictionary<string, object>();
-            string name;
-            string email;
+            CommonResult result;            
+            string name = userData.Where(data => data.Aad_title.Contains("姓名")).Select(data => data.Aad_val).ToList()[0];
+            string email = userData.Where(data => data.Aad_title.Contains("Email")).Select(data => data.Aad_val).ToList()[0];
 
+            // 判斷是否在報名日期內
+            if (!_bl.isBetweenApplyDate(AS_IDN)) {
+                return "Error:請於報名時間內報名活動！";
+            }
+            // 判斷場次是否開放
+            if (!_bl.isOpen(AS_IDN))
+            {
+                return "Error:活動尚未開放！";
+            }
+            // 判斷報名人數是否額滿
+            if (_bl.isFull(AS_IDN))
+            {
+                return "Error:報名人數已額滿！";
+            }
+            // 判斷是否重複報名
+            if (_bl.isRepeatApply(AS_IDN, email, name))
+            {
+                return "Error:您已報名此活動！";
+            }
+
+            Dictionary<String, Object> save_Activity_apply = new Dictionary<string, object>();
             save_Activity_apply["aa_act"] = ACT_IDN;
             save_Activity_apply["aa_as"] = AS_IDN;
-            save_Activity_apply["aa_name"] = name = userData.Where(data => data.Aad_title.Contains("姓名")).Select(data => data.Aad_val).ToList()[0];
-            save_Activity_apply["aa_email"] = email = userData.Where(data => data.Aad_title.Contains("Email")).Select(data => data.Aad_val).ToList()[0];
+            save_Activity_apply["aa_name"] = name;
+            save_Activity_apply["aa_email"] = email;
 
             result = _bl.InsertData_Activity_apply(save_Activity_apply);
 
@@ -92,15 +113,15 @@ namespace ActivityApply
                     DataTable dt = _bl.GetActivityData(ACT_IDN, AS_IDN);
                     string act_title = dt.Rows[0]["act_title"].ToString();
                     CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubject(act_title), getMailContnet(dt, name));
-                    return true;
+                    return "Success:報名成功！";
                 }
                 else
                 {
-                    return false;
+                    return "Error:報名失敗，請稍後再試！";
                 }
             }
             else {
-                return false;
+                return "Error:報名失敗，請稍後再試！";
             }
 
         }
@@ -192,7 +213,6 @@ namespace ActivityApply
             //設定資料
             rd.SetDataSource(dt);
             rd.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, true, "applyProve");
-            //rd.ExportToDisk(ExportFormatType.PortableDocFormat, "applyProve.pdf");
         }
     }
 }

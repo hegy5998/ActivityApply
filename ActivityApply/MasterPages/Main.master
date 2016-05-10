@@ -12,7 +12,7 @@
         <!--header start-->
         <header class="header black-bg">
             <div class="sidebar-toggle-box" style="padding-right:0px;">
-                <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation" style="background-image: url(assets/img/ic_list.png);width:34px;height:34px;"></div>
+                <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation" style="background-image: url(assets/img/ic_menu_black_36dp.png);width:24px;height:24px;"></div>
             </div>
             <!--logo start-->
             <a href="index.aspx" class="logo">

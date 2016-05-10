@@ -153,6 +153,7 @@
     <Content Include="Css\Images\Icons\tree.png" />
     <Content Include="Css\Images\Icons\user.png" />
     <Content Include="Css\Images\Icons\yes.png" />
+    <Content Include="Css\Images\ic_menu_black_36dp.png" />
     <Content Include="Css\Images\JqueryUI\arrow_left.png" />
     <Content Include="Css\Images\JqueryUI\arrow_left_hover.png" />
     <Content Include="Css\Images\JqueryUI\glass.png" />
