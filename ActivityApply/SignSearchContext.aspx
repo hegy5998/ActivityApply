@@ -78,11 +78,11 @@
                                 </div>
                                 <div class="modal-body">
                                     <p class="p">舊密碼</p>
-                                    <asp:TextBox ID="old_password_txt" runat="server" CssClass="form-control placeholder-no-fix" TextMode="Password" minlength="4"></asp:TextBox>
+                                    <asp:TextBox ID="old_password_txt" runat="server" CssClass="form-control placeholder-no-fix" TextMode="Password" minlength="4" MaxLength="20"></asp:TextBox>
                                     <p class="p">新密碼</p>
-                                    <asp:TextBox ID="new_password_txt" runat="server" CssClass="form-control placeholder-no-fix" TextMode="Password" minlength="4"></asp:TextBox>
+                                    <asp:TextBox ID="new_password_txt" runat="server" CssClass="form-control placeholder-no-fix" TextMode="Password" minlength="4" MaxLength="20"></asp:TextBox>
                                     <p class="p">再次確認密碼</p>
-                                    <asp:TextBox ID="new_password_check_txt" runat="server" CssClass="form-control placeholder-no-fix" TextMode="Password" minlength="4"></asp:TextBox>
+                                    <asp:TextBox ID="new_password_check_txt" runat="server" CssClass="form-control placeholder-no-fix" TextMode="Password" minlength="4" MaxLength="20"></asp:TextBox>
                                 </div>
                                 <div class="modal-footer">
                                     <button data-dismiss="modal" class="btn btn-theme" type="button">取消</button>
@@ -209,7 +209,7 @@
                                 <h4 class="modal-title">請輸入密碼</h4>
                             </div>
                             <div class="modal-body">
-                                <asp:TextBox CssClass="form-control placeholder-no-fix" ID="password_txt" runat="server" TextMode="Password" minlength="4"></asp:TextBox>
+                                <asp:TextBox CssClass="form-control placeholder-no-fix" ID="password_txt" runat="server" TextMode="Password" minlength="4" MaxLength="20"></asp:TextBox>
                             </div>
                             <div class="modal-footer">
                                 <asp:Button ID="password_cancle_btn" runat="server" Text="取消" CssClass="btn btn-theme" />

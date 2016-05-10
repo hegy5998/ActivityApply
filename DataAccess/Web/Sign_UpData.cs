@@ -77,12 +77,15 @@ namespace DataAccess.Web
         }
         public List<Activity_sessionInfo> isFull(int aa_as)
         {
-            string sql = @" SELECT      activity_session.as_idn
-                            FROM        activity_apply
-                            LEFT JOIN   activity_session ON activity_session.as_idn = activity_apply.aa_as
-                            WHERE       activity_apply.aa_as = @aa_as
-                            GROUP BY    activity_session.as_idn, activity_session.as_num_limit
-                            HAVING      COUNT(activity_apply.aa_idn) < activity_session.as_num_limit;";
+            string sql = @" SELECT as_idn 
+                            FROM activity_session 
+                            cross apply 
+                                (SELECT COUNT(*) as num 
+                                FROM activity_apply 
+                                WHERE aa_as = @aa_as ) as apply 
+                            WHERE as_idn = @aa_as 
+                            GROUP BY as_num_limit,apply.num,as_idn 
+                            HAVING apply.num < as_num_limit;";
             IDataParameter[] param = { Db.GetParam("@aa_as", aa_as) };
             return Db.GetEnumerable<Activity_sessionInfo>(sql, param).ToList();
         }

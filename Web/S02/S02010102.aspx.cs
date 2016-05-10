@@ -545,6 +545,7 @@ namespace Web.S02
                                     label.Text = null;
                                     gvrEdit.Cells[checkEdit].Controls.Add(label);
 
+                                    //記錄Row的index
                                     row_idn_hf.Value = e.Row.RowIndex.ToString();
 
                                     checkEdit++;

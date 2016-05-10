@@ -109,6 +109,7 @@
     <Content Include="assets\img\friends\fr-10.jpg" />
     <Content Include="assets\img\friends\fr-11.jpg" />
     <Content Include="assets\img\ic_list.png" />
+    <Content Include="assets\img\ic_menu_black_36dp.png" />
     <Content Include="assets\img\instagram.jpg" />
     <Content Include="assets\img\login-bg.jpg" />
     <Content Include="assets\img\lorde.jpg" />

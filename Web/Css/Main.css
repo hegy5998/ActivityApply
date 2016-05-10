@@ -11,10 +11,11 @@
 /* ---------- Header ---------- */
 #mainHeader
 {
-    height: 90px;
-    background: #e3f8c0 no-repeat left;
+    height: 60px;
+    background: #ECECE4 no-repeat left;
+    border-bottom: 1px solid #c9aa5f;
     text-indent: -999px;
-    margin-bottom: 3px;
+    margin-bottom: 0px;
 }
 #mainHeaderSysName
 {
@@ -27,7 +28,6 @@
 #mainSubWrapper
 {
     zoom:1;
-    background: url(Images/mainContentBg.jpg) top repeat-x;
     /*overflow: hidden;*/
     position:relative;
 }
@@ -46,33 +46,31 @@
 {
 	float: left;
 	position: absolute;
-	left: 170px;
-	width: 20px;
-	height: 16px;
+	left: 5px;
+	width: 40px;
+	height: 32px;
 	display: inline-block;
-    background: url(Images/arrowLeft.png) right -24px no-repeat;
-    margin-top: 3px;
+    background: url(Images/ic_menu_black_24dp.png);
+    margin-top: 12px;
     top:0px;
 }
 #mainMenuOp:hover
 {
-    background-position: right top;
 }
-#mainMenuOp.fullview
-{
-	left: 0;
-    background: url(Images/arrowRight.png) 2px -24px no-repeat;
+#mainMenuOp.fullview {
+    left: 5px;
+    background: url(Images/ic_menu_black_24dp.png);
 }
 #mainMenuOp.fullview:hover
 {
-    background-position: 2px top;
+    background-position: 0px top;
 }
 #mainMenu
 {
     /*float: left;*/
     width: 185px;
 	position: relative;
-    background: url(Images/mainMenuBg.jpg) #e0e8c1 repeat-y;
+    background: url(Images/mainMenuBg.jpg) #424a5d repeat-y;
     min-height: 443px;
     font-family: '微軟正黑體',sans-serif;
 	display: table-cell;
@@ -91,21 +89,21 @@
 }
 #mainLoginInfo
 {
-    margin-top: 3px;
+    margin-top: 12px;
     margin-bottom: 7px;
-    color: #124a25;
+    color: #f2f2f2;
     padding-left: 6px;
     font-size: 13px;
+    margin-left: 18px;
 }
 #mainMenuBottomOp
 {
     text-align: center;
     margin-top: 10px;
-    margin-left: -5px;
 }
 #mainMenuBottomOp a
 {
-    color: #526346;
+    color: #f2f2f2;
 }
 .mainMenuModule
 {
@@ -122,15 +120,22 @@
     left: -3px;
     width: 182px;
     height: 41px;
-    background: url(Images/mainMenuModuledBg.png);
     font-size: 14px;
     margin-bottom: 3px;
-    color: #2a6009; 
+    color: #aeb2b7; 
 }
 .mainMenuModule>li>a:hover
 {
     text-decoration: none;
     color: #FFF;
+    background: #68dff0;
+    transition: all 0.3s ease;
+}
+.mainMenuModule>li>a.active
+{
+    background: #68dff0;
+    color:#FFF;
+    font-weight: bold;
 }
 .mainMenuModule>li>a>div
 {
@@ -158,8 +163,7 @@
 }
 .mainMenuProcess>li>a
 {
-    color:#526346;
-    background: url(Images/mainMenuProcessBg.jpg) no-repeat top #dfecce;
+    color:#aeb2b7;
     width: 169px;
     min-height: 26px;
     display: block;
@@ -167,16 +171,16 @@
 .mainMenuProcess>li>a:hover
 {
     /*text-decoration: none;*/
-    color:#4c9e11;
+    color: white;
+    transition: all 0.3s ease;
 }
 .mainMenuProcess>li>a>div
 {
-    padding: 3px 0 3px 33px;
+    padding: 3px 0 3px 50px;
 }
 .mainMenuProcess > li > a.active
 {
-    background: url(Images/mainMenuProcessActiveBg.jpg) no-repeat top #dfecce;
-    color:#54a114;
+    color:#68dff0;
     font-weight: bold;
 }
 
@@ -186,7 +190,7 @@
     /*float: right;*/
     width: 100%;
     /*margin-left: -196px;*/
-    /*background: url(Images/mainMenuExtendBg.jpg) repeat-y;*/
+    background-color: #F2F2F2;
 	display: table-cell;
 	vertical-align: top;
 }
@@ -210,14 +214,13 @@
 #processHeader
 {
     font-family: '微軟正黑體',sans-serif;
-    height: 55px;
-    background: url(Images/mainTitleBg.png) no-repeat left;
-    padding-left: 50px;
+    height: 25px;
+    padding-left: 10px;
     margin-left: -4px;
     margin-top: 7px;
-    line-height: 58px;
-    font-size: 18px;
-    color:#2b681d;
+    margin-bottom: 15px;
+    line-height: 40px;
+    font-size: 24px;
 }
 
 #processContentSubFunction
@@ -229,11 +232,11 @@
 
 #processContentSubFunctionInner 
 {
-    min-height: 40px;
-    border-top: 1px solid #ced9a2;
-    border-bottom: 1px solid #ced9a2;
-    background: #ebf2d8;
-    padding: 0 5px;
+    background: #ffffff;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0px 3px 2px #aab2bd;
+    box-sizing: border-box;
 }
 
 #processContentSubFunctionInner.stick
@@ -255,25 +258,30 @@
     display: inline-block;
     text-align: center;
     font-family: 微軟正黑體,sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     text-decoration: none;
-    background-image: url(Images/bt_bg01.jpg);
-    color: #000;
-    border: #fff 1px solid;
+    color: #fff;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-color: #428bca;
+    border-color: #357ebd;
+    -webkit-border-radius: 20px;
     -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
     border-radius: 8px;
-    box-shadow: 1px 1px 5px #485a34;
-    margin: 7px 5px;
-    padding: 3px 10px;
+    box-shadow: 1px 1px 5px #6F6F6F;
+    margin: 0px 5px;
+    padding: 6px 12px;
+    margin-bottom: 0px;
     cursor:pointer;
+    background-image: none;
+    border: 1px solid transparent;
 }
 
 #processContentSubFunctionInner>div>input:hover
 {
-    background-image: url(Images/bt_bg02.jpg);
-    color: #FFF;
-    border: #fff 1px solid;
+    color: #fff;
+    background-color: #3071a9;
+    border-color: #285e8e;
 }
 
 #processContent
@@ -295,13 +303,12 @@
 {
     height: 70px;
     background: url(Images/mainMenuExtendBg.jpg);
-    margin-top: 3px;
+    margin-top: 0px;
 	position: relative;
 }
 #mainFooter>div
 {
     height: 70px;
-    background: url(Images/mainFooterBg.jpg) right no-repeat;
 	padding: 5px 0 0 20px;
 }
 

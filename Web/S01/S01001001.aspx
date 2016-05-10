@@ -28,12 +28,21 @@
                     &nbsp;<asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="btnGrv cancel" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
                 </FooterTemplate>
                 <HeaderTemplate>
-                    <asp:Button ID="add_btn" runat="server" CommandName="Add" CssClass="btnGrv add" Text="新增" ToolTip="新增" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
-                </HeaderTemplate>
+                    <span  style="position:relative;">
+                    <i class="fa fa-plus btn btn-success btn-xs" aria-hidden="true"></i>
+                    <asp:Button ID="add_btn" runat="server" CommandName="Add" CssClass="movedown" Text="新增" ToolTip="新增" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                </span>
+                        </HeaderTemplate>
                 <ItemTemplate>
-                    <asp:Button ID="view_btn" runat="server" CommandName="Select" CssClass="btnGrv edit" Text="編輯" ToolTip="編輯" UseSubmitBehavior="False" />
-                    &nbsp;<asp:Button ID="delete_btn" runat="server" CommandName="Delete" CssClass="btnGrv delete" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
-                    <asp:HiddenField ID="rowDefaultTriggerControlID_hf" runat="server" EnableViewState="False" Value="view_btn" />
+                    <span  style="position:relative;">
+                    <i class="fa fa-pencil btn btn-primary btn-xs" aria-hidden="true"></i>
+                    <asp:Button ID="view_btn" runat="server" CommandName="Select" CssClass="movedown" Text="編輯" ToolTip="編輯" UseSubmitBehavior="False" />
+                    </span>&nbsp;
+                    <span  style="position:relative;">
+                    <i class="fa fa-trash-o btn btn-danger btn-xs" aria-hidden="true"></i>
+                    <asp:Button ID="delete_btn" runat="server" CommandName="Delete" CssClass="movedown" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                    </span>
+                        <asp:HiddenField ID="rowDefaultTriggerControlID_hf" runat="server" EnableViewState="False" Value="view_btn" />
                 </ItemTemplate>
                 <FooterStyle HorizontalAlign="Center" />
                 <HeaderStyle Width="70px" />

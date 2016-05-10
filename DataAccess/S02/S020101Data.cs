@@ -371,7 +371,7 @@ namespace DataAccess
         #endregion
 
         #region 取得活動idn
-        public DataTable Getactidn(int asidn)
+        public DataTable Getactidn (int asidn)
         {
             StringBuilder sql_sb = new StringBuilder();
 
@@ -436,26 +436,31 @@ namespace DataAccess
         #endregion
 
         #region 取得查詢資料
-        public DataTable GetQueryData(string keyword, int tab)
+        //取得查詢資料(依分類)
+        public DataTable GetQueryClassData(string keyword, int tab, string cl)
         {
             StringBuilder sql_sb = new StringBuilder();
 
             sql_sb.Append(@"
-                SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen
-                FROM activity, activity_session
+                SELECT as_idn, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_idn, ac_title, as_isopen, act_isopen
+                FROM activity, activity_class, activity_session
                 LEFT JOIN activity_apply
                 ON aa_as = as_idn
                 WHERE as_act = act_idn AND
-                      act_title LIKE '%[" + @keyword + @"]%' AND
-	                  as_isopen = @tab AND
+                      ac_title LIKE '" + @cl + @"' AND
+		              (act_title LIKE '%" + @keyword + @"%' OR
+                      as_title LIKE '%" + @keyword + @"%') AND
+		              as_isopen = @tab AND
+                      act_class = ac_idn AND
 	                  CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121)
-                      GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen
-                      ORDER BY act_title");
+                GROUP BY as_idn, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_idn, ac_title, as_isopen, act_isopen
+                ORDER BY act_title");
 
             //關鍵字 & 頁籤
             var param_lst = new List<IDataParameter>() {
                 Db.GetParam("@keyword", keyword),
                 Db.GetParam("@tab", tab),
+                Db.GetParam("@cl", cl),
             };
 
             return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
@@ -463,20 +468,25 @@ namespace DataAccess
         #endregion
 
         #region 取得已結束活動查詢資料
-        public DataTable GetQueryEndData(string keyword)
+        //取得已結束活動查詢資料(依分類)
+        public DataTable GetQueryEndClassData(string keyword)
         {
             StringBuilder sql_sb = new StringBuilder();
 
             sql_sb.Append(@"
-                SELECT as_idn, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_idn
-                FROM activity, activity_session
+                SELECT as_idn, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_idn, ac_title, as_isopen, act_isopen
+                FROM activity, activity_class, activity_session
                 LEFT JOIN activity_apply
                 ON aa_as = as_idn
                 WHERE as_act = act_idn AND
-                      act_title LIKE '%[" + @keyword + @"]%' AND
+                      ac_title LIKE '" + @keyword + @"' AND
+		              (act_title LIKE '%" + @keyword + @"%' OR
+                      as_title LIKE '%" + @keyword + @"%') AND
+		              as_isopen = @tab AND
+                      act_class = ac_idn AND
 	                  CONVERT(datetime, as_date_end, 121) <= CONVERT(varchar, GETDATE(), 121)
-                      GROUP BY as_idn, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_idn
-                      ORDER BY act_title");
+                GROUP BY as_idn, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_idn, ac_title, as_isopen, act_isopen
+                ORDER BY act_title");
 
             //關鍵字
             var param_lst = new List<IDataParameter>() {
@@ -525,7 +535,7 @@ namespace DataAccess
         }
 
         //取得email資料
-        public DataTable GetEmailData()
+        public DataTable GetEmailData ()
         {
             StringBuilder sql_sb = new StringBuilder();
 
@@ -589,6 +599,17 @@ namespace DataAccess
 
             return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
         }
-    }
 
+        //取得分類資料
+        public DataTable GetClassData()
+        {
+            StringBuilder sql_sb = new StringBuilder();
+
+            sql_sb.Append(@"
+                SELECT ac_title, ac_idn
+                FROM activity_class");
+
+            return Db.GetDataTable(sql_sb.ToString());
+        }
+    }
 }

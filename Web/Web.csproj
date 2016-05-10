@@ -134,7 +134,7 @@
     <Content Include="Css\Images\bt_bg01.jpg" />
     <Content Include="Css\Images\bt_bg02.jpg" />
     <Content Include="Css\Images\ForgetPwdBg.jpg" />
-    <Content Include="Css\Images\Icons\add.gif" />
+    <Content Include="Css\Images\Icons\add.png" />
     <Content Include="Css\Images\Icons\airliner.gif" />
     <Content Include="Css\Images\Icons\cancel.png" />
     <Content Include="Css\Images\Icons\close.png" />
@@ -153,6 +153,7 @@
     <Content Include="Css\Images\Icons\tree.png" />
     <Content Include="Css\Images\Icons\user.png" />
     <Content Include="Css\Images\Icons\yes.png" />
+    <Content Include="Css\Images\ic_menu_black_24dp.png" />
     <Content Include="Css\Images\JqueryUI\arrow_left.png" />
     <Content Include="Css\Images\JqueryUI\arrow_left_hover.png" />
     <Content Include="Css\Images\JqueryUI\glass.png" />
@@ -274,7 +275,6 @@
     <Content Include="Scripts\Lib\assets\css\to-do.css" />
     <Content Include="Scripts\Lib\assets\css\zabuto_calendar.css" />
     <Content Include="Scripts\Lib\assets\font-awesome\css\font-awesome.css" />
-    <Content Include="Scripts\Lib\assets\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="Scripts\Lib\assets\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Scripts\Lib\assets\img\12767525_955825364513665_1121294852_n.jpg" />
     <Content Include="Scripts\Lib\assets\img\blog-bg.jpg" />
@@ -855,12 +855,6 @@
     <Content Include="Scripts\Lib\assets\.DS_Store" />
     <Content Include="Scripts\Lib\assets\css\.DS_Store" />
     <Content Include="Scripts\Lib\assets\font-awesome\.DS_Store" />
-    <Content Include="Scripts\Lib\assets\font-awesome\css\.DS_Store" />
-    <Content Include="Scripts\Lib\assets\font-awesome\fonts\.DS_Store" />
-    <Content Include="Scripts\Lib\assets\font-awesome\fonts\fontawesome-webfont.eot" />
-    <Content Include="Scripts\Lib\assets\font-awesome\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Scripts\Lib\assets\font-awesome\fonts\fontawesome-webfont.woff" />
-    <Content Include="Scripts\Lib\assets\font-awesome\fonts\FontAwesome.otf" />
     <Content Include="Scripts\Lib\assets\fonts\.DS_Store" />
     <Content Include="Scripts\Lib\assets\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\Lib\assets\fonts\glyphicons-halflings-regular.ttf" />
@@ -1393,6 +1387,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Scripts\Lib\assets\font-awesome\fonts\" />
     <Folder Include="Template\" />
   </ItemGroup>
   <PropertyGroup>
