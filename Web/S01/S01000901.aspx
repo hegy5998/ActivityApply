@@ -24,8 +24,11 @@
                 <Columns>
                     <asp:TemplateField HeaderText="操作">
                         <ItemTemplate>
-                            <asp:Button ID="edit_btn" runat="server" CommandName="Set" CommandArgument='<%# Item.Sys_pid %>' CssClass="btnGrv edit" Text="設定權限" ToolTip="設定權限" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
-                            <asp:HiddenField ID="rowDefaultTriggerControlID_hf" runat="server" EnableViewState="False" Value="edit_btn" />
+                    <span style="position: relative;">
+                        <i class="fa fa-pencil btn btn-primary btn-xs" aria-hidden="true"></i>
+                            <asp:Button ID="edit_btn" runat="server" CommandName="Set" CommandArgument='<%# Item.Sys_pid %>' CssClass="movedown" Text="設定權限" ToolTip="設定權限" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                        </span>    
+                        <asp:HiddenField ID="rowDefaultTriggerControlID_hf" runat="server" EnableViewState="False" Value="edit_btn" />
                         </ItemTemplate>
                         <ItemStyle HorizontalAlign="Center" Wrap="False" />
                         <HeaderTemplate>
@@ -55,8 +58,11 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="子功能" ShowHeader="False">
                         <ItemTemplate>
-                            <asp:Button ID="subFunc_btn" runat="server" CommandArgument="<%# Item.Sys_pid %>" CssClass="btnGrv set" Text="設定" ToolTip="設定" OnClick="subFunc_btn_Click" UseSubmitBehavior="False" Visible="false" />
-                        </ItemTemplate>
+                            <span style="position: relative;">
+                        <i class="fa fa-cog fa-lg" aria-hidden="true"></i>
+                            <asp:Button ID="subFunc_btn" runat="server" CommandArgument="<%# Item.Sys_pid %>" CssClass="movedown" Text="設定" ToolTip="設定" OnClick="subFunc_btn_Click" UseSubmitBehavior="False" Visible="false" />
+                        </span>
+                                </ItemTemplate>
                         <HeaderStyle Width="60px" Wrap="False"  />
                         <ItemStyle HorizontalAlign="Center"  Wrap="False" />
                     </asp:TemplateField>

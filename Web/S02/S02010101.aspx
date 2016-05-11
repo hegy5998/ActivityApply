@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true" CodeBehind="S02010101.aspx.cs" Inherits="Web.S02.S02010101" %>
+
 <%@ Import Namespace="Util" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 <%@ Register Src="~/UserControls/UCSystemModule.ascx" TagPrefix="uc1" TagName="UCSystemModule" %>
@@ -37,11 +38,11 @@
  
                 //換頁動作activate
                 activate: function (event, ui) {   
-                //取得選取的頁籤編號
-                var newIndex = ui.newTab.parent().children().index(ui.newTab);  
+                    //取得選取的頁籤編號
+                    var newIndex = ui.newTab.parent().children().index(ui.newTab);  
  
-                //記錄到cookie
-                $.cookie("tabs", newIndex, { expires: 1 });                        
+                    //記錄到cookie
+                    $.cookie("tabs", newIndex, { expires: 1 });                        
                 }
             });          
         })
@@ -56,16 +57,18 @@
         <asp:UpdatePanel runat="server" ID="UpdatePanel3" ChildrenAsTriggers="false" UpdateMode="Conditional">
             <ContentTemplate>
                 <!--活動查詢 START-->
-                <div class="QueryTable">
-                    <table class="grv">
-                        <tr class="grvDataRow">
-                            <th style="width: 100px;">活動查詢</th>
-                            <td>
-                                <asp:DropDownList runat="server" ID="q_keyword_ddl" ></asp:DropDownList>
-                                <asp:TextBox runat="server" ID="q_keyword_tb" />
-                            </td>
-                            <td rowspan="2" style="width: 100px; text-align: center;">
-                                <asp:Button runat="server" ID="q_query_btn" Text="查詢" OnClick="q_query_btn_Click" />
+                <div style="margin-left: 20px;">
+                    <table class="table">
+                        <tr>
+                            <td style="padding-bottom: 2px;">
+                                <asp:DropDownList runat="server" ID="q_keyword_ddl"></asp:DropDownList>
+                                <asp:TextBox runat="server" ID="q_keyword_tb" style="width:200px"/>
+                                <span style="position: relative;">
+                                    <i class="fa fa-search btn btn-primary btn-xs" aria-hidden="true" style="margin-bottom: 4px;">
+                                        <label style="margin-top: 3px;">查詢</label>
+                                    </i>
+                                    <asp:Button runat="server" ID="q_query_btn" CssClass="movedown" Text="查詢" OnClick="q_query_btn_Click" />
+                                </span>
                             </td>
                         </tr>
                     </table>
@@ -77,7 +80,7 @@
                 *********************************************************************************************************************************************************** -->
                 <!--main content start-->
                 <div class="row">
-                    <div class="content-panel">
+                    <div class="content-panel" style="box-shadow: none">
                         <!--頁籤 START-->
                         <div role="tabpanel" id="tabs">
                             <!-- 頁籤標題 START -->
@@ -96,14 +99,14 @@
                                         <ContentTemplate>
                                             <asp:GridView ID="main_gv" runat="server" class="table table-striped" AutoGenerateColumns="False" ShowHeaderWhenEmpty="True" OnRowCommand="main_gv_RowCommand" OnRowDeleting="main_gv_RowDeleting" OnSorting="main_gv_Sorting" ViewStateMode="Enabled" OnRowEditing="main_gv_RowClose">
                                                 <Columns>
-                                                    <%-- 活動標題 --%> 
+                                                    <%-- 活動標題 --%>
                                                     <asp:TemplateField HeaderText="活動標題">
                                                         <ItemTemplate>
-                                                            <input id="viewActiviity" type="button" class="btn-link" value='<%# Eval("act_title") %>' Onclick="GoToActivity(<%# Eval("act_idn") %>);" />
+                                                            <input id="viewActiviity" type="button" class="btn-link" value='<%# Eval("act_title") %>' onclick="GoToActivity(<%# Eval("act_idn") %>);" />
                                                             <asp:HiddenField ID="as_idn_hf" runat="server" Value='<%# Eval("as_idn") %>' />
                                                             <asp:HiddenField ID="as_isopen_hf" runat="server" Value='<%# Eval("as_isopen") %>' />
                                                             <asp:HiddenField ID="act_idn_hf" runat="server" Value='<%# Eval("act_idn") %>' />
-                                                            <asp:HiddenField ID ="act_isopen_hf" runat="server" Value='<%# Eval("act_isopen") %>' />
+                                                            <asp:HiddenField ID="act_isopen_hf" runat="server" Value='<%# Eval("act_isopen") %>' />
                                                         </ItemTemplate>
 
                                                         <HeaderStyle />
@@ -126,38 +129,44 @@
                                                             <asp:Label ID="as_num" runat="server" Text='<%# Bind("as_num") %>'></asp:Label>/<asp:Label ID="as_num_limit_lbl" runat="server" Text='<%# Bind("as_num_limit") %>'></asp:Label>
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle Width="70px"/>
+                                                        <HeaderStyle Width="70px" />
                                                         <ItemStyle CssClass="center" />
                                                     </asp:TemplateField>
 
                                                     <%-- 活動日期 --%>
                                                     <asp:TemplateField HeaderText="活動日期">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="as_date_start_lbl" runat="server" Text='<%# Bind("as_date_start") %>'></asp:Label> <asp:Label ID="as_date_starttime_lbl" runat="server" Text='<%# Bind("as_date_starttime") %>'></asp:Label>
-                                                             ~ <br />
-                                                            <asp:Label ID="as_date_end_lbl" runat="server" Text='<%# Bind("as_date_end") %>'></asp:Label> <asp:Label ID="as_date_endtime" runat="server" Text='<%# Bind("as_date_endtime") %>'></asp:Label>
+                                                            <asp:Label ID="as_date_start_lbl" runat="server" Text='<%# Bind("as_date_start") %>'></asp:Label>
+                                                            <asp:Label ID="as_date_starttime_lbl" runat="server" Text='<%# Bind("as_date_starttime") %>'></asp:Label>
+                                                            ~
+                                                            <br />
+                                                            <asp:Label ID="as_date_end_lbl" runat="server" Text='<%# Bind("as_date_end") %>'></asp:Label>
+                                                            <asp:Label ID="as_date_endtime" runat="server" Text='<%# Bind("as_date_endtime") %>'></asp:Label>
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle Width="150px"/>
+                                                        <HeaderStyle Width="150px" />
                                                         <ItemStyle CssClass="center" />
                                                     </asp:TemplateField>
 
                                                     <%-- 報名起訖 --%>
                                                     <asp:TemplateField HeaderText="報名起訖">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="as_apply_start_lbl" runat="server" Text='<%# Bind("as_apply_start") %>'></asp:Label> <asp:Label ID="as_apply_starttime_lbl" runat="server" Text='<%# Bind("as_apply_starttime") %>'></asp:Label>
-                                                             ~ <br />
-                                                            <asp:Label ID="as_apply_end_lbl" runat="server" Text='<%# Bind("as_apply_end") %>'></asp:Label> <asp:Label ID="as_apply_endtime_lbl" runat="server" Text='<%# Bind("as_apply_endtime") %>'></asp:Label>
+                                                            <asp:Label ID="as_apply_start_lbl" runat="server" Text='<%# Bind("as_apply_start") %>'></asp:Label>
+                                                            <asp:Label ID="as_apply_starttime_lbl" runat="server" Text='<%# Bind("as_apply_starttime") %>'></asp:Label>
+                                                            ~
+                                                            <br />
+                                                            <asp:Label ID="as_apply_end_lbl" runat="server" Text='<%# Bind("as_apply_end") %>'></asp:Label>
+                                                            <asp:Label ID="as_apply_endtime_lbl" runat="server" Text='<%# Bind("as_apply_endtime") %>'></asp:Label>
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle Width="150px"/>
+                                                        <HeaderStyle Width="150px" />
                                                         <ItemStyle CssClass="center" />
                                                     </asp:TemplateField>
 
                                                     <%-- 報名資料 --%>
                                                     <asp:TemplateField HeaderText="報名資料">
                                                         <ItemTemplate>
-                                                            <input id="checkApply" type="button" class="btn-link" value="查看" Onclick="GoTo(<%# Eval("as_idn") %>);" />/<asp:Button ID="download_btn" runat="server" CommandName="download" class="btn-link" Text="下載" ToolTip="下載" UseSubmitBehavior="False" CommandArgument='<%# Eval("as_idn") %>' />
+                                                            <input id="checkApply" type="button" class="btn-link" value="查看" onclick="GoTo(<%# Eval("as_idn") %>);" />/<asp:Button ID="download_btn" runat="server" CommandName="download" class="btn-link" Text="下載" ToolTip="下載" UseSubmitBehavior="False" CommandArgument='<%# Eval("as_idn") %>' />
                                                             <asp:UpdatePanel runat="server" ID="download_upd">
                                                                 <Triggers>
                                                                     <asp:PostBackTrigger ControlID="download_btn" />
@@ -165,17 +174,17 @@
                                                             </asp:UpdatePanel>
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle Width="110px"/>
+                                                        <HeaderStyle Width="110px" />
                                                         <ItemStyle CssClass="center" />
                                                     </asp:TemplateField>
 
                                                     <%-- 基本功能 --%>
                                                     <asp:TemplateField HeaderText="基本功能">
                                                         <ItemTemplate>
-                                                            <asp:Button ID="editActivity_btn" runat="server" CommandName="EditActivity" class="btn-link" Text="修改" ToolTip="修改" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" CommandArgument='<%# Eval("act_idn") %>'/>/<asp:Button ID="delete_btn" runat="server" CommandName="Delete" class="btn-link" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />/<asp:Button ID="edit_btn" runat="server" CommandName="Edit" class="btn-link" OnClientClick="if (!confirm(&quot;確定要關閉嗎?&quot;)) return false" Text="關閉" ToolTip="關閉" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />/<asp:Button ID="set_btn" runat="server" CommandName="Set" class="btn-link" Text="協作者" ToolTip="協作者" UseSubmitBehavior="False" />
+                                                            <asp:Button ID="editActivity_btn" runat="server" CommandName="EditActivity" class="btn-link" Text="修改" ToolTip="修改" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" CommandArgument='<%# Eval("act_idn") %>' />/<asp:Button ID="delete_btn" runat="server" CommandName="Delete" class="btn-link" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />/<asp:Button ID="edit_btn" runat="server" CommandName="Edit" class="btn-link" OnClientClick="if (!confirm(&quot;確定要關閉嗎?&quot;)) return false" Text="關閉" ToolTip="關閉" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />/<asp:Button ID="set_btn" runat="server" CommandName="Set" class="btn-link" Text="協作者" ToolTip="協作者" UseSubmitBehavior="False" />
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle Width="230px"/>
+                                                        <HeaderStyle Width="230px" />
                                                         <ItemStyle CssClass="center" />
                                                     </asp:TemplateField>
                                                 </Columns>
@@ -202,7 +211,7 @@
 
                                                     <!-- 關閉按鈕 -->
                                                     <asp:Button ID="controlSet_cancel_btn" CssClass="close" runat="server" Text="關閉" ToolTip="關閉" OnClick="controlSet_cancel_btn_Click" UseSubmitBehavior="False" />
-                                                    <asp:Button ID="controlSet_OK_btn" CssClass="open"  runat="server" Text="開啟" ToolTip="開啟" UseSubmitBehavior="False" />
+                                                    <asp:Button ID="controlSet_OK_btn" CssClass="open" runat="server" Text="開啟" ToolTip="開啟" UseSubmitBehavior="False" />
                                                 </div>
                                                 <!-- 協作者標頭 END -->
 
@@ -216,53 +225,77 @@
                                                                     <%--主要view(GridView) START--%>
                                                                     <asp:View ID="main_view" runat="server">
                                                                         <!-- 設定協作者的key -->
-                                                                        <div> 
+                                                                        <div>
                                                                             <asp:HiddenField ID="copperate_cop_act_hf" runat="server" />
                                                                             <asp:HiddenField ID="new_hf" runat="server" />
                                                                         </div>
 
                                                                         <!-- GridView START -->
-                                                                        <asp:GridView ID="controlSet_gv" runat="server" AutoGenerateColumns="False" OnRowCancelingEdit="controlSet_gv_RowCancelingEdit" OnRowCommand="controlSet_gv_RowCommand" OnRowEditing="controlSet_gv_RowEditing" OnRowUpdating="controlSet_gv_RowUpdating" ShowHeaderWhenEmpty="True" OnRowDeleting="controlSet_gv_RowDeleting" OnRowDataBound="controlSet_gv_RowDataBound" OnSorting="controlSet_gv_Sorting" OnRowCreated="controlSet_gv_RowCreated" >
+                                                                        <asp:GridView ID="controlSet_gv" runat="server" AutoGenerateColumns="False" OnRowCancelingEdit="controlSet_gv_RowCancelingEdit" OnRowCommand="controlSet_gv_RowCommand" OnRowEditing="controlSet_gv_RowEditing" OnRowUpdating="controlSet_gv_RowUpdating" ShowHeaderWhenEmpty="True" OnRowDeleting="controlSet_gv_RowDeleting" OnRowDataBound="controlSet_gv_RowDataBound" OnSorting="controlSet_gv_Sorting" OnRowCreated="controlSet_gv_RowCreated">
                                                                             <Columns>
                                                                                 <%--操作--%>
                                                                                 <asp:TemplateField ShowHeader="False" HeaderText="操作">
                                                                                     <EditItemTemplate>
-                                                                                        &nbsp;<asp:Button ID="save_btn" runat="server" CommandName="Update" CssClass="btnGrv update" Text="" ToolTip="存檔" UseSubmitBehavior="False" />
-                                                                                        &nbsp;<asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="btnGrv cancel" Text="" ToolTip="取消" UseSubmitBehavior="False" />
+                                                                                        <span style="position: relative;">
+                                                                                            <i class="fa fa-floppy-o btn btn-success btn-xs" aria-hidden="true"></i>
+                                                                                            <asp:Button ID="save_btn" runat="server" CommandName="Update" CssClass="movedown" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
+                                                                                        </span>
+                                                                                        &nbsp;                   
+                                                                                        <span style="position: relative;">
+                                                                                            <i class="fa fa-undo btn btn-warning btn-xs" aria-hidden="true"></i>
+                                                                                            <asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="movedown" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                                                                                        </span>
                                                                                         <asp:HiddenField ID="old_cop_act_hf" runat="server" Value='<%# Eval("cop_act") %>' />
                                                                                         <asp:HiddenField ID="old_cop_id_hf" runat="server" Value='<%# Eval("cop_id") %>' />
                                                                                     </EditItemTemplate>
 
                                                                                     <FooterTemplate>
-                                                                                        <asp:Button ID="save_btn" runat="server" CommandName="AddSave" CssClass="btnGrv update" Text="" ToolTip="存檔" UseSubmitBehavior="False" />
-                                                                                        &nbsp;<asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="btnGrv cancel" Text="" ToolTip="取消" UseSubmitBehavior="False" />
+                                                                                        <span style="position: relative;">
+                                                                                            <i class="fa fa-floppy-o btn btn-success btn-xs" aria-hidden="true"></i>
+                                                                                            <asp:Button ID="save_btn" runat="server" CommandName="AddSave" CssClass="movedown" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
+                                                                                        </span>
+                                                                                        &nbsp;                   
+                                                                                        <span style="position: relative;">
+                                                                                            <i class="fa fa-undo btn btn-warning btn-xs" aria-hidden="true"></i>
+                                                                                            <asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="movedown" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                                                                                        </span>
                                                                                     </FooterTemplate>
 
                                                                                     <HeaderTemplate>
-                                                                                        <asp:Button ID="add_btn" runat="server" CommandName="Add" CssClass="btnGrv add" Text="" ToolTip="新增" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                                                                                        <span style="position: relative;">
+                                                                                            <i class="fa fa-plus btn btn-info btn-xs" aria-hidden="true"></i>
+                                                                                            <asp:Button ID="add_btn" runat="server" CommandName="Add" CssClass="movedown" Text="新增" ToolTip="新增" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                                                                                        </span>
                                                                                     </HeaderTemplate>
 
                                                                                     <ItemTemplate>
-                                                                                        <asp:Button ID="edit_btn" runat="server" CommandName="Edit" CssClass="btnGrv edit" Text="" ToolTip="編輯" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
-                                                                                        &nbsp;<asp:Button ID="delete_btn" runat="server" CommandName="Delete" CssClass="btnGrv delete" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                                                                                        <span style="position: relative;">
+                                                                                            <i class="fa fa-pencil btn btn-primary btn-xs" aria-hidden="true"></i>
+                                                                                            <asp:Button ID="edit_btn" runat="server" CommandName="Edit" CssClass="movedown" Text="編輯" ToolTip="編輯" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                                                                                        </span>
+                                                                                        &nbsp;
+                                                                                        <span style="position: relative;">
+                                                                                            <i class="fa fa-trash-o btn btn-danger btn-xs" aria-hidden="true"></i>
+                                                                                            <asp:Button ID="delete_btn" runat="server" CommandName="Delete" CssClass="movedown" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                                                                                        </span>
                                                                                         <asp:HiddenField ID="rowDefaultTriggerControlID_hf" runat="server" EnableViewState="False" Value="edit_btn" />
                                                                                         <asp:HiddenField ID="cop_act_hf" runat="server" Value='<%# Eval("cop_act") %>' />
                                                                                     </ItemTemplate>
 
                                                                                     <FooterStyle HorizontalAlign="Center" />
-                                                                                    <HeaderStyle Width="70px" />
+                                                                                    <HeaderStyle Width="80px" />
                                                                                     <ItemStyle HorizontalAlign="Center" Wrap="False" />
                                                                                 </asp:TemplateField>
 
                                                                                 <%--帳號--%>
                                                                                 <asp:TemplateField HeaderText="帳號" SortExpression="cop_id">
                                                                                     <EditItemTemplate>
-                                                                                        <asp:Button ID="account_btn" runat="server" Text="請選擇" CommandName="account" CssClass="btn-link" UseSubmitBehavior="false" CommandArgument='<%# Bind("cop_id") %>'/>
+                                                                                        <asp:Button ID="account_btn" runat="server" Text="請選擇" CommandName="account" CssClass="btn-link" UseSubmitBehavior="false" CommandArgument='<%# Bind("cop_id") %>' />
                                                                                         <asp:Label ID="accountEdit_lbl" runat="server" Text=""></asp:Label>
                                                                                     </EditItemTemplate>
 
                                                                                     <FooterTemplate>
-                                                                                        <asp:Button ID="account_btn" runat="server" Text="請選擇" CommandName="account" CssClass="btn-link" UseSubmitBehavior="false" CommandArgument='<%# Bind("cop_id") %>'/>
+                                                                                        <asp:Button ID="account_btn" runat="server" Text="請選擇" CommandName="account" CssClass="btn-link" UseSubmitBehavior="false" CommandArgument='<%# Bind("cop_id") %>' />
                                                                                         <asp:Label ID="account_lbl" runat="server" Text=""></asp:Label>
                                                                                     </FooterTemplate>
 
@@ -277,7 +310,7 @@
                                                                                 <%--權限--%>
                                                                                 <asp:TemplateField HeaderText="權限" SortExpression="cop_authority">
                                                                                     <EditItemTemplate>
-                                                                                        <asp:DropDownList ID="copEdit_authority_dll" runat="server" ></asp:DropDownList>
+                                                                                        <asp:DropDownList ID="copEdit_authority_dll" runat="server"></asp:DropDownList>
                                                                                     </EditItemTemplate>
 
                                                                                     <FooterTemplate>
@@ -299,12 +332,13 @@
                                                                     <%--設定帳號 START--%>
                                                                     <asp:View ID="auth_view" runat="server">
                                                                         <asp:Panel ID="account_pl" runat="server">
-                                                                            <asp:Label ID="accountpassword_lbl" runat="server" Text="設定帳號"></asp:Label><br /><br />
-                                                                            <asp:Button ID="setAccount_btn" runat="server" CssClass="btn-large" Text="確認" UseSubmitBehavior="false" OnClick="setAccount_btn_Click" /><br /><br />
-                                                                            <asp:RadioButtonList id="account_radiobuttonlist" runat="server">
+                                                                            <asp:Label ID="accountpassword_lbl" runat="server" Text="選擇帳號"></asp:Label><br />
+                                                                            <br />                                                                            
+                                                                            <asp:RadioButtonList ID="account_radiobuttonlist" runat="server" CssClass="fv">
                                                                             </asp:RadioButtonList>
                                                                             <asp:HiddenField ID="row_idn_hf" runat="server" />
                                                                         </asp:Panel>
+                                                                        <asp:Button ID="setAccount_btn" runat="server" CssClass="btn btn-default" Text="確認" UseSubmitBehavior="false" OnClick="setAccount_btn_Click" /><br />
                                                                     </asp:View>
                                                                     <%--設定帳號 END--%>
                                                                 </asp:MultiView>
@@ -337,7 +371,7 @@
                                                     <%-- 活動標題 --%>
                                                     <asp:TemplateField HeaderText="活動標題">
                                                         <ItemTemplate>
-                                                            <input id="viewActiviity" type="button" class="btn-link" value='<%# Eval("act_title") %>' Onclick="GoToActivity(<%# Eval("act_idn") %>);" />
+                                                            <input id="viewActiviity" type="button" class="btn-link" value='<%# Eval("act_title") %>' onclick="GoToActivity(<%# Eval("act_idn") %>);" />
                                                             <asp:HiddenField ID="as_idn_hf" runat="server" Value='<%# Eval("as_idn") %>' />
                                                             <asp:HiddenField ID="as_isopen_hf" runat="server" Value='<%# Eval("as_isopen") %>' />
                                                             <asp:HiddenField ID="act_idn_hf" runat="server" Value='<%# Eval("act_idn") %>' />
@@ -364,51 +398,57 @@
                                                             <asp:Label ID="as_num" runat="server" Text='<%# Bind("as_num") %>'></asp:Label>/<asp:Label ID="as_num_limit_lbl" runat="server" Text='<%# Bind("as_num_limit") %>'></asp:Label>
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle Width="70px"/>
+                                                        <HeaderStyle Width="70px" />
                                                         <ItemStyle CssClass="center" />
                                                     </asp:TemplateField>
 
                                                     <%-- 活動日期 --%>
                                                     <asp:TemplateField HeaderText="活動日期">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="as_date_start_lbl" runat="server" Text='<%# Bind("as_date_start") %>'></asp:Label> <asp:Label ID="as_date_starttime_lbl" runat="server" Text='<%# Bind("as_date_starttime") %>'></asp:Label>
-                                                             ~ <br />
-                                                            <asp:Label ID="as_date_end_lbl" runat="server" Text='<%# Bind("as_date_end") %>'></asp:Label> <asp:Label ID="as_date_endtime" runat="server" Text='<%# Bind("as_date_endtime") %>'></asp:Label>
+                                                            <asp:Label ID="as_date_start_lbl" runat="server" Text='<%# Bind("as_date_start") %>'></asp:Label>
+                                                            <asp:Label ID="as_date_starttime_lbl" runat="server" Text='<%# Bind("as_date_starttime") %>'></asp:Label>
+                                                            ~
+                                                            <br />
+                                                            <asp:Label ID="as_date_end_lbl" runat="server" Text='<%# Bind("as_date_end") %>'></asp:Label>
+                                                            <asp:Label ID="as_date_endtime" runat="server" Text='<%# Bind("as_date_endtime") %>'></asp:Label>
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle Width="150px"/>
+                                                        <HeaderStyle Width="150px" />
                                                         <ItemStyle CssClass="center" />
                                                     </asp:TemplateField>
 
                                                     <%-- 報名起訖 --%>
                                                     <asp:TemplateField HeaderText="報名起訖">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="as_apply_start_lbl" runat="server" Text='<%# Bind("as_apply_start") %>'></asp:Label> <asp:Label ID="as_apply_starttime_lbl" runat="server" Text='<%# Bind("as_apply_starttime") %>'></asp:Label>
-                                                             ~ <br />
-                                                            <asp:Label ID="as_apply_end_lbl" runat="server" Text='<%# Bind("as_apply_end") %>'></asp:Label> <asp:Label ID="as_apply_endtime_lbl" runat="server" Text='<%# Bind("as_apply_endtime") %>'></asp:Label>
+                                                            <asp:Label ID="as_apply_start_lbl" runat="server" Text='<%# Bind("as_apply_start") %>'></asp:Label>
+                                                            <asp:Label ID="as_apply_starttime_lbl" runat="server" Text='<%# Bind("as_apply_starttime") %>'></asp:Label>
+                                                            ~
+                                                            <br />
+                                                            <asp:Label ID="as_apply_end_lbl" runat="server" Text='<%# Bind("as_apply_end") %>'></asp:Label>
+                                                            <asp:Label ID="as_apply_endtime_lbl" runat="server" Text='<%# Bind("as_apply_endtime") %>'></asp:Label>
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle Width="150px"/>
+                                                        <HeaderStyle Width="150px" />
                                                         <ItemStyle CssClass="center" />
                                                     </asp:TemplateField>
 
                                                     <%-- 報名資料 --%>
                                                     <asp:TemplateField HeaderText="報名資料">
                                                         <ItemTemplate>
-                                                            <input id="checkApply" type="button" class="btn-link" value="查看" Onclick="GoTo(<%# Eval("as_idn") %>);" />/<asp:Button ID="download_btn" runat="server" CommandName="download" class="btn-link" Text="下載" ToolTip="下載" UseSubmitBehavior="False" CommandArgument='<%# Eval("as_idn") %>' />
+                                                            <input id="checkApply" type="button" class="btn-link" value="查看" onclick="GoTo(<%# Eval("as_idn") %>);" />/<asp:Button ID="download_btn" runat="server" CommandName="download" class="btn-link" Text="下載" ToolTip="下載" UseSubmitBehavior="False" CommandArgument='<%# Eval("as_idn") %>' />
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle Width="110px"/>
+                                                        <HeaderStyle Width="110px" />
                                                         <ItemStyle CssClass="center" />
                                                     </asp:TemplateField>
 
                                                     <%-- 基本功能 --%>
                                                     <asp:TemplateField HeaderText="基本功能">
                                                         <ItemTemplate>
-                                                            <asp:Button ID="editActivity_btn" runat="server" CommandName="EditActivity" class="btn-link" Text="修改" ToolTip="修改" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" CommandArgument='<%# Eval("act_idn") %>'/>/<asp:Button ID="delete_btn" runat="server" CommandName="Delete" class="btn-link" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />/<asp:Button ID="edit_btn" runat="server" CommandName="Edit" class="btn-link" OnClientClick="if (!confirm(&quot;確定要發佈嗎?&quot;)) return false" Text="發佈" ToolTip="發佈" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />/<asp:Button ID="set_btn" runat="server" CommandName="Set_ready" class="btn-link" Text="協作者" ToolTip="協作者" UseSubmitBehavior="False" />
+                                                            <asp:Button ID="editActivity_btn" runat="server" CommandName="EditActivity" class="btn-link" Text="修改" ToolTip="修改" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" CommandArgument='<%# Eval("act_idn") %>' />/<asp:Button ID="delete_btn" runat="server" CommandName="Delete" class="btn-link" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />/<asp:Button ID="edit_btn" runat="server" CommandName="Edit" class="btn-link" OnClientClick="if (!confirm(&quot;確定要發佈嗎?&quot;)) return false" Text="發佈" ToolTip="發佈" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />/<asp:Button ID="set_btn" runat="server" CommandName="Set_ready" class="btn-link" Text="協作者" ToolTip="協作者" UseSubmitBehavior="False" />
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle Width="230px"/>
+                                                        <HeaderStyle Width="230px" />
                                                         <ItemStyle CssClass="center" />
                                                     </asp:TemplateField>
                                                 </Columns>
@@ -435,7 +475,7 @@
 
                                                     <!-- 關閉按鈕 -->
                                                     <asp:Button ID="readyCopperate_OK_btn" CssClass="close" runat="server" Text="關閉" ToolTip="關閉" OnClick="controlSet_cancel_btn_Click" UseSubmitBehavior="False" />
-                                                    <asp:Button ID="readyCopperate_cancel_btn" CssClass="open"  runat="server" Text="開啟" ToolTip="開啟" UseSubmitBehavior="False" />
+                                                    <asp:Button ID="readyCopperate_cancel_btn" CssClass="open" runat="server" Text="開啟" ToolTip="開啟" UseSubmitBehavior="False" />
                                                 </div>
                                                 <!-- 協作者標頭 END -->
 
@@ -444,40 +484,63 @@
                                                     <asp:UpdatePanel ID="UpdatePanel5" runat="server">
                                                         <ContentTemplate>
                                                             <!-- 設定協作者的key -->
-                                                            <div> 
+                                                            <div>
                                                                 <asp:HiddenField ID="cop_act_ready_hf" runat="server" />
                                                             </div>
 
                                                             <!-- GridView START -->
-                                                            <asp:GridView ID="ready_copperate" runat="server" AutoGenerateColumns="False" OnRowCancelingEdit="controlSetReady_gv_RowCancelingEdit" OnRowCommand="controlSet_gv_RowCommand" OnRowEditing="controlSetReady_gv_RowEditing" OnRowUpdating="controlSetReady_gv_RowUpdating" ShowHeaderWhenEmpty="True" OnRowDeleting="controlSetReady_gv_RowDeleting" OnRowDataBound="controlSet_gv_RowDataBound" OnSorting="controlSetReady_gv_Sorting" >
+                                                            <asp:GridView ID="ready_copperate" runat="server" AutoGenerateColumns="False" OnRowCancelingEdit="controlSetReady_gv_RowCancelingEdit" OnRowCommand="controlSet_gv_RowCommand" OnRowEditing="controlSetReady_gv_RowEditing" OnRowUpdating="controlSetReady_gv_RowUpdating" ShowHeaderWhenEmpty="True" OnRowDeleting="controlSetReady_gv_RowDeleting" OnRowDataBound="controlSet_gv_RowDataBound" OnSorting="controlSetReady_gv_Sorting">
                                                                 <Columns>
                                                                     <%--操作--%>
                                                                     <asp:TemplateField ShowHeader="False" HeaderText="操作">
                                                                         <EditItemTemplate>
-                                                                            &nbsp;<asp:Button ID="save_btn" runat="server" CommandName="Update" CssClass="btnGrv update" Text="" ToolTip="存檔" UseSubmitBehavior="False" />
-                                                                            &nbsp;<asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="btnGrv cancel" Text="" ToolTip="取消" UseSubmitBehavior="False" />
+                                                                            <span style="position: relative;">
+                                                                                <i class="fa fa-floppy-o btn btn-success btn-xs" aria-hidden="true"></i>
+                                                                                <asp:Button ID="save_btn" runat="server" CommandName="Update" CssClass="movedown" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
+                                                                            </span>
+                                                                            &nbsp;                   
+                                                                            <span style="position: relative;">
+                                                                                <i class="fa fa-undo btn btn-warning btn-xs" aria-hidden="true"></i>
+                                                                                <asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="movedown" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                                                                            </span>
                                                                             <asp:HiddenField ID="old_cop_act_hf" runat="server" Value='<%# Eval("cop_act") %>' />
                                                                             <asp:HiddenField ID="old_cop_id_hf" runat="server" Value='<%# Eval("cop_id") %>' />
                                                                         </EditItemTemplate>
 
                                                                         <FooterTemplate>
-                                                                            <asp:Button ID="save_btn" runat="server" CommandName="AddSaveReady" CssClass="btnGrv update" Text="" ToolTip="存檔" UseSubmitBehavior="False" />
-                                                                            &nbsp;<asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="btnGrv cancel" Text="" ToolTip="取消" UseSubmitBehavior="False" />
+                                                                            <span style="position: relative;">
+                                                                                <i class="fa fa-floppy-o btn btn-success btn-xs" aria-hidden="true"></i>
+                                                                            <asp:Button ID="save_btn" runat="server" CommandName="AddSaveReady" CssClass="movedown" Text="" ToolTip="存檔" UseSubmitBehavior="False" />
+                                                                            </span>
+                                                                                &nbsp;<span style="position: relative;">
+                                                                                <i class="fa fa-undo btn btn-warning btn-xs" aria-hidden="true"></i>
+                                                                                <asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="movedown" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                                                                            </span>
                                                                         </FooterTemplate>
 
                                                                         <HeaderTemplate>
-                                                                            <asp:Button ID="add_btn" runat="server" CommandName="AddReady" CssClass="btnGrv add" Text="" ToolTip="新增" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
-                                                                        </HeaderTemplate>
+                                                                            <span style="position: relative;">
+                                                                                 <i class="fa fa-plus btn btn-info btn-xs" aria-hidden="true"></i>
+                                                                                <asp:Button ID="add_btn" runat="server" CommandName="AddReady" CssClass="movedown" Text="" ToolTip="新增" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                                                                            </span>
+                                                                                </HeaderTemplate>
 
                                                                         <ItemTemplate>
-                                                                            <asp:Button ID="edit_btn" runat="server" CommandName="Edit" CssClass="btnGrv edit" Text="" ToolTip="編輯" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
-                                                                            &nbsp;<asp:Button ID="delete_btn" runat="server" CommandName="Delete" CssClass="btnGrv delete" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                                                                            <span style="position: relative;">
+                                                                                <i class="fa fa-pencil btn btn-primary btn-xs" aria-hidden="true"></i>
+                                                                                <asp:Button ID="edit_btn" runat="server" CommandName="Edit" CssClass="movedown" Text="編輯" ToolTip="編輯" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                                                                            </span>
+                                                                            &nbsp;
+                                                                            <span style="position: relative;">
+                                                                                <i class="fa fa-trash-o btn btn-danger btn-xs" aria-hidden="true"></i>
+                                                                                <asp:Button ID="delete_btn" runat="server" CommandName="Delete" CssClass="movedown" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                                                                            </span>
                                                                             <asp:HiddenField ID="rowDefaultTriggerControlID_hf" runat="server" EnableViewState="False" Value="edit_btn" />
                                                                             <asp:HiddenField ID="cop_act_hf" runat="server" Value='<%# Eval("cop_act") %>' />
                                                                         </ItemTemplate>
 
                                                                         <FooterStyle HorizontalAlign="Center" />
-                                                                        <HeaderStyle Width="70px" />
+                                                                        <HeaderStyle Width="80px" />
                                                                         <ItemStyle HorizontalAlign="Center" Wrap="False" />
                                                                     </asp:TemplateField>
 
@@ -569,41 +632,47 @@
                                                             <asp:Label ID="as_num" runat="server" Text='<%# Bind("as_num") %>'></asp:Label>/<asp:Label ID="as_num_limit_lbl" runat="server" Text='<%# Bind("as_num_limit") %>'></asp:Label>
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle Width="100px"/>
+                                                        <HeaderStyle Width="100px" />
                                                         <ItemStyle CssClass="center" />
                                                     </asp:TemplateField>
 
                                                     <%-- 活動日期 --%>
                                                     <asp:TemplateField HeaderText="活動日期">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="as_date_start_lbl" runat="server" Text='<%# Bind("as_date_start") %>'></asp:Label> <asp:Label ID="as_date_starttime_lbl" runat="server" Text='<%# Bind("as_date_starttime") %>'></asp:Label>
-                                                             ~ <br />
-                                                            <asp:Label ID="as_date_end_lbl" runat="server" Text='<%# Bind("as_date_end") %>'></asp:Label> <asp:Label ID="as_date_endtime" runat="server" Text='<%# Bind("as_date_endtime") %>'></asp:Label>
+                                                            <asp:Label ID="as_date_start_lbl" runat="server" Text='<%# Bind("as_date_start") %>'></asp:Label>
+                                                            <asp:Label ID="as_date_starttime_lbl" runat="server" Text='<%# Bind("as_date_starttime") %>'></asp:Label>
+                                                            ~
+                                                            <br />
+                                                            <asp:Label ID="as_date_end_lbl" runat="server" Text='<%# Bind("as_date_end") %>'></asp:Label>
+                                                            <asp:Label ID="as_date_endtime" runat="server" Text='<%# Bind("as_date_endtime") %>'></asp:Label>
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle Width="200px"/>
+                                                        <HeaderStyle Width="200px" />
                                                         <ItemStyle CssClass="center" />
                                                     </asp:TemplateField>
 
                                                     <%-- 報名起訖 --%>
                                                     <asp:TemplateField HeaderText="報名起訖">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="as_apply_start_lbl" runat="server" Text='<%# Bind("as_apply_start") %>'></asp:Label> <asp:Label ID="as_apply_starttime_lbl" runat="server" Text='<%# Bind("as_apply_starttime") %>'></asp:Label>
-                                                             ~ <br />
-                                                            <asp:Label ID="as_apply_end_lbl" runat="server" Text='<%# Bind("as_apply_end") %>'></asp:Label> <asp:Label ID="as_apply_endtime_lbl" runat="server" Text='<%# Bind("as_apply_endtime") %>'></asp:Label>
+                                                            <asp:Label ID="as_apply_start_lbl" runat="server" Text='<%# Bind("as_apply_start") %>'></asp:Label>
+                                                            <asp:Label ID="as_apply_starttime_lbl" runat="server" Text='<%# Bind("as_apply_starttime") %>'></asp:Label>
+                                                            ~
+                                                            <br />
+                                                            <asp:Label ID="as_apply_end_lbl" runat="server" Text='<%# Bind("as_apply_end") %>'></asp:Label>
+                                                            <asp:Label ID="as_apply_endtime_lbl" runat="server" Text='<%# Bind("as_apply_endtime") %>'></asp:Label>
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle Width="200px"/>
+                                                        <HeaderStyle Width="200px" />
                                                         <ItemStyle CssClass="center" />
                                                     </asp:TemplateField>
 
                                                     <%-- 報名資料 --%>
                                                     <asp:TemplateField HeaderText="報名資料">
                                                         <ItemTemplate>
-                                                            <input id="checkApply" type="button" class="btn-link" value="查看" Onclick="GoTo(<%# Eval("as_idn") %>);" />/<asp:Button ID="download_btn" runat="server" CommandName="download" class="btn-link" Text="下載" ToolTip="下載" UseSubmitBehavior="False" CommandArgument='<%# Eval("as_idn") %>' />
+                                                            <input id="checkApply" type="button" class="btn-link" value="查看" onclick="GoTo(<%# Eval("as_idn") %>);" />/<asp:Button ID="download_btn" runat="server" CommandName="download" class="btn-link" Text="下載" ToolTip="下載" UseSubmitBehavior="False" CommandArgument='<%# Eval("as_idn") %>' />
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle Width="110px"/>
+                                                        <HeaderStyle Width="110px" />
                                                         <ItemStyle CssClass="center" />
                                                     </asp:TemplateField>
                                                 </Columns>

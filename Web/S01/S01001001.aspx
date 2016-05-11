@@ -9,43 +9,35 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="mainContentSubFunction_cph" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="mainContent_cph" runat="server">
-    <asp:GridView ID="main_gv" runat="server" 
+    <asp:GridView ID="main_gv" runat="server"
         ItemType="Model.S01.S010010Info.Main"
         DataKeyNames="act_id"
         OnRowCommand="main_gv_RowCommand"
-        OnRowDeleting="main_gv_RowDeleting" 
-        OnRowDataBound="main_gv_RowDataBound" 
+        OnRowDeleting="main_gv_RowDeleting"
+        OnRowDataBound="main_gv_RowDataBound"
         OnSelectedIndexChanging="main_gv_SelectedIndexChanging"
         OnSorting="main_gv_Sorting">
         <Columns>
-            <asp:TemplateField ShowHeader="False" HeaderText="操作">
-                <EditItemTemplate>
-                    &nbsp;<asp:Button ID="save_btn" runat="server" CommandName="Update" CssClass="btnGrv update" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
-                    &nbsp;<asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="btnGrv cancel" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
-                </EditItemTemplate>
-                <FooterTemplate>
-                    <asp:Button ID="save_btn" runat="server" CommandName="AddSave" CssClass="btnGrv update" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
-                    &nbsp;<asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="btnGrv cancel" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
-                </FooterTemplate>
+            <asp:TemplateField ShowHeader="False" HeaderText="操作">            
                 <HeaderTemplate>
-                    <span  style="position:relative;">
-                    <i class="fa fa-plus btn btn-success btn-xs" aria-hidden="true"></i>
-                    <asp:Button ID="add_btn" runat="server" CommandName="Add" CssClass="movedown" Text="新增" ToolTip="新增" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
-                </span>
-                        </HeaderTemplate>
-                <ItemTemplate>
-                    <span  style="position:relative;">
-                    <i class="fa fa-pencil btn btn-primary btn-xs" aria-hidden="true"></i>
-                    <asp:Button ID="view_btn" runat="server" CommandName="Select" CssClass="movedown" Text="編輯" ToolTip="編輯" UseSubmitBehavior="False" />
-                    </span>&nbsp;
-                    <span  style="position:relative;">
-                    <i class="fa fa-trash-o btn btn-danger btn-xs" aria-hidden="true"></i>
-                    <asp:Button ID="delete_btn" runat="server" CommandName="Delete" CssClass="movedown" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                    <span style="position: relative;">
+                        <i class="fa fa-plus btn btn-info btn-xs" aria-hidden="true"></i>
+                        <asp:Button ID="add_btn" runat="server" CommandName="Add" CssClass="movedown" Text="新增" ToolTip="新增" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
                     </span>
-                        <asp:HiddenField ID="rowDefaultTriggerControlID_hf" runat="server" EnableViewState="False" Value="view_btn" />
+                </HeaderTemplate>
+                <ItemTemplate>
+                    <span style="position: relative;">
+                        <i class="fa fa-pencil btn btn-primary btn-xs" aria-hidden="true"></i>
+                        <asp:Button ID="view_btn" runat="server" CommandName="Select" CssClass="movedown" Text="編輯" ToolTip="編輯" UseSubmitBehavior="False" />
+                    </span>&nbsp;
+                    <span style="position: relative;">
+                        <i class="fa fa-trash-o btn btn-danger btn-xs" aria-hidden="true"></i>
+                        <asp:Button ID="delete_btn" runat="server" CommandName="Delete" CssClass="movedown" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                    </span>
+                    <asp:HiddenField ID="rowDefaultTriggerControlID_hf" runat="server" EnableViewState="False" Value="view_btn" />
                 </ItemTemplate>
                 <FooterStyle HorizontalAlign="Center" />
-                <HeaderStyle Width="70px" />
+                <HeaderStyle Width="80px" />
                 <ItemStyle HorizontalAlign="Center" />
             </asp:TemplateField>
             <asp:TemplateField HeaderText="帳號" SortExpression="Act_id">

@@ -5,6 +5,9 @@ $(function () {
     $('.mainMenuModule ul').hide();
     if (qs_sys_pid.length > 0) {
         var $activeItem = $(".mainMenuProcess a[sys_pid^=" + qs_sys_pid + "]");
+        $activeItem.parent().parent().parent().find('a:first').addClass("active");
+        $activeItem.parent().parent().parent().find('a:first').children().children().removeClass('fa-folder');
+        $activeItem.parent().parent().parent().find('a:first').children().children().addClass('fa-folder-open');
         $activeItem.addClass("active");
         $activeItem.closest(".mainMenuModule ul").show();
     }
@@ -15,8 +18,14 @@ $(function () {
             var checkElement = $(this).next();
             if ((checkElement.is('ul'))) {
                 $('.mainMenuModule ul:visible').slideUp(300);
+                $('a').removeClass('active');
+                $('a').children().children().removeClass('fa-folder-open');
+                $('a').children().children().addClass('fa-folder');
                 if (!checkElement.is(':visible')) {
                     checkElement.slideDown(300);
+                    $(this).addClass("active");
+                    $(this).children().children().removeClass('fa-folder');
+                    $(this).children().children().addClass('fa-folder-open');
                 }
                 return false;
             }

@@ -11,7 +11,7 @@
         background-color: #f1efee;
     }
 </style>
-<table style="width:100%" id="UCAccountRoleManager">
+<table style="width:100%" id="UCAccountRoleManager" class="fv">
     <asp:ListView ID="main_lv" runat="server"
         ItemType="Model.S01.UCAccountRoleManagerInfo.Main"
         OnItemDataBound="main_lv_ItemDataBound"
@@ -20,9 +20,12 @@
         OnPreRender="main_lv_PreRender">
         <ItemTemplate>
             <tr class="lvRow lvRowHover" style="border-bottom:1px solid #AAA">
-                <td style="width:1px;padding-left:3px">
-                    <asp:Button ID="delete_btn" runat="server" CommandName="Delete" style="margin-right: 4px; margin-top:2px" CssClass="btnGrv delete" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" />
-                </td>
+                <td style="width:30px;padding-left:5px">
+                    <span style="position: relative;">
+                        <i class="fa fa-trash-o btn btn-danger btn-xs" aria-hidden="true" style="margin-top:2px"></i>
+                    <asp:Button ID="delete_btn" runat="server" CommandName="Delete" CssClass="movedown" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" />
+                </span>
+                        </td>
                 <td style="padding-right:10px;width:50px;">
                     <asp:Label ID="idx_lbl" runat="server" style="min-width:15px;text-align:right" Text='<%# Container.DisplayIndex+1 + "." %>'></asp:Label>
                     角色：<uc1:UCRoleDDL runat="server" ID="ucRoleDDL" AutoPostBack="true" OnSelectedIndexChanged="ucRoleDDL_SelectedIndexChanged" />
@@ -41,8 +44,11 @@
                     </asp:Panel>
                 </td>
                 <td style="width:20px;text-align:right;padding-right:3px;">
-                    <asp:Button ID="add_btn" runat="server" CommandName="Add" CssClass="btnGrv add" style="margin-top:2px" Text="新增身分" ToolTip="新增身分" UseSubmitBehavior="False" />
-                </td>
+                    <span style="position: relative;">
+                        <i class="fa fa-plus btn btn-info btn-xs" aria-hidden="true" style="margin-top:2px"></i>
+                    <asp:Button ID="add_btn" runat="server" CommandName="Add" CssClass="movedown"  Text="新增身分" ToolTip="新增身分" UseSubmitBehavior="False" />
+                </span>
+                        </td>
             </tr>
         </ItemTemplate>
     </asp:ListView>

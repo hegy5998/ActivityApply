@@ -9,7 +9,7 @@
     <div class="opBox">
         <div class="hide">
             系統：<span class="highlight" style="margin-right: 10px"><asp:Label ID="sys_id_lbl" runat="server" Text="" Style="margin-right: 3px"></asp:Label><asp:Label ID="sys_name_lbl" runat="server" Text=""></asp:Label></span>
-        模組：<span class="highlight" style="margin-right: 10px"><asp:Label ID="sys_mid_lbl" runat="server" Text="" Style="margin-right: 3px"></asp:Label><asp:Label ID="sys_mname_lbl" runat="server" Text=""></asp:Label></span>
+            模組：<span class="highlight" style="margin-right: 10px"><asp:Label ID="sys_mid_lbl" runat="server" Text="" Style="margin-right: 3px"></asp:Label><asp:Label ID="sys_mname_lbl" runat="server" Text=""></asp:Label></span>
         </div>
         作業：<span class="highlight" style="margin-right: 10px"><asp:Label ID="sys_pid_lbl" runat="server" Text="" Style="margin-right: 3px"></asp:Label><asp:Label ID="sys_pname_lbl" runat="server" Text=""></asp:Label></span>
     </div>
@@ -20,40 +20,66 @@
         <Columns>
             <asp:TemplateField ShowHeader="False" HeaderText="操作">
                 <HeaderTemplate>
-                    <asp:Button ID="add_btn" runat="server" CommandName="Add" CssClass="btnGrv add" Text="新增" ToolTip="新增" UseSubmitBehavior="False" />
+                    <span style="position: relative;">
+                        <i class="fa fa-plus btn btn-info btn-xs" aria-hidden="true"></i>
+                        <asp:Button ID="add_btn" runat="server" CommandName="Add" CssClass="movedown" Text="新增" ToolTip="新增" UseSubmitBehavior="False" />
+                    </span>
                 </HeaderTemplate>
                 <HeaderStyle Width="70px" />
                 <ItemTemplate>
-                    <asp:Button ID="edit_btn" runat="server" CommandName="Edit" CssClass="btnGrv edit" Text="編輯" ToolTip="編輯" UseSubmitBehavior="False" />
-                    &nbsp;<asp:Button ID="delete_btn" runat="server" CommandName="Delete" CssClass="btnGrv delete" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" />
+                    <span style="position: relative;">
+                        <i class="fa fa-pencil btn btn-primary btn-xs" aria-hidden="true"></i>
+                        <asp:Button ID="edit_btn" runat="server" CommandName="Edit" CssClass="movedown" Text="編輯" ToolTip="編輯" UseSubmitBehavior="False" />
+                    </span>
+                    &nbsp;
+                    <span style="position: relative;">
+                        <i class="fa fa-trash-o btn btn-danger btn-xs" aria-hidden="true"></i>
+                        <asp:Button ID="delete_btn" runat="server" CommandName="Delete" CssClass="movedown" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" />
+                    </span>
                     <asp:HiddenField ID="rowDefaultTriggerControlID_hf" runat="server" EnableViewState="False" Value="edit_btn" />
                 </ItemTemplate>
                 <ItemStyle HorizontalAlign="Center" Wrap="false" />
                 <FooterTemplate>
-                    <asp:Button ID="save_btn" runat="server" CommandName="AddSave" CssClass="btnGrv update" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
-                    &nbsp;<asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="btnGrv cancel" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                    <span style="position: relative;">
+                        <i class="fa fa-floppy-o btn btn-success btn-xs" aria-hidden="true"></i>
+                        <asp:Button ID="save_btn" runat="server" CommandName="AddSave" CssClass="movedown" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
+                    </span>
+                    &nbsp;                   
+                    <span style="position: relative;">
+                        <i class="fa fa-undo btn btn-warning btn-xs" aria-hidden="true"></i>
+                        <asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="movedown" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                    </span>
                 </FooterTemplate>
                 <FooterStyle HorizontalAlign="Center" />
                 <EditItemTemplate>
-                    &nbsp;<asp:Button ID="save_btn" runat="server" CommandName="Update" CssClass="btnGrv update" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
-                    &nbsp;<asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="btnGrv cancel" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                    <span style="position: relative;">
+                        <i class="fa fa-floppy-o btn btn-success btn-xs" aria-hidden="true"></i>
+                        <asp:Button ID="save_btn" runat="server" CommandName="Update" CssClass="movedown" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
+                    </span>
+                    &nbsp;                   
+                    <span style="position: relative;">
+                        <i class="fa fa-undo btn btn-warning btn-xs" aria-hidden="true"></i>
+                        <asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="movedown" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                    </span>
                 </EditItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="角色" SortExpression="Sys_rid">
                 <ItemTemplate>
-                    <asp:Label ID="sys_rid_lbl" runat="server" Text="<%# Item.Sys_rid %>"></asp:Label> <asp:Label ID="sys_rname_lbl" runat="server" Text="<%# Item.Sys_rname %>"></asp:Label>
+                    <asp:Label ID="sys_rid_lbl" runat="server" Text="<%# Item.Sys_rid %>"></asp:Label>
+                    <asp:Label ID="sys_rname_lbl" runat="server" Text="<%# Item.Sys_rname %>"></asp:Label>
                 </ItemTemplate>
                 <ItemStyle CssClass="rowTrigger" Wrap="false" />
                 <FooterTemplate>
-                    <uc1:UCRoleDDL runat="server" id="ucRoleDDL" OnSelectedIndexChanged="ucRoleDDL_SelectedIndexChanged" AutoPostBack="true"/>
+                    <uc1:UCRoleDDL runat="server" ID="ucRoleDDL" OnSelectedIndexChanged="ucRoleDDL_SelectedIndexChanged" AutoPostBack="true" />
                 </FooterTemplate>
                 <EditItemTemplate>
-                    <uc1:UCRoleDDL runat="server" id="ucRoleDDL" OnSelectedIndexChanged="ucRoleDDL_SelectedIndexChanged" AutoPostBack="true"/>
+                    <uc1:UCRoleDDL runat="server" ID="ucRoleDDL" OnSelectedIndexChanged="ucRoleDDL_SelectedIndexChanged" AutoPostBack="true" />
                 </EditItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="單位" SortExpression="Sys_uid">
                 <ItemTemplate>
-                    <asp:Label ID="sys_uid_lbl" runat="server" Text="<%# Item.Sys_uid %>"></asp:Label> <asp:Label ID="sys_uname_lbl" runat="server" Text="<%# Item.Sys_uname %>"></asp:Label>
+                    <asp:Label ID="sys_uid_lbl" runat="server" Text="<%# Item.Sys_uid %>"></asp:Label>
+                    <asp:Label ID="sys_uname_lbl" runat="server" Text="<%# Item.Sys_uname %>"></asp:Label>
                 </ItemTemplate>
                 <ItemStyle CssClass="rowTrigger" Wrap="false" />
                 <FooterTemplate>
@@ -65,14 +91,15 @@
             </asp:TemplateField>
             <asp:TemplateField HeaderText="職位" SortExpression="Sys_rpid">
                 <ItemTemplate>
-                    <asp:Label ID="sys_rpid_lbl" runat="server" Text="<%# Item.Sys_rpid %>"></asp:Label> <asp:Label ID="sys_rpname_lbl" runat="server" Text="<%# Item.Sys_rpname %>"></asp:Label>
+                    <asp:Label ID="sys_rpid_lbl" runat="server" Text="<%# Item.Sys_rpid %>"></asp:Label>
+                    <asp:Label ID="sys_rpname_lbl" runat="server" Text="<%# Item.Sys_rpname %>"></asp:Label>
                 </ItemTemplate>
                 <ItemStyle CssClass="rowTrigger" Wrap="false" />
                 <FooterTemplate>
-                    <uc1:UCRoleUnitPositionDDL runat="server" id="ucRoleUnitPositionDDL" OnSelectedIndexChanged="ucRoleUnitPositionDDL_SelectedIndexChanged" AutoPostBack="true" ShowItemAll="true" />
+                    <uc1:UCRoleUnitPositionDDL runat="server" ID="ucRoleUnitPositionDDL" OnSelectedIndexChanged="ucRoleUnitPositionDDL_SelectedIndexChanged" AutoPostBack="true" ShowItemAll="true" />
                 </FooterTemplate>
                 <EditItemTemplate>
-                    <uc1:UCRoleUnitPositionDDL runat="server" id="ucRoleUnitPositionDDL" OnSelectedIndexChanged="ucRoleUnitPositionDDL_SelectedIndexChanged" AutoPostBack="true" ShowItemAll="true" />
+                    <uc1:UCRoleUnitPositionDDL runat="server" ID="ucRoleUnitPositionDDL" OnSelectedIndexChanged="ucRoleUnitPositionDDL_SelectedIndexChanged" AutoPostBack="true" ShowItemAll="true" />
                 </EditItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="權限" SortExpression="Sys_modify">

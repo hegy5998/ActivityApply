@@ -35,6 +35,10 @@ table
 {
     border-spacing: 0;
     border-collapse: collapse;
+    background: #ffffff;
+    box-shadow: 0px 3px 2px #aab2bd;
+    padding-top: 15px;
+    padding-bottom: 5px;
 }
 
 .center { text-align: center; }
@@ -56,12 +60,14 @@ a:hover {
 select, label, input[type="radio"], input[type="checkbox"]
 {
 	cursor: pointer;
+    font-family: '微軟正黑體',sans-serif;
 }
 
 input[type="text"],
 input[type="password"]
 {
     padding: 1px 2px;
+    background-color: #FEFEFE;
 }
 
 
@@ -84,7 +90,7 @@ input[type="password"]
     height: 30px;
 }
 .grvHeaderRow > th > a:hover{
-    color: lemonchiffon;
+    color: #68DFF0;
 }
 .grvHeaderRow > th > a{
     color: #797979;
@@ -142,8 +148,7 @@ input[type="password"]
 
 .grvHeaderRow
 {
-    text-align: center;
-    background-color: #68dff0;
+    background-color: #FFFFFF;
     color: #151515;
 }
 
@@ -197,13 +202,13 @@ input[type="password"]
 .grvDataRow.odd.select:hover,
 .grvDataRow.even.select:hover
 {
-	background-color: #f5e8dd;
+	background-color: #FFFEEF;
 	/*background-color: #f4faaf;*/
 }
 
 .grvEmptyRow
 {
-    background-color: #f7fae2;
+    background-color: #ffffff;
     border: 1px solid #ccc;
     padding: 2px 4px;  
     vertical-align: middle;
@@ -229,12 +234,12 @@ input[type="password"]
 /* ----- FormView ----- */
 .fv
 {
-    width: 100%;
-	margin-bottom: 8px;
+    box-shadow:none;
+    background-color:transparent;
 }
 .fvHeaderRow
 {
-    background-color: #CFDD7C;
+    background-color: #68dff0;
     border: 1px solid #999;
     height: 35px;
 	line-height: 35px;
@@ -248,7 +253,7 @@ input[type="password"]
     border: 1px solid #999;
     padding: 2px 4px;   
     vertical-align: middle;
-    background-color: #CFDD7C;
+    background-color: #68dff0;
 	width: 150px;
 }
 .fvRow > td
@@ -361,20 +366,21 @@ input[type="password"]
 .popupWindow
 {
     width: 640px;
-    height: 480px;
     border: 1px solid #ccc;
     -webkit-box-shadow: rgb(68, 68, 17) 0px 3px 29px;
     -moz-box-shadow: rgb(68, 68, 17) 0px 3px 29px;
     box-shadow: rgb(68, 68, 17) 0px 3px 29px;
     overflow: hidden;
+    font-family: '微軟正黑體',sans-serif;
 }
 .popupWindowHeader
 {
     height: 29px;
     line-height: 29px;
     padding-left: 7px;
-    background-color: #CFDD7C;
+    background-color: #68dff0;
     border-bottom: 1px solid #CCC;
+    color: #FFFFFF;
 }
 .popupWindowHeader .open
 {
@@ -396,10 +402,9 @@ input[type="password"]
 }
 .popupWindowContent
 {
-    height: 450px;
 	padding: 10px 10px;
 	overflow: auto;
-    background-color: #fff;
+    background-color: #F2F2F2;
 }
 
 /* highlight文字 */
