@@ -90,6 +90,7 @@
     <Content Include="assets\css\to-do.css" />
     <Content Include="assets\css\zabuto_calendar.css" />
     <Content Include="assets\font-awesome\css\font-awesome.css" />
+    <Content Include="assets\font-awesome\css\font-awesome.min.css" />
     <Content Include="assets\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="assets\img\12767525_955825364513665_1121294852_n.jpg" />
@@ -196,10 +197,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="assets\font-awesome\fonts\fontawesome-webfont.eot" />
-    <Content Include="assets\font-awesome\fonts\fontawesome-webfont.ttf" />
-    <Content Include="assets\font-awesome\fonts\fontawesome-webfont.woff" />
-    <Content Include="assets\font-awesome\fonts\FontAwesome.otf" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.woff" />
@@ -211,15 +208,15 @@
     <Content Include="SignSearchContext.aspx" />
     <Content Include="SignChange.aspx" />
     <Content Include="WebForm1.aspx" />
+    <Content Include="assets\font-awesome\css\font-awesome.css.map" />
+    <Content Include="assets\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="assets\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="assets\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="assets\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="assets\font-awesome\fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\activity.pubxml" />
-    <None Include="Scripts\jquery-1.9.1.intellisense.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\jquery-1.9.1.js" />
-    <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Sign_Up.aspx" />
     <Content Include="Web.config" />
-    <Content Include="Scripts\jquery-1.9.1.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="activity.aspx.cs">

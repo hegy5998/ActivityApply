@@ -17,19 +17,19 @@
                                 <!--活動查詢：活動名稱包含 <strong></strong> 。-->
                                 <div class="row">
                                     <!-- 搜尋按鈕 -->
-                                    <div class="col-sm-1 col-sx-1" style="padding: 0px;width: 94px;">
+                                    <div class="col-sm-1 col-sx-1" style="padding: 0px;width: 66px;float:left;">
                                         <span class="input-group-btn">
-                                            <button id="search_btn" type="button" class="btn btn-theme03" style="border-radius: 4px;height: 34px;margin-bottom: 0;"><span class="glyphicon glyphicon-search" aria-hidden="true"  style="padding-bottom: 6px;">活動查詢</span></button>
+                                            <button id="search_btn" type="button" class="btn btn-theme03" style="border-radius: 4px;height: 34px;margin-bottom: 0;"><span class="glyphicon glyphicon-search" aria-hidden="true"  style="padding-bottom: 6px;">查詢</span></button>
                                         </span>
                                     </div>
                                     <!-- 下拉是選單選擇分類 -->
-                                    <div class="col-sm-1 col-sx-1" style="padding: 0px;width: 75px;">
-                                        <select class="select" id="act_class" style="height: 34px; border-radius: 4px;">
+                                    <div class="col-sm-1 col-sx-1" style="padding: 0px;width: 76px;float: left;">
+                                        <select class="select" id="act_class" style="height: 34px; border-radius: 4px;width:76px;">
                                             <option selected="selected" value="0">全部</option>
                                         </select>
                                     </div>
                                     <!-- 輸入框 -->
-                                    <div class="col-sm-9" style="padding: 0px;">
+                                    <div class="col-sm-9" style="padding: 0px;width:50%;float: left;">
                                         <input id="search_txt" type="text" name="search" class="form-control" placeholder="請輸入活動名稱" />
                                     </div>
                                 </div>

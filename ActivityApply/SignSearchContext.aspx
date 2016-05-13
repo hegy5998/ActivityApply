@@ -22,15 +22,23 @@
             color: red;
         }
         /* gridView置中*/
+        .grid{
+            width: 100%;
+        }
         .grid td, .grid th {
             text-align: center;
+            padding: 8px;
+            
         }
-
+        .PagerCss TD A:hover { WIDTH: 20px; COLOR: black }
+        .PagerCss TD A:active { WIDTH: 20px; COLOR: black }
+        .PagerCss TD A:link { WIDTH: 20px; COLOR: black }
+        .PagerCss TD A:visited { WIDTH: 20px; COLOR: black }
+        .PagerCss TD SPAN { FONT-WEIGHT: bold; FONT-SIZE: 15px; WIDTH: 20px; COLOR: #768094; }
         table {
             border-spacing: 0;
             border-collapse: collapse;
         }
-
         /*.table-striped > tbody > tr:nth-child(odd) > td,
         .table-striped > tbody > tr:nth-child(odd) > th {
             background-color: #f9f9f9;
@@ -58,7 +66,7 @@
             <section class="wrapper">
                 <div class="row"></div>
                 <div class="row">
-                    <h2 class="form-login-heading" style="margin-left: 44%;">報名查詢</h2>
+                    <h2 class="form-login-heading" style="text-align: center;">報名查詢</h2>
                     <div class="login-wrap">
                         <asp:TextBox ID="aa_email_txt" CssClass="form-control" runat="server" placeholder="信箱Email" ViewStateMode="Enabled"></asp:TextBox>
                         <asp:HiddenField ID="aa_email_hf" runat="server" ViewStateMode="Enabled" Visible="false" />
@@ -107,7 +115,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button data-dismiss="modal" class="btn btn-theme" type="button">取消</button>
-                                    <asp:Button ID="get_password_ok_btn" runat="server" Text="確定" OnClick="get_password_ok_btn_Click" CssClass="btn btn-theme" />
+                                    <asp:Button ID="get_password_ok_btn" runat="server" Text="確定" OnClientClick="return check()" OnClick="get_password_ok_btn_Click" CssClass="btn btn-theme" />
                                 </div>
                             </div>
                         </div>
@@ -115,10 +123,10 @@
                     <!-- modal -->
                 </div>
                 <!-- 報名資料GridView -->
-                <div class="advanced-form row div_table-cell">
+                <div class="table-responsive">
                     <asp:UpdatePanel ID="lup" runat="server" ChildrenAsTriggers="False" UpdateMode="Conditional">
                         <ContentTemplate>
-                            <asp:GridView ID="main_gv" class="table table-striped" CssClass="grid" runat="server" AutoGenerateColumns="False" ViewStateMode="Enabled" PageSize="5" OnRowCommand="main_gv_RowCommand" OnRowDeleting="main_gv_RowDeleting" OnRowDataBound="main_gv_RowDataBound" CellPadding="4" ForeColor="#333333" GridLines="None">
+                            <asp:GridView ID="main_gv" class="table" CssClass="grid" runat="server" AutoGenerateColumns="False" ViewStateMode="Enabled" PageSize="10" OnRowCommand="main_gv_RowCommand" OnRowDeleting="main_gv_RowDeleting" OnRowDataBound="main_gv_RowDataBound" CellPadding="4" ForeColor="#333333" GridLines="None" AllowPaging="True" OnPageIndexChanging="main_gv_PageIndexChanging">
                                 <AlternatingRowStyle BackColor="White" />
                                 <Columns>
                                     <asp:TemplateField HeaderText="活動名稱" ItemStyle-HorizontalAlign="Center">
@@ -165,7 +173,7 @@
                                         </ItemTemplate>
                                         <ItemStyle CssClass="rowTrigger" HorizontalAlign="Center" Width="130px" />
                                     </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="編輯" ShowHeader="false">
+                                    <asp:TemplateField HeaderText="編輯" ShowHeader="false" ItemStyle-HorizontalAlign="Center">
                                         <ItemTemplate>
                                             <asp:Button ID="edit_btn" runat="server" Text="修改報名資料" CommandName="Custom_Edit" ToolTip="編輯" CssClass="btnGrv edit" UseSubmitBehavior="false" CommandArgument='<%# Container.DataItemIndex%>' Style="background-color: rgba(0, 0, 0, 0); border-color: rgba(250, 235, 215, 0); color: #2C71BD;" />
                                             <asp:Button ID="delete_btn" runat="server" CommandName="Custom_Delete" Text="取消報名" ToolTip="刪除" CssClass="btnGrv delete" UseSubmitBehavior="false" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" CommandArgument='<%# Container.DataItemIndex%>' Style="background-color: rgba(0, 0, 0, 0); border-color: rgba(250, 235, 215, 0); color: #2C71BD;" />
@@ -183,7 +191,8 @@
                                 <EditRowStyle BackColor="#2461BF" />
                                 <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
                                 <HeaderStyle Wrap="False" BackColor="#68dff0" Font-Bold="True" ForeColor="White" Height="38px" />
-                                <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
+                                <PagerSettings FirstPageText="第一頁" LastPageText="最末頁" NextPageText="下一頁" PreviousPageText="上一頁" Mode="NumericFirstLast" />
+                                <PagerStyle BackColor="#68DFF0" ForeColor="White" CssClass="PagerCss" />
                                 <RowStyle Wrap="true" BackColor="#EFF3FB" />
                                 <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
                                 <SortedAscendingCellStyle BackColor="#F5F7FB" />
@@ -271,7 +280,18 @@
                     return false;
                 }
             });
+            $("#container").height($("#main-content").height());
         })
+
+        function check(){
+            if($.trim($("#<%= email_txt.ClientID %>").val()) == ""){
+                alert("請輸入信箱!");
+                $("#<%= email_txt.ClientID %>").focus();
+                return false;
+            }
+            else
+                return true;
+        }
         //#region 設定麵包削尋覽列
         function setSessionBread() {
             //將滅包削內容清空

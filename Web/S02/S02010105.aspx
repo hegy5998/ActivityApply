@@ -49,7 +49,7 @@
                     </div>
                     <!-- 送出按鈕 -->
                     <div class="row col-sm-12">
-                        <input role="button" type="submit" class="btn btn-theme btn-lg btn-block" value="本頁僅供查看報名表"/>
+                        <input role="button" type="submit" class="btn btn-theme btn-lg btn-block" value="此報名表僅供檢視"/>
                     </div>
                 </section>
             </section>

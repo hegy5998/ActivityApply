@@ -229,24 +229,6 @@ namespace Web.S02 {
         protected global::System.Web.UI.WebControls.Label accountpassword_lbl;
         
         /// <summary>
-        /// setAccount_btn 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button setAccount_btn;
-        
-        /// <summary>
-        /// back_btn 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button back_btn;
-        
-        /// <summary>
         /// account_radiobuttonlist 控制項。
         /// </summary>
         /// <remarks>
@@ -263,6 +245,15 @@ namespace Web.S02 {
         /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField row_idn_hf;
+        
+        /// <summary>
+        /// setAccount_btn 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button setAccount_btn;
         
         /// <summary>
         /// UpdatePanel2 控制項。
@@ -355,6 +346,33 @@ namespace Web.S02 {
         protected global::System.Web.UI.UpdatePanel UpdatePanel5;
         
         /// <summary>
+        /// ready_pl 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel ready_pl;
+        
+        /// <summary>
+        /// ready_mv 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.MultiView ready_mv;
+        
+        /// <summary>
+        /// ready_view 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View ready_view;
+        
+        /// <summary>
         /// cop_act_ready_hf 控制項。
         /// </summary>
         /// <remarks>
@@ -364,6 +382,15 @@ namespace Web.S02 {
         protected global::System.Web.UI.WebControls.HiddenField cop_act_ready_hf;
         
         /// <summary>
+        /// readynew_hf 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField readynew_hf;
+        
+        /// <summary>
         /// ready_copperate 控制項。
         /// </summary>
         /// <remarks>
@@ -371,6 +398,69 @@ namespace Web.S02 {
         /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView ready_copperate;
+        
+        /// <summary>
+        /// readyaccount_view 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View readyaccount_view;
+        
+        /// <summary>
+        /// readyAccount 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel readyAccount;
+        
+        /// <summary>
+        /// readyaccountpassword_lbl 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label readyaccountpassword_lbl;
+        
+        /// <summary>
+        /// readyaccount_radiobuttonlist 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButtonList readyaccount_radiobuttonlist;
+        
+        /// <summary>
+        /// readyrow_idn_hf 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField readyrow_idn_hf;
+        
+        /// <summary>
+        /// readysetAccount_btn 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button readysetAccount_btn;
+        
+        /// <summary>
+        /// readyback_btn 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button readyback_btn;
         
         /// <summary>
         /// UpdatePanel1 控制項。

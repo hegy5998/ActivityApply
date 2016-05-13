@@ -50,7 +50,7 @@
 	width: 40px;
 	height: 32px;
 	display: inline-block;
-    background: url(Images/ic_menu_black_36dp.png);
+    background: url(Images/ic_menu_black_24dp.png);
     margin-top: 12px;
     top:0px;
 }
@@ -59,7 +59,7 @@
 }
 #mainMenuOp.fullview {
     left: 5px;
-    background: url(Images/ic_menu_black_36dp.png);
+    background: url(Images/ic_menu_black_24dp.png);
 }
 #mainMenuOp.fullview:hover
 {
@@ -190,9 +190,10 @@
     /*float: right;*/
     width: 100%;
     /*margin-left: -196px;*/
-    /*background: url(Images/mainMenuExtendBg.jpg) repeat-y;*/
+    background-color: #F2F2F2;
 	display: table-cell;
 	vertical-align: top;
+    font-family: '微軟正黑體',sans-serif;
 }
 #mainContent.fullview
 {

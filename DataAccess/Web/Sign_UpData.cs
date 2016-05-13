@@ -19,9 +19,9 @@ namespace DataAccess.Web
         Activity_apply_detailData _apply_detailData = new Activity_apply_detailData();
 
         #region 查詢
-        public List<Activity_sectionInfo> GetSectionList(int acs_act)
+        public List<Activity_sectionInfo> GetSectionList(int acs_act, int as_idn)
         {
-            return _sectionData.GetList(acs_act);
+            return _sectionData.GetList(acs_act, as_idn);
         }
         public List<Activity_columnInfo> GetQuestionList(int acc_act, int as_idn)
         {
@@ -43,6 +43,7 @@ namespace DataAccess.Web
         {
             string sql = @" SELECT  activity.act_title, 
                                     activity_session.as_title, 
+                                    activity_session.as_remark,
                                     activity_session.as_date_start, 
                                     activity_session.as_date_end, 
                                     activity_apply.aa_name, 
@@ -97,6 +98,23 @@ namespace DataAccess.Web
                                     activity_apply.aa_email = @aa_email AND
                                     activity_apply.aa_name = @aa_name;";
             IDataParameter[] param = { Db.GetParam("@aa_as", aa_as),
+                                        Db.GetParam("@aa_email", aa_email),
+                                        Db.GetParam("@aa_name", aa_name)};
+            return Db.GetEnumerable<Activity_applyInfo>(sql, param).ToList();
+        }
+        public List<Activity_applyInfo> isOverApplyLimit(int act_idn, string aa_email, string aa_name)
+        {
+            string sql = @" SELECT  act_idn
+                            FROM    activity_apply,activity
+	                            cross apply
+	                            (SELECT COUNT(*) as num
+	                             FROM activity_apply
+	                             WHERE aa_act = @act_idn ) as apply
+                            WHERE   activity_apply.aa_email = @aa_email AND
+                                    activity_apply.aa_name = @aa_name AND
+		                            act_idn = @act_idn AND activity_apply.aa_act = act_idn AND
+		                            (apply.num >= act_num_limit OR act_num_limit = 0);";
+            IDataParameter[] param = { Db.GetParam("@act_idn", act_idn),
                                         Db.GetParam("@aa_email", aa_email),
                                         Db.GetParam("@aa_name", aa_name)};
             return Db.GetEnumerable<Activity_applyInfo>(sql, param).ToList();

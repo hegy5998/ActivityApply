@@ -41,7 +41,7 @@
         </asp:Panel>
         <asp:Panel ID="normal_pl" runat="server">
             <div class="loginErrorMsg"><asp:Label ID="loginErrorMsg_lbl" runat="server" Text="[帳號]或[密碼]錯誤!" Visible="False"></asp:Label></div>
-            <table class="loginContent">
+            <table class="fv loginContent">
                 <tr>
                     <td class="fieldName">帳號：</td>
                     <td><asp:TextBox ID="act_id_txt" CssClass="inputText" runat="server" Text="S001"></asp:TextBox></td>
@@ -67,7 +67,7 @@
                     <td class="fieldName"></td>
                     <td style="padding-top: 10px">
                         <asp:Button ID="signIn_btn" runat="server" Text="登入" CssClass="btn btn-small btn-success" OnClick="signIn_btn_Click" EnableViewState="False" OnClientClick="encryptPwd();" />
-                        <input type="button" id="resetBtn" value="重新輸入" />
+                        <input type="button" id="resetBtn" class="btn btn-small btn-default" value="重新輸入" />
                     </td>
                 </tr>
             </table>

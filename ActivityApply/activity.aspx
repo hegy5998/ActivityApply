@@ -22,7 +22,7 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="mainCon" runat="server">
     <section id="main-content">
         <section class="wrapper site-min-height">
-            <div class="row mt" id="dispaly_div" style="display: none;margin-top: 20px;">
+            <div class="row mt" id="dispaly_div" style="display: none; margin-top: 20px;">
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 desc">
                     <div class="project-wrapper" style="margin-bottom: 16px;">
                         <div class="project">
@@ -49,36 +49,35 @@
                 <!-- 活動頁面右半邊 -->
                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 dexc">
                     <!-- 活動資訊 -->
-                    <div class="showback">
-                        <label class="control-label">活動名稱</label>
-                        <br />
-                        <label id="act_title"></label>
+                    <div  class="showback">
+                        <div id="add_activity_desc"></div>
+<%--                        <label id="act_title"></label>
                         <hr />
-                        <label class="control-label">主辦單位</label>
+                        <label id="unit_lb" class="control-label">主辦單位</label>
                         <br />
                         <label id="unit"></label>
                         <hr />
-                        <label class="control-label">聯絡資訊</label>
+                        <label id="contact_lb" class="control-label">聯絡資訊</label>
                         <br />
-                        <label id="contact_name"></label>
+                        <label id="contact_name_lb"></label>
                         <br />
-                        <label id="contact_phone"></label>
+                        <label id="contact_phone_lb"></label>
                         <hr />
-                        <label class="control-label">活動簡介</label>
-                        <br />
+                        <label id="de_lsceb" class="control-label">活動簡介</label>
+                        <br />--%>
                         <!-- 設定活動簡介大小，超出變成卷軸 -->
                         <div id="desc_div" style="width: auto; height: auto; overflow-x: auto; overflow-y: auto; background-color: white;">
                             <asp:Label ID="Act_desc_lbl" runat="server" Text="Label"></asp:Label>
                         </div>
-                        <hr />
-                        <label class="control-label">附加檔案</label>
+                        <%--<hr />
+                        <label id="relate_File_lb" class="control-label">附加檔案</label>
                         <br />
                         <a id="relate_File" href="http://localhost:33206/Uploads/13/relateFile/S23060101.pdf" target="_blank">下載</a>
                         <hr />
-                        <label class="control-label">相關連結</label>
+                        <label id="relate_link_lb" class="control-label">相關連結</label>
                         <br />
                         <a id="relate_link" href="#" target="_blank">活動資訊</a>
-                        <hr />
+                        <hr />--%>
                     </div>
                     <div class="row" id="add_Session_div">
                         <!-- 加入場次地方 -->
@@ -104,7 +103,7 @@
         $(document).ready(function () {
             //產生活動資訊
             getActivityList();
-            
+
             //產生場次
             getSessionList();
             $("#dispaly_div").css({ 'display': '' });
@@ -131,7 +130,7 @@
                 }
             }
             $("#add_breach").append('<li><a href="activity_List.aspx?act_class=' + act_class + '">' + act_class_title + '</a></li>');
-            $("#add_breach").append('<li><a href="activity.aspx?act_class=' + $.url().param("act_class") + '&act_idn=' + $.url().param("act_idn") + '&act_title=' + $.url().param("act_title") +'">' + $.url().param("act_title") + '</a></li>');
+            $("#add_breach").append('<li><a href="activity.aspx?act_class=' + $.url().param("act_class") + '&act_idn=' + $.url().param("act_idn") + '&act_title=' + $.url().param("act_title") + '">' + $.url().param("act_title") + '</a></li>');
         }
         //#endregion
 
@@ -186,34 +185,66 @@
             var ActivityInfo = JSON.parse(ActivityInfo);
             var act_title = ActivityInfo[0].Act_title;
             //設定活動標題
-            $("#act_title").text(ActivityInfo[0].Act_title);
+            if (ActivityInfo[0].Act_title != "") {
+                $("#add_activity_desc").append('<label class="control-label">活動名稱</label>' +
+                        '<br />' +
+                        '<label>' + ActivityInfo[0].Act_title + '</label>');
+            }
             //設定主辦單位
-            $("#unit").text(ActivityInfo[0].Act_unit);
+            if (ActivityInfo[0].Act_unit != "") {
+                $("#add_activity_desc").append('<hr />');
+                $("#add_activity_desc").append('<label class="control-label">主辦單位</label>' +
+                        '<br />' +
+                        '<label>' + ActivityInfo[0].Act_unit + '</label><br />');
+            }
             //設定聯絡人
-            $("#contact_name").text("聯絡人:" + ActivityInfo[0].Act_contact_name);
+            if (ActivityInfo[0].Act_contact_name != "" || ActivityInfo[0].Act_contact_phone != "") {
+                $("#add_activity_desc").append('<hr />');
+                $("#add_activity_desc").append('<label class="control-label">聯絡資訊</label>' +
+                        '<br />');
+                if(ActivityInfo[0].Act_contact_name != "")
+                    $("#add_activity_desc").append('<label>聯絡人:' + ActivityInfo[0].Act_contact_name + '</label><br />');
+            }
             //設定聯絡人電話
-            $("#contact_phone").text("聯絡電話:" + ActivityInfo[0].Act_contact_phone);
+            if (ActivityInfo[0].Act_contact_phone != "") {
+                $("#add_activity_desc").append('<label>聯絡電話:' + ActivityInfo[0].Act_contact_phone + '</label><br />');
+            }
+            //設定相關連結
+            if (ActivityInfo[0].Act_relate_link != "") {
+                $("#add_activity_desc").append('<hr />');
+                $("#add_activity_desc").append('<label class="control-label">相關連結</label>' +
+                        '<br />' +
+                        '<a id="relate_link" href="' + ActivityInfo[0].Act_relate_link + '" target="_blank">活動資訊</a>');
+            }
+            //設定相關連結
+            if (ActivityInfo[0].Act_relate_file != "") {
+                $("#add_activity_desc").append('<hr />');
+                $("#add_activity_desc").append('<label class="control-label">附加檔案</label>' +
+                        '<br />' +
+                        '<a id="relate_File" href="' + ActivityInfo[0].Act_relate_file + '" target="_blank">下載</a>');
+            }
+            if (ActivityInfo[0].Act_desc != "") {
+                $("#add_activity_desc").append('<hr />');
+                $("#add_activity_desc").append('<label class="control-label">活動簡介</label>');
+            }
+
             //設定短網址連結
             $("#short_link").attr("href", ActivityInfo[0].Act_short_link);
-            //設定短網址內容
             $("#short_link").html(ActivityInfo[0].Act_short_link);
             //設定QRcode圖片
             $("#QRcode").attr("src", ActivityInfo[0].Act_short_link + ".qr");
+
+
             //設定相關連結，如果沒有則不顯示
-            if (ActivityInfo[0].Act_relate_link != "") {
-                $("#relate_link").attr("href", ActivityInfo[0].Act_relate_link);
-                //$("#relate_link").html(ActivityInfo[0].Act_relate_link);
-            }
-            else
+            if (ActivityInfo[0].Act_relate_link == "") {
                 $("#relate_link").remove();
-            //設定附加檔案
-            if (ActivityInfo[0].Act_relate_file != null) {
-                $("#relate_File").attr("href", ActivityInfo[0].Act_relate_file);
             }
-            else
+            //設定附加檔案
+            if (ActivityInfo[0].Act_relate_file == "") {
                 $("#relate_File").remove();
+            }        
             //設定活動圖片
-            if (ActivityInfo[0].Act_image != null) {
+            if (ActivityInfo[0].Act_image != "") {
                 $("#act_image").attr("src", ActivityInfo[0].Act_image);
                 $("#act_image_modal").attr("src", ActivityInfo[0].Act_image);
             }

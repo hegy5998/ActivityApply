@@ -1,4 +1,4 @@
-『 2016/04/15 13:53:40 』
+『 2016/05/12 18:04:27 』
 -----------------------------------------------------------------------------------------
 Global:Application_start，發生錯誤: 無法連接資料庫!
    於 System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, DbConnectionPool pool, String accessToken, Boolean applyTransientFaultHandling)

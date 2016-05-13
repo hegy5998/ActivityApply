@@ -49,7 +49,7 @@ namespace ActivityApply
         public static string getSectionList()
         {
             SignChangeBL _bl = new SignChangeBL();
-            List<Activity_sectionInfo> sectionList = _bl.GetSectionList(ACT_IDN);
+            List<Activity_sectionInfo> sectionList = _bl.GetSectionList(ACT_IDN, AS_IDN);
             if (sectionList.Count == 0)
                 return "false";
             else

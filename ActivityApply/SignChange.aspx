@@ -112,6 +112,13 @@
             $(document).queue("myQueue", funcList);
             $(document).dequeue("myQueue");
 
+            $(document).keydown(function () {
+                if (event.keyCode == 13) {
+                    $(".advanced-form").steps("next");
+                    return false;
+                }
+            });
+
             setSessionBread();
 
             //#region jQuery steps
@@ -146,7 +153,7 @@
                     return true;
                 },
                 onFinishing: function (event, currentIndex) {
-                    window.location.replace("index.aspx");
+                    window.location.replace("SignSearchContext.aspx");
                     return true;
                 },
                 onFinished: function (event, currentIndex) {
@@ -287,6 +294,12 @@
                     case "dropDownList": code = DropDownListCol_Code(questionInfo[i], i); break;
                 }
                 $("#question_div_" + questionInfo[i].Acc_asc).append(decodeURI(code));
+                if (questionInfo[i].Acc_type == "text")
+                    $("#qus_div_" + i).find('input').css({ 'width': '99%' });
+                else
+                    $("#qus_div_" + i).find('input').css({ 'width': 'auto' });
+                $("#qus_div_" + i).find('select').css({ 'width': '99%' });
+
                 //將報名資料填入
                 //判斷
                 for (var count = 0 ; count < applyDetailInfo.length ; count++) {
@@ -335,7 +348,7 @@
             var qusName = questionList[seq].Input_name = "qus_txt_" + seq;
             var code = '<div id="' + qusId + '" class="form-group">\
                             <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
-                            <div class="col-sm-10">\
+                            <div class="col-sm-10 col-lg-5">\
                                 <input type="text" name="' + qusName + '" class="form-control' + Validate(question.Acc_required, question.Acc_validation) + '>\
                                 <span class="help-block">' + question.Acc_desc + '</span>\
                             </div>\
@@ -350,7 +363,7 @@
             var qusName = questionList[seq].Input_name = "qus_radio_" + seq;
             var code = '<div id="' + qusId + '" class="form-group">\
                             <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
-                            <div class="col-sm-10">\
+                            <div class="col-sm-10 col-lg-5">\
                                 <span class="help-block">' + question.Acc_desc + '</span>';
 
             //反序列化
@@ -377,7 +390,7 @@
             var qusName = questionList[seq].Input_name = "qus_checkbox_" + seq;
             var code = '<div id="' + qusId + '" class="form-group">\
                             <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
-                            <div class="col-sm-10">\
+                            <div class="col-sm-10 col-lg-5">\
                                 <span class="help-block">' + question.Acc_desc + '</span>';
 
             //反序列化
@@ -402,7 +415,7 @@
             var qusName = questionList[seq].Input_name = "qus_ddl_" + seq;
             var code = '<div id="' + qusId + '" class="form-group">\
                             <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
-                            <div class="col-sm-10">\
+                            <div class="col-sm-10 col-lg-5">\
                                 <select name="' + qusName + '" class="form-control' + Validate(question.Acc_required, question.Acc_validation) + '>\
                                     <option value=""></option>';
 
@@ -555,10 +568,11 @@
                 dataType: "json",
                 //成功時
                 success: function (result) {
+                    
                 },
                 //失敗時
                 error: function () {
-                    alert("失敗!!!!");
+                    alert("修改錯誤，請稍後再試！");
                     return false;
                 }
             });

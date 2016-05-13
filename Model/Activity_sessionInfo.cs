@@ -107,6 +107,12 @@ namespace Model
         /// <summary>
         ///  
         /// </summary>
+        [Column("as_remark")]
+        public String As_remark { get; set; }
+
+        /// <summary>
+        ///  
+        /// </summary>
         [Column("as_isopen")]
         public Byte? As_isopen { get; set; }
     }

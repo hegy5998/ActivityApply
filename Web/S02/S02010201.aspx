@@ -3,6 +3,11 @@
 <%@ Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead_cph" runat="server">
+    <style type="text/css">
+        .table{
+            box-shadow: none;
+        }
+    </style>
     <script type="text/javascript">
         $(function () {
             Sys.WebForms.PageRequestManager.getInstance().add_pageLoaded(function (evt, args) {
@@ -42,21 +47,21 @@
         <h4>Chrome : 設定 -> 顯示進階設定 -> 隱私權 -> 內容定... -> JavaScript -> 選擇「允許所有網站執行JavaScript」</h4>
     </noscript>
     <!-- 統一公告事項 START -->
-    <div class="alert alert-danger" role="alert" style="margin-bottom: 0px;">
-        <h4 style="margin-bottom: 0px; text-align: center;">請注意：為因應個資法，活動超過『活動日期』後３０天，系統將會自動移除此相關報名資訊！請審慎使用！</h4>
+    <div class="alert alert-danger" role="alert" style="margin-bottom: 0px; height: 40px;">
+        <h4 style="margin-bottom: 0px; text-align: center; line-height: 40px;">請注意：為因應個資法，活動超過『活動日期』後３０天，系統將會自動移除此相關報名資訊！請審慎使用！</h4>
     </div>
-    <div class="alert alert-warning" role="alert" style="margin-bottom: 0px;">
-        <h4 style="margin-bottom: 0px; text-align: center;">請在建立完成活動頁面後，接著建立活動報名表 !</h4>
+    <div class="alert alert-warning" role="alert" style="margin-bottom: 0px; height: 40px;">
+        <h4 style="margin-bottom: 0px; text-align: center; line-height: 40px;">請在建立完成活動頁面後，接著建立活動報名表 !</h4>
     </div>
     <!-- 統一公告事項 END -->
     <div id="Tabs" role="tabpanel">
         <!-- 建立活動標籤_START-->
         <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
             <li class="tab-pane active">
-                <a data-toggle="tab" href="#activityMenu" onclick="activityMenu()">活動頁面</a>
+                <a data-toggle="tab" href="#activityMenu" onclick="activityMenu()" style="background-color: white;">活動頁面</a>
             </li>
             <li class="tab-pane">
-                <a data-toggle="tab" href="#activityQus" onclick="activityQus()">活動報名表</a>
+                <a data-toggle="tab" href="#activityQus" onclick="activityQus()" style="background-color: white;">活動報名表</a>
             </li>
         </ul>
         <!-- 建立活動標籤_END-->
@@ -64,138 +69,143 @@
         <!-- 標籤內容_START -->
         <div class="tab-content">
             <!-- 活動頁面標籤 START -->
-            <div class="row mt tab-pane active" id="activityMenu" role="tabpanel">
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 desc" runat="server">
-                    <div class="project-wrapper">
-                        <div class="project">
-                            <div class="photo-wrapper">
-                                <div class="photo">
-                                    <img class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" alt="" onclick="upload_img()" />
-                                </div>
-                                <div class="overlay"></div>
-                            </div>
-                        </div>
-                        <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
-                            <ContentTemplate>
-                                <label id="imgpath_lab">選擇圖片</label>
-                                <br />
-                                <label class="red">圖片僅限制上傳jpg、jpeg、png類型檔案</label>
-                                <br />
-                                <label class="red">大小限制為2MB</label>
-                                <asp:FileUpload ID="imgUpload" runat="server" onchange="upload_imgpath(this.value)" Style="display: none" accept=".png,.jpg,.jpeg,.gif" />
-                                <asp:Button ID="imageUpload_btn" runat="server" Style="display: none" OnClick="imageUpload_btn_Click" />
-                            </ContentTemplate>
-                            <Triggers>
-                                <asp:PostBackTrigger ControlID="imageUpload_btn"></asp:PostBackTrigger>
-                            </Triggers>
-                        </asp:UpdatePanel>
-                    </div>
-                    <div class="row"></div>
-                </div>
-                <!-- 活動頁面內容_START -->
-                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 dexc">
-                    <!-- 增加活動區塊地方_START -->
-                    <div class="row" id="add_Session_div">
-                        <!-- 活動場次區塊_START -->
-                        <h3><i class="fa fa-angle-right"></i>活動分類</h3>
-
-                        <select class="select" id="select_class" style="width: 100%; height: 30px; border-radius: 4px; margin-bottom: 15px;">
-                        </select>
-
-                        <!-- 活動名稱 -->
-                        <h3><i class="fa fa-angle-right"></i>活動名稱</h3>
-                        <input type="text" class="form-control" placeholder="活動名稱" id="activity_Name_txt" maxlength="60"/><br />
-
-                    </div>
-                    <!-- 增加活動區塊地方_END -->
-
-                    <!-- 活動資訊區塊_START -->
-                    <div class="row">
-                        <h3><i class="fa fa-angle-right"></i>活動資訊</h3>
-                        <div class="showback">
-                            <div class="form-horizontal style-form">
-                                <!-- 活動簡介 -->
-                                <div class="form-group">
-                                    <label class="col-sm-2 col-sm-2 control-label">活動簡介</label>
-                                    <div class="col-sm-10" style="width: 100%; margin-top: 15px;">
-                                        <!-- 活動簡介，使用CKeditor -->
-                                        <textarea cols="80" id="editor1" name="editor1" rows="10"></textarea>
-                                        <script type="text/javascript">
-                                            CKEDITOR.replace('editor1',
-                                                {
-
-                                                });
-                                        </script>
+            <div class="row mt tab-pane active" id="activityMenu" role="tabpanel" style="background-color: white; margin: 0px 1px 0px 1px;">
+                <div style="margin: 25px 0px 0px 0px;">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 desc" runat="server">
+                        <div class="project-wrapper">
+                            <div class="project">
+                                <div class="photo-wrapper">
+                                    <div class="photo">
+                                        <img class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" alt="" onclick="upload_img()" />
                                     </div>
-                                </div>
-                                <!-- 主辦單位 -->
-                                <div class="form-group">
-                                    <label class="col-sm-2 col-sm-2 control-label">主辦單位</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="unit_txt" maxlength="20" />
-                                    </div>
-                                </div>
-                                <!-- 聯絡人 -->
-                                <div class="form-group">
-                                    <label class="col-sm-2 col-sm-2 control-label">聯絡人</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="contact_Person_txt" maxlength="30"/>
-                                    </div>
-                                </div>
-                                <!-- 聯絡人電話 -->
-                                <div class="form-group">
-                                    <label class="col-sm-2 col-sm-2 control-label">聯絡人電話</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="contact_Person_Phone_txt" maxlength="30"/>
-                                    </div>
-                                </div>
-                                <!-- 附加檔案 -->
-                                <div class="form-group">
-                                    <label class="col-sm-2 col-sm-2 control-label">附加檔案</label>
-                                    <div class="col-sm-10">
-                                        <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
-                                            <ContentTemplate>
-                                                <input type="button" onclick="upload_file_btn()" class="btn btn-theme" value="選擇檔案" />
-                                                <label id="filepath_lab">選擇檔案</label>
-                                                <asp:FileUpload ID="FileUpload" runat="server" onchange="upload_file(this.value)" Style="display: none" />
-                                                <asp:Button ID="btnUpload" runat="server" OnClick="btnUpload_Click1" Style="display: none" />
-                                            </ContentTemplate>
-                                            <Triggers>
-                                                <asp:PostBackTrigger ControlID="btnUpload"></asp:PostBackTrigger>
-                                            </Triggers>
-                                        </asp:UpdatePanel>
-                                        <br />
-                                        <label class="red">僅限制上傳jpg、png、jpeg、gif、doc、docx、txt、ppt、pptx、xls、xlsx、pdf、rar、zip、7z類型檔案</label>
-                                        <br />
-                                        <label class="red">大小限制為4MB</label>
-                                    </div>
-                                </div>
-                                <!-- 相關連結 -->
-                                <div class="form-group">
-                                    <label class="col-sm-2 col-sm-2 control-label">相關連結</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" placeholder="https://" id="relate_Link" maxlength="255"/>
-                                    </div>
+                                    <div class="overlay"></div>
                                 </div>
                             </div>
+                            <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
+                                <ContentTemplate>
+                                    <label id="imgpath_lab">選擇圖片</label>
+                                    <br />
+                                    <label class="red">圖片僅限制上傳jpg、jpeg、png類型檔案</label>
+                                    <br />
+                                    <label class="red">大小限制為2MB</label>
+                                    <asp:FileUpload ID="imgUpload" runat="server" onchange="upload_imgpath(this.value)" Style="display: none" accept=".png,.jpg,.jpeg,.gif" />
+                                    <asp:Button ID="imageUpload_btn" runat="server" Style="display: none" OnClick="imageUpload_btn_Click" />
+                                </ContentTemplate>
+                                <Triggers>
+                                    <asp:PostBackTrigger ControlID="imageUpload_btn"></asp:PostBackTrigger>
+                                </Triggers>
+                            </asp:UpdatePanel>
                         </div>
+                        <div class="row"></div>
                     </div>
-                    <!-- 活動資訊區塊_END -->
+                    <!-- 活動頁面內容_START -->
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 dexc">
+                        <!-- 增加活動區塊地方_START -->
+                        <div class="row" id="add_Session_div">
+                            <!-- 活動場次區塊_START -->
+                            <h3><i class="fa fa-angle-right"></i>活動分類</h3>
+
+                            <select class="select" id="select_class" style="width: 100%; height: 30px; border-radius: 4px; margin-bottom: 15px;">
+                            </select>
+
+                            <!-- 活動名稱 -->
+                            <h3><i class="fa fa-angle-right"></i>活動名稱</h3>
+                            <input type="text" class="form-control" placeholder="活動名稱" id="activity_Name_txt" maxlength="60" /><br />
+                            <!-- 報名限制 -->
+                            <h3 ><i class="fa fa-angle-right"></i>報名次數限制<a title="此區填寫的數字可以限制同一個報名者(姓名以及信箱相同)在這個活動最多可以報名幾個場次"> <i class="fa fa-question-circle" aria-hidden="true"></i></a></h3>
+                            <input type="text" class="form-control" placeholder="不填寫則不限制(只能填寫數字)" id="act_num_limit_txt" maxlength="3" onkeyup="return ValidateNumber($(this),value)" /><br />
+
+                        </div>
+                        <!-- 增加活動區塊地方_END -->
+
+                        <!-- 活動資訊區塊_START -->
+                        <div class="row">
+                            <h3><i class="fa fa-angle-right"></i>活動資訊</h3>
+                            <div class="showback">
+                                <div class="form-horizontal style-form">
+                                    <!-- 活動簡介 -->
+                                    <div class="form-group">
+                                        <label class="col-sm-2 col-sm-2 control-label">活動簡介</label>
+                                        <div class="col-sm-10" style="width: 100%; margin-top: 15px;">
+                                            <!-- 活動簡介，使用CKeditor -->
+                                            <textarea cols="80" id="editor1" name="editor1" rows="10"></textarea>
+                                            <script type="text/javascript">
+                                                CKEDITOR.replace('editor1',
+                                                    {
+
+                                                    });
+                                            </script>
+                                        </div>
+                                    </div>
+                                    <!-- 主辦單位 -->
+                                    <div class="form-group">
+                                        <label class="col-sm-2 col-sm-2 control-label">主辦單位</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="unit_txt" maxlength="20" />
+                                        </div>
+                                    </div>
+                                    <!-- 聯絡人 -->
+                                    <div class="form-group">
+                                        <label class="col-sm-2 col-sm-2 control-label">聯絡人</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="contact_Person_txt" maxlength="30" />
+                                        </div>
+                                    </div>
+                                    <!-- 聯絡人電話 -->
+                                    <div class="form-group">
+                                        <label class="col-sm-2 col-sm-2 control-label">聯絡人電話</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="contact_Person_Phone_txt" maxlength="30" />
+                                        </div>
+                                    </div>
+                                    <!-- 附加檔案 -->
+                                    <div class="form-group">
+                                        <label class="col-sm-2 col-sm-2 control-label">附加檔案</label>
+                                        <div class="col-sm-10">
+                                            <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
+                                                <ContentTemplate>
+                                                    <input type="button" onclick="upload_file_btn()" class="btn btn-theme" value="選擇檔案" />
+                                                    <label id="filepath_lab">選擇檔案</label>
+                                                    <asp:FileUpload ID="FileUpload" runat="server" onchange="upload_file(this.value)" Style="display: none" />
+                                                    <asp:Button ID="btnUpload" runat="server" OnClick="btnUpload_Click1" Style="display: none" />
+                                                </ContentTemplate>
+                                                <Triggers>
+                                                    <asp:PostBackTrigger ControlID="btnUpload"></asp:PostBackTrigger>
+                                                </Triggers>
+                                            </asp:UpdatePanel>
+                                            <br />
+                                            <label class="red">僅限制上傳jpg、png、jpeg、gif、doc、docx、txt、ppt、pptx、xls、xlsx、pdf、rar、zip、7z類型檔案</label>
+                                            <br />
+                                            <label class="red">大小限制為4MB</label>
+                                        </div>
+                                    </div>
+                                    <!-- 相關連結 -->
+                                    <div class="form-group">
+                                        <label class="col-sm-2 col-sm-2 control-label">相關連結</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" placeholder="https://" id="relate_Link" maxlength="255" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 活動資訊區塊_END -->
+                    </div>
+                    <!-- 活動頁面內容_END -->
                 </div>
-                <!-- 活動頁面內容_END -->
             </div>
             <!-- 活動頁面標籤_END -->
 
             <!-- 活動報名表標籤_START-->
-            <div class="row mt tab-pane fade" id="activityQus" role="tabpanel">
+            <div class="row mt tab-pane fade" id="activityQus" role="tabpanel" style="background-color: white; margin: 0px 1px 0px 1px;">
                 <!-- 新增區塊地方_START-->
-                <div class="row mt " id="add_Block_div">
+                <div class="row mt " id="add_Block_div" style="margin: 25px 0px 0px 25px;">
                     <!-- 預設區塊一_START -->
                     <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 dexc showback" id="block_div_1">
                         <!-- 預設區塊一名稱_基本資料 -->
                         <h3>
-                            <input type="text" id="block_title_txt_1" class="form-control" placeholder="區塊名稱" value="基本資料" maxlength="60"/></h3>
-                        <input type="text" id="block_Description_txt_1" class="form-control" placeholder="區塊描述" maxlength="255"/>
+                            <input type="text" id="block_title_txt_1" class="form-control" placeholder="區塊名稱" value="基本資料" maxlength="60" /></h3>
+                        <input type="text" id="block_Description_txt_1" class="form-control" placeholder="區塊描述" maxlength="255" />
                         <!-- 新增問題地方 START-->
                         <div class="form-horizontal style-form column " id="add_Qus_div_1" style="min-height: 50px">
                             <div id="qus_div_1" class="form-group portlet showback" style="border: 0px; background: #ffffff; padding: 15px; margin-bottom: 15px; box-shadow: 0px 0px 2px #272727; border-radius: 20px; margin: 20px 0px 0px 1px;">
@@ -208,7 +218,7 @@
                                             <input type="text" id="qus_txt_1" class="form-control" style="width: 100%;" value="姓名" disabled="" />
                                         </div>
                                         <div class="col-sm-10" style="width: 100%">
-                                            <input type="text" id="qus_context_txt_1" placeholder="問題描述" class="form-control" style="width: 100%; margin-top: 15px" maxlength="255"/>
+                                            <input type="text" id="qus_context_txt_1" placeholder="問題描述" class="form-control" style="width: 100%; margin-top: 15px" maxlength="255" />
                                         </div>
                                     </div>
                                     <div class="col-sm-1" style="padding: inherit;">
@@ -231,7 +241,7 @@
                                                 <option selected="selected" value="length">字數</option>
                                             </select>
                                         </div>
-                                        <div id="add_Validation_div_1" style="margin-right: 39px;float: right;">
+                                        <div id="add_Validation_div_1" style="margin-right: 39px; float: right;">
                                             <label class="col-sm-1 control-label" style="width: auto; margin-top: 6px;">最小值</label>
                                             <div class="col-sm-1" style="width: auto; margin-top: 6px;">
                                                 <input type="text" id="min_Num_1" class="form-control" style="width: 85px; margin-bottom: 8px; margin-left: -15px; background-color: #EEEEEE;" placeholder="可不填" disabled="" value="0" />
@@ -254,7 +264,7 @@
                                             <input type="text" id="qus_txt_2" class="form-control" style="width: 100%;" value="電子信箱Email" disabled="" />
                                         </div>
                                         <div class="col-sm-10" style="width: 100%">
-                                            <input type="text" id="qus_context_txt_2" placeholder="問題描述" class="form-control" style="width: 100%; margin-top: 15px" maxlength="255"/>
+                                            <input type="text" id="qus_context_txt_2" placeholder="問題描述" class="form-control" style="width: 100%; margin-top: 15px" maxlength="255" />
                                         </div>
                                     </div>
                                     <div class="col-sm-1" style="padding: inherit;">
@@ -313,8 +323,8 @@
                             <a class="btn" style="color: #768094; padding-left: 3px;" onclick="del_block_click(2)">X</a>
                         </div>
                         <h3>
-                            <input type="text" id="block_title_txt_2" class="form-control" placeholder="區塊名稱" value="其他" maxlength="60"/></h3>
-                        <input type="text" id="block_Description_txt_2" class="form-control" placeholder="區塊描述" maxlength="255"/>
+                            <input type="text" id="block_title_txt_2" class="form-control" placeholder="區塊名稱" value="其他" maxlength="60" /></h3>
+                        <input type="text" id="block_Description_txt_2" class="form-control" placeholder="區塊描述" maxlength="255" />
                         <div class="column form-horizontal style-form" id="add_Qus_div_2" style="min-height: 50px">
                         </div>
                     </div>
@@ -502,6 +512,15 @@
                 }
             })
         });
+        //#endregion
+
+        //#region 只能輸入數字判斷
+        function ValidateNumber(e, pnumber) {
+            if (!/^\d+$/.test(pnumber)) {
+                $(e).val(/^\d+/.exec($(e).val()));
+            }
+            return false;
+        }
         //#endregion
 
         //#region 切換Tabs顯示跟隱藏按鈕
@@ -746,21 +765,21 @@
                     case "int":
                         $("#add_Validation_div_" + chooseId).append('<label class="col-sm-1 control-label" style="width: auto;margin-top: 6px;">最小值</label>' +
                                                                     '<div class="col-sm-1" style="width: auto;margin-top: 6px;">' +
-                                                                        '<input type="text" id="min_Num_' + chooseId + '" class="form-control" style="width: 85px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填" maxlength="9" />' +
+                                                                        '<input type="text" id="min_Num_' + chooseId + '" class="form-control" style="width: 85px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填" maxlength="9" onkeyup="return ValidateNumber($(this),value)"/>' +
                                                                     '</div>' +
                                                                     '<label class="col-sm-1 control-label" style="width: auto;margin-top: 6px;">最大值</label>' +
                                                                     '<div class="col-sm-1" style="width: auto;margin-top: 6px;">' +
-                                                                        '<input type="text" id="max_Num_' + chooseId + '" class="form-control" style="width: 85px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填" maxlength="9"/>' +
+                                                                        '<input type="text" id="max_Num_' + chooseId + '" class="form-control" style="width: 85px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填" maxlength="9" onkeyup="return ValidateNumber($(this),value)"/>' +
                                                                     '</div>');
                         break;
                     case "length":
                         $("#add_Validation_div_" + chooseId).append('<label class="col-sm-1 control-label" style="width: auto;margin-top: 6px;">最小值</label>' +
                                                                     '<div class="col-sm-1" style="width: auto;margin-top: 6px;">' +
-                                                                        '<input type="text" id="min_Num_' + chooseId + '" class="form-control" style="width: 85px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填" maxlength="9"/>' +
+                                                                        '<input type="text" id="min_Num_' + chooseId + '" class="form-control" style="width: 85px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填" maxlength="9" onkeyup="return ValidateNumber($(this),value)"/>' +
                                                                     '</div>' +
                                                                     '<label class="col-sm-1 control-label" style="width: auto;margin-top: 6px;">最大值</label>' +
                                                                     '<div class="col-sm-1" style="width: auto;margin-top: 6px;">' +
-                                                                        '<input type="text" id="max_Num_' + chooseId + '" class="form-control" style="width: 85px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填" maxlength="9"/>' +
+                                                                        '<input type="text" id="max_Num_' + chooseId + '" class="form-control" style="width: 85px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填" maxlength="9" onkeyup="return ValidateNumber($(this),value)"/>' +
                                                                     '</div>');
                         break;
                     default:
@@ -769,7 +788,7 @@
                 var if_int = /^[0-9]*[1-9][0-9]*$/;
 
                 $("#max_Num_" + chooseId).blur(function () {
-                    if (isNaN($.trim($(this).val())) ) {
+                    if (isNaN($.trim($(this).val()))) {
                         $(this).css({ "box-shadow": "0px 0px 9px red" });
                         if ($("#max_Num_error_" + chooseId).length == 0)
                             $(this).after('<em id="max_Num_error_' + chooseId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">只能輸入數字</em>');
@@ -826,7 +845,7 @@
                 })
             });
 
-            
+
             //題目模式選單
             $('#select_' + qusId).change(function () {
                 //抓取現在要更改問題模式的ID
@@ -914,7 +933,7 @@
             temp_change_Qus_Content_div.children().remove();
             //將問題名稱選項改為單選、多選、選單問題
             temp_change_Qus_Way_div.append('<div class="col-sm-10" style="width: 100%">' +
-                                                '<input type="text" ID="qus_txt_' + chooseId + '"  placeholder="' + qus_title + '" class="form-control" style="width: 100%;"' + title_Value + '=' + qus_Title_Value + ' maxlength="60" />' +
+                                                '<input type="text" ID="qus_txt_' + chooseId + '"  placeholder="' + qus_title + '" class="form-control" style="width: 100%;" maxlength="60" ' + title_Value + '="' + qus_Title_Value + '"  />' +
                                             '</div>' +
                                             '<div class="col-sm-10" style="width: 100%">' +
                                                 '<input type="text" ID="qus_context_txt_' + chooseId + '" ' + qus_Desc_Value + ' = "' + qus_Desc + '" placeholder="問題描述" class="form-control" style="width: 100%;margin-top: 15px" maxlength="255" />' +
@@ -927,7 +946,7 @@
                                                     '<div class="panel-heading" role="tab" id="heading_' + chooseId + '">' +
                                                       '<h4 class="panel-title">' +
                                                         '<a data-toggle="collapse" data-parent="#panel_group_' + chooseId + '" href="#collapse_' + chooseId + '" aria-expanded="true" aria-controls="collapse_' + chooseId + '" style="color:#2a6496;">' +
-                                                          '' + qus_title + '' +
+                                                          '' + qus_title.split('')[0] + qus_title.split('')[1] +'選項' +
                                                         '</a>' +
                                                       '</h4>' +
                                                     '</div>' +
@@ -1142,7 +1161,13 @@
                             '<div class="form-group">' +
                                 '<label class="col-sm-2 control-label">人數限制<b class="red">*</b></label>' +
                                 '<div class="col-sm-10">' +
-                                    '<input type="text" class="form-control" placeholder="請填寫數字" id="activity_Limit_Num_txt_' + sessionId + '">' +
+                                    '<input type="text" class="form-control" placeholder="請填寫數字" id="activity_Limit_Num_txt_' + sessionId + '" onkeyup="return ValidateNumber($(this),value)">' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="form-group">' +
+                                '<label class="col-sm-2 control-label">備註</label>' +
+                                '<div class="col-sm-10">' +
+                                    '<input type="text" class="form-control" id="activity_remark_txt_' + sessionId + '" maxlength="100">' +
                                 '</div>' +
                             '</div>' +
                             '<div class="form-group" style="padding-right: 10px;">' +
@@ -1453,8 +1478,10 @@
                             async: false,
                             //成功時
                             success: function (result) {
-                                //alert(result.d);
-                                //upload_File();
+                                if (result.d == "true")
+                                    Save_Activity_btn_Click();
+                                else
+                                    alert("活動儲存失敗");
                             },
                             //失敗時
                             error: function () {
@@ -1521,6 +1548,8 @@
                     session_Json_Data.As_position = $("#activity_Location_txt_" + temp).val();
                     //存入場次活動人數限制
                     session_Json_Data.As_num_limit = $("#activity_Limit_Num_txt_" + temp).val();
+                    //存入場次備註
+                    session_Json_Data.As_remark = $("#activity_remark_txt_" + temp).val();
                     //判斷場次名不為空
                     if (!session_Json_Data.As_title) {
                         $("#session_Name_txt_" + temp).css({ "box-shadow": "0px 0px 9px red" });
@@ -1630,6 +1659,11 @@
             activity_Json_Data.Act_contact_phone = $("#contact_Person_Phone_txt").val();
             //儲存相關連結
             activity_Json_Data.Act_relate_link = $("#relate_Link").val();
+            //儲存報名場次次數限制
+            if($.trim($("#act_num_limit_txt").val()) == "")
+                activity_Json_Data.Act_num_limit = 0;
+            else
+                activity_Json_Data.Act_num_limit = $.trim($("#act_num_limit_txt").val());
             //儲存活動分類
             if ($("#select_class").val() == 0) {
                 $("#select_class").css({ "box-shadow": "0px 0px 9px red" });
@@ -1642,8 +1676,6 @@
                 $("#select_class_txt_error").remove();
                 activity_Json_Data.Act_class = $("#select_class").val();
             }
-
-            jsondata.activity_List.push(activity_Json_Data);
             //判斷活動名稱不能為空
             if (!activity_Json_Data.Act_title) {
                 $("#activity_Name_txt").css({ "box-shadow": "0px 0px 9px red" });
@@ -1668,6 +1700,9 @@
                 alert("附加檔案只能上傳jpg、png、jpeg、gif、doc、docx、txt、ppt、pptx、xls、xlsx、pdf、rar、zip、7z格式");
                 check_Activity_Data = false;
             }
+
+            jsondata.activity_List.push(activity_Json_Data);
+
             return jsondata;
         }
         //#endregion

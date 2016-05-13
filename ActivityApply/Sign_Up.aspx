@@ -168,7 +168,7 @@
                     resizeJquerySteps();
                 },
                 onFinishing: function (event, currentIndex) {
-                    window.location.replace("index.aspx");
+                    window.location.replace("SignSearchContext.aspx");
                     return true;
                 },
                 onFinished: function (event, currentIndex) {
@@ -262,6 +262,11 @@
                     case "dropDownList": code = DropDownListCol_Code(questionInfo[i], i); break;
                 }
                 $("#question_div_" + questionInfo[i].Acc_asc).append(decodeURI(code));
+                if (questionInfo[i].Acc_type == "text")
+                    $("#qus_div_" + i).find('input').css({ 'width': '99%' });
+                else
+                    $("#qus_div_" + i).find('input').css({ 'width': 'auto' });
+                $("#qus_div_" + i).find('select').css({ 'width': '99%' });
             }
             $(document).dequeue("myQueue");
         }
@@ -285,8 +290,8 @@
             var qusName = questionList[seq].Input_name = "qus_txt_" + seq;
             var code = '<div id="' + qusId + '" class="form-group">\
                             <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
-                            <div class="col-sm-10">\
-                                <input type="text" name="' + qusName + '" class="form-control' + Validate(question.Acc_required, question.Acc_validation) + '>\
+                            <div class="col-sm-10 col-lg-5">\
+                                <input type="text" name="' + qusName + '" class="form-control' + Validate(question.Acc_required, question.Acc_validation) + ' >\
                                 <span class="help-block">' + question.Acc_desc + '</span>\
                             </div>\
                         </div>';
@@ -299,7 +304,7 @@
             var qusName = questionList[seq].Input_name = "qus_radio_" + seq;
             var code = '<div id="' + qusId + '" class="form-group">\
                             <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
-                            <div class="col-sm-10">\
+                            <div class="col-sm-10 col-lg-5">\
                                 <span class="help-block">' + question.Acc_desc + '</span>';
             //反序列化
             question.Acc_option.split('&').forEach(function (param, index) {
@@ -307,7 +312,7 @@
                 var val = param[1];
                 code += '<div class="radio">\
                             <label>\
-                                <input type="radio" name="' + qusName + '" value="' + val + '"' + (index == 0 ? ' class="' + Validate(question.Acc_required, question.Acc_validation) : '') + '>\
+                                <input type="radio" style="width: auto;" name="' + qusName + '" value="' + val + '"' + (index == 0 ? ' class="' + Validate(question.Acc_required, question.Acc_validation) : '') + '>\
                                 ' + val + '\
                             </label>\
                         </div>';
@@ -323,7 +328,7 @@
             var qusName = questionList[seq].Input_name = "qus_checkbox_" + seq;
             var code = '<div id="' + qusId + '" class="form-group">\
                             <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
-                            <div class="col-sm-10">\
+                            <div class="col-sm-10 col-lg-5">\
                                 <span class="help-block">' + question.Acc_desc + '</span>';
             //反序列化
             question.Acc_option.split('&').forEach(function (param, index) {
@@ -331,7 +336,7 @@
                 var val = param[1];
                 code += '<div class="checkbox">\
                             <label>\
-                                <input type="checkbox" name="' + qusName + '" value="' + val + '"' + (index == 0 && question.Acc_required == "1" ? ' class="' + Validate(question.Acc_required, "length,1,N") : '') + '>' + val + '\
+                                <input type="checkbox" style="width: auto;" name="' + qusName + '" value="' + val + '"' + (index == 0 && question.Acc_required == "1" ? ' class="' + Validate(question.Acc_required, "length,1,N") : '') + '>' + val + '\
                             </label>\
                          </div>';
             })
@@ -346,7 +351,7 @@
             var qusName = questionList[seq].Input_name = "qus_ddl_" + seq;
             var code = '<div id="' + qusId + '" class="form-group">\
                             <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
-                            <div class="col-sm-10">\
+                            <div class="col-sm-10 col-lg-5">\
                                 <select name="' + qusName + '" class="form-control' + Validate(question.Acc_required, question.Acc_validation) + '>\
                                     <option value=""></option>';
             //反序列化
@@ -473,7 +478,7 @@
                     if (msg.split(":")[0] == "Error") {
                         alert(msg.split(":")[1]);
                         res = false;
-                        window.location.replace("index.aspx");
+                        window.location.replace("SignSearchContext.aspx");
                         window.event.returnValue = false;
                     }                    
                 },

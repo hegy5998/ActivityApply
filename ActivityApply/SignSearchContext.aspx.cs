@@ -136,11 +136,13 @@ namespace ActivityApply
         /// <param name="e"></param>
         protected void main_gv_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            if (e.CommandName == "Page") return;
             DataTable dt = (DataTable)Cache[_dataCacheKey];
             //取得選擇的row
             GridViewRow gvr = sender as GridViewRow;
             //取得選擇的row的Index
             int rowIndex = Convert.ToInt32(e.CommandArgument);
+            
             //抓取活動序號隱藏欄位
             HiddenField Act_idn_hf = main_gv.Rows[rowIndex].FindControl("Act_idn_hf") as HiddenField;
             //抓取場次序號隱藏欄位
@@ -158,7 +160,7 @@ namespace ActivityApply
             switch (e.CommandName)
             {
                 case "Custom_Edit"://修改報名資料
-                    
+
                     //設定資料
                     act_idn = Act_idn_hf.Value;
                     as_idn = As_idn_hf.Value;
@@ -178,7 +180,7 @@ namespace ActivityApply
                         password_ok_btn_Click(sender, e);
                     break;
                 case "Custom_Delete":
-                    
+
                     //設定資料
                     act_idn = Act_idn_hf.Value;
                     as_idn = As_idn_hf.Value;
@@ -240,7 +242,7 @@ namespace ActivityApply
             rd.Load(Server.MapPath("~/applyProve.rpt"));
             //設定資料
             rd.SetDataSource(dt);
-            rd.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, true, act_title+"_"+ as_title+"_報名資訊");
+            rd.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, true, act_title + "_" + as_title + "_報名資訊");
             rd.Close();
         }
         #endregion
@@ -341,14 +343,27 @@ namespace ActivityApply
             //寄信
             SystemConfigInfo config_info = CommonHelper.GetSysConfig();
             DataTable dt_password = BL.GetEmailData(email);
-            CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubject(email), getMailContnet(dt_password));
-            //Page.RegisterStartupScript("Show", "<script language=\"JavaScript\">closeme();</script>");
-            string error_msg = "已寄送Email到 : " + email;
-            StringBuilder sb = new StringBuilder();
-            sb.Append("<script language='javascript'>");
-            sb.Append("alert('" + error_msg + "')");
-            sb.Append("</script>");
-            ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
+            if (dt_password.Rows.Count > 0)
+            {
+                CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubject(email), getMailContnet(dt_password));
+                //Page.RegisterStartupScript("Show", "<script language=\"JavaScript\">closeme();</script>");
+                string error_msg = "已寄送Email到 : " + email;
+                StringBuilder sb = new StringBuilder();
+                sb.Append("<script language='javascript'>");
+                sb.Append("alert('" + error_msg + "')");
+                sb.Append("</script>");
+                ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
+            }
+            else
+            {
+                string error_msg = "無此信箱資料!";
+                StringBuilder sb = new StringBuilder();
+                sb.Append("<script language='javascript'>");
+                sb.Append("alert('" + error_msg + "')");
+                sb.Append("</script>");
+                ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
+            }
+
         }
         #endregion
 
@@ -461,7 +476,7 @@ namespace ActivityApply
                 }
                 BindGridView(GetData(true));
             }
-            else if(Session["user_password"] != null && Session["user_password"].ToString() == user_password && gridview_event == "Custom_dowload")
+            else if (Session["user_password"] != null && Session["user_password"].ToString() == user_password && gridview_event == "Custom_dowload")
             {
                 //password_pop.Hide();
                 Page.RegisterStartupScript("Show", "<script language=\"JavaScript\">download();</script>");
@@ -479,12 +494,13 @@ namespace ActivityApply
         }
         #endregion
 
+        #region 下載報名資訊
         protected void download_Click(object sender, EventArgs e)
         {
             Sign_UpBL _bl = new Sign_UpBL();
             DataTable dt = _bl.GetApplyProve(Int32.Parse(aa_idn));
             //ReportDocument rd = new ReportDocument();
-            
+
             using (ReportDocument rd = new ReportDocument())
             {
                 //載入該報表
@@ -494,6 +510,13 @@ namespace ActivityApply
                 rd.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, true, act_title + "_" + as_title + "_報名資訊");
                 rd.Close();
             }
+        }
+        #endregion
+
+        protected void main_gv_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            main_gv.PageIndex = e.NewPageIndex;
+            BindGridView(GetData(false));
         }
     }
 }

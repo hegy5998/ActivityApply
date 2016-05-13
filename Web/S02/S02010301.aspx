@@ -9,27 +9,51 @@
     <div class="advanced-form row">
         <asp:UpdatePanel ID="lup" runat="server" ChildrenAsTriggers="False" UpdateMode="Conditional">
             <ContentTemplate>
-                <asp:GridView ID="main_gv" Width="600px" runat="server" AutoGenerateColumns="false" ViewStateMode="Enabled" PageSize="20"  OnSorting="main_gv_Sorting" OnRowCommand="main_gv_RowCommand" OnRowDeleting="main_gv_RowDeleting" OnRowDataBound="main_gv_RowDataBound" OnRowEditing="main_gv_RowEditing" OnRowCancelingEdit="main_gv_RowCancelingEdit" OnRowUpdating="main_gv_RowUpdating">
+                <asp:GridView ID="main_gv" Width="600px" runat="server" AutoGenerateColumns="false" ViewStateMode="Enabled" PageSize="20" OnSorting="main_gv_Sorting" OnRowCommand="main_gv_RowCommand" OnRowDeleting="main_gv_RowDeleting" OnRowDataBound="main_gv_RowDataBound" OnRowEditing="main_gv_RowEditing" OnRowCancelingEdit="main_gv_RowCancelingEdit" OnRowUpdating="main_gv_RowUpdating">
                     <Columns>
                         <asp:TemplateField ShowHeader="False" HeaderText="操作">
                             <EditItemTemplate>
-                                <asp:Button ID="save_btn" runat="server" CommandName="Update" CssClass="btnGrv update" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
-                                &nbsp;<asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="btnGrv cancel" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                                <span style="position: relative;">
+                                    <i class="fa fa-floppy-o btn btn-success btn-xs" aria-hidden="true"></i>
+                                    <asp:Button ID="save_btn" runat="server" CommandName="Update" CssClass="movedown" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
+                                </span>
+                                &nbsp;                   
+                                <span style="position: relative;">
+                                    <i class="fa fa-undo btn btn-warning btn-xs" aria-hidden="true"></i>
+                                    <asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="movedown" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                                </span>
                             </EditItemTemplate>
                             <FooterTemplate>
-                                <asp:Button ID="save_btn" runat="server" CommandName="AddSave" CssClass="btnGrv update" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
-                                &nbsp;<asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="btnGrv cancel" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                                <span style="position: relative;">
+                                    <i class="fa fa-floppy-o btn btn-success btn-xs" aria-hidden="true"></i>
+                                    <asp:Button ID="save_btn" runat="server" CommandName="AddSave" CssClass="movedown" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
+                                </span>
+                                &nbsp;                   
+                                <span style="position: relative;">
+                                    <i class="fa fa-undo btn btn-warning btn-xs" aria-hidden="true"></i>
+                                    <asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="movedown" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                                </span>
                             </FooterTemplate>
                             <HeaderTemplate>
-                                <asp:Button ID="add_btn" runat="server" CommandName="Add" CssClass="btnGrv add" Text="新增" ToolTip="新增" UseSubmitBehavior="False" />
+                                <span style="position: relative;">
+                                    <i class="fa fa-plus btn btn-info btn-xs" aria-hidden="true"></i>
+                                    <asp:Button ID="add_btn" runat="server" CommandName="Add" CssClass="movedown" Text="新增" ToolTip="新增" UseSubmitBehavior="False" />
+                                </span>
                             </HeaderTemplate>
                             <ItemTemplate>
-                                <asp:Button ID="edit_btn" runat="server" Text="修改報名資料" CommandName="Edit" ToolTip="編輯" CssClass="btnGrv edit" UseSubmitBehavior="false" CommandArgument='<%# Container.DataItemIndex%>' />
-                                &nbsp;<asp:Button ID="delete_btn" runat="server" CommandName="Delete" Text="取消" ToolTip="刪除" CssClass="btnGrv delete" UseSubmitBehavior="false" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" CommandArgument='<%# Container.DataItemIndex%>' />
+                                <span style="position: relative;">
+                                    <i class="fa fa-pencil btn btn-primary btn-xs" aria-hidden="true"></i>
+                                    <asp:Button ID="edit_btn" runat="server" Text="修改報名資料" CommandName="Edit" ToolTip="編輯" CssClass="movedown" UseSubmitBehavior="false" CommandArgument='<%# Container.DataItemIndex%>' />
+                                </span>
+                                &nbsp;
+                                <span style="position: relative;">
+                                    <i class="fa fa-trash-o btn btn-danger btn-xs" aria-hidden="true"></i>
+                                    <asp:Button ID="delete_btn" runat="server" CommandName="Delete" CssClass="movedown" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False"/>
+                                </span>
                                 <asp:HiddenField ID="rowDefaultTriggerControlID_hf" runat="server" EnableViewState="False" Value="edit_btn" />
                             </ItemTemplate>
                             <FooterStyle HorizontalAlign="Center" />
-                            <HeaderStyle Width="60px" />
+                            <HeaderStyle Width="80px" />
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="分類名稱">

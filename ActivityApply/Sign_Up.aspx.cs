@@ -32,7 +32,7 @@ namespace ActivityApply
         public static string getSectionList()
         {
             Sign_UpBL _bl = new Sign_UpBL();
-            List<Activity_sectionInfo> sectionList = _bl.GetSectionList(ACT_IDN);
+            List<Activity_sectionInfo> sectionList = _bl.GetSectionList(ACT_IDN,AS_IDN);
             if(sectionList.Count == 0)
                 return "false";
             else
@@ -83,7 +83,12 @@ namespace ActivityApply
             // 判斷是否重複報名
             if (_bl.isRepeatApply(AS_IDN, email, name))
             {
-                return "Error:您已報名此活動！";
+                return "Error:您已報名此場次！";
+            }
+            // 判斷是否超過報名限制
+            if (_bl.isOverApplyLimit(ACT_IDN, email, name))
+            {
+                return "Error:您已超過活動報名限制名額！";
             }
 
             Dictionary<String, Object> save_Activity_apply = new Dictionary<string, object>();
