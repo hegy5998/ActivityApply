@@ -4,7 +4,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead_cph" runat="server">
     <style type="text/css">
-        .table{
+        .table {
             box-shadow: none;
         }
     </style>
@@ -22,6 +22,7 @@
     <input type="button" onclick="Save_Activity_btn_Click()" value="儲存報名表" />
     <!-- 上傳檔案 -->
     <input type="button" onclick="upload_File()" value="上傳檔案" />--%>
+    <input id="loading" type="button" data-toggle="modal" data-target="#myModal1" data-backdrop="static" role="group" Style="display: none;"/>
     <!-- 隱藏按鈕防止按下Enter返回列表 -->
     <asp:Button ID="Button1" runat="server" Text="Button" OnClientClick="return false;" Style="display: none;" />
     <!-- 儲存活動 -->
@@ -112,7 +113,7 @@
                             <h3><i class="fa fa-angle-right"></i>活動名稱</h3>
                             <input type="text" class="form-control" placeholder="活動名稱" id="activity_Name_txt" maxlength="60" /><br />
                             <!-- 報名限制 -->
-                            <h3 ><i class="fa fa-angle-right"></i>報名次數限制<a title="此區填寫的數字可以限制同一個報名者(姓名以及信箱相同)在這個活動最多可以報名幾個場次"> <i class="fa fa-question-circle" aria-hidden="true"></i></a></h3>
+                            <h3><i class="fa fa-angle-right"></i>報名次數限制<a title="此區填寫的數字可以限制同一個報名者(姓名以及信箱相同)在這個活動最多可以報名幾個場次"> <i class="fa fa-question-circle" aria-hidden="true"></i></a></h3>
                             <input type="text" class="form-control" placeholder="不填寫則不限制(只能填寫數字)" id="act_num_limit_txt" maxlength="3" onkeyup="return ValidateNumber($(this),value)" /><br />
 
                         </div>
@@ -230,8 +231,8 @@
                                 <div class="row">
                                     <div class="col-sm-6" id="change_Qus_Content_div_1">
                                     </div>
-                                    <div class="col-sm-6">
-                                        <div class="row" style="float: right;">
+                                    <div>
+                                        <div style="float: right;">
                                             <div class="checkbox checkbox-slider--b-flat checkbox-slider-md" style="float: left; padding-right: 10px;">
                                                 <label>
                                                     <input id="required_checkbox_1" type="checkbox" checked="checked" disabled="" /><span><a style="font-size: 16px; margin-left: -126px;">必填</a></span>
@@ -276,8 +277,8 @@
                                 <div class="row">
                                     <div class="col-sm-6" id="change_Qus_Content_div_2">
                                     </div>
-                                    <div class="col-sm-6">
-                                        <div class="row" style="float: right;">
+                                    <div>
+                                        <div style="float: right;">
                                             <div class="checkbox checkbox-slider--b-flat checkbox-slider-md" style="float: left; padding-right: 10px;">
                                                 <label>
                                                     <input id="required_checkbox_2" type="checkbox" checked="checked" disabled="" /><span><a style="font-size: 16px; margin-left: -126px;">必填</a></span>
@@ -426,6 +427,18 @@
         </div>
     </div>
     <!-- 常用欄位_Modal_END-->
+
+    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="margin: 2% 30%; padding: 0px 0px; border-radius: 6px;text-align: center;">
+            <div class="">
+                <div class="modal-body">
+                    <i class="fa fa-spinner fa-pulse fa-5x fa-fw margin-bottom" style="color: white"></i>
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- 隱藏欄位儲存報名表JSON字串-->
     <input type="hidden" id="save_Activity_Column_Json" />
     <input type="hidden" id="save_Activity_Json" />
@@ -946,7 +959,7 @@
                                                     '<div class="panel-heading" role="tab" id="heading_' + chooseId + '">' +
                                                       '<h4 class="panel-title">' +
                                                         '<a data-toggle="collapse" data-parent="#panel_group_' + chooseId + '" href="#collapse_' + chooseId + '" aria-expanded="true" aria-controls="collapse_' + chooseId + '" style="color:#2a6496;">' +
-                                                          '' + qus_title.split('')[0] + qus_title.split('')[1] +'選項' +
+                                                          '' + qus_title.split('')[0] + qus_title.split('')[1] + '選項' +
                                                         '</a>' +
                                                       '</h4>' +
                                                     '</div>' +
@@ -1461,10 +1474,12 @@
         //#region 儲存活動頁面
         function Save_btn_Click() {
             var jsondata = Save_Activity_Json();
-            if (check_Activity_Data === true) {
+            var jsondata_column = Save_Activity_Column_Json();
+            if (check_Activity_Data === true && check_Activity_Column_Data === true) {
                 if (checkDataSignEnd == true) {
                     var if_Save = confirm("您的報名結束日期在活動開始日期之後，確定要儲存嗎?");
                     if (if_Save == true) {
+                        $("#loading").click();
                         $.ajax({
                             type: 'post',
                             traditional: true,
@@ -1479,18 +1494,23 @@
                             //成功時
                             success: function (result) {
                                 if (result.d == "true")
-                                    Save_Activity_btn_Click();
-                                else
+                                    Save_Activity_btn_Click(jsondata_column);
+                                else {
+                                    $("#loading").click();
                                     alert("活動儲存失敗");
+                                }
+                                    
                             },
                             //失敗時
                             error: function () {
+                                $("#loading").click();
                                 alert("活動儲存失敗");
                             }
                         });
                     }
                 }
                 else {
+                    $("#loading").click();
                     $.ajax({
                         type: 'post',
                         traditional: true,
@@ -1504,19 +1524,25 @@
                         //成功時
                         success: function (result) {
                             if (result.d == "true")
-                                Save_Activity_btn_Click();
-                            else
+                                Save_Activity_btn_Click(jsondata_column);
+                            else {
+                                $("#loading").click();
                                 alert("活動儲存失敗");
+                            }
                         },
                         //失敗時
                         error: function () {
+                            $("#loading").click();
                             alert("活動儲存失敗");
                         }
                     });
                 }
             }
-            else {
+            else if (check_Activity_Data === false) {
                 alert("活動頁面資料有誤");
+            }
+            else if (check_Activity_Column_Data === false) {
+                alert("報名表資料有誤");
             }
         }
         //#endregion
@@ -1660,7 +1686,7 @@
             //儲存相關連結
             activity_Json_Data.Act_relate_link = $("#relate_Link").val();
             //儲存報名場次次數限制
-            if($.trim($("#act_num_limit_txt").val()) == "")
+            if ($.trim($("#act_num_limit_txt").val()) == "")
                 activity_Json_Data.Act_num_limit = 0;
             else
                 activity_Json_Data.Act_num_limit = $.trim($("#act_num_limit_txt").val());
@@ -1708,9 +1734,9 @@
         //#endregion
 
         //#region 儲存報名表
-        function Save_Activity_btn_Click() {
+        function Save_Activity_btn_Click(jsondata_column) {
             //var checkData = true;
-            var jsondata = Save_Activity_Column_Json();
+            //var jsondata = Save_Activity_Column_Json();
             //使用ajax傳送
             if (check_Activity_Column_Data == true && check_Activity_Data == true) {
                 $.ajax({
@@ -1718,21 +1744,25 @@
                     traditional: true,
                     //傳送資料到後台為save_Activity_Form的function
                     url: 'S02010201.aspx/save_Activity_Form',
-                    data: JSON.stringify(jsondata),
+                    data: JSON.stringify(jsondata_column),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     async: false,
                     //成功時
                     success: function (result) {
                         if (result.d == "true") {
+                            $("#loading").click();
                             alert("活動儲存成功");
                             upload_File();
                         }
-                        else
+                        else {
+                            $("#loading").click();
                             alert("活動儲存失敗");
+                        }         
                     },
                     //失敗時
                     error: function () {
+                        $("#loading").click();
                         alert("活動儲存失敗");
                     }
                 });
