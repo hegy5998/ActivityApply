@@ -22,7 +22,6 @@
     <input type="button" onclick="Save_Activity_btn_Click()" value="儲存報名表" />
     <!-- 上傳檔案 -->
     <input type="button" onclick="upload_File()" value="上傳檔案" />--%>
-    <input id="loading" type="button" data-toggle="modal" data-target="#myModal1" data-backdrop="static" role="group" Style="display: none;"/>
     <!-- 隱藏按鈕防止按下Enter返回列表 -->
     <asp:Button ID="Button1" runat="server" Text="Button" OnClientClick="return false;" Style="display: none;" />
     <!-- 儲存活動 -->
@@ -113,7 +112,7 @@
                             <h3><i class="fa fa-angle-right"></i>活動名稱</h3>
                             <input type="text" class="form-control" placeholder="活動名稱" id="activity_Name_txt" maxlength="60" /><br />
                             <!-- 報名限制 -->
-                            <h3><i class="fa fa-angle-right"></i>報名次數限制<a title="此區填寫的數字可以限制同一個報名者(姓名以及信箱相同)在這個活動最多可以報名幾個場次"> <i class="fa fa-question-circle" aria-hidden="true"></i></a></h3>
+                            <h3><i class="fa fa-angle-right"></i>報名次數限制 <a title="此區填寫的數字可以限制同一個報名者(姓名以及信箱相同)在這個活動最多可以報名幾個場次" style="cursor: help;"><i class="fa fa-question-circle" aria-hidden="true"></i></a></h3>
                             <input type="text" class="form-control" placeholder="不填寫則不限制(只能填寫數字)" id="act_num_limit_txt" maxlength="3" onkeyup="return ValidateNumber($(this),value)" /><br />
 
                         </div>
@@ -210,7 +209,7 @@
                         <!-- 新增問題地方 START-->
                         <div class="form-horizontal style-form column " id="add_Qus_div_1" style="min-height: 50px">
                             <div id="qus_div_1" class="form-group portlet showback" style="border: 0px; background: #ffffff; padding: 15px; margin-bottom: 15px; box-shadow: 0px 0px 2px #272727; border-radius: 20px; margin: 20px 0px 0px 1px;">
-                                <div class="col-sm-1 portlet-header center" style="background-color: #F1F2F7; height: 100px; width: 35px">
+                                <div class="col-sm-1 portlet-header center" style="background-color: #F1F2F7; height: 100px; width: 35px;cursor: move;">
                                     <img src="../Images/drag_pic.jpg" alt="拖移" style="height: 24px; transform: translateY(-50%); top: 50%; position: relative;" />
                                 </div>
                                 <div class="row">
@@ -256,7 +255,7 @@
                                 </div>
                             </div>
                             <div id="qus_div_2" class="form-group portlet showback" style="border: 0px; background: #ffffff; padding: 15px; margin-bottom: 15px; box-shadow: 0px 0px 2px #272727; border-radius: 20px; margin: 20px 0px 0px 1px;">
-                                <div class="col-sm-1 portlet-header center" style="background-color: #F1F2F7; height: 100px; width: 35px">
+                                <div class="col-sm-1 portlet-header center" style="background-color: #F1F2F7; height: 100px; width: 35px;cursor: move;">
                                     <img src="../Images/drag_pic.jpg" alt="拖移" style="height: 24px; transform: translateY(-50%); top: 50%; position: relative;" />
                                 </div>
                                 <div class="row">
@@ -428,9 +427,10 @@
     </div>
     <!-- 常用欄位_Modal_END-->
 
+    <!-- loading -->
     <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog" style="margin: 2% 30%; padding: 0px 0px; border-radius: 6px;text-align: center;">
-            <div class="">
+        <div class="modal-dialog" style="margin: 2% 30%; padding: 0px 0px; border-radius: 6px;text-align: center;height:92%;">
+            <div style="transform: translateY(-50%);top: 50%;position: relative;">
                 <div class="modal-body">
                     <i class="fa fa-spinner fa-pulse fa-5x fa-fw margin-bottom" style="color: white"></i>
                     <span class="sr-only">Loading...</span>
@@ -438,6 +438,7 @@
             </div>
         </div>
     </div>
+    <!-- loading -->
 
     <!-- 隱藏欄位儲存報名表JSON字串-->
     <input type="hidden" id="save_Activity_Column_Json" />
@@ -718,7 +719,7 @@
                 var check = "";
             //新增問題至最後一個區塊內(預設文字問題)
             $('#add_Qus_div_' + chooseId).append('<div id="qus_div_' + qusId + '" class="form-group portlet showback" style="border: 0px; background: #ffffff;padding: 15px;margin-bottom: 15px;box-shadow: 0px 0px 2px #272727;border-radius: 20px;margin: 20px 0px 0px 1px;">' +
-                                        '<div class="col-sm-1 portlet-header center" style="background-color: #F1F2F7;height:100px; width:35px">' +
+                                        '<div class="col-sm-1 portlet-header center" style="background-color: #F1F2F7;height:100px; width:35px;cursor: move;">' +
                                             '<img src="../Images/drag_pic.jpg" alt="拖移" height="24px" style="transform: translateY(-50%);top: 50%;position: relative;"/> ' +
                                         '</div>' +
                                         '<div class="row">' +
@@ -970,7 +971,7 @@
                                                                     '<input id="qus_Option_' + chooseId + '1" name="qus_Options" type="text" ' + option_Value + '="' + present_Qus_Option + '" class="form-control" style="margin-top: 8px;margin-bottom: 8px;width: 244px;" maxlength="30">' +
                                                             '</div>' +
                                                             '<div class="col-sm-11 "  id="newOption_' + chooseId + '" style="margin-bottom: 8px;">' +
-                                                                    '<a onclick="add_Qus_Options_Click(' + chooseId + ',' + null + ')">新增選項</a>' +
+                                                                    '<a onclick="add_Qus_Options_Click(' + chooseId + ',' + null + ')" style="cursor: pointer;">新增選項</a>' +
                                                             '</div>' +
                                                         '</div>' +
                                                       '</div>' +
@@ -1028,12 +1029,12 @@
                                                 '<input id="qus_Option_' + id + (count + 1) + '" name="qus_Options" type="text" class="form-control" style="width: 244px;margin-bottom: 8px;margin-left: -15px" ' + value + '="' + option_value + '" maxlength="30"/>' +
                                             '</div>' +
                                             '<div class="col-sm-2 col-sm-push-3" style="margin-top:10px;margin-bottom: 5px;margin-left: 100px;">' +
-                                             '<a onclick="del_Qus_Options_Click(' + id + (count) + ')">X</a>' +
+                                             '<a onclick="del_Qus_Options_Click(' + id + (count) + ')" style="cursor: pointer;">X</a>' +
                                              '</div>' +
                                     '</div>' +
 
                                     '<div class="col-sm-11" id="newOption_' + id + '" style="margin-bottom: 8px;">' +
-                                        '<a onclick="add_Qus_Options_Click(' + id + ',' + null + ')">新增選項</a>' +
+                                        '<a onclick="add_Qus_Options_Click(' + id + ',' + null + ')" style="cursor: pointer;">新增選項</a>' +
                                     '</div>');
             $("#qus_Option_" + id + (count + 1)).focus();
             //當焦點離開時判斷如果沒有填寫則警號
@@ -1178,7 +1179,7 @@
                                 '</div>' +
                             '</div>' +
                             '<div class="form-group">' +
-                                '<label class="col-sm-2 control-label">備註</label>' +
+                                '<label class="col-sm-2 control-label">備註 <a title="顯示於報名者下載活動資訊的備註欄內" style="cursor: help;"><i class="fa fa-question-circle fa-lg" aria-hidden="true"></i></a></label>' +
                                 '<div class="col-sm-10">' +
                                     '<input type="text" class="form-control" id="activity_remark_txt_' + sessionId + '" maxlength="100">' +
                                 '</div>' +
@@ -1479,7 +1480,7 @@
                 if (checkDataSignEnd == true) {
                     var if_Save = confirm("您的報名結束日期在活動開始日期之後，確定要儲存嗎?");
                     if (if_Save == true) {
-                        $("#loading").click();
+                        $("#myModal1").modal("show");
                         $.ajax({
                             type: 'post',
                             traditional: true,
@@ -1496,21 +1497,21 @@
                                 if (result.d == "true")
                                     Save_Activity_btn_Click(jsondata_column);
                                 else {
-                                    $("#loading").click();
+                                    $("#myModal1").modal("hide");
                                     alert("活動儲存失敗");
                                 }
                                     
                             },
                             //失敗時
                             error: function () {
-                                $("#loading").click();
+                                $("#myModal1").modal("hide");
                                 alert("活動儲存失敗");
                             }
                         });
                     }
                 }
                 else {
-                    $("#loading").click();
+                    $("#myModal1").modal("show");
                     $.ajax({
                         type: 'post',
                         traditional: true,
@@ -1526,13 +1527,13 @@
                             if (result.d == "true")
                                 Save_Activity_btn_Click(jsondata_column);
                             else {
-                                $("#loading").click();
+                                $("#myModal1").modal("hide");
                                 alert("活動儲存失敗");
                             }
                         },
                         //失敗時
                         error: function () {
-                            $("#loading").click();
+                            $("#myModal1").modal("hide");
                             alert("活動儲存失敗");
                         }
                     });
@@ -1751,18 +1752,18 @@
                     //成功時
                     success: function (result) {
                         if (result.d == "true") {
-                            $("#loading").click();
                             alert("活動儲存成功");
+                            $("#myModal1").modal("hide");
                             upload_File();
                         }
                         else {
-                            $("#loading").click();
+                            $("#myModal1").modal("hide");
                             alert("活動儲存失敗");
                         }         
                     },
                     //失敗時
                     error: function () {
-                        $("#loading").click();
+                        $("#myModal1").modal("hide");
                         alert("活動儲存失敗");
                     }
                 });

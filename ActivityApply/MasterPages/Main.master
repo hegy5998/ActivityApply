@@ -50,7 +50,7 @@
                     </li>
 
                     <li class="mt">
-                        <a href="SignSearchContext.aspx">
+                        <a href="Sign_Search_Context.aspx">
                             <i class="fa fa-hand-o-right" aria-hidden="true"></i>
                             <span>報名查詢</span>
                         </a>
@@ -137,9 +137,9 @@
         function setSubClass(act_classInfo) {
             var act_classInfo = JSON.parse(act_classInfo);
             $("#add_sub").children().remove();
-            $("#add_sub").append('<li><a href="activity_List.aspx?act_class=0">全部活動</a></li>')
+            $("#add_sub").append('<li><a href="Activity_List.aspx?act_class=0">全部活動</a></li>')
             for (var count = 0 ; count < act_classInfo.length ; count++) {
-                $("#add_sub").append('<li><a href="activity_List.aspx?act_class=' + (act_classInfo[count].Ac_idn) + '">' + act_classInfo[count].Ac_title + '</a></li>')
+                $("#add_sub").append('<li><a href="Activity_List.aspx?act_class=' + (act_classInfo[count].Ac_idn) + '">' + act_classInfo[count].Ac_title + '</a></li>')
             }
         }
         //#endregion

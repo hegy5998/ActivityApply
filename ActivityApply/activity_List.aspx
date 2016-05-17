@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true" CodeBehind="activity_List.aspx.cs" Inherits="ActivityApply.activity_List" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true" CodeBehind="Activity_List.aspx.cs" Inherits="ActivityApply.Activity_List" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead" runat="server">
     <!--引用jquery分頁-->
@@ -112,22 +112,22 @@
                 //將滅包削內容清空
                 $("#add_breach").children().remove();
                 //添加首頁
-                $("#add_breach").append('<li><a href="index.aspx">首頁</a></li>');
+                $("#add_breach").append('<li><a href="Index.aspx">首頁</a></li>');
                 //判斷目前目錄並添加
                 for (var count = 0 ; count < act_classInfo.length ; count++) {
                     if (act_class == act_classInfo[count].Ac_idn) {
-                        $("#add_breach").append('<li><a href="activity_List.aspx?act_class=' + act_classInfo[count].Ac_idn + '">' + act_classInfo[count].Ac_title + '</a></li>');
+                        $("#add_breach").append('<li><a href="Activity_List.aspx?act_class=' + act_classInfo[count].Ac_idn + '">' + act_classInfo[count].Ac_title + '</a></li>');
                     }
                 }
                 if(act_class == 0)
-                    $("#add_breach").append('<li><a href="activity_List.aspx?act_class=0">全部活動</a></li>');
+                    $("#add_breach").append('<li><a href="Activity_List.aspx?act_class=0">全部活動</a></li>');
             }
                 //如果是搜尋按鈕執行這裡
             else {
                 //將滅包削內容清空
                 $("#add_breach").children().remove();
                 //添加首頁
-                $("#add_breach").append('<li><a href="index.aspx">首頁</a></li>');
+                $("#add_breach").append('<li><a href="Index.aspx">首頁</a></li>');
                 //判斷目前目錄並添加
                 if (act_class != 0) {
                     var act_class_title;
@@ -137,7 +137,7 @@
                             act_class_title = $("#add_sub > li > a")[count].innerHTML;
                         }
                     }
-                    $("#add_breach").append('<li><a href="activity_List.aspx?act_class=' + act_class + '">' + act_class_title + '</a></li>');
+                    $("#add_breach").append('<li><a href="Activity_List.aspx?act_class=' + act_class + '">' + act_class_title + '</a></li>');
                 }
             }
             //設定分類下拉選單
@@ -174,7 +174,7 @@
                 return false;
             }
             //載入index.html  load( url, [data], [callback] )
-            $("#hiddenresult").load("activity_List.html", null, initPagination);
+            $("#hiddenresult").load("Activity_List.html", null, initPagination);
         });
         //#endregion
 

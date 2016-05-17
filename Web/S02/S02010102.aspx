@@ -1,9 +1,15 @@
 ﻿<%@ Page Title="報名資料" Language="C#" MasterPageFile="~/MasterPages/Base.Master" AutoEventWireup="true" CodeBehind="S02010102.aspx.cs" Inherits="Web.S02.S02010102" %>
+
 <%@ Register Src="~/UserControls/UCSystemModule.ascx" TagPrefix="uc1" TagName="UCSystemModule" %>
 <%@ Import Namespace="Util" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="baseHead_cph" runat="server">
+    <style type="text/css">
+        .grvHeaderRow th:nth-child(n+2){
+            text-align: left;
+        }
+    </style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="baseContent_cph" runat="server">
@@ -13,7 +19,7 @@
     <br /><br />
 
     <div class="row">
-        <asp:GridView ID="main_gv" runat="server" AutoGenerateColumns="False" ShowHeaderWhenEmpty="True" OnRowCreated="main_gv_RowCreated" OnRowDeleting="main_gv_RowDeleting" OnRowCommand="main_gv_RowCommand" OnRowEditing="main_gv_RowEditing" OnRowCancelingEdit="main_gv_RowCancelingEdit" OnRowDataBound="main_gv_RowDataBound" OnRowUpdating="main_gv_RowUpdating" ViewStateMode="Enabled" OnSorting="main_gv_Sorting">
+        <asp:GridView ID="main_gv" runat="server" AutoGenerateColumns="False" ShowHeaderWhenEmpty="True" OnRowCreated="main_gv_RowCreated" OnRowDeleting="main_gv_RowDeleting" OnRowCommand="main_gv_RowCommand" OnRowEditing="main_gv_RowEditing" OnRowCancelingEdit="main_gv_RowCancelingEdit" OnRowDataBound="main_gv_RowDataBound" OnRowUpdating="main_gv_RowUpdating" ViewStateMode="Enabled" OnSorting="main_gv_Sorting" Visible="false">
             <Columns>
                 <%--操作--%>
                 <asp:TemplateField ShowHeader="False" HeaderText="操作">
@@ -23,10 +29,10 @@
                             <asp:Button ID="save_btn" runat="server" CommandName="Update" CssClass="movedown" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
                         </span>
                         &nbsp;                   
-                    <span style="position: relative;">
-                        <i class="fa fa-undo btn btn-warning btn-xs" aria-hidden="true"></i>
-                        <asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="movedown" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
-                    </span>
+                        <span style="position: relative;">
+                            <i class="fa fa-undo btn btn-warning btn-xs" aria-hidden="true"></i>
+                            <asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="movedown" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                        </span>
                         <asp:HiddenField ID="old_aa_idn_hf" runat="server" Value='<%# Eval("aa_idn") %>' />
                     </EditItemTemplate>
 
@@ -36,16 +42,16 @@
                             <asp:Button ID="save_btn" runat="server" CommandName="AddSave" CssClass="movedown" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
                         </span>
                         &nbsp;                   
-                    <span style="position: relative;">
-                        <i class="fa fa-undo btn btn-warning btn-xs" aria-hidden="true"></i>
-                        <asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="movedown" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
-                    </span>
+                        <span style="position: relative;">
+                            <i class="fa fa-undo btn btn-warning btn-xs" aria-hidden="true"></i>
+                            <asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="movedown" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                        </span>
                     </FooterTemplate>
 
                     <HeaderTemplate>
                         <span style="position: relative;">
                             <i class="fa fa-plus btn btn-info btn-xs" aria-hidden="true"></i>
-                            <asp:Button ID="add_btn" runat="server" CommandName="Add" CssClass="movedown" Text="新增" ToolTip="新增" UseSubmitBehavior="False" />
+                            <asp:Button ID="add_btn" runat="server" CommandName="Add" CssClass="movedown" Text="新增" ToolTip="新增" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" CommandArgument='<%# Eval("act_idn") %>'/>
                         </span>
                     </HeaderTemplate>
 
@@ -55,16 +61,23 @@
                             <asp:Button ID="edit_btn" runat="server" CommandName="Edit" CssClass="movedown" Text="編輯" ToolTip="編輯" UseSubmitBehavior="False" />
                         </span>
                         &nbsp;
-                    <span style="position: relative;">
-                        <i class="fa fa-trash-o btn btn-danger btn-xs" aria-hidden="true"></i>
-                        <asp:Button ID="delete_btn" runat="server" CommandName="Delete" CssClass="movedown" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" />
-                    </span>
+                        <span style="position: relative;">
+                            <i class="fa fa-trash-o btn btn-danger btn-xs" aria-hidden="true"></i>
+                            <asp:Button ID="delete_btn" runat="server" CommandName="Delete" CssClass="movedown" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" />
+                        </span>
                         <asp:HiddenField ID="rowDefaultTriggerControlID_hf" runat="server" EnableViewState="False" Value="edit_btn" />
                     </ItemTemplate>
 
-                    <FooterStyle HorizontalAlign="Center" />
-                    <HeaderStyle Width="70px" />
-                    <ItemStyle HorizontalAlign="Center" Wrap="False" />
+                    <FooterStyle  />
+                    <HeaderStyle Width="70px" HorizontalAlign="Left"/>
+                    <ItemStyle  Wrap="False" />
+                </asp:TemplateField>
+            </Columns>
+        </asp:GridView>
+
+        <asp:GridView ID="copperate_gv" runat="server" AutoGenerateColumns="False" ShowHeaderWhenEmpty="True" OnRowCreated="main_gv_RowCreated" OnRowDataBound="main_gv_RowDataBound" ViewStateMode="Enabled" OnSorting="main_gv_Sorting" Visible="false">
+            <Columns>
+                <asp:TemplateField>
                 </asp:TemplateField>
             </Columns>
         </asp:GridView>

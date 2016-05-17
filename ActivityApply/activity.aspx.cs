@@ -8,7 +8,7 @@ using System.Web;
 
 namespace ActivityApply
 {
-    public partial class activity : System.Web.UI.Page
+    public partial class Activity : System.Web.UI.Page
     {
         //static int ACTIVITY = 2037;
         //static int ACTIVITY = 2085;

@@ -16,7 +16,7 @@ using System.IO;
 
 namespace Web.S02
 {
-    public partial class S02010102 : System.Web.UI.Page
+    public partial class S02010102 : CommonPages.BasePage
     {
         S020101BL _bl = new S020101BL();
 
@@ -25,10 +25,37 @@ namespace Web.S02
             if (!IsPostBack)
             {
                 int i = Convert.ToInt32(Request.QueryString["i"]);
+                int act_idn = _bl.Getactidn(i);
+                DataTable copperate = _bl.GetCopData(act_idn);
+                int checkcop = 0;
 
-                main_gv.AllowPaging = false;
-                BindGridView(GetData(i));
+                //判斷是建立者or協作者
+                for (int j = 0; j < copperate.Rows.Count; j++) 
+                {
+                    if (copperate.Rows[j][1].ToString() == CommonHelper.GetLoginUser().Act_id)
+                    {
+                        if (copperate.Rows[j][2].ToString() == "閱讀")
+                        {
+                            checkcop = 1;
+                        }
+                    }
+                }
+
+                //建立者
+                if (checkcop == 0)
+                {
+                    main_gv.AllowPaging = false;
+                    main_gv.Visible = true;
+                    BindGridView(GetData(i));
+                }
+                //協作者
+                else if (checkcop == 1)
+                {
+                    copperate_gv.Visible = true;
+                    BindCopperateGridView(GetData(i));
+                }
             }
+
         }
 
         #region main_gv事件
@@ -68,6 +95,23 @@ namespace Web.S02
                 main_gv.DataBind();
                 main_gv.Rows[0].Attributes.Add("style", "display: none");
             }
+        }
+
+        //BindGridView(協作者)
+        private void BindCopperateGridView(DataTable lst)
+        {
+            int count = copperate_gv.Columns.Count - 1;
+            DataTable data = _bl.GetApplyDataDetail(CommonConvert.GetIntOrZero(Request.QueryString["i"]));
+
+            //清除之前的資料
+            for (int i = count; i > 0; i--)
+            {
+                copperate_gv.Columns.RemoveAt(i);
+            }
+
+            copperate_gv.AutoGenerateColumns = true;
+            copperate_gv.DataSource = lst;
+            copperate_gv.DataBind();
         }
 
         //編輯
@@ -237,106 +281,157 @@ namespace Web.S02
             TextBox textbox = new TextBox();
             int check = 2;
             DataTable colData = _bl.GetApplyDataDetail(i);
+            string required = "";
+            int checkrequired = 0;
 
-            //取得各欄位的值
-            var dict = new Dictionary<string, object>();
-            dict["aa_act"] = _bl.Getactidn(i);
-
-            //判斷姓名跟電子信箱的位置
+            //判斷必填
             for (int j = 0; j < colData.Rows.Count; j++)
             {
-                if (colData.Rows[j][3].ToString() == "姓名")
+                //此欄位為必填
+                if (colData.Rows[j][8].ToString() == "1")
                 {
-                    textbox = gvr.Cells[j + 2].Controls[0] as TextBox;
-                    dict["aa_name"] = textbox.Text;
-                }
-
-                if (colData.Rows[j][3].ToString() == "電子信箱Email")
-                {
-                    textbox = gvr.Cells[j + 2].Controls[0] as TextBox;
-                    dict["aa_email"] = textbox.Text;
-                }
-            }
-
-            dict["aa_as"] = Convert.ToInt32(Request.QueryString["i"]);
-
-            var res_aa = _bl.InsertData_apply(dict);
-
-            //新增報名表欄位資料
-            var dict_col = new Dictionary<string, object>();
-            dict_col["aad_apply_id"] = CommonConvert.GetIntOrZero(res_aa.Message);
-            var res_col = new CommonResult(false);
-
-            //對應欄位塞值
-            foreach (DataRow r in colData.Rows)
-            {
-                dict_col["aad_col_id"] = r.ItemArray.GetValue(2).ToString();
-
-                //文字輸入
-                if (r.ItemArray.GetValue(6).ToString() == "text")
-                {
-                    textbox = gvr.Cells[check].Controls[0] as TextBox;
-                    dict_col["aad_val"] = textbox.Text;
-                    check++;
-
-                    res_col = _bl.InsertData_column(dict_col);
-                }
-                //單選 & 下拉式選單
-                else if ((r.ItemArray.GetValue(6).ToString() == "singleSelect") || (r.ItemArray.GetValue(6).ToString() == "dropDownList"))
-                {
-                    DropDownList d = gvr.Cells[check].Controls[0] as DropDownList;
-                    dict_col["aad_val"] = d.SelectedValue;
-                    check++;
-
-                    res_col = _bl.InsertData_column(dict_col);
-                }
-                //多選
-                else if (r.ItemArray.GetValue(6).ToString() == "multiSelect")
-                {
-                    Label s = gvr.Cells[check].Controls[1] as Label;
-                    dict_col["aad_val"] = s.Text;
-                    check++;
-
-                    res_col = _bl.InsertData_column(dict_col);
+                    //文字輸入框
+                    if (colData.Rows[j][6].ToString() == "text")
+                    {
+                        textbox = gvr.Cells[j + 2].Controls[0] as TextBox;
+                        if (textbox.Text.IsNullOrEmpty())
+                        {
+                            required = required + "," + colData.Rows[j][3].ToString();
+                            checkrequired = 1;
+                        }
+                    }
+                    //單選 & 下拉式選單
+                    else if ((colData.Rows[j][6].ToString() == "singleSelect") || (colData.Rows[j][6].ToString() == "dropDownList"))
+                    {
+                        DropDownList d = gvr.Cells[j + 2].Controls[0] as DropDownList;
+                        if (d.SelectedValue.IsNullOrEmpty())
+                        {
+                            required = required + "," + colData.Rows[j][3].ToString();
+                            checkrequired = 1;
+                        }
+                    }
+                    //多選
+                    else if (colData.Rows[j][6].ToString() == "multiSelect")
+                    {
+                        Label s = gvr.Cells[check].Controls[1] as Label;
+                        if (s.Text.IsNullOrEmpty())
+                        {
+                            required = required + "," + colData.Rows[j][3].ToString();
+                            checkrequired = 1;
+                        }
+                    }
                 }
             }
 
-            //若是第一次申請email則需要新增密碼
-            DataTable emailData = _bl.GetEmailData();
-            int emailcheck = 0;
-            foreach (DataRow r in emailData.Rows)
+            //必填驗證成功
+            if (checkrequired == 0)
             {
-                if (r[0].ToString() == dict["aa_email"].ToString())
-                {
-                    emailcheck = 1;
-                    break;
-                }
-            }
-            //跳出設定密碼的視窗
-            if (emailcheck == 0)
-            {
-                email_hf.Value = dict["aa_email"].ToString();
-                password_txt.Text = null;
-                passwordcheck_txt.Text = null;
+                //取得各欄位的值
+                var dict = new Dictionary<string, object>();
+                dict["aa_act"] = _bl.Getactidn(i);
 
-                emailpassword_mpe.Show();  // Popup Window
-                emailpassword_pl.Visible = true;
-            }
-            //新增成功
-            else
-            {
-                if (res_col.IsSuccess)
+                //判斷姓名跟電子信箱的位置
+                for (int j = 0; j < colData.Rows.Count; j++)
                 {
-                    // 新增成功，切換回一般模式
-                    GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, main_gv);
-                    BindGridView(GetData(CommonConvert.GetIntOrZero(Request.QueryString["i"])));
-                    ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Insert);
+                    if (colData.Rows[j][3].ToString() == "姓名")
+                    {
+                        textbox = gvr.Cells[j + 2].Controls[0] as TextBox;
+                        dict["aa_name"] = textbox.Text;
+                    }
+
+                    if (colData.Rows[j][3].ToString() == "電子信箱Email")
+                    {
+                        textbox = gvr.Cells[j + 2].Controls[0] as TextBox;
+                        dict["aa_email"] = textbox.Text;
+                    }
                 }
+
+                dict["aa_as"] = Convert.ToInt32(Request.QueryString["i"]);
+
+                var res_aa = _bl.InsertData_apply(dict);
+
+                //新增報名表欄位資料
+                var dict_col = new Dictionary<string, object>();
+                dict_col["aad_apply_id"] = CommonConvert.GetIntOrZero(res_aa.Message);
+                var res_col = new CommonResult(false);
+
+                //對應欄位塞值
+                foreach (DataRow r in colData.Rows)
+                {
+                    dict_col["aad_col_id"] = r.ItemArray.GetValue(2).ToString();
+
+                    //文字輸入
+                    if (r.ItemArray.GetValue(6).ToString() == "text")
+                    {
+                        textbox = gvr.Cells[check].Controls[0] as TextBox;
+                        dict_col["aad_val"] = textbox.Text;
+                        check++;
+
+                        res_col = _bl.InsertData_column(dict_col);
+                    }
+                    //單選 & 下拉式選單
+                    else if ((r.ItemArray.GetValue(6).ToString() == "singleSelect") || (r.ItemArray.GetValue(6).ToString() == "dropDownList"))
+                    {
+                        DropDownList d = gvr.Cells[check].Controls[0] as DropDownList;
+                        dict_col["aad_val"] = d.SelectedValue;
+                        check++;
+
+                        res_col = _bl.InsertData_column(dict_col);
+                    }
+                    //多選
+                    else if (r.ItemArray.GetValue(6).ToString() == "multiSelect")
+                    {
+                        Label s = gvr.Cells[check].Controls[1] as Label;
+                        dict_col["aad_val"] = s.Text;
+                        check++;
+
+                        res_col = _bl.InsertData_column(dict_col);
+                    }
+                }
+
+                //若是第一次申請email則需要新增密碼
+                DataTable emailData = _bl.GetEmailData();
+                int emailcheck = 0;
+                foreach (DataRow r in emailData.Rows)
+                {
+                    if (r[0].ToString() == dict["aa_email"].ToString())
+                    {
+                        emailcheck = 1;
+                        break;
+                    }
+                }
+                //跳出設定密碼的視窗
+                if (emailcheck == 0)
+                {
+                    email_hf.Value = dict["aa_email"].ToString();
+                    password_txt.Text = null;
+                    passwordcheck_txt.Text = null;
+
+                    emailpassword_mpe.Show();  // Popup Window
+                    emailpassword_pl.Visible = true;
+                }
+                //新增成功
                 else
                 {
-                    // 新增失敗，顯示錯誤訊息
-                    ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, res_col.Message);
+                    if (res_col.IsSuccess)
+                    {
+                        // 新增成功，切換回一般模式
+                        GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, main_gv);
+                        BindGridView(GetData(CommonConvert.GetIntOrZero(Request.QueryString["i"])));
+                        ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Insert);
+                    }
+                    else
+                    {
+                        // 新增失敗，顯示錯誤訊息
+                        ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, res_col.Message);
+                    }
                 }
+            }
+            //必填有資料沒填
+            else if (checkrequired == 1)
+            {
+                required = required.Substring(1);
+                ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, required + "為必填資料");
             }
         }
 
@@ -737,7 +832,7 @@ namespace Web.S02
         }
         #endregion
 
-        //下載按鈕
+        #region 下載
         protected void download_btn_Click(object sender, EventArgs e)
         {
             int i = CommonConvert.GetIntOrZero(Request.QueryString["i"]);
@@ -780,6 +875,7 @@ namespace Web.S02
             Response.Flush();
             Response.End();
         }
+        #endregion
 
         #region 顯示資料處理提示訊息
         //顯示資料處理提示訊息
@@ -855,6 +951,13 @@ namespace Web.S02
         protected void CallJavascript(string key, string script)
         {
             ToolkitScriptManager.RegisterClientScriptBlock(this, this.GetType(), key, script, true);
+        }
+        #endregion
+
+        #region Control權限管理
+        protected void ManageControlAuth(object sender, EventArgs e)
+        {
+            ManageControlCopperate(sender);
         }
         #endregion
     }    

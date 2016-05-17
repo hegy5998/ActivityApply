@@ -7,11 +7,13 @@
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     line-height: 20px;
     color: #333;
+    background-image: url(Images/LoginBg.jpg);
 }
 
 body
 {
-    background: url(Images/background.png);
+    background-image: url(Images/LoginBg.jpg);
+    /*background: url(Images/background.png);*/
     margin: 0;
 }
 
@@ -108,7 +110,6 @@ input[type="password"]
     height: 30px;
 	line-height: 25px;
     background-color: white;
-	margin-top: -3px;
     font-family: '微軟正黑體',sans-serif;
     box-shadow: 1px 3px 2px #aab2bd;
 }

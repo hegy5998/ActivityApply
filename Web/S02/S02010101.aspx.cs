@@ -42,6 +42,7 @@ namespace Web.S02
             controlSet_gv.AllowPaging = false;
             ready_copperate.AllowPaging = false;
 
+            //加入搜尋的分類選項
             DataTable data = GetClassData();
             q_keyword_ddl.Items.Insert(0, "全部");
             for (int i = 1; i <= data.Rows.Count; i++)
@@ -51,6 +52,11 @@ namespace Web.S02
 
             if (!IsPostBack)
             {
+                //設定tabs的Cookie預設值
+                HttpCookie myCookie = new HttpCookie("tabs");
+                myCookie.Value = "0";
+                Response.Cookies.Add(myCookie);
+
                 BindGridView(GetAlreadyData(), GetReadyData(), GetEndData());
             }
         }
@@ -587,19 +593,28 @@ namespace Web.S02
                 DropDownList dropdownlist = gvr.FindControl("cop_authority_dll") as DropDownList;
                 dict["cop_authority"] = dropdownlist.SelectedValue;
 
-                // 新增資料
-                var res = _bl.InsertData_cop(dict);
-                if (res.IsSuccess)
+                //判斷協作者不能為空資料
+                if (dict["cop_id"] == "" || dict["cop_authority"] == "")
                 {
-                    // 新增成功，切換回一般模式
-                    GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, controlSet_gv);
-                    BindControlSetGridView(GetControlSetData());
-                    ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Insert);
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, "協作者資料為必填");
                 }
+                //新增協作者
                 else
                 {
-                    // 新增失敗，顯示錯誤訊息
-                    ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, res.Message);
+                    // 新增資料
+                    var res = _bl.InsertData_cop(dict);
+                    if (res.IsSuccess)
+                    {
+                        // 新增成功，切換回一般模式
+                        GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, controlSet_gv);
+                        BindControlSetGridView(GetControlSetData());
+                        ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Insert);
+                    }
+                    else
+                    {
+                        // 新增失敗，顯示錯誤訊息
+                        ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Insert, res.Message);
+                    }
                 }
             }
         }

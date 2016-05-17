@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true" CodeBehind="index.aspx.cs" Inherits="ActivityApply.index" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true" CodeBehind="Index.aspx.cs" Inherits="ActivityApply.Index" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead" runat="server">
     <style type="text/css">
@@ -41,7 +41,7 @@
                         <h4>Chrome : 設定 -> 顯示進階設定 -> 隱私權 -> 內容定... -> JavaScript -> 選擇「允許所有網站執行JavaScript」</h4>
                     </noscript>
                     <p id ="new" class="red center" style="font-size: -webkit-xxx-large;display:none">最近活動!!</p>
-                    <a class="center" href="activity_List.aspx?act_class=0" style="font-size: large;">查看更多活動</a>
+                    <a class="center" href="Activity_List.aspx?act_class=0" style="font-size: large;">查看更多活動</a>
                 </div>
             </section>
         </section>

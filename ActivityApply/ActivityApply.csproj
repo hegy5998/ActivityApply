@@ -79,7 +79,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="activity.aspx" />
+    <Content Include="Activity.aspx" />
     <Content Include="assets\css\bootstrap.css" />
     <Content Include="assets\css\jquery-ui.css" />
     <Content Include="assets\css\jquery.steps.css" />
@@ -189,9 +189,9 @@
     <Content Include="assets\lineicons\style.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="activity_List.aspx" />
-    <Content Include="activity_List.html" />
-    <Content Include="index.aspx" />
+    <Content Include="Activity_List.aspx" />
+    <Content Include="Activity_List.html" />
+    <Content Include="Index.aspx" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -205,8 +205,8 @@
     <Content Include="assets\lineicons\fonts\linecons.woff" />
     <Content Include="MasterPages\Base.Master" />
     <Content Include="MasterPages\Main.master" />
-    <Content Include="SignSearchContext.aspx" />
-    <Content Include="SignChange.aspx" />
+    <Content Include="Sign_Search_Context.aspx" />
+    <Content Include="Sign_Change.aspx" />
     <Content Include="WebForm1.aspx" />
     <Content Include="assets\font-awesome\css\font-awesome.css.map" />
     <Content Include="assets\font-awesome\fonts\fontawesome-webfont.eot" />
@@ -219,12 +219,12 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="activity.aspx.cs">
-      <DependentUpon>activity.aspx</DependentUpon>
+    <Compile Include="Activity.aspx.cs">
+      <DependentUpon>Activity.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="activity.aspx.designer.cs">
-      <DependentUpon>activity.aspx</DependentUpon>
+    <Compile Include="Activity.aspx.designer.cs">
+      <DependentUpon>Activity.aspx</DependentUpon>
     </Compile>
     <Compile Include="applyProve.cs">
       <AutoGen>True</AutoGen>
@@ -235,19 +235,19 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="activity_List.aspx.cs">
-      <DependentUpon>activity_List.aspx</DependentUpon>
+    <Compile Include="Activity_List.aspx.cs">
+      <DependentUpon>Activity_List.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="activity_List.aspx.designer.cs">
-      <DependentUpon>activity_List.aspx</DependentUpon>
+    <Compile Include="Activity_List.aspx.designer.cs">
+      <DependentUpon>Activity_List.aspx</DependentUpon>
     </Compile>
-    <Compile Include="index.aspx.cs">
-      <DependentUpon>index.aspx</DependentUpon>
+    <Compile Include="Index.aspx.cs">
+      <DependentUpon>Index.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="index.aspx.designer.cs">
-      <DependentUpon>index.aspx</DependentUpon>
+    <Compile Include="Index.aspx.designer.cs">
+      <DependentUpon>Index.aspx</DependentUpon>
     </Compile>
     <Compile Include="MasterPages\Base.Master.cs">
       <DependentUpon>Base.Master</DependentUpon>
@@ -264,19 +264,19 @@
       <DependentUpon>Main.master</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SignSearchContext.aspx.cs">
-      <DependentUpon>SignSearchContext.aspx</DependentUpon>
+    <Compile Include="Sign_Search_Context.aspx.cs">
+      <DependentUpon>Sign_Search_Context.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="SignSearchContext.aspx.designer.cs">
-      <DependentUpon>SignSearchContext.aspx</DependentUpon>
+    <Compile Include="Sign_Search_Context.aspx.designer.cs">
+      <DependentUpon>Sign_Search_Context.aspx</DependentUpon>
     </Compile>
-    <Compile Include="SignChange.aspx.cs">
-      <DependentUpon>SignChange.aspx</DependentUpon>
+    <Compile Include="Sign_Change.aspx.cs">
+      <DependentUpon>Sign_Change.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="SignChange.aspx.designer.cs">
-      <DependentUpon>SignChange.aspx</DependentUpon>
+    <Compile Include="Sign_Change.aspx.designer.cs">
+      <DependentUpon>Sign_Change.aspx</DependentUpon>
     </Compile>
     <Compile Include="Sign_Up.aspx.cs">
       <DependentUpon>Sign_Up.aspx</DependentUpon>

@@ -10,7 +10,7 @@
 namespace ActivityApply {
     
     
-    public partial class activity {
+    public partial class Activity {
         
         /// <summary>
         /// Act_desc_lbl 控制項。

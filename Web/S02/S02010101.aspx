@@ -16,7 +16,7 @@
     <%--查看報名資料--%>
     <script type="text/javascript">
         function GoTo(id) {
-            window.open("S02010102.aspx?sys_id=S02&sys_pid=S02010103&i=" + id, "_blank");
+            window.open("S02010102.aspx?sys_id=S02&sys_pid=S02010102&i=" + id, "_blank");
         }
     </script>
 
@@ -33,8 +33,8 @@
             //tabs頁籤 使用cookie記住最後開啟的頁籤
             $("#tabs").tabs({
                 //起始頁active: 導向cookie("tabs")所指頁籤
-                active: ($.cookie("tabs") || 0),  
-                //active: (0), 
+                //active: ($.cookie("tabs") || 0),  
+                active: (0), 
  
                 //換頁動作activate
                 activate: function (event, ui) {   

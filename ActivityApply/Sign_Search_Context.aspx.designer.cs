@@ -7,19 +7,118 @@
 // </自動產生的>
 //------------------------------------------------------------------------------
 
-namespace Web.S02 {
+namespace ActivityApply {
     
     
-    public partial class S02010102 {
+    public partial class Sign_Search_Context {
         
         /// <summary>
-        /// download_btn 控制項。
+        /// aa_email_txt 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button download_btn;
+        protected global::System.Web.UI.WebControls.TextBox aa_email_txt;
+        
+        /// <summary>
+        /// aa_email_hf 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField aa_email_hf;
+        
+        /// <summary>
+        /// search_btn 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button search_btn;
+        
+        /// <summary>
+        /// change_password_btn 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor change_password_btn;
+        
+        /// <summary>
+        /// forget_password_btn 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor forget_password_btn;
+        
+        /// <summary>
+        /// old_password_txt 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox old_password_txt;
+        
+        /// <summary>
+        /// new_password_txt 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox new_password_txt;
+        
+        /// <summary>
+        /// new_password_check_txt 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox new_password_check_txt;
+        
+        /// <summary>
+        /// change_password_ok_btn 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button change_password_ok_btn;
+        
+        /// <summary>
+        /// email_txt 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox email_txt;
+        
+        /// <summary>
+        /// get_password_ok_btn 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button get_password_ok_btn;
+        
+        /// <summary>
+        /// lup 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel lup;
         
         /// <summary>
         /// main_gv 控制項。
@@ -31,193 +130,31 @@ namespace Web.S02 {
         protected global::System.Web.UI.WebControls.GridView main_gv;
         
         /// <summary>
-        /// copperate_gv 控制項。
+        /// download 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView copperate_gv;
+        protected global::System.Web.UI.WebControls.Button download;
         
         /// <summary>
-        /// multi_mpe 控制項。
+        /// Button1 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::AjaxControlToolkit.ModalPopupExtender multi_mpe;
+        protected global::System.Web.UI.WebControls.Button Button1;
         
         /// <summary>
-        /// multi_pl 控制項。
+        /// password_pl 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel multi_pl;
-        
-        /// <summary>
-        /// ScriptManager 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.ScriptManager ScriptManager;
-        
-        /// <summary>
-        /// control_title_upl 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel control_title_upl;
-        
-        /// <summary>
-        /// control_tilte_lbl 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label control_tilte_lbl;
-        
-        /// <summary>
-        /// control_cancel_btn 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button control_cancel_btn;
-        
-        /// <summary>
-        /// control_OK_btn 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button control_OK_btn;
-        
-        /// <summary>
-        /// multioption_pl 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel multioption_pl;
-        
-        /// <summary>
-        /// col_idn_hf 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField col_idn_hf;
-        
-        /// <summary>
-        /// row_idn_hf 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField row_idn_hf;
-        
-        /// <summary>
-        /// new_hf 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField new_hf;
-        
-        /// <summary>
-        /// emailpassword_mpe 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::AjaxControlToolkit.ModalPopupExtender emailpassword_mpe;
-        
-        /// <summary>
-        /// emailpassword_pl 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel emailpassword_pl;
-        
-        /// <summary>
-        /// UpdatePanel1 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-        
-        /// <summary>
-        /// Label1 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
-        
-        /// <summary>
-        /// email_cancel_btn 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button email_cancel_btn;
-        
-        /// <summary>
-        /// email_OK_btn 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button email_OK_btn;
-        
-        /// <summary>
-        /// Panel2 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel Panel2;
-        
-        /// <summary>
-        /// email_hf 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField email_hf;
-        
-        /// <summary>
-        /// password_lbl 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label password_lbl;
+        protected global::System.Web.UI.WebControls.Panel password_pl;
         
         /// <summary>
         /// password_txt 控制項。
@@ -229,30 +166,30 @@ namespace Web.S02 {
         protected global::System.Web.UI.WebControls.TextBox password_txt;
         
         /// <summary>
-        /// passwordcheck_lbl 控制項。
+        /// password_cancle_btn 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label passwordcheck_lbl;
+        protected global::System.Web.UI.WebControls.Button password_cancle_btn;
         
         /// <summary>
-        /// passwordcheck_txt 控制項。
+        /// password_ok_btn 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox passwordcheck_txt;
+        protected global::System.Web.UI.WebControls.Button password_ok_btn;
         
         /// <summary>
-        /// password_btn 控制項。
+        /// password_pop 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button password_btn;
+        protected global::AjaxControlToolkit.ModalPopupExtender password_pop;
     }
 }

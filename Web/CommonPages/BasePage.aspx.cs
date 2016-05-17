@@ -253,6 +253,14 @@ namespace Web.CommonPages
                                     button.CssClass = "btn-link";
                                     button.Style["color"] = "black";
                                 }
+
+                                //協作者不能編輯協作者
+                                if (_processControl[j].Sys_cid == "set_btn")
+                                {
+                                    button.Enabled = false;
+                                    button.CssClass = "btn-link";
+                                    button.Style["color"] = "black";
+                                }
                             }
                         }
                     }

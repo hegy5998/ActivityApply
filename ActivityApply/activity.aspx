@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true" CodeBehind="activity.aspx.cs" Inherits="ActivityApply.activity" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true" CodeBehind="Activity.aspx.cs" Inherits="ActivityApply.Activity" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead" runat="server">
     <style type="text/css">
@@ -66,7 +66,7 @@
                         <label id="de_lsceb" class="control-label">活動簡介</label>
                         <br />--%>
                         <!-- 設定活動簡介大小，超出變成卷軸 -->
-                        <div id="desc_div" style="width: auto; height: auto; overflow-x: auto; overflow-y: auto; background-color: white;">
+                        <div id="desc_div" style="width: auto; height: auto; overflow-x: auto; overflow-y: auto; background-color: white;border-style: ridge;display:none;">
                             <asp:Label ID="Act_desc_lbl" runat="server" Text="Label"></asp:Label>
                         </div>
                         <%--<hr />
@@ -119,7 +119,7 @@
             //將滅包削內容清空
             $("#add_breach").children().remove();
             //添加首頁
-            $("#add_breach").append('<li><a href="index.aspx">首頁</a></li>');
+            $("#add_breach").append('<li><a href="Index.aspx">首頁</a></li>');
             var act_class = $.url().param("act_class");
             //判斷目前目錄並添加
             var act_class_title;
@@ -129,8 +129,8 @@
                     act_class_title = $("#add_sub > li > a")[count].innerHTML;
                 }
             }
-            $("#add_breach").append('<li><a href="activity_List.aspx?act_class=' + act_class + '">' + act_class_title + '</a></li>');
-            $("#add_breach").append('<li><a href="activity.aspx?act_class=' + $.url().param("act_class") + '&act_idn=' + $.url().param("act_idn") + '&act_title=' + $.url().param("act_title") + '">' + $.url().param("act_title") + '</a></li>');
+            $("#add_breach").append('<li><a href="Activity_List.aspx?act_class=' + act_class + '">' + act_class_title + '</a></li>');
+            $("#add_breach").append('<li><a href="Activity.aspx?act_class=' + $.url().param("act_class") + '&act_idn=' + $.url().param("act_idn") + '&act_title=' + $.url().param("act_title") + '">' + $.url().param("act_title") + '</a></li>');
         }
         //#endregion
 
@@ -224,9 +224,11 @@
                         '<a id="relate_File" href="' + ActivityInfo[0].Act_relate_file + '" target="_blank">下載</a>');
             }
             if (ActivityInfo[0].Act_desc != "") {
+                $("#desc_div").css({ "display": "" });
                 $("#add_activity_desc").append('<hr />');
                 $("#add_activity_desc").append('<label class="control-label">活動簡介</label>');
             }
+                
 
             //設定短網址連結
             $("#short_link").attr("href", ActivityInfo[0].Act_short_link);
