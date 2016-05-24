@@ -824,7 +824,6 @@
     <Content Include="Scripts\Lib\validation\jquery.metadata.js" />
     <Content Include="Scripts\Lib\validation\jquery.validate.js" />
     <Content Include="Scripts\Lib\validation\messages_zh_TW.js" />
-    <Content Include="Uploads\13\Img\2016-01-19 20_52_17-localhost_49917_WebForm1.png" />
     <Content Include="WebForm1.aspx" />
     <None Include="bin\Web.dll.config" />
     <Content Include="Scripts\Lib\ckeditor\.htaccess" />
@@ -1372,7 +1371,6 @@
     <Content Include="MasterPages\Base.Master" />
     <Content Include="Scripts\Lib\jquery-1.9.1.min.map" />
     <Content Include="Scripts\Lib\jquery.jgrowl.map" />
-    <Content Include="Uploads\13\relateFile\S23060101.pdf" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

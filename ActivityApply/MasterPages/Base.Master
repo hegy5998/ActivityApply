@@ -13,10 +13,9 @@
     <meta name="author" content="Dashboard" />
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina" />
 
-
     <!-- Bootstrap core CSS -->
-    <link href="<%=ResolveUrl("~/assets/css/bootstrap.css") %>" rel="stylesheet" />
-
+    <link href="<%=ResolveUrl("~/assets/bootstrap/dist/css/bootstrap.css") %>" rel="stylesheet" />
+    <link href="<%=ResolveUrl("~/assets/css/sb-admin-2.css") %>" rel="stylesheet" />
     <!--external css-->
     <link href="<%=ResolveUrl("~/assets/font-awesome/css/font-awesome.css")%>" rel="stylesheet" type="text/css"/>
     <link href="<%=ResolveUrl("~/assets/css/zabuto_calendar.css")%>" rel="stylesheet" type="text/css"/>
@@ -28,13 +27,35 @@
     <link href="<%=ResolveUrl("~/assets/css/style.css")%>" rel="stylesheet" type="text/css"/>
     <link href="<%=ResolveUrl("~/assets/css/style-responsive.css")%>" rel="stylesheet" type="text/css"/>
 
+
+    <link href="<%=ResolveUrl("~/assets/css/index.css")%>" rel="stylesheet" type="text/css"/>
+    <link href="<%=ResolveUrl("~/assets/metisMenu/dist/metisMenu.css")%>" rel="stylesheet" type="text/css"/>
+    <!-- Timeline CSS -->
+    <link href="<%=ResolveUrl("~/assets/dist/css/timeline.css")%>" rel="stylesheet" type="text/css"/>
+    <!-- Custom CSS -->
+    <link href="<%=ResolveUrl("~/assets/dist/css/sb-admin-2.css")%>" rel="stylesheet" type="text/css"/>
+    <!-- Morris Charts CSS -->
+    <link href="<%=ResolveUrl("~/assets/morrisjs/morris.css")%>" rel="stylesheet" type="text/css"/>
+
+
     <!-- jQuery -->
-    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery-2.2.3.min.js") %>"></script>
+    <%--<script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery-2.2.3.min.js") %>"></script>--%>
     
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/jquery/dist/jquery.min.js") %>"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/bootstrap/dist/js/bootstrap.min.js") %>"></script>
+    <!-- Metis Menu Plugin JavaScript -->
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/metisMenu/dist/metisMenu.min.js") %>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/morrisjs/morris.min.js") %>"></script>
+    <!-- Morris Charts JavaScript -->
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/raphael/raphael-min.js") %>"></script>
+    <!-- Custom Theme JavaScript -->
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/dist/js/sb-admin-2.js") %>"></script>
 
-    
 
-
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery.cookie.js") %>"></script>
+ 
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/purl.js") %>"></script>
 
     <!-- datetimepicker -->
     <%--    <link href="jquery/jquery-ui-timepicker-addon.css" rel="stylesheet"/>
@@ -87,14 +108,14 @@
             </asp:ContentPlaceHolder>
         </div>
     </form>    
-    <!-- js placed at the end of the document so the pages load faster -->
+<%--    <!-- js placed at the end of the document so the pages load faster -->
     <script class="include" type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery.dcjqaccordion.2.7.js") %>"></script>
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery.scrollTo.min.js") %>"></script>
-    <%--<script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery.nicescroll.js") %>"></script>--%>
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery.sparkline.js") %>"></script>
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery-ui.js") %>"></script>
     
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/bootstrap.min.js") %>"></script>
+    
     <!--common script for all pages-->
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/common-scripts.js") %>"></script>
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/gritter/js/jquery.gritter.js") %>"></script>
@@ -107,6 +128,10 @@
     <!-- dialog -->
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/datepicker-zh-TW.js") %>"></script>
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/chart-master/Chart.js") %>"></script>
-    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/purl.js") %>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/purl.js") %>"></script>--%>
+
+    <!-- jQuery -->
+    
+
 </body>
 </html>

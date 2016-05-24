@@ -58,7 +58,7 @@ namespace Web
         {
             if (_isDbOnline)
             {
-                string act_id = act_id_txt.Text.Trim().ToUpper();
+                string act_id = act_id_hf.Value.Trim().ToUpper();
                 string captcha = (string)Session[CommonPages.Captcha.CaptchaSessionKey];    // 產生的驗證碼
 
                 #region 密碼解密
@@ -71,7 +71,7 @@ namespace Web
 
                 #region 檢查驗證碼(若是Debug模式，則忽略驗證碼)
                 if (CustomHelper.IsDebugMode
-                    || (!captcha.IsNullOrWhiteSpace() && confirm_txt.Text.Trim().EqualsIgnoreCase(captcha.ToUpper())))
+                    || (!captcha.IsNullOrWhiteSpace() && confirm_txt_pf.Value.Trim().EqualsIgnoreCase(captcha.ToUpper())))
                 {
                     #region 檢查帳密
                     var res = _bl.ValidateAccount(act_id, act_pwd);
@@ -99,15 +99,15 @@ namespace Web
                         showMsg = "閒置時間過長，驗證碼已失效，請重新輸入";
                         logMsg = "驗證碼已失效(原頁面瀏覽時間:" + broseWebTime_hf.Value + ", 輸入帳號:" + act_id + ")";
                     }
-                    else if (confirm_txt.Text.IsNullOrWhiteSpace())
+                    else if (confirm_txt_pf.Value.IsNullOrWhiteSpace())
                     {
                         showMsg = "請輸入驗證碼";
                         logMsg = "未輸入驗證碼(輸入帳號:" + act_id + ")";
                     }
-                    else if (captcha != confirm_txt.Text.Trim().ToUpper())
+                    else if (captcha != confirm_txt_pf.Value.Trim().ToUpper())
                     {
                         showMsg = "驗證碼錯誤";
-                        logMsg = "驗證碼錯誤(輸入值:" + confirm_txt.Text.Trim().ToUpper() + ", 正確值:" + captcha.ToUpper() + ", 輸入帳號:" + act_id + ")";
+                        logMsg = "驗證碼錯誤(輸入值:" + confirm_txt_pf.Value.Trim().ToUpper() + ", 正確值:" + captcha.ToUpper() + ", 輸入帳號:" + act_id + ")";
                     }
 
                     // 記錄作業登入資訊
@@ -120,7 +120,7 @@ namespace Web
                 #endregion
 
                 // 清空驗證碼欄位
-                confirm_txt.Text = "";
+                //confirm_txt.Text = "";
             }
         }
         #endregion

@@ -104,5 +104,13 @@ namespace Model.Common
         /// Google短網址API金鑰 
         /// </summary> 
         public String URL_SHORTENER_API_KEY { get; set; }
+        /// <summary> 
+        /// 檔案上傳路徑 
+        /// </summary> 
+        public String UPLOAD_PATH { get; set; }
+        /// <summary> 
+        /// 檔案預覽路徑 
+        /// </summary> 
+        public String UPLOAD_PATH_VIEW { get; set; }
     }
 }

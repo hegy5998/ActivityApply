@@ -3,52 +3,91 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead" runat="server">
     <!--引用jquery分頁-->
     <link href="<%=ResolveUrl("~/assets/css/pagination.css")%>" rel="stylesheet" type="text/css" />
+
+    <style type="text/css">
+        .activity_title {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="sideCon" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="mainCon" runat="server">
-    <section id="container">
-        <section id="main-content">
-            <section class="wrapper">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="push-down-30">
-                            <div class="banners-big">
-                                <!--活動查詢：活動名稱包含 <strong></strong> 。-->
-                                <div class="row">
-                                    <!-- 搜尋按鈕 -->
-                                    <div class="col-sm-1 col-sx-1" style="padding: 0px;width: 66px;float:left;">
-                                        <span class="input-group-btn">
-                                            <button id="search_btn" type="button" class="btn btn-theme03" style="border-radius: 4px;height: 34px;margin-bottom: 0;"><span class="glyphicon glyphicon-search" aria-hidden="true"  style="padding-bottom: 6px;">查詢</span></button>
-                                        </span>
-                                    </div>
-                                    <!-- 下拉是選單選擇分類 -->
-                                    <div class="col-sm-1 col-sx-1" style="padding: 0px;width: 76px;float: left;">
-                                        <select class="select" id="act_class" style="height: 34px; border-radius: 4px;width:76px;">
-                                            <option selected="selected" value="0">全部</option>
-                                        </select>
-                                    </div>
-                                    <!-- 輸入框 -->
-                                    <div class="col-sm-9" style="padding: 0px;width:50%;float: left;">
-                                        <input id="search_txt" type="text" name="search" class="form-control" placeholder="請輸入活動名稱" />
-                                    </div>
-                                </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 id="class_text" class="page-header text-info">全部</h1>
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 20px;">
+        <div class="col-xs-12">
+            <div class="push-down-30">
+                <div class="banners-big">
+                    <!--活動查詢：活動名稱包含 <strong></strong> 。-->
+                    <div class="row">
+                        <div class="sidebar-search">
+                            <div class="input-group custom-search-form">
+
+                                <span class="input-group-btn">
+                                    <button id="search_btn" class="btn btn-default" type="button" style="height: 34px; margin-bottom: 0px;">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                                <span class="input-group-btn" style="font-size: initial; z-index: 3;">
+                                    <select class="select" id="act_class" style="height: 34px; width: 100px; margin-right: -1px; border: 1px solid #ccc;">
+                                        <option selected="selected" value="0">全部</option>
+                                    </select>
+                                </span>
+                                <input id="search_txt" type="text" class="form-control" placeholder="搜尋活動..." />
                             </div>
+                            <!-- /input-group -->
                         </div>
+
+                        <!-- 搜尋按鈕 -->
+                        <%--<div class="col-sm-1 col-sx-1" style="padding: 0px; width: 66px; float: left;">
+                            <span class="input-group-btn">
+                                <button id="search_btn" type="button" class="btn btn-theme03" style="border-radius: 4px; height: 34px; margin-bottom: 0;"><span class="glyphicon glyphicon-search" aria-hidden="true" style="padding-bottom: 6px;">查詢</span></button>
+                            </span>
+                        </div>--%>
+                        <!-- 下拉是選單選擇分類 -->
+                        <%--<div class="col-sm-1 col-sx-1" style="padding: 0px; width: 76px; float: left;">
+                            <select class="select" id="act_class" style="height: 34px; border-radius: 4px; width: 76px;">
+                                <option selected="selected" value="0">全部</option>
+                            </select>
+                        </div>--%>
+                        <!-- 輸入框 -->
+                        <%--<div class="col-sm-9" style="padding: 0px; width: 50%; float: left;">
+                            <input id="search_txt" type="text" name="search" class="form-control" placeholder="請輸入活動名稱" />
+                        </div>--%>
                     </div>
                 </div>
-                <!-- 分頁_START -->
-                <div id="Pagination" class="pagination" style="margin-bottom: 0px;">
-                    <!-- 顯示分頁的地方 -->
-                </div>
-                <div id="Searchresult"></div>
-                <div id="hiddenresult" style="display: none;">
-                    <!-- 列表元素 -->
-                </div>
-                <!-- 分頁_END -->
-            </section>
-        </section>
-    </section>
+            </div>
+        </div>
+    </div>
+    <!-- 分頁_START -->
+
+    <div class="row">
+        <div id="Searchresult">
+            <div id="r1" class="row"></div>
+            <div id="r2" class="row"></div>
+            <div id="r3" class="row"></div>
+        </div>
+    </div>
+
+    <div id="hiddenresult" style="display: none;">
+        <!-- 列表元素 -->
+    </div>
+    <div class="row" style="text-align: center;">
+        <div id="Pagination" class="pagination" style="margin-bottom: 14px;">
+            <!-- 顯示分頁的地方 -->
+        </div>
+    </div>
+
+    <!-- 分頁_END -->
+
     <script type="text/javascript">
 
         //#region 初始化
@@ -62,6 +101,9 @@
                     return false;
                 }
             });
+
+            $("#class_text").text($("#act_class option:selected").text());
+
         })
         //#endregion
 
@@ -95,7 +137,7 @@
         function setSelect(act_classInfo) {
             var act_classInfo = JSON.parse(act_classInfo);
             $("#act_class").children().remove();
-            $("#act_class").append('<option value="0">全部</option>');
+            $("#act_class").append('<option value="0">全部活動</option>');
             for (var count = 0 ; count < act_classInfo.length ; count++) {
                 $("#act_class").append('<option value="' + act_classInfo[count].Ac_idn + '">' + act_classInfo[count].Ac_title + '</option>');
             }
@@ -119,7 +161,7 @@
                         $("#add_breach").append('<li><a href="Activity_List.aspx?act_class=' + act_classInfo[count].Ac_idn + '">' + act_classInfo[count].Ac_title + '</a></li>');
                     }
                 }
-                if(act_class == 0)
+                if (act_class == 0)
                     $("#add_breach").append('<li><a href="Activity_List.aspx?act_class=0">全部活動</a></li>');
             }
                 //如果是搜尋按鈕執行這裡
@@ -139,6 +181,8 @@
                     }
                     $("#add_breach").append('<li><a href="Activity_List.aspx?act_class=' + act_class + '">' + act_class_title + '</a></li>');
                 }
+                else
+                    $("#add_breach").append('<li><a href="Activity_List.aspx?act_class=0">全部活動</a></li>');
             }
             //設定分類下拉選單
             $("#act_class").val(act_class);
@@ -149,12 +193,12 @@
         $(function () {
             var initPagination = function () {
                 //設定有幾個分頁，要除以你一個分頁要顯示幾筆資料
-                var num_entries = $("#hiddenresult div.result").length / 8;
+                var num_entries = $("#hiddenresult div.result").length / 9;
                 // 創建分頁
                 $("#Pagination").pagination(num_entries, {
                     items_per_page: 1, //每頁顯示幾項
                     num_edge_entries: 1, //邊緣頁數
-                    num_display_entries: 50, //主體頁數
+                    num_display_entries: 10, //主體頁數
                     callback: pageselectCallback,
                     prev_text: "前一頁",
                     next_text: "下一頁"
@@ -164,12 +208,23 @@
                 //var new_content = $("#hiddenresult div.result:eq(" + page_index + ")").clone();
                 //$("#Searchresult").empty().append(new_content); //装载对应分页的内容
                 //設定一個分頁要顯示幾筆資料
-                var items_per_page = 8;
+                //$.cookie("page_index", page_index, { expires: 1 });
+                var items_per_page = 9;
                 var max_elem = Math.min((page_index + 1) * items_per_page, $("#hiddenresult div.result").length);
-                $("#Searchresult").html("");
+                //$("#Searchresult").html("");
+                $("#r1").html("");
+                $("#r2").html("");
+                $("#r3").html("");
                 //判斷現在在第幾個分頁並顯示其內容
                 for (var i = page_index * items_per_page; i < max_elem; i++) {
-                    $("#Searchresult").append($("#hiddenresult div.result:eq(" + i + ")").clone());
+                    //$("#Searchresult").append($("#hiddenresult div.result:eq(" + i + ")").clone());
+                    var r = i % 9;
+                    if (r < 3)
+                        $("#r1").append($("#hiddenresult div.result:eq(" + i + ")").clone());
+                    else if (3 <= r && r < 6)
+                        $("#r2").append($("#hiddenresult div.result:eq(" + i + ")").clone());
+                    else if (6 <= r && r < 9)
+                        $("#r3").append($("#hiddenresult div.result:eq(" + i + ")").clone());
                 }
                 return false;
             }
@@ -178,11 +233,6 @@
         });
         //#endregion
 
-        //#region 調整 jQuery steps 高度
-        function resizeJquerySteps() {
-            $('#Searchresult').animate({ height: $('#Searchresult').outerHeight() }, "slow");
-        }
-        //#endregion
     </script>
     <!--引用jquery分頁-->
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery.pagination.js") %>"></script>

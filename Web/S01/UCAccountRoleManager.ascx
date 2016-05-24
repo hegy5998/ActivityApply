@@ -43,12 +43,12 @@
                         </div>
                     </asp:Panel>
                 </td>
-                <td style="width:20px;text-align:right;padding-right:3px;">
+                <%--<td style="width:20px;text-align:right;padding-right:3px;">
                     <span style="position: relative;">
                         <i class="fa fa-plus btn btn-info btn-xs" aria-hidden="true" style="margin-top:2px"></i>
                     <asp:Button ID="add_btn" runat="server" CommandName="Add" CssClass="movedown"  Text="新增身分" ToolTip="新增身分" UseSubmitBehavior="False" />
                 </span>
-                        </td>
+                        </td>--%>
             </tr>
         </ItemTemplate>
     </asp:ListView>

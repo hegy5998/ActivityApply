@@ -27,9 +27,17 @@ namespace Web.S02
         //private static string act_relate_file = "";
         //private static string act_image  = "";
         private static int act_idn = 0;
+        //活動如果儲存成功才上傳檔案
         private static Boolean if_upload = true;
+        //儲存場次List
         private static List<int> sessioncount = new List<int>();
+        //儲存區塊List
         private static List<int> sectioncount = new List<int>();
+        //檔案上傳路徑
+        string upload_path = CommonHelper.GetSysConfig().UPLOAD_PATH;
+        //檔案預覽路徑
+        string upload_path_view = CommonHelper.GetSysConfig().UPLOAD_PATH_VIEW;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             //act_relate_file = "";
@@ -259,7 +267,7 @@ namespace Web.S02
 
                 // 檢查 Server 上該資料夾是否存在，不存在就自動建立
                 //string serverDirRelate = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/relateFile";
-                string serverDirRelate = @"C:/inetpub/wwwroot/Uploads/" + as_act + "/relateFile";
+                string serverDirRelate = upload_path+ + as_act + "/relateFile";
                 string act_relate_file = serverDirRelate + "/" + filename;
                 if (Directory.Exists(serverDirRelate) == false) Directory.CreateDirectory(serverDirRelate);
 
@@ -291,7 +299,7 @@ namespace Web.S02
                     old_Activity_dict["act_idn"] = act_idn;
                     Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
                     //new_Activity_dict["act_relate_file"] = @"../Uploads/" + as_act + "/relateFile" + "/" + filename;
-                    new_Activity_dict["act_relate_file"] = @"http:///140.134.23.127/Uploads/" + as_act + "/relateFile" + "/" + filename;
+                    new_Activity_dict["act_relate_file"] = @upload_path_view + as_act + "/relateFile" + "/" + filename;
                     CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
                     Response.Redirect("S02010101.aspx?sys_id=S01&sys_pid=S02010101");
                 }
@@ -341,7 +349,7 @@ namespace Web.S02
 
             // 檢查 Server 上該資料夾是否存在，不存在就自動建立
             //string serverDirImg = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/Img";
-            string serverDirImg = @"C:/inetpub/wwwroot/Uploads/" + as_act + "/Img";
+            string serverDirImg = @upload_path + as_act + "/Img";
             string act_image = serverDirImg + "/" + filename;
             if (Directory.Exists(serverDirImg) == false) Directory.CreateDirectory(serverDirImg);
 
@@ -372,7 +380,7 @@ namespace Web.S02
                 old_Activity_dict["act_idn"] = act_idn;
                 Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
                 //new_Activity_dict["act_image"] = @"../Uploads/" + as_act + "/img" + "/" + filename;
-                new_Activity_dict["act_image"] = @"http:///140.134.23.127/Uploads/" + as_act + "/img" + "/" + filename;
+                new_Activity_dict["act_image"] = @upload_path_view + as_act + "/img" + "/" + filename;
                 CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
             }
             catch (Exception ex)

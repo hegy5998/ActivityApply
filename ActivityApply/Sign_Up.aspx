@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true" CodeBehind="Sign_Up.aspx.cs" Inherits="ActivityApply.Sign_Up" %>
+
 <%@ Register Assembly="CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead" runat="server">
@@ -48,50 +49,49 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="sideCon" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="mainCon" runat="server">
-    <section id="container">
-        <section id="main-content">
-            <section class="wrapper">
-                <div class="advanced-form row" style="display: none;">
-                    <h3>活動報名</h3>
-                    <section>
-                        <h3><i class="fa fa-angle-right"></i>活動報名</h3>
-                        <!-- 放置區塊區域 -->
-                        <div id="sections_div">
-                            <!-- 放置問題區域 -->
-                        </div>
-                    </section>
-
-                    <h3>資料確認</h3>
-                    <section>
-                        <h3><i class="fa fa-angle-right"></i>資料確認</h3>
-                        <div id="check_div" class="col-sm-8 form-panel table-responsive">
-                            <table id="checkData_table" class="table table-condensed">
-                                <tbody>
-                                    <!-- 放置使用者資料確認欄位 -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </section>
-
-                    <h3>設定密碼</h3>
-                    <section>
-                        <h3><i class="fa fa-angle-right"></i>設定密碼</h3>
-                        <div id="password_div" class="col-sm-8 form-panel">
-                        
-                        </div>
-                    </section>
-
-                    <h3>報名完成</h3>
-                    <section>
-                        <h3><i class="fa fa-angle-right"></i>報名完成</h3>
-                        <div id="finish_div" class="col-sm-8 form-panel"> 
-                            <asp:Button runat="server" ID="print_btn" OnClick="print_ApplyProve" Text="下載報名資訊" CssClass="btn btn-theme" />
-                        </div>
-                    </section>
-                </div>
-            </section>
+    <div class="advanced-form row" style="display: none; padding-top: 25px;padding-bottom: 25px;">
+        <h3>活動報名</h3>
+        <section>
+            <h3><i class="fa fa-angle-right"></i>活動報名</h3>
+            <!-- 放置區塊區域 -->
+            <div id="sections_div">
+                <!-- 放置問題區域 -->
+            </div>
         </section>
-    </section>
+
+        <h3>資料確認</h3>
+        <section>
+            <h3><i class="fa fa-angle-right"></i>資料確認</h3>
+            <div id="check_div" class="col-sm-8 panel panel-default table-responsive">
+                <table id="checkData_table" class="panel-body table table-condensed">
+                    <tbody>
+                        <!-- 放置使用者資料確認欄位 -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <h3>設定密碼</h3>
+        <section>
+            <h3><i class="fa fa-angle-right"></i>設定密碼</h3>
+            <div  class="col-sm-8 form-horizontal panel panel-default style-form">
+                <div id="password_div" class="panel-body">
+
+                </div>
+            </div>
+        </section>
+
+        <h3>報名完成</h3>
+        <section>
+            <h3><i class="fa fa-angle-right"></i>報名完成</h3>
+            <div class="col-sm-8 panel panel-default">
+                <div id="finish_div" class="panel-body">
+                    <asp:Button runat="server" ID="print_btn" OnClick="print_ApplyProve" Text="下載報名資訊" CssClass="btn btn-info" />
+                </div>
+            </div>
+        </section>
+    </div>
+
 
     <script type="text/javascript">
         var sectionList;
@@ -99,13 +99,13 @@
         var email;
         var signFlag = false;
         // Enter 事件：改為按下一步
-        $(document).keydown(function(){
+        $(document).keydown(function () {
             if (event.keyCode == 13) {
                 $(".advanced-form").steps("next");
                 return false;
             }
         });
-        
+
         $(document).ready(function () {
             var funcList = [getSectionList,
                             getQuestionList,
@@ -147,8 +147,8 @@
                             if (SaveUserData()) {
                                 Add_Finish();
                                 return true;
-                            }                         
-                        }                        
+                            }
+                        }
                     }
                     resizeJquerySteps();
                     return false;
@@ -161,7 +161,7 @@
                         }
                         else {
                             Add_SetPwd();
-                            $("#password").rules("add", { required: true, minlength: 4 ,maxlength : 20});
+                            $("#password").rules("add", { required: true, minlength: 4, maxlength: 20 });
                             $("#confirm_password").rules("add", { required: true, equalTo: "#password" });
                         }
                     }
@@ -188,7 +188,7 @@
             }
             form.show();
             //#endregion
-            
+
         })
         /* 活動報名 */
         // #region 取得區塊列表
@@ -275,10 +275,10 @@
         function Section_Code(section) {
             var sectionId = "sec_div_" + section.Acs_seq;
             var questionId = "question_div_" + section.Acs_seq;
-            var code = '<div id="' + sectionId + '" class="col-sm-12 form-panel">\
-                            <h4 class="mb"><i class="fa fa-angle-right"></i>' + section.Acs_title + '</h4>\
-                            <label class="desc">' + section.Acs_desc + '</label>\
-                            <div id="' + questionId + '" class="form-horizontal style-form">\
+            var code = '<div id="' + sectionId + '" class="panel panel-default">\
+                            <div class="panel-heading">' + section.Acs_title + '</div>\
+                            <label class="desc" style="margin: 15px 15px 0px 30px;">' + section.Acs_desc + '</label>\
+                            <div id="' + questionId + '" class="panel-body form-horizontal style-form">\
                             </div>\
                         </div>';
             return code;
@@ -480,7 +480,7 @@
                         res = false;
                         window.location.replace("Sign_Search_Context.aspx");
                         window.event.returnValue = false;
-                    }                    
+                    }
                 },
                 //失敗時
                 error: function () {
@@ -493,9 +493,9 @@
         //#endregion
         /* 設定密碼 */
         //#region 驗證使用者是否註冊過
-        function isSignUp() {            
+        function isSignUp() {
             var res;
-            for(var i = 0; i < questionList.length; i++){
+            for (var i = 0; i < questionList.length; i++) {
                 if (questionList[i].Acc_title.indexOf("Email") != -1) {
                     email = questionList[i].Acc_val;
                     break;
@@ -510,7 +510,7 @@
                 data: JSON.stringify(data),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                async:false,
+                async: false,
                 //成功時
                 success: function (result) {
                     res = result.d;
@@ -574,13 +574,13 @@
                 //失敗時
                 error: function () {
                     alert("儲存密碼錯誤!");
-                    res =  false;
+                    res = false;
                 }
             });
             return res;
         }
         //#endregion
-        
+
         /* 報名完成 */
         //#region 新增報名完成提示
         function Add_Finish() {
@@ -594,7 +594,7 @@
             return code;
         }
         //#endregion
-        
+
         //#region 設定麵包削尋覽列
         function setSessionBread() {
             //將滅包削內容清空

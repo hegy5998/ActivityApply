@@ -50,11 +50,15 @@ namespace Web.S02
                 q_keyword_ddl.Items.Insert(i, data.Rows[i - 1][0].ToString());
             }
 
+            //main_gv.Attributes.Add("style", "word-break:break-all;word-wrap:break-word");
+            //ready_gv.Attributes.Add("style", "word-break:break-all;word-wrap:break-word");
+            //end_gv.Attributes.Add("style", "word-break:break-all;word-wrap:break-word");
+
             if (!IsPostBack)
             {
                 //設定tabs的Cookie預設值
                 HttpCookie myCookie = new HttpCookie("tabs");
-                myCookie.Value = "0";
+                myCookie.Value = "1";
                 Response.Cookies.Add(myCookie);
 
                 BindGridView(GetAlreadyData(), GetReadyData(), GetEndData());
@@ -125,6 +129,24 @@ namespace Web.S02
         //GridView排序
         protected void main_gv_Sorting(object sender, GridViewSortEventArgs e)
         {
+            //已發佈活動
+            if (Request.Cookies["tabs"].Value == "0")
+            {
+                var lst = GridViewHelper.SortGridView(sender as GridView, e, GetAlreadyData());
+                BindGridView(lst, GetReadyData(), GetEndData());
+            }
+            //未發佈活動
+            else if (Request.Cookies["tabs"].Value == "1")
+            {
+                var lst = GridViewHelper.SortGridView(sender as GridView, e, GetReadyData());
+                BindGridView(GetAlreadyData(), lst, GetReadyData());
+            }
+            //已結束活動
+            else if (Request.Cookies["tabs"].Value == "2")
+            {
+                var lst = GridViewHelper.SortGridView(sender as GridView, e, GetEndData());
+                BindGridView(GetAlreadyData(), GetReadyData(), lst);
+            }
         }
 
         //關閉or發佈活動
@@ -409,7 +431,17 @@ namespace Web.S02
         {
             GridView gv = (GridView)sender;
             var lst = GridViewHelper.SortGridView<Account_copperateInfo>(gv, e, _bl.GetControlList(copperate_cop_act_hf.Value));
-            BindControlSetGridView(lst);
+            
+            //已發佈活動
+            if (Request.Cookies["tabs"].Value == "0")
+            {
+                BindControlSetGridView(lst);
+            }
+            //未發佈活動
+            else if (Request.Cookies["tabs"].Value == "1")
+            {
+                BindControlSetReadyGridView(lst);
+            }
         }
 
         //協作者排序(Ready)
@@ -809,7 +841,6 @@ namespace Web.S02
                         readyaccount_radiobuttonlist.Items.Add(listitem);
 
                         Literal literal = new Literal();
-                        literal.Text = "<br />";
                         account_pl.Controls.Add(literal);
                         readyAccount.Controls.Add(literal);
                     }

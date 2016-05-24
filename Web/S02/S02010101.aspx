@@ -6,6 +6,27 @@
 <%@ Register Src="~/UserControls/UCGridViewPager.ascx" TagPrefix="uc1" TagName="UCGridViewPager" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead_cph" runat="server">
+    <style type="text/css">
+        .activity_title {
+            width: 150px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            border-color: transparent;
+            background-color: transparent;
+            box-shadow: none;
+            color: gray;
+            text-align: center;
+        }
+
+        .scroll_box {
+            width: auto;
+            height: 250px;
+            overflow-x: auto;
+            overflow-y: auto;
+            border-style: ridge;
+        }
+    </style>
     <script type="text/javascript">
         $(function () {
             Sys.WebForms.PageRequestManager.getInstance().add_pageLoaded(function (evt, args) {
@@ -34,7 +55,7 @@
             $("#tabs").tabs({
                 //起始頁active: 導向cookie("tabs")所指頁籤
                 //active: ($.cookie("tabs") || 0),  
-                active: (0), 
+                active: (1), 
  
                 //換頁動作activate
                 activate: function (event, ui) {   
@@ -56,24 +77,21 @@
     <asp:Panel ID="form_panel" runat="server" Visible="true">
         <asp:UpdatePanel runat="server" ID="UpdatePanel3" ChildrenAsTriggers="false" UpdateMode="Conditional">
             <ContentTemplate>
-                <!--活動查詢 START-->
-                <div style="margin-left: 20px; width: 354px">
-                    <table class="table">
-                        <tr>
-                            <td style="padding-bottom: 2px;">
-                                <asp:DropDownList runat="server" ID="q_keyword_ddl" Style="width: 76px;"></asp:DropDownList>
-                                <asp:TextBox runat="server" ID="q_keyword_tb" Style="width: 200px" />
-                                <span style="position: relative;">
-                                    <i class="fa fa-search btn btn-primary btn-xs" aria-hidden="true" style="margin-bottom: 4px; width: 55px;">
-                                        <label style="margin-top: 3px;">查詢</label>
-                                    </i>
-                                    <asp:Button runat="server" ID="q_query_btn" CssClass="movedown" Text="查詢" OnClick="q_query_btn_Click" />
-                                </span>
-                            </td>
-                        </tr>
-                    </table>
+                <div class="sidebar-search" style="padding: 6px 0px 0px 12px; margin: 0px 0px 14px 10px; width: 354px; background-color: white; height: 40px; border-radius: 5px;">
+                    <div class="input-group custom-search-form">
+                        <span class="input-group-btn">
+                            <i class="fa fa-search btn btn-primary btn-xs" aria-hidden="true" style="width: 55px; margin-bottom: 0px;">
+                                <label style="margin-top: 3px; font-size: initial;">查詢</label>
+                            </i>
+                            <asp:Button runat="server" ID="Button1" CssClass="movedown" Text="查詢" OnClick="q_query_btn_Click" />
+                        </span>
+                        <span class="input-group-btn" style="font-size: initial; z-index: 3;">
+                            <asp:DropDownList runat="server" ID="q_keyword_ddl" Style="width: 76px; height: 28px; margin-right: -1px;"></asp:DropDownList>
+                        </span>
+                        <asp:TextBox runat="server" ID="q_keyword_tb" Style="width: 200px; height: 28px;" CssClass="form-control" />
+                    </div>
+                    <!-- /input-group -->
                 </div>
-                <!--活動查詢 END-->
 
                 <!-- **********************************************************************************************************************************************************
                 MAIN CONTENT
@@ -85,8 +103,8 @@
                         <div role="tabpanel" id="tabs" style="margin-top: 15px;">
                             <!-- 頁籤標題 START -->
                             <ul class="nav nav-pills" role="tablist" id="myTab">
-                                <li role="presentation" class="active"><a href="#already" aria-controls="already" role="tab" data-toggle="pill">已發佈</a></li>
-                                <li role="presentation"><a href="#ready" aria-controls="ready" role="tab" data-toggle="pill">未發佈</a></li>
+                                <li role="presentation"><a href="#already" aria-controls="already" role="tab" data-toggle="pill">已發佈</a></li>
+                                <li role="presentation" class="active"><a href="#ready" aria-controls="ready" role="tab" data-toggle="pill">未發佈</a></li>
                                 <li role="presentation"><a href="#end" aria-controls="end" role="tab" data-toggle="pill">已結束</a></li>
                             </ul>
                             <!-- 頁籤標題 END -->
@@ -100,67 +118,63 @@
                                             <asp:GridView ID="main_gv" runat="server" class="table table-striped" AutoGenerateColumns="False" ShowHeaderWhenEmpty="True" OnRowCommand="main_gv_RowCommand" OnRowDeleting="main_gv_RowDeleting" OnSorting="main_gv_Sorting" ViewStateMode="Enabled" OnRowEditing="main_gv_RowClose">
                                                 <Columns>
                                                     <%-- 活動標題 --%>
-                                                    <asp:TemplateField HeaderText="活動標題">
+                                                    <asp:TemplateField HeaderText="活動標題" SortExpression="act_title">
                                                         <ItemTemplate>
-                                                            <input id="viewActiviity" type="button" class="btn-link" value='<%# Eval("act_title") %>' onclick="GoToActivity(<%# Eval("act_idn") %>);" />
+                                                            <a title="<%# Eval("act_title") %>">
+                                                                <input id="viewActiviity" type="button" class="btn-link" value='<%# Eval("Act_title") %>' onclick="GoToActivity(<%# Eval("act_idn") %>);" style="width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" /></a>
                                                             <asp:HiddenField ID="as_idn_hf" runat="server" Value='<%# Eval("as_idn") %>' />
                                                             <asp:HiddenField ID="as_isopen_hf" runat="server" Value='<%# Eval("as_isopen") %>' />
                                                             <asp:HiddenField ID="act_idn_hf" runat="server" Value='<%# Eval("act_idn") %>' />
                                                             <asp:HiddenField ID="act_isopen_hf" runat="server" Value='<%# Eval("act_isopen") %>' />
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle />
-                                                        <ItemStyle CssClass="center" />
+                                                        <HeaderStyle Width="150px" />
+                                                        <ItemStyle CssClass="center" Height="50" />
                                                     </asp:TemplateField>
 
                                                     <%-- 場次 --%>
-                                                    <asp:TemplateField HeaderText="場次">
+                                                    <asp:TemplateField HeaderText="場次" SortExpression="as_title">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="as_title_lbl" runat="server" Text='<%# Bind("as_title") %>'></asp:Label>
+                                                            <a title="<%# Eval("as_title") %>">
+                                                                <input id="as_title_lbl" type="text" readonly="true" class="activity_title" value='<%# Eval("as_title") %>' style="cursor:default;background-color: transparent;"/>
+                                                                <%--<p style="width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0px;">
+                                                                    <asp:Label ID="as_title_lbl" runat="server" Text='<%# Bind("as_title") %>' Style="cursor: default; color: #808080;"></asp:Label>
+                                                                </p>--%>
+                                                            </a>
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle />
-                                                        <ItemStyle CssClass="center" />
+                                                        <HeaderStyle Width="150px" />
+                                                        <ItemStyle CssClass="center" Height="50" />
                                                     </asp:TemplateField>
 
                                                     <%-- 報名人數 --%>
-                                                    <asp:TemplateField HeaderText="報名人數">
+                                                    <asp:TemplateField HeaderText="報名人數" SortExpression="as_num">
                                                         <ItemTemplate>
                                                             <asp:Label ID="as_num" runat="server" Text='<%# Bind("as_num") %>'></asp:Label>/<asp:Label ID="as_num_limit_lbl" runat="server" Text='<%# Bind("as_num_limit") %>'></asp:Label>
                                                         </ItemTemplate>
 
                                                         <HeaderStyle Width="70px" />
-                                                        <ItemStyle CssClass="center" />
+                                                        <ItemStyle CssClass="center" Height="50" />
                                                     </asp:TemplateField>
 
                                                     <%-- 活動日期 --%>
-                                                    <asp:TemplateField HeaderText="活動日期">
+                                                    <asp:TemplateField HeaderText="活動日期" SortExpression="as_date_start">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="as_date_start_lbl" runat="server" Text='<%# Bind("as_date_start") %>'></asp:Label>
-                                                            <asp:Label ID="as_date_starttime_lbl" runat="server" Text='<%# Bind("as_date_starttime") %>'></asp:Label>
-                                                            ~
-                                                            <br />
-                                                            <asp:Label ID="as_date_end_lbl" runat="server" Text='<%# Bind("as_date_end") %>'></asp:Label>
-                                                            <asp:Label ID="as_date_endtime" runat="server" Text='<%# Bind("as_date_endtime") %>'></asp:Label>
+                                                            <asp:Label ID="as_date_start_lbl" runat="server" Text='<%# Bind("as_date_start") %>'></asp:Label>~<asp:Label ID="as_date_end_lbl" runat="server" Text='<%# Bind("as_date_end") %>'></asp:Label>
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle Width="150px" />
-                                                        <ItemStyle CssClass="center" />
+                                                        <HeaderStyle Width="140px" />
+                                                        <ItemStyle CssClass="center" Height="50" />
                                                     </asp:TemplateField>
 
                                                     <%-- 報名起訖 --%>
-                                                    <asp:TemplateField HeaderText="報名起訖">
+                                                    <asp:TemplateField HeaderText="報名起訖" SortExpression="as_apply_start">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="as_apply_start_lbl" runat="server" Text='<%# Bind("as_apply_start") %>'></asp:Label>
-                                                            <asp:Label ID="as_apply_starttime_lbl" runat="server" Text='<%# Bind("as_apply_starttime") %>'></asp:Label>
-                                                            ~
-                                                            <br />
-                                                            <asp:Label ID="as_apply_end_lbl" runat="server" Text='<%# Bind("as_apply_end") %>'></asp:Label>
-                                                            <asp:Label ID="as_apply_endtime_lbl" runat="server" Text='<%# Bind("as_apply_endtime") %>'></asp:Label>
+                                                            <asp:Label ID="as_apply_start_lbl" runat="server" Text='<%# Bind("as_apply_start") %>'></asp:Label>~<asp:Label ID="as_apply_end_lbl" runat="server" Text='<%# Bind("as_apply_end") %>'></asp:Label>
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle Width="150px" />
-                                                        <ItemStyle CssClass="center" />
+                                                        <HeaderStyle Width="140px" />
+                                                        <ItemStyle CssClass="center" Height="50" />
                                                     </asp:TemplateField>
 
                                                     <%-- 報名資料 --%>
@@ -175,7 +189,7 @@
                                                         </ItemTemplate>
 
                                                         <HeaderStyle Width="110px" />
-                                                        <ItemStyle CssClass="center" />
+                                                        <ItemStyle CssClass="center" Height="50" />
                                                     </asp:TemplateField>
 
                                                     <%-- 基本功能 --%>
@@ -186,7 +200,7 @@
                                                         </ItemTemplate>
 
                                                         <HeaderStyle Width="230px" />
-                                                        <ItemStyle CssClass="center" />
+                                                        <ItemStyle CssClass="center" Height="50" />
                                                     </asp:TemplateField>
                                                 </Columns>
                                             </asp:GridView>
@@ -338,11 +352,14 @@
                                                                         <asp:Panel ID="account_pl" runat="server">
                                                                             <asp:Label ID="accountpassword_lbl" runat="server" Text="選擇帳號"></asp:Label><br />
                                                                             <br />
-                                                                            <asp:RadioButtonList ID="account_radiobuttonlist" runat="server" CssClass="fv">
-                                                                            </asp:RadioButtonList>
+                                                                            <div class="scroll_box">
+                                                                                <asp:RadioButtonList ID="account_radiobuttonlist" runat="server" CssClass="fv " RepeatDirection="Horizontal" RepeatColumns="2" Width="75%">
+                                                                                </asp:RadioButtonList>
+                                                                            </div>
                                                                             <asp:HiddenField ID="row_idn_hf" runat="server" />
                                                                         </asp:Panel>
-                                                                        <asp:Button ID="setAccount_btn" runat="server" CssClass="btn btn-default" Text="確認" UseSubmitBehavior="false" OnClick="setAccount_btn_Click" /><br />
+                                                                        <asp:Button ID="setAccount_btn" runat="server" CssClass="btn btn-default" Text="確認" UseSubmitBehavior="false" OnClick="setAccount_btn_Click" />
+                                                                        <asp:Button ID="Button2" runat="server" CssClass="btn btn-default" Text="返回" UseSubmitBehavior="false" OnClick="back_btn_Click" /><br />
                                                                     </asp:View>
                                                                     <%--設定帳號 END--%>
                                                                 </asp:MultiView>
@@ -373,67 +390,63 @@
                                             <asp:GridView ID="ready_gv" class="table table-striped" runat="server" AutoGenerateColumns="False" OnRowCommand="main_gv_RowCommand" ViewStateMode="Enabled" OnRowDeleting="main_gv_RowDeleting" OnSorting="main_gv_Sorting" OnRowEditing="main_gv_RowClose">
                                                 <Columns>
                                                     <%-- 活動標題 --%>
-                                                    <asp:TemplateField HeaderText="活動標題">
+                                                    <asp:TemplateField HeaderText="活動標題" SortExpression="act_title">
                                                         <ItemTemplate>
-                                                            <input id="viewActiviity" type="button" class="btn-link" value='<%# Eval("act_title") %>' onclick="GoToActivity(<%# Eval("act_idn") %>);" />
+                                                            <a title="<%# Eval("act_title") %>">
+                                                                <input id="viewActiviity" type="button" class="btn-link" value='<%# Eval("Act_title") %>' onclick="GoToActivity(<%# Eval("act_idn") %>);" style="width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" /></a>
                                                             <asp:HiddenField ID="as_idn_hf" runat="server" Value='<%# Eval("as_idn") %>' />
                                                             <asp:HiddenField ID="as_isopen_hf" runat="server" Value='<%# Eval("as_isopen") %>' />
                                                             <asp:HiddenField ID="act_idn_hf" runat="server" Value='<%# Eval("act_idn") %>' />
                                                             <asp:HiddenField ID="act_isopen_hf" runat="server" Value='<%# Eval("act_isopen") %>' />
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle />
-                                                        <ItemStyle CssClass="center" />
+                                                        <HeaderStyle Width="150px" />
+                                                        <ItemStyle CssClass="center" Height="50px" />
                                                     </asp:TemplateField>
 
                                                     <%-- 場次 --%>
-                                                    <asp:TemplateField HeaderText="場次">
+                                                    <asp:TemplateField HeaderText="場次" SortExpression="as_title">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="as_title_lbl" runat="server" Text='<%# Bind("as_title") %>'></asp:Label>
+                                                            <a title="<%# Eval("as_title") %>">
+                                                                <input id="as_title_lbl" type="text" readonly="true" class="activity_title" value='<%# Eval("as_title") %>' style="cursor:default;background-color: transparent;"/>
+                                                                <%--<p style="width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0px;">
+                                                                    <asp:Label ID="as_title_lbl" runat="server" Text='<%# Bind("as_title") %>' Style="cursor: default; color: #808080;"></asp:Label>
+                                                                </p>--%>
+                                                            </a>
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle />
-                                                        <ItemStyle CssClass="center" />
+                                                        <HeaderStyle Width="150px" />
+                                                        <ItemStyle CssClass="center" Height="50px" />
                                                     </asp:TemplateField>
 
                                                     <%-- 報名/限制人數 --%>
-                                                    <asp:TemplateField HeaderText="報名人數">
+                                                    <asp:TemplateField HeaderText="報名人數" SortExpression="as_num">
                                                         <ItemTemplate>
                                                             <asp:Label ID="as_num" runat="server" Text='<%# Bind("as_num") %>'></asp:Label>/<asp:Label ID="as_num_limit_lbl" runat="server" Text='<%# Bind("as_num_limit") %>'></asp:Label>
                                                         </ItemTemplate>
 
                                                         <HeaderStyle Width="70px" />
-                                                        <ItemStyle CssClass="center" />
+                                                        <ItemStyle CssClass="center" Height="50px" />
                                                     </asp:TemplateField>
 
                                                     <%-- 活動日期 --%>
-                                                    <asp:TemplateField HeaderText="活動日期">
+                                                    <asp:TemplateField HeaderText="活動日期" SortExpression="as_date_start">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="as_date_start_lbl" runat="server" Text='<%# Bind("as_date_start") %>'></asp:Label>
-                                                            <asp:Label ID="as_date_starttime_lbl" runat="server" Text='<%# Bind("as_date_starttime") %>'></asp:Label>
-                                                            ~
-                                                            <br />
-                                                            <asp:Label ID="as_date_end_lbl" runat="server" Text='<%# Bind("as_date_end") %>'></asp:Label>
-                                                            <asp:Label ID="as_date_endtime" runat="server" Text='<%# Bind("as_date_endtime") %>'></asp:Label>
+                                                            <asp:Label ID="as_date_start_lbl" runat="server" Text='<%# Bind("as_date_start") %>'></asp:Label>~<asp:Label ID="as_date_end_lbl" runat="server" Text='<%# Bind("as_date_end") %>'></asp:Label>
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle Width="150px" />
-                                                        <ItemStyle CssClass="center" />
+                                                        <HeaderStyle Width="140px" />
+                                                        <ItemStyle CssClass="center" Height="50px" />
                                                     </asp:TemplateField>
 
                                                     <%-- 報名起訖 --%>
-                                                    <asp:TemplateField HeaderText="報名起訖">
+                                                    <asp:TemplateField HeaderText="報名起訖" SortExpression="as_apply_start">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="as_apply_start_lbl" runat="server" Text='<%# Bind("as_apply_start") %>'></asp:Label>
-                                                            <asp:Label ID="as_apply_starttime_lbl" runat="server" Text='<%# Bind("as_apply_starttime") %>'></asp:Label>
-                                                            ~
-                                                            <br />
-                                                            <asp:Label ID="as_apply_end_lbl" runat="server" Text='<%# Bind("as_apply_end") %>'></asp:Label>
-                                                            <asp:Label ID="as_apply_endtime_lbl" runat="server" Text='<%# Bind("as_apply_endtime") %>'></asp:Label>
+                                                            <asp:Label ID="as_apply_start_lbl" runat="server" Text='<%# Bind("as_apply_start") %>'></asp:Label>~<asp:Label ID="as_apply_end_lbl" runat="server" Text='<%# Bind("as_apply_end") %>'></asp:Label>
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle Width="150px" />
-                                                        <ItemStyle CssClass="center" />
+                                                        <HeaderStyle Width="140px" />
+                                                        <ItemStyle CssClass="center" Height="50px" />
                                                     </asp:TemplateField>
 
                                                     <%-- 報名資料 --%>
@@ -443,7 +456,7 @@
                                                         </ItemTemplate>
 
                                                         <HeaderStyle Width="110px" />
-                                                        <ItemStyle CssClass="center" />
+                                                        <ItemStyle CssClass="center" Height="50px" />
                                                     </asp:TemplateField>
 
                                                     <%-- 基本功能 --%>
@@ -453,7 +466,7 @@
                                                         </ItemTemplate>
 
                                                         <HeaderStyle Width="230px" />
-                                                        <ItemStyle CssClass="center" />
+                                                        <ItemStyle CssClass="center" Height="50px" />
                                                     </asp:TemplateField>
                                                 </Columns>
                                             </asp:GridView>
@@ -602,12 +615,14 @@
                                                                         <asp:Panel ID="readyAccount" runat="server">
                                                                             <asp:Label ID="readyaccountpassword_lbl" runat="server" Text="選擇帳號"></asp:Label><br />
                                                                             <br />
-                                                                            <asp:RadioButtonList ID="readyaccount_radiobuttonlist" runat="server" CssClass="fv">
-                                                                            </asp:RadioButtonList>
+                                                                            <div class="scroll_box">
+                                                                                <asp:RadioButtonList ID="readyaccount_radiobuttonlist" runat="server" CssClass="fv" RepeatDirection="Horizontal" RepeatColumns="2" Width="75%">
+                                                                                </asp:RadioButtonList>
+                                                                            </div>
+                                                                            <asp:HiddenField ID="readyrow_idn_hf" runat="server" Visible="false" ViewStateMode="Enabled" />
                                                                         </asp:Panel>
-                                                                        <asp:HiddenField ID="readyrow_idn_hf" runat="server" />
-                                                                        <asp:Button ID="readysetAccount_btn" runat="server" CssClass="btn-large" Text="確認" UseSubmitBehavior="false" OnClick="setAccount_btn_Click" />
-                                                                        <asp:Button ID="readyback_btn" runat="server" CssClass="btn-large" Text="返回" UseSubmitBehavior="false" OnClick="back_btn_Click" /><br />
+                                                                        <asp:Button ID="readysetAccount_btn" runat="server" CssClass="btn btn-default" Text="確認" UseSubmitBehavior="false" OnClick="setAccount_btn_Click" />
+                                                                        <asp:Button ID="readyback_btn" runat="server" CssClass="btn btn-default" Text="返回" UseSubmitBehavior="false" OnClick="back_btn_Click" /><br />
                                                                     </asp:View>
                                                                     <%--設定帳號 END--%>
                                                                 </asp:MultiView>
@@ -638,64 +653,64 @@
                                             <asp:GridView ID="end_gv" class="table table-striped" runat="server" AutoGenerateColumns="False" OnRowCommand="main_gv_RowCommand" ViewStateMode="Enabled" OnRowDeleting="main_gv_RowDeleting" OnSorting="main_gv_Sorting" DataKeyNames="as_idn">
                                                 <Columns>
                                                     <%-- 活動標題 --%>
-                                                    <asp:TemplateField HeaderText="活動標題">
+                                                    <asp:TemplateField HeaderText="活動標題" SortExpression="act_title">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="act_title_lbl" runat="server" Text='<%# Bind("act_title") %>'></asp:Label>
+                                                            <a title="<%# Eval("act_title") %>">
+                                                                <input id="act_title_lbl" type="text" readonly="true" class="activity_title" value='<%# Eval("act_title") %>' style="cursor:default;background-color: transparent;"/>
+                                                                <%--<p style="width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0px;">
+                                                                    <asp:Label ID="act_title_lbl" runat="server" Text='<%# Bind("act_title") %>' Style="cursor: default; color: #808080;"></asp:Label>
+                                                                </p>--%>
+                                                            </a>
                                                             <asp:HiddenField ID="as_idn_hf" runat="server" Value='<%# Eval("as_idn") %>' />
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle />
-                                                        <ItemStyle CssClass="center" />
+                                                        <HeaderStyle Width="150px" />
+                                                        <ItemStyle CssClass="center" Height="50px" />
                                                     </asp:TemplateField>
 
                                                     <%-- 場次 --%>
-                                                    <asp:TemplateField HeaderText="場次">
+                                                    <asp:TemplateField HeaderText="場次" SortExpression="as_title">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="as_title_lbl" runat="server" Text='<%# Bind("as_title") %>'></asp:Label>
+                                                            <a title="<%# Eval("as_title") %>">
+                                                                <input id="as_title_lbl" type="text" readonly="true" class="activity_title" value='<%# Eval("as_title") %>' style="cursor:default;background-color: transparent;"/>
+                                                                <%--<p style="width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0px;">
+                                                                    <asp:Label ID="as_title_lbl" runat="server" Text='<%# Bind("as_title") %>' Style="cursor: default; color: #808080;"></asp:Label>
+                                                                </p>--%>
+                                                            </a>
                                                         </ItemTemplate>
 
-                                                        <HeaderStyle />
-                                                        <ItemStyle CssClass="center" />
+                                                        <HeaderStyle Width="150px" />
+                                                        <ItemStyle CssClass="center" Height="50px" />
                                                     </asp:TemplateField>
 
                                                     <%-- 報名/限制人數 --%>
-                                                    <asp:TemplateField HeaderText="報名/限制人數">
+                                                    <asp:TemplateField HeaderText="報名/限制人數" SortExpression="as_num">
                                                         <ItemTemplate>
                                                             <asp:Label ID="as_num" runat="server" Text='<%# Bind("as_num") %>'></asp:Label>/<asp:Label ID="as_num_limit_lbl" runat="server" Text='<%# Bind("as_num_limit") %>'></asp:Label>
                                                         </ItemTemplate>
 
                                                         <HeaderStyle Width="100px" />
-                                                        <ItemStyle CssClass="center" />
+                                                        <ItemStyle CssClass="center" Height="50px" />
                                                     </asp:TemplateField>
 
                                                     <%-- 活動日期 --%>
-                                                    <asp:TemplateField HeaderText="活動日期">
+                                                    <asp:TemplateField HeaderText="活動日期" SortExpression="as_date_start">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="as_date_start_lbl" runat="server" Text='<%# Bind("as_date_start") %>'></asp:Label>
-                                                            <asp:Label ID="as_date_starttime_lbl" runat="server" Text='<%# Bind("as_date_starttime") %>'></asp:Label>
-                                                            ~
-                                                            <br />
-                                                            <asp:Label ID="as_date_end_lbl" runat="server" Text='<%# Bind("as_date_end") %>'></asp:Label>
-                                                            <asp:Label ID="as_date_endtime" runat="server" Text='<%# Bind("as_date_endtime") %>'></asp:Label>
+                                                            <asp:Label ID="as_date_start_lbl" runat="server" Text='<%# Bind("as_date_start") %>'></asp:Label>~<asp:Label ID="as_date_end_lbl" runat="server" Text='<%# Bind("as_date_end") %>'></asp:Label>
                                                         </ItemTemplate>
 
                                                         <HeaderStyle Width="200px" />
-                                                        <ItemStyle CssClass="center" />
+                                                        <ItemStyle CssClass="center" Height="50px" />
                                                     </asp:TemplateField>
 
                                                     <%-- 報名起訖 --%>
-                                                    <asp:TemplateField HeaderText="報名起訖">
+                                                    <asp:TemplateField HeaderText="報名起訖" SortExpression="as_apply_start">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="as_apply_start_lbl" runat="server" Text='<%# Bind("as_apply_start") %>'></asp:Label>
-                                                            <asp:Label ID="as_apply_starttime_lbl" runat="server" Text='<%# Bind("as_apply_starttime") %>'></asp:Label>
-                                                            ~
-                                                            <br />
-                                                            <asp:Label ID="as_apply_end_lbl" runat="server" Text='<%# Bind("as_apply_end") %>'></asp:Label>
-                                                            <asp:Label ID="as_apply_endtime_lbl" runat="server" Text='<%# Bind("as_apply_endtime") %>'></asp:Label>
+                                                            <asp:Label ID="as_apply_start_lbl" runat="server" Text='<%# Bind("as_apply_start") %>'></asp:Label>~<asp:Label ID="as_apply_end_lbl" runat="server" Text='<%# Bind("as_apply_end") %>'></asp:Label>
                                                         </ItemTemplate>
 
                                                         <HeaderStyle Width="200px" />
-                                                        <ItemStyle CssClass="center" />
+                                                        <ItemStyle CssClass="center" Height="50px" />
                                                     </asp:TemplateField>
 
                                                     <%-- 報名資料 --%>
@@ -705,7 +720,7 @@
                                                         </ItemTemplate>
 
                                                         <HeaderStyle Width="110px" />
-                                                        <ItemStyle CssClass="center" />
+                                                        <ItemStyle CssClass="center" Height="50px" />
                                                     </asp:TemplateField>
                                                 </Columns>
                                             </asp:GridView>

@@ -251,7 +251,7 @@ namespace Web.CommonPages
                                 {
                                     button.Enabled = false;
                                     button.CssClass = "btn-link";
-                                    button.Style["color"] = "black";
+                                    button.Style["color"] = "gray";
                                 }
 
                                 //協作者不能編輯協作者
@@ -259,7 +259,7 @@ namespace Web.CommonPages
                                 {
                                     button.Enabled = false;
                                     button.CssClass = "btn-link";
-                                    button.Style["color"] = "black";
+                                    button.Style["color"] = "gray";
                                 }
                             }
                         }

@@ -112,7 +112,7 @@
                             <h3><i class="fa fa-angle-right"></i>活動名稱</h3>
                             <input type="text" class="form-control" placeholder="活動名稱" id="activity_Name_txt" maxlength="60" /><br />
                             <!-- 報名限制 -->
-                            <h3><i class="fa fa-angle-right"></i>報名次數限制 <a title="此區填寫的數字可以限制同一個報名者(姓名以及信箱相同)在這個活動最多可以報名幾個場次" style="cursor: help;"><i class="fa fa-question-circle" aria-hidden="true"></i></a></h3>
+                            <h3><i class="fa fa-angle-right"></i>報名場次次數限制 <a title="此區填寫的數字可以限制同一個報名者(姓名以及信箱相同)在這個活動最多可以報名幾個場次" style="cursor: help;"><i class="fa fa-question-circle" aria-hidden="true"></i></a></h3>
                             <input type="text" class="form-control" placeholder="不填寫則不限制(只能填寫數字)" id="act_num_limit_txt" maxlength="3" onkeyup="return ValidateNumber($(this),value)" /><br />
 
                         </div>
@@ -968,7 +968,7 @@
                                                       '<div class="panel-body">' +
                                                         '<div class="col-sm-11" id="add_Qus_Options_div_' + chooseId + '">' +
                                                             '<div class="col-sm-4" >' +
-                                                                    '<input id="qus_Option_' + chooseId + '1" name="qus_Options" type="text" ' + option_Value + '="' + present_Qus_Option + '" class="form-control" style="margin-top: 8px;margin-bottom: 8px;width: 244px;" maxlength="30">' +
+                                                                    '<input id="qus_Option_' + chooseId + '1" name="qus_Options" type="text" ' + option_Value + '="' + present_Qus_Option + '" class="form-control" style="margin-top: 8px;margin-bottom: 8px;width: 233px;" maxlength="30">' +
                                                             '</div>' +
                                                             '<div class="col-sm-11 "  id="newOption_' + chooseId + '" style="margin-bottom: 8px;">' +
                                                                     '<a onclick="add_Qus_Options_Click(' + chooseId + ',' + null + ')" style="cursor: pointer;">新增選項</a>' +
@@ -1026,7 +1026,7 @@
             //將選項加入預設好的div裡面
             $('#add_Qus_Options_div_' + id).append('<div class="col-sm-11 " id="del_Qus_Options_' + id + (count) + '">' +
                                              '<div class="col-sm-4" >' +
-                                                '<input id="qus_Option_' + id + (count + 1) + '" name="qus_Options" type="text" class="form-control" style="width: 244px;margin-bottom: 8px;margin-left: -15px" ' + value + '="' + option_value + '" maxlength="30"/>' +
+                                                '<input id="qus_Option_' + id + (count + 1) + '" name="qus_Options" type="text" class="form-control" style="width: 233px;margin-bottom: 8px;margin-left: -15px" ' + value + '="' + option_value + '" maxlength="30"/>' +
                                             '</div>' +
                                             '<div class="col-sm-2 col-sm-push-3" style="margin-top:10px;margin-bottom: 5px;margin-left: 100px;">' +
                                              '<a onclick="del_Qus_Options_Click(' + id + (count) + ')" style="cursor: pointer;">X</a>' +
@@ -1752,7 +1752,7 @@
                     //成功時
                     success: function (result) {
                         if (result.d == "true") {
-                            alert("活動儲存成功");
+                            alert("活動儲存成功，活動預設為未發佈，如需發佈請至活動列表內發佈活動!!");
                             $("#myModal1").modal("hide");
                             upload_File();
                         }

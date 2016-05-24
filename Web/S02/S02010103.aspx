@@ -101,7 +101,7 @@
                             <h3><i class="fa fa-angle-right"></i>活動名稱</h3>
                             <input type="text" class="form-control" placeholder="活動名稱" id="activity_Name_txt" maxlength="60" /><br />
                             <!-- 報名限制 -->
-                            <h3><i class="fa fa-angle-right"></i>報名次數限制 <a title="此區填寫的數字可以限制同一個報名者(姓名以及信箱相同)在這個活動最多可以報名幾個場次" style="cursor: help;"> <i class="fa fa-question-circle" aria-hidden="true"></i></a></h3>
+                            <h3><i class="fa fa-angle-right"></i>報名場次次數限制 <a title="此區填寫的數字可以限制同一個報名者(姓名以及信箱相同)在這個活動最多可以報名幾個場次" style="cursor: help;"> <i class="fa fa-question-circle" aria-hidden="true"></i></a></h3>
                             <input type="text" class="form-control" placeholder="不填寫則不限制(只能填寫數字)" id="act_num_limit_txt" maxlength="3" onkeyup="return ValidateNumber($(this),value)" /><br />
 
                         </div>
@@ -204,12 +204,6 @@
                     <h4 class="modal-title" id="myModalLabel">常用欄位</h4>
                 </div>
                 <div class="modal-body">
-                    <%--                    <div class="checkbox">
-                        <label>
-                            <input name="check_usually_Column" type="checkbox" value="姓名" />
-                            姓名
-                        </label>
-                    </div>--%>
                     <div class="checkbox">
                         <label>
                             <input name="check_usually_Column" type="checkbox" value="出生年月日" />
@@ -224,12 +218,6 @@
                        
                         </label>
                     </div>
-                    <%--                    <div class="checkbox">
-                        <label>
-                            <input name="check_usually_Column" type="checkbox" value="信箱Email" />
-                            信箱Email
-                        </label>
-                    </div>--%>
                     <div class="checkbox">
                         <label>
                             <input name="check_usually_Column" type="checkbox" value="聯絡電話" />
@@ -650,8 +638,9 @@
             change_Qus_Way(preset_Qus_Way, qusId, $("#change_Qus_Way_div_" + qusId), $("#change_Qus_Content_div_" + qusId), qus_Title, qus_Desc, qus_Option[0]);
             //將選單改為預設所選的
             $("#select_" + qusId).val(preset_Qus_Way);
-
+            //切割資料驗證內容
             var Qus_validation = preset_Qus_validation.split(",");
+            //判斷如果驗證為字數或數字則添加最大最小值，並設定其值
             if (Qus_validation[0] == "length" || Qus_validation[0] == "int") {
                 $("#add_Validation_div_" + qusId).append('<label class="col-sm-1 control-label" style="width: auto;margin-top: 6px;">最小值</label>' +
                                                                     '<div class="col-sm-1" style="width: auto;margin-top: 6px;">' +
@@ -684,7 +673,7 @@
                 $("#qus_txt_" + qusId).css({ 'background': '#EEEEEE' });
                 //隱藏刪除按鈕
                 $("#del_qus_btn_" + qusId).css({ 'display': 'none' });
-
+                //最大最小值禁用
                 $("#min_Num_" + qusId).attr('disabled', 'disabled');
                 $("#min_Num_" + qusId).css({ 'background': '#EEEEEE' });
                 $("#max_Num_" + qusId).attr('disabled', 'disabled');
@@ -1021,7 +1010,7 @@
                                                       '<div class="panel-body">' +
                                                         '<div class="col-sm-11" id="add_Qus_Options_div_' + chooseId + '">' +
                                                             '<div class="col-sm-4" >' +
-                                                                    '<input id="qus_Option_' + chooseId + '1" name="qus_Options" type="text" ' + option_Value + '="' + present_Qus_Option + '" class="form-control" style="margin-top: 8px;margin-bottom: 8px;width: 244px;" maxlength="30">' +
+                                                                    '<input id="qus_Option_' + chooseId + '1" name="qus_Options" type="text" ' + option_Value + '="' + present_Qus_Option + '" class="form-control" style="margin-top: 8px;margin-bottom: 8px;width: 233px;" maxlength="30">' +
                                                             '</div>' +
                                                             '<div class="col-sm-11 "  id="newOption_' + chooseId + '" style="margin-bottom: 8px;">' +
                                                                     '<a onclick="add_Qus_Options_Click(' + chooseId + ',' + null + ')" style="cursor: pointer;">新增選項</a>' +
@@ -1079,7 +1068,7 @@
             //將選項加入預設好的div裡面
             $('#add_Qus_Options_div_' + id).append('<div class="col-sm-11 " id="del_Qus_Options_' + id + (count) + '">' +
                                              '<div class="col-sm-4" >' +
-                                                '<input id="qus_Option_' + id + (count + 1) + '" name="qus_Options" type="text" class="form-control" style="width: 244px;margin-bottom: 8px;margin-left: -15px" ' + value + '="' + option_value + '" maxlength="30">' +
+                                                '<input id="qus_Option_' + id + (count + 1) + '" name="qus_Options" type="text" class="form-control" style="width: 233px;margin-bottom: 8px;margin-left: -15px" ' + value + '="' + option_value + '" maxlength="30">' +
                                             '</div>' +
                                             '<div class="col-sm-2 col-sm-push-3" style="margin-top:10px;margin-bottom: 5px;margin-left: 100px;">' +
                                              '<a onclick="del_Qus_Options_Click(' + id + (count) + ')" style="cursor: pointer;">X</a>' +
@@ -1667,8 +1656,8 @@
                     if ($("#delete_Session_div_" +temp).find("[id^=old_as_idn_]").length) {
                         $("#delete_Session_div_" +temp).find("[id^=old_as_idn_]").each(function () {
                             As_idn = $(this).text();
-            })
-            }
+                        })
+                    }
                     session_Json_Data.As_idn = As_idn;
                     //存入場次名稱
                     session_Json_Data.As_title = $("#session_Name_txt_" +temp).val();
@@ -1692,22 +1681,22 @@
                         if ($("#session_Name_txt_error_" +temp).length == 0)
                             $("#session_Name_txt_" +temp).after('<em id="session_Name_txt_error_' +temp + '" class="error help-block red">必須填寫</em>');
                         check_Activity_Data = false;
-            }
-            else {
+                    }
+                    else {
                         $("#session_Name_txt_" +temp).css({ "box-shadow": "" });
                         $("#session_Name_txt_error_" +temp).remove();
-            }
+                    }
                     //判斷活動地點不為空
                     if (!session_Json_Data.As_position) {
                         $("#activity_Location_txt_" +temp).css({ "box-shadow": "0px 0px 9px red" });
                         if ($("#activity_Location_txt_error_" +temp).length == 0)
                             $("#activity_Location_txt_" +temp).after('<em id="activity_Location_txt_error_' +temp + '" class="error help-block red">必須填寫</em>');
                         check_Activity_Data = false;
-            }
-            else {
-                        $("#activity_Location_txt_" +temp).css({ "box-shadow": "" });
-                        $("#sactivity_Location_txt_error_" +temp).remove();
-            }
+                    }
+                    else {
+                                $("#activity_Location_txt_" +temp).css({ "box-shadow": "" });
+                                $("#sactivity_Location_txt_error_" +temp).remove();
+                    }
                     //判斷報名人數限制不為空以及要是整數數字
                     var if_int = /^[0-9]*[1-9][0-9]*$/;
                     if (!session_Json_Data.As_num_limit || isNaN(session_Json_Data.As_num_limit) || !if_int.test(session_Json_Data.As_num_limit) || parseInt($("#activity_Limit_Num_txt_" +temp).val()) > 100000) {
@@ -1717,8 +1706,8 @@
                         if (parseInt($("#activity_Limit_Num_txt_" +temp).val()) > 100000)
                             $("#activity_Limit_Num_txt_error_" +temp).text("請輸入小於100000的數字!!");
                         check_Activity_Data = false;
-            }
-            else {
+                    }
+                    else {
                         $("#activity_Limit_Num_txt_" + temp).css({ "box-shadow": "" });
                         $("#activity_Limit_Num_txt_error_" + temp).remove();
                     }
@@ -1910,7 +1899,7 @@
                         var Acs_idn = 0;
                         if ($("#block_div_" +choose_blockId).find("[id^=old_acs_idn_]").length) {
                             $("#block_div_" +choose_blockId).find("[id^=old_acs_idn_]").each(function () {
-                                Acs_idn = $(this).text()
+                                Acs_idn = $(this).text();
             })
             }
                         activity_Section_Json_Data.Acs_idn = Acs_idn;

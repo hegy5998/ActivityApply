@@ -17,7 +17,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="baseContent_cph" runat="server">
     <asp:ToolkitScriptManager ID="tsm" runat="server" AsyncPostBackTimeout="300"></asp:ToolkitScriptManager>
-    <div id="mainWrapper">
+    <div id="mainWrapper" style="height: 100%;">
         <div id="mainHeader" <%=HeaderBannerStyle %>>
             <a id="mainMenuOp" class="fa fa-bars tooltips" href="javascript: void(0)" onclick="opMenu()" style="width: 24px;height: 24px;margin-left: 10px;margin-top: 17px;"></a>
             <h3 id="mainHeaderSysName">

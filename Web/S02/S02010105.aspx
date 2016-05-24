@@ -37,25 +37,30 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="baseContent_cph" runat="server">
+    
     <section class="content-wrapper main-content clear-fix">
         <section id="container">
             <section id="main-content" style="margin-left: 0px;">
-                <section class="wrapper" style="margin-top: 38px;">
+                <div style="background-color: white; width: 100%; height: 100%;">
+                <section class="wrapper" style="margin-top: 10px;padding: 29px 53px 33px 53px;">
+                    
                     <div class="row"></div>
                     <h3><i class="fa fa-angle-right"></i>活動報名</h3>
                     <!-- 放置區塊區域 -->
-                    <div id="sections_div" style=" margin-right: 1%;">
+                    <div id="sections_div">
                     <!-- 放置問題區域 -->
                     </div>
                     <!-- 送出按鈕 -->
-                    <div class="row col-sm-12">
-                        <input role="button" type="submit" class="btn btn-theme btn-lg btn-block" value="此報名表僅供檢視"/>
+                    <div class="row col-sm-12" style="padding: 0px;">
+                        <input role="button" type="submit" class="btn btn-info btn-lg btn-block" value="此報名表僅供檢視"/>
                     </div>
+                       
                 </section>
+                     </div>
             </section>
         </section>
     </section>
-
+    
     <script type="text/javascript">
         $(document).ready(function () {
             var funcList = [getSectionList,
@@ -138,10 +143,10 @@
         function Section_Code(section) {
             var sectionId = "sec_div_" + section.Acs_seq;
             var questionId = "question_div_" + section.Acs_seq;
-            var code = '<div id="' + sectionId + '" class="col-sm-12 form-panel">\
-                            <h4 class="mb"><i class="fa fa-angle-right"></i>' + section.Acs_title + '</h4>\
-                            <label class="desc">' + section.Acs_desc + '</label>\
-                            <div id="' + questionId + '" class="form-horizontal style-form">\
+            var code = '<div id="' + sectionId + '" class="panel panel-default">\
+                            <div class="panel-heading">' + section.Acs_title + '</div>\
+                            <label class="desc" style="margin: 15px 15px 0px 30px;">' + section.Acs_desc + '</label>\
+                            <div id="' + questionId + '" class="panel-body form-horizontal style-form">\
                             </div>\
                         </div>';
             return code;

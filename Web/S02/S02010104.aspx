@@ -19,57 +19,71 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="baseContent_cph" runat="server">
-    <div class="row mt" id="dispaly_div" style="display: none;margin-top: 15px;">
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 desc">
-            <div class="project-wrapper" style="margin-bottom: 16px;">
-                <div class="project">
-                    <div class="photo-wrapper" style="background-image: url(../Scripts/Lib/assets/img/zoom.png)">
-                        <div class="photo">
-                            <a data-toggle="modal" href="#myModal">
-                                <img id="act_image" class="img-responsive" src="#" />
-                            </a>
-                        </div>
-                        <div class="overlay"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="showback">
-                <h3>短網址</h3>
-                <a id="short_link" href="#" target="_blank"></a>
-            </div>
-
-            <div class="photo">
-                <a class="thumbnail">
-                    <img id="QRcode" class="imp-responsive" src="#" alt="" /></a>
+    <div style="background-color: white; width: 100%; height: 100%;">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 id="class_text" class="page-header text-info">活動介紹</h1>
             </div>
         </div>
+        <div class="row mt" id="dispaly_div" style="display: none; margin-top: 20px;">
 
-        <!-- 活動頁面右半邊 -->
-        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 dexc">
-            <!-- 活動資訊 -->
-            <div class="showback">
-               <div id="add_activity_desc"></div>
-
-                <!-- 設定活動簡介大小，超出變成卷軸 -->
-                <div id="desc_div" style="width: auto; height: auto; overflow-x: auto; overflow-y: auto; background-color: white;">
-                    <asp:Label ID="Act_desc_lbl" runat="server" Text="Label"></asp:Label>
+            <div class="col-lg-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">圖片介紹</div>
+                    <div class="panel-body" style="padding: 20px;">
+                        <div class="project-wrapper">
+                            <div class="project">
+                                <div class="photo-wrapper">
+                                    <div class="photo">
+                                        <a data-toggle="modal" href="#myModal">
+                                            <img id="act_image" class="img-responsive" src="#" />
+                                        </a>
+                                    </div>
+                                    <div class="overlay"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-            </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">短網址</div>
+                    <div class="panel-body" style="padding: 20px;">
+                        <a id="short_link" href="#" target="_blank" style="font-size: large;padding: 10px;"></a>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">QR Code</div>
+                    <div class="panel-body" style="text-align: center;">
+                        <img id="QRcode" class="imp-responsive" src="#" alt="" />
+                    </div>
+                </div>
 
-            <div class="row" id="add_Session_div">
-                <!-- 加入場次地方 -->
+            </div>
+            <!-- 活動頁面右半邊 -->
+            <div class="col-lg-9">
+                <!-- 活動資訊 -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">活動內容</div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div id="add_activity_desc"></div>
+                        <div id="desc_div" style="width: auto; height: auto; overflow-x: auto; overflow-y: auto; background-color: white; border-style: ridge; display: none;">
+                            <asp:Label ID="Act_desc_lbl" runat="server" Text="Label"></asp:Label>
+                        </div>
+                    </div>
+                </div>
+                <div id="add_Session_div" style="margin-bottom: 75px;">
+                    <!-- 加入場次地方 -->
+                </div>
             </div>
         </div>
     </div>
-
     <!-- Modal -->
     <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade text-center">
         <div class="modal-dialog" style="display: inline-block; width: auto;">
             <div class="modal-content">
                 <div class="modal-body">
-                    <img id="act_image_modal" class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" />
+                    <img id="act_image_modal" class="img-responsive" src="assets/img/fcu.jpg" />
                 </div>
             </div>
         </div>
@@ -84,8 +98,8 @@
             $("#dispaly_div").css({ 'display': '' });
             //產生場次
             getSessionList();
-            
-            
+
+
             //判斷活動簡介內容高度超過300px變成卷軸式
             var obheight = 300;//超過容器高度自動捲軸
             var mc = $("#desc_div").height();
@@ -209,8 +223,8 @@
                 $("#act_image_modal").attr("src", ActivityInfo[0].Act_image);
             }
             else {
-                $("#act_image").attr("src", "assets/img/fcu.jpg");
-                $("#act_image_modal").attr("src", "assets/img/fcu.jpg");
+                $("#act_image").attr("src", "../Scripts/Lib/assets/img/fcu.jpg");
+                $("#act_image_modal").attr("src", "../Scripts/Lib/assets/img/fcu.jpg");
             }
         }
         //#endregion
@@ -226,19 +240,19 @@
                     apply_num = 0;
                 else
                     apply_num = SessionInfo[count].as_num_limit - SessionInfo[count].apply_num;
-                $("#add_Session_div").append('<div class="showback">\
-                                             <label class="session-control-label" id="as_title_">'+ SessionInfo[count].as_title + '</label>\
-                                             <br />\
-                                             <label class="session-control-label-context" id="as_position_">活動地點：' + SessionInfo[count].as_position + '</label>\
-                                             <br />\
-                                             <label class="session-control-label-context" id="as_data_">活動日期：' + dateReviver(SessionInfo[count].as_date_start) + ' ~ ' + dateReviver(SessionInfo[count].as_date_end) + '</label>\
-                                             <br />\
-                                             <label class="session-control-label-context" id="as_apply_">報名日期：' + dateReviver(SessionInfo[count].as_apply_start) + ' ~ ' + dateReviver(SessionInfo[count].as_apply_end) + '</label>\
-                                             <br />\
-                                             <label class="session-control-label-context" id="as_numlimit_">剩餘/限制人數：' + SessionInfo[count].apply_num + '/' + SessionInfo[count].as_num_limit + '人</label>\
-                                             <br />\
-                                             <a id="apply_btn_' + count + '" href="S02010105.aspx?sys_id=S02&sys_pid=S02010105&act_idn=' + SessionInfo[count].as_act + '&as_idn=' + SessionInfo[count].as_idn + '" class="btn btn-theme btn-lg" role="button">我要報名</a>\
-                                         </div>');
+                $("#add_Session_div").append('<div class="panel panel-default">\
+                                                <div class="panel-heading">相關活動</div>\
+                                                    <div class="panel-body">\
+                                                        <h3 style="color:#069;">'+ SessionInfo[count].as_title + '</h3>\
+                                                        <div class="tooltip-demo">活動地點：' + SessionInfo[count].as_position + '\
+                                                            <br>活動日期：' + dateReviver(SessionInfo[count].as_date_start) + ' ~ ' + dateReviver(SessionInfo[count].as_date_end) + '\
+                                                            <br>報名日期：' + dateReviver(SessionInfo[count].as_apply_start) + ' ~ ' + dateReviver(SessionInfo[count].as_apply_end) + '\
+                                                            <br>報名/限制人數：' + SessionInfo[count].apply_num + '/' + SessionInfo[count].as_num_limit + '人\
+                                                            <br>\
+                                                            <br>\
+                                                            <a id="apply_btn_' + count + '" href="S02010105.aspx?sys_id=S02&sys_pid=S02010105&act_idn=' + SessionInfo[count].as_act + '&as_idn=' + SessionInfo[count].as_idn + '" class="btn btn-info" data-toggle="tooltip" data-placement="right" title="Tooltip on right">我要報名</a>\
+                                                        </div>');
+
                 if (apply_num <= 0) {
                     $("#apply_btn_" + count).html("名額已滿");
                 }

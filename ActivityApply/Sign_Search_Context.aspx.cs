@@ -141,7 +141,7 @@ namespace ActivityApply
             //取得選擇的row
             GridViewRow gvr = sender as GridViewRow;
             //取得選擇的row的Index
-            int rowIndex = Convert.ToInt32(e.CommandArgument);
+            int rowIndex = Convert.ToInt32(e.CommandArgument)%10;
             
             //抓取活動序號隱藏欄位
             HiddenField Act_idn_hf = main_gv.Rows[rowIndex].FindControl("Act_idn_hf") as HiddenField;
@@ -232,7 +232,7 @@ namespace ActivityApply
         }
         #endregion
 
-        #region 報名資訊下載
+        #region 活動資訊下載
         protected void print_ApplyProve(int AA_IDN)
         {
             Sign_UpBL _bl = new Sign_UpBL();
@@ -242,7 +242,7 @@ namespace ActivityApply
             rd.Load(Server.MapPath("~/applyProve.rpt"));
             //設定資料
             rd.SetDataSource(dt);
-            rd.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, true, act_title + "_" + as_title + "_報名資訊");
+            rd.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, true, act_title + "_" + as_title + "_活動資訊");
             rd.Close();
         }
         #endregion

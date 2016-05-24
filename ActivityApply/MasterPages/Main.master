@@ -10,9 +10,9 @@
             TOP BAR CONTENT & NOTIFICATIONS
             *********************************************************************************************************************************************************** -->
         <!--header start-->
-        <header class="header black-bg">
-            <div class="sidebar-toggle-box" style="padding-right:0px;">
-                <div  data-placement="right" data-original-title="Toggle Navigation" style="width:24px;height:24px;margin-top:8px;"><i class="fa fa-bars" aria-hidden="true"></i></div>
+        <%--        <header class="header black-bg">
+            <div class="sidebar-toggle-box" style="padding-right: 0px;">
+                <div data-placement="right" data-original-title="Toggle Navigation" style="width: 24px; height: 24px; margin-top: 8px;"><i class="fa fa-bars" aria-hidden="true"></i></div>
             </div>
             <!--logo start-->
             <a href="index.aspx" class="logo">
@@ -27,14 +27,14 @@
                 </div>
             </div>
 
-        </header>
+        </header>--%>
         <!--header end-->
 
         <!-- **********************************************************************************************************************************************************
             MAIN SIDEBAR MENU
             *********************************************************************************************************************************************************** -->
         <!--sidebar start-->
-        <aside>
+        <%--        <aside>
             <div id="sidebar" class="nav-collapse">
                 <!-- sidebar menu start-->
                 <ul class="sidebar-menu" id="nav-accordion">
@@ -45,7 +45,6 @@
                         </a>
 
                         <ul id="add_sub" class="sub">
-                            
                         </ul>
                     </li>
 
@@ -77,26 +76,101 @@
 
             </div>
 
-        </aside>
+        </aside>--%>
         <!--sidebar end-->
 
-        <div id="body">
-            <section class="content-wrapper main-content clear-fix">
-                <!-- 主欄內容 -->
-                <asp:ContentPlaceHolder ID="mainCon" runat="server">
+        <div id="body" style="margin-bottom: 40px;">
+            <div id="wrapper">
+                <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="Index.aspx">
+                            <img src="assets/img/logo.png" alt="logo" width="125" />
+                        </a>
+                        <div class="row"></div>
+                        <div>
+                            <div class="breadcrumb">
+                                <ol id="add_breach" class="breadcrumb">
+                                    <li><a href="index.aspx">首頁</a></li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.navbar-header -->
+                    <ul class="nav navbar-top-links navbar-right" style="display: none;">
+                        <!-- /.dropdown -->
+                        <!-- /.dropdown -->
+                        <!-- /.dropdown -->
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                                <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li>
+                                    <a href="#"><i class="fa fa-user fa-fw"></i>User Profile</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-gear fa-fw"></i>Settings</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="javascript:;"><i class="fa fa-sign-out fa-fw"></i>Logout</a>
+                                </li>
+                            </ul>
+                            <!-- /.dropdown-user -->
+                        </li>
+                        <!-- /.dropdown -->
+                    </ul>
+                    <!-- /.navbar-top-links -->
+                    <div class="navbar-default sidebar" role="navigation">
+                        <div class="sidebar-nav navbar-collapse">
+                            <ul class="nav" id="side-menu">
+                                <li>
+                                    <a href="Index.aspx"><i class="fa fa-fw fa-home fa-lg"></i>首　　頁</a>
+                                </li>
+                                <li id="menu">
+                                    <a href="#"><i class="-o fa fa-calendar-o fa-fw fa-lg"></i>活動分類<span class="arrow fa fa-fw fa-lg"></span></a>
+                                    <ul id="add_sub" class="nav nav-second-level text-muted">
+                                        <!-- 添加活動分類地方 -->
+                                    </ul>
+                                    <!-- /.nav-second-level -->
+                                </li>
+                                <li>
+                                    <a href="Sign_Search_Context.aspx"><i class="fa fa-search fa-fw fa-lg"></i>報名查詢</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /.navbar-static-side -->
+
+                </nav>
+                <asp:ContentPlaceHolder ID="sideCon" runat="server">
                 </asp:ContentPlaceHolder>
-            </section>
+                <div id="page-wrapper" style="min-height: 807px;">
+                    <!-- 主欄內容 -->
+                    <asp:ContentPlaceHolder ID="mainCon" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
+
+            </div>
+            <!-- /#wrapper -->
+            <footer class="footer ">
+                <div class="container">
+                    <asp:ContentPlaceHolder ID="pageUnitEnd" runat="server">
+                    </asp:ContentPlaceHolder>
+                    <p>2016 逢甲大學資訊處 - 資訊技術服務中心</p>
+                </div>
+            </footer>
+            <!-- jQuery -->
         </div>
     </section>
 
-    <footer class="site-footer">
-        <div class="text-center">
-            <!-- 設定每頁標題與單元名稱CSS的結尾標籤 -->
-            <asp:ContentPlaceHolder ID="pageUnitEnd" runat="server">
-            </asp:ContentPlaceHolder>
-            2016  逢甲大學資訊處 - 資訊技術服務中心
-        </div>
-    </footer>
+
 
     <script>
         //#region 初始化
@@ -141,6 +215,13 @@
             for (var count = 0 ; count < act_classInfo.length ; count++) {
                 $("#add_sub").append('<li><a href="Activity_List.aspx?act_class=' + (act_classInfo[count].Ac_idn) + '">' + act_classInfo[count].Ac_title + '</a></li>')
             }
+            var local = location.href.split("/")[location.href.split("/").length - 1].split("?")[0];
+            if (local == "Activity_List.aspx" || local == "Activity.aspx" || local == "Sign_Up.aspx") {
+                $("#add_sub").addClass("in");
+                $("#add_sub").show();
+                $("#menu").addClass("active");
+            }
+            
         }
         //#endregion
     </script>

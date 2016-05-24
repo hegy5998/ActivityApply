@@ -34,8 +34,10 @@
 .loginContent
 {
 	position: absolute;
-	top: 173px;
-	left: 218px;
+    height: 143px;
+	top: 152px;
+	left: 147px;
+    width: 380px;
 	/*margin-top: 173px;
 	margin-left: 218px;*/
 }
@@ -44,9 +46,8 @@
 {
 	font-weight: bold;
 	color: #b94a48;
-	margin-left: 5px;
 	position: absolute;
-	top: 147px;
+	top: 123px;
 	/*left: 270px;*/
     width: 413px;
     text-align: center;
@@ -64,7 +65,7 @@
 .fieldName
 {
 	height: 32px;
-	text-align: right;
+	text-align: center;
 }
 
 #captchaBox

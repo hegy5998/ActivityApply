@@ -48,57 +48,42 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="sideCon" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="mainCon" runat="server">
-    <section id="container">
-        <section id="main-content">
-            <section class="wrapper">
-                <div class="advanced-form row" style="display: none;">
-                    <h3>修改報名資料</h3>
-                    <fieldset>
-                        <h3><i class="fa fa-angle-right"></i>報名資料</h3>
-                        <!-- 放置區塊區域 -->
-                        <div id="sections_div">
-                            <!-- 放置問題區域 -->
-                        </div>
-                    </fieldset>
+    <div class="advanced-form row" style="display: none; padding-top: 25px; padding-bottom: 25px;">
+        <h3>修改報名資料</h3>
+        <fieldset>
+            <h3><i class="fa fa-angle-right"></i>報名資料</h3>
+            <!-- 放置區塊區域 -->
+            <div id="sections_div">
+                <!-- 放置問題區域 -->
+            </div>
+        </fieldset>
 
-                    <h3>資料確認</h3>
-                    <fieldset>
-                        <h3><i class="fa fa-angle-right"></i>資料確認</h3>
-                        <div id="check_div" class="col-sm-8 form-panel table-responsive">
-                            <table id="checkData_table" class="table table-condensed">
-                                <tbody>
-                                    <!-- 放置使用者資料確認欄位 -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </fieldset>
+        <h3>資料確認</h3>
+        <fieldset>
+            <h3><i class="fa fa-angle-right"></i>資料確認</h3>
+            <div id="check_div" class="col-sm-8 panel panel-default table-responsive">
+                <table id="checkData_table" class="panel-body table table-condensed">
+                    <tbody>
+                        <!-- 放置使用者資料確認欄位 -->
+                    </tbody>
+                </table>
+            </div>
+        </fieldset>
 
-                    <h3>修改完成</h3>
-                    <fieldset>
-                        <h3><i class="fa fa-angle-right"></i>修改完成</h3>
-                        <div id="finish_div" class="col-sm-8 form-panel">
-                            <p>修改完成，請至電子信箱查看報名資料修改成功確認信！</p>
-                            <p>如有需要可重新下載報名資訊</p>
-                            <asp:Button runat="server" ID="print_btn" OnClick="print_ApplyProve" Text="下載報名資訊" CssClass="btn btn-theme" />
-                        </div>
-                    </fieldset>
+        <h3>修改完成</h3>
+        <fieldset>
+            <h3><i class="fa fa-angle-right"></i>修改完成</h3>
+            <div class="col-sm-8 panel panel-default">
+                <div id="finish_div" class="panel-body">
+                    <p>修改完成，請至電子信箱查看報名資料修改成功確認信！</p>
+                    <p>如有需要可重新下載報名資訊</p>
+                    <asp:Button runat="server" ID="print_btn" OnClick="print_ApplyProve" Text="下載報名資訊" CssClass="btn btn-info" />
                 </div>
-            </section>
-        </section>
-    </section>
+            </div>
+        </fieldset>
+    </div>
 
     <script type="text/javascript">
-        //window.onbeforeunload = function () {
-        //    if (!confirm('資料尚未儲存，確定要返回嗎?')) {
-        //        return '按一下「取消」停留在此頁';
-        //    }
-        //    else
-        //        window.location.href = '/index.aspx';
-        //    //var if_Save = confirm("資料尚未儲存，確定要返回嗎?");
-        //    //if (if_Save == true) {
-        //    //    window.location.href = 'SignSearchContext.aspx';
-        //    //}
-        //};
         var sectionList;
         var questionList;
         var applyDetailList;
@@ -322,7 +307,7 @@
                     $("[name=qus_txt_" + i + "]").attr('disabled', 'disabled');
                     $("[name=qus_txt_" + i + "]").css({ 'background': '#EEEEEE' });
                 }
-                    
+
             }
             $(document).dequeue("myQueue");
         }
@@ -332,10 +317,10 @@
         function Section_Code(section) {
             var sectionId = "sec_div_" + section.Acs_seq;
             var questionId = "question_div_" + section.Acs_seq;
-            var code = '<div id="' + sectionId + '" class="col-sm-12 form-panel">\
-                            <h4 class="mb"><i class="fa fa-angle-right"></i>' + section.Acs_title + '</h4>\
-                            <label class="desc">' + section.Acs_desc + '</label>\
-                            <div id="' + questionId + '" class="form-horizontal style-form">\
+            var code = '<div id="' + sectionId + '" class="panel panel-default">\
+                            <div class="panel-heading">' + section.Acs_title + '</div>\
+                            <label class="desc" style="margin: 15px 15px 0px 30px;">' + section.Acs_desc + '</label>\
+                            <div id="' + questionId + '" class="panel-body form-horizontal style-form">\
                             </div>\
                         </div>';
             return code;
@@ -349,7 +334,7 @@
             var code = '<div id="' + qusId + '" class="form-group">\
                             <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
                             <div class="col-sm-10 col-lg-5">\
-                                <input type="text" name="' + qusName + '" class="form-control' + Validate(question.Acc_required, question.Acc_validation) + '>\
+                                <input type="text" name="' + qusName + '" class="form-control' + Validate(question.Acc_required, question.Acc_validation) + ' >\
                                 <span class="help-block">' + question.Acc_desc + '</span>\
                             </div>\
                         </div>';
@@ -568,7 +553,7 @@
                 dataType: "json",
                 //成功時
                 success: function (result) {
-                    
+
                 },
                 //失敗時
                 error: function () {
@@ -579,7 +564,7 @@
         }
         //#endregion
 
-        
+
 
         //#region 設定麵包削尋覽列
         function setSessionBread() {
