@@ -5,6 +5,7 @@ using Model;
 using Newtonsoft.Json;
 using System.Data;
 using System.Web;
+using System.Web.UI.HtmlControls;
 
 namespace ActivityApply
 {
@@ -15,6 +16,7 @@ namespace ActivityApply
         static int ACTIVITY ;
         protected void Page_Load(object sender, EventArgs e)
         {
+
             ACTIVITY = Int32.Parse(Request["act_idn"]);
             activityBL _bl = new activityBL();
             List<ActivityInfo> AvtivityList = _bl.GetActivityList(ACTIVITY);

@@ -141,3 +141,16 @@ C:\Users\Saki\Desktop\報名系統UI更改\ActivityApply\DataAccess\bin\Debug\Ut
 C:\Users\Saki\Desktop\報名系統UI更改\ActivityApply\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
 C:\Users\Saki\Desktop\報名系統UI更改\ActivityApply\DataAccess\obj\Debug\DataAccess.dll
 C:\Users\Saki\Desktop\報名系統UI更改\ActivityApply\DataAccess\obj\Debug\DataAccess.pdb
+F:\Desktop\新增資料夾 (2)\ActivityApply\DataAccess\bin\Debug\DataAccess.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\DataAccess\bin\Debug\DataAccess.pdb
+F:\Desktop\新增資料夾 (2)\ActivityApply\DataAccess\bin\Debug\DataAccessBase.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\DataAccess\bin\Debug\Model.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\DataAccess\bin\Debug\Util.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\DataAccess\bin\Debug\UtilBase.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\DataAccess\bin\Debug\Model.pdb
+F:\Desktop\新增資料夾 (2)\ActivityApply\DataAccess\bin\Debug\Util.pdb
+F:\Desktop\新增資料夾 (2)\ActivityApply\DataAccess\bin\Debug\DataAccessBase.xml
+F:\Desktop\新增資料夾 (2)\ActivityApply\DataAccess\bin\Debug\UtilBase.xml
+F:\Desktop\新增資料夾 (2)\ActivityApply\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
+F:\Desktop\新增資料夾 (2)\ActivityApply\DataAccess\obj\Debug\DataAccess.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\DataAccess\obj\Debug\DataAccess.pdb

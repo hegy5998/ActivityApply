@@ -92,7 +92,6 @@
                     </div>
                     <!-- /input-group -->
                 </div>
-
                 <!-- **********************************************************************************************************************************************************
                 MAIN CONTENT
                 *********************************************************************************************************************************************************** -->
@@ -136,7 +135,7 @@
                                                     <asp:TemplateField HeaderText="場次" SortExpression="as_title">
                                                         <ItemTemplate>
                                                             <a title="<%# Eval("as_title") %>">
-                                                                <input id="as_title_lbl" type="text" readonly="true" class="activity_title" value='<%# Eval("as_title") %>' style="cursor:default;background-color: transparent;"/>
+                                                                <input id="as_title_lbl" type="text" readonly="true" class="activity_title" value='<%# Eval("as_title") %>' style="cursor: default; background-color: transparent;" />
                                                                 <%--<p style="width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0px;">
                                                                     <asp:Label ID="as_title_lbl" runat="server" Text='<%# Bind("as_title") %>' Style="cursor: default; color: #808080;"></asp:Label>
                                                                 </p>--%>
@@ -195,7 +194,9 @@
                                                     <%-- 基本功能 --%>
                                                     <asp:TemplateField HeaderText="基本功能">
                                                         <ItemTemplate>
+
                                                             <asp:Button ID="editActivity_btn" runat="server" CommandName="EditActivity" class="btn-link" Text="修改" ToolTip="修改" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" CommandArgument='<%# Eval("act_idn") %>' />/<asp:Button ID="delete_btn" runat="server" CommandName="Delete" class="btn-link" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" CommandArgument='<%# Eval("act_idn") %>' />/<asp:Button ID="edit_btn" runat="server" CommandName="Edit" class="btn-link" OnClientClick="if (!confirm(&quot;確定要關閉嗎?&quot;)) return false" Text="關閉" ToolTip="關閉" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" CommandArgument='<%# Eval("act_idn") %>' />/<asp:Button ID="set_btn" runat="server" CommandName="Set" class="btn-link" Text="協作者" ToolTip="協作者" UseSubmitBehavior="False" CommandArgument='<%# Eval("act_idn") %>' OnPreRender="ManageControlAuth" />
+                                                            /<button class="btn btn-link" data-clipboard-text="<%# Eval("as_short_link") %>" onclick="return false;" style="padding: 2px 8px 2px 8px;">短網址</button>
                                                             <asp:HiddenField ID="createid_hf" runat="server" Value='<%# Eval("createid") %>' />
                                                         </ItemTemplate>
 
@@ -408,7 +409,7 @@
                                                     <asp:TemplateField HeaderText="場次" SortExpression="as_title">
                                                         <ItemTemplate>
                                                             <a title="<%# Eval("as_title") %>">
-                                                                <input id="as_title_lbl" type="text" readonly="true" class="activity_title" value='<%# Eval("as_title") %>' style="cursor:default;background-color: transparent;"/>
+                                                                <input id="as_title_lbl" type="text" readonly="true" class="activity_title" value='<%# Eval("as_title") %>' style="cursor: default; background-color: transparent;" />
                                                                 <%--<p style="width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0px;">
                                                                     <asp:Label ID="as_title_lbl" runat="server" Text='<%# Bind("as_title") %>' Style="cursor: default; color: #808080;"></asp:Label>
                                                                 </p>--%>
@@ -463,6 +464,7 @@
                                                     <asp:TemplateField HeaderText="基本功能">
                                                         <ItemTemplate>
                                                             <asp:Button ID="editActivity_btn" runat="server" CommandName="EditActivity" class="btn-link" Text="修改" ToolTip="修改" UseSubmitBehavior="False" CommandArgument='<%# Eval("act_idn") %>' OnPreRender="ManageControlAuth" />/<asp:Button ID="delete_btn" runat="server" CommandName="Delete" class="btn-link" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" CommandArgument='<%# Eval("act_idn") %>' OnPreRender="ManageControlAuth" />/<asp:Button ID="edit_btn" runat="server" CommandName="Edit" class="btn-link" OnClientClick="if (!confirm(&quot;確定要發佈嗎?&quot;)) return false" Text="發佈" ToolTip="發佈" UseSubmitBehavior="False" CommandArgument='<%# Eval("act_idn") %>' OnPreRender="ManageControlAuth" />/<asp:Button ID="set_btn" runat="server" CommandName="Set_ready" class="btn-link" Text="協作者" ToolTip="協作者" UseSubmitBehavior="False" CommandArgument='<%# Eval("act_idn") %>' OnPreRender="ManageControlAuth" />
+                                                            /<button class="btn btn-link" data-clipboard-text="<%# Eval("as_short_link") %>" onclick="return false;" style="padding: 2px 8px 2px 8px;">短網址</button>
                                                         </ItemTemplate>
 
                                                         <HeaderStyle Width="230px" />
@@ -656,7 +658,7 @@
                                                     <asp:TemplateField HeaderText="活動標題" SortExpression="act_title">
                                                         <ItemTemplate>
                                                             <a title="<%# Eval("act_title") %>">
-                                                                <input id="act_title_lbl" type="text" readonly="true" class="activity_title" value='<%# Eval("act_title") %>' style="cursor:default;background-color: transparent;"/>
+                                                                <input id="act_title_lbl" type="text" readonly="true" class="activity_title" value='<%# Eval("act_title") %>' style="cursor: default; background-color: transparent;" />
                                                                 <%--<p style="width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0px;">
                                                                     <asp:Label ID="act_title_lbl" runat="server" Text='<%# Bind("act_title") %>' Style="cursor: default; color: #808080;"></asp:Label>
                                                                 </p>--%>
@@ -672,7 +674,7 @@
                                                     <asp:TemplateField HeaderText="場次" SortExpression="as_title">
                                                         <ItemTemplate>
                                                             <a title="<%# Eval("as_title") %>">
-                                                                <input id="as_title_lbl" type="text" readonly="true" class="activity_title" value='<%# Eval("as_title") %>' style="cursor:default;background-color: transparent;"/>
+                                                                <input id="as_title_lbl" type="text" readonly="true" class="activity_title" value='<%# Eval("as_title") %>' style="cursor: default; background-color: transparent;" />
                                                                 <%--<p style="width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0px;">
                                                                     <asp:Label ID="as_title_lbl" runat="server" Text='<%# Bind("as_title") %>' Style="cursor: default; color: #808080;"></asp:Label>
                                                                 </p>--%>
@@ -746,4 +748,19 @@
             </ContentTemplate>
         </asp:UpdatePanel>
     </asp:Panel>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var clipboard = new Clipboard('.btn');
+
+            clipboard.on('success', function(e) {
+                alert("短網址已複製至剪貼簿!!");
+            });
+
+            clipboard.on('error', function(e) {
+                alert("短網址複製失敗，請重新複製!!");
+            });
+        })
+
+    </script>
 </asp:Content>

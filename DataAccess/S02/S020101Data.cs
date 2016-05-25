@@ -187,19 +187,19 @@ namespace DataAccess
             if (loginUser.Act_id == "S001")
             {
                 sql_sb.Append(@"
-                SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
+                SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
                 FROM activity, activity_session
                 LEFT JOIN activity_apply
                 ON aa_as = as_idn
                 WHERE as_act = act_idn AND
                       as_isopen = 1 AND
                       CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121)
-                GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid");
+                GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end,as_short_link, act_isopen, activity_session.createid");
             }
             else
             {
                 sql_sb.Append(@"
-                    (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
+                    (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
                     FROM activity, activity_session
                     LEFT JOIN activity_apply
                     ON aa_as = as_idn
@@ -218,7 +218,7 @@ namespace DataAccess
                             CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121) AND
 		                    cop_act = act_idn AND
                             cop_id LIKE '" + loginUser.Act_id + @"'
-                    GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
+                    GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end,as_short_link, act_isopen, activity_session.createid)
                     ORDER BY act_idn");
             }
             
@@ -235,19 +235,19 @@ namespace DataAccess
             if (loginUser.Act_id == "S001")
             {
                 sql_sb.Append(@"
-                SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
+                SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
                 FROM activity, activity_session
                 LEFT JOIN activity_apply
                 ON aa_as = as_idn
                 WHERE as_act = act_idn AND
                       as_isopen = 0 AND
                       CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121)
-                GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid");
+                GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid");
             }
             else
             {
                 sql_sb.Append(@"
-                    (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
+                    (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
                     FROM activity, activity_session
                     LEFT JOIN activity_apply
                     ON aa_as = as_idn
@@ -266,7 +266,7 @@ namespace DataAccess
                           CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121) AND
 		                  cop_act = act_idn AND
                           cop_id LIKE '" + loginUser.Act_id + @"'
-                    GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
+                    GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
                     ORDER BY act_idn");
             }
 
@@ -522,7 +522,7 @@ namespace DataAccess
                 if (loginUser.Act_id == "S001")
                 {
                     sql_sb.Append(@"
-                        SELECT as_idn, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_idn, ac_title, as_isopen, act_isopen, activity_session.createid
+                        SELECT as_idn, act_title, as_title, as_num_limit,as_short_link, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_idn, ac_title, as_isopen, act_isopen, activity_session.createid
                         FROM activity, activity_class, activity_session
                         LEFT JOIN activity_apply
                         ON aa_as = as_idn
@@ -532,13 +532,13 @@ namespace DataAccess
 		                      as_isopen = @tab AND
                               act_class = ac_idn AND
 	                          CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121)
-                        GROUP BY as_idn, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_idn, ac_title, as_isopen, act_isopen, activity_session.createid
+                        GROUP BY as_idn, act_title, as_title, as_num_limit,as_short_link, as_date_start, as_date_end, as_apply_start, as_apply_end, act_idn, ac_title, as_isopen, act_isopen, activity_session.createid
                         ORDER BY act_title");
                 }
                 else
                 {
                     sql_sb.Append(@"
-                        (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
+                        (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
                         FROM activity, activity_class, activity_session
                         LEFT JOIN activity_apply
                         ON aa_as = as_idn
@@ -548,9 +548,9 @@ namespace DataAccess
                               as_isopen = @tab AND
                               act_class = ac_idn AND
                               CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121) AND
-                        GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
+                        GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
                         UNION
-                        (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
+                        (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
                         FROM activity, account_copperate, activity_session
                         LEFT JOIN activity_apply
                         ON aa_as = as_idn
@@ -561,7 +561,7 @@ namespace DataAccess
                               CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121) AND
 		                      cop_act = act_idn AND
                               cop_id LIKE '" + loginUser.Act_id + @"'
-                        GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
+                        GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
                         ORDER BY act_idn");
                 }
             }
@@ -570,7 +570,7 @@ namespace DataAccess
                 if (loginUser.Act_id == "S001")
                 {
                     sql_sb.Append(@"
-                        SELECT as_idn, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_idn, ac_title, as_isopen, act_isopen, activity_session.createid
+                        SELECT as_idn, act_title, as_title, as_num_limit,as_short_link, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_idn, ac_title, as_isopen, act_isopen, activity_session.createid
                         FROM activity, activity_class, activity_session
                         LEFT JOIN activity_apply
                         ON aa_as = as_idn
@@ -581,13 +581,13 @@ namespace DataAccess
 		                      as_isopen = @tab AND
                               act_class = ac_idn AND
 	                          CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121)
-                        GROUP BY as_idn, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_idn, ac_title, as_isopen, act_isopen, activity_session.createid
+                        GROUP BY as_idn, act_title, as_title, as_num_limit,as_short_link, as_date_start, as_date_end, as_apply_start, as_apply_end, act_idn, ac_title, as_isopen, act_isopen, activity_session.createid
                         ORDER BY act_title");
                 }
                 else
                 {
                     sql_sb.Append(@"
-                        (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
+                        (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
                         FROM activity, activity_class, activity_session
                         LEFT JOIN activity_apply
                         ON aa_as = as_idn
@@ -599,9 +599,9 @@ namespace DataAccess
                               act_class = ac_idn AND
                               CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121) AND
                               activity_session.createid LIKE '" + loginUser.Act_id + @"'
-                        GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
+                        GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
                         UNION
-                        (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
+                        (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
                         FROM activity, account_copperate, activity_class, activity_session
                         LEFT JOIN activity_apply
                         ON aa_as = as_idn
@@ -613,7 +613,7 @@ namespace DataAccess
                               CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121) AND
 		                      cop_act = act_idn AND
                               cop_id LIKE '" + loginUser.Act_id + @"'
-                        GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
+                        GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
                         ORDER BY act_idn");
                 }
             }

@@ -185,3 +185,20 @@ C:\Users\Saki\Desktop\報名系統UI更改\ActivityApply\BusinessLayer\bin\Debug
 C:\Users\Saki\Desktop\報名系統UI更改\ActivityApply\BusinessLayer\obj\Debug\BusinessLayer.csprojResolveAssemblyReference.cache
 C:\Users\Saki\Desktop\報名系統UI更改\ActivityApply\BusinessLayer\obj\Debug\BusinessLayer.dll
 C:\Users\Saki\Desktop\報名系統UI更改\ActivityApply\BusinessLayer\obj\Debug\BusinessLayer.pdb
+F:\Desktop\新增資料夾 (2)\ActivityApply\BusinessLayer\bin\Debug\BusinessLayer.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\BusinessLayer\bin\Debug\BusinessLayer.pdb
+F:\Desktop\新增資料夾 (2)\ActivityApply\BusinessLayer\bin\Debug\BusinessLayerBase.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\BusinessLayer\bin\Debug\DataAccess.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\BusinessLayer\bin\Debug\DataAccessBase.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\BusinessLayer\bin\Debug\Model.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\BusinessLayer\bin\Debug\Util.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\BusinessLayer\bin\Debug\UtilBase.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\BusinessLayer\bin\Debug\DataAccess.pdb
+F:\Desktop\新增資料夾 (2)\ActivityApply\BusinessLayer\bin\Debug\Model.pdb
+F:\Desktop\新增資料夾 (2)\ActivityApply\BusinessLayer\bin\Debug\Util.pdb
+F:\Desktop\新增資料夾 (2)\ActivityApply\BusinessLayer\bin\Debug\BusinessLayerBase.xml
+F:\Desktop\新增資料夾 (2)\ActivityApply\BusinessLayer\bin\Debug\DataAccessBase.xml
+F:\Desktop\新增資料夾 (2)\ActivityApply\BusinessLayer\bin\Debug\UtilBase.xml
+F:\Desktop\新增資料夾 (2)\ActivityApply\BusinessLayer\obj\Debug\BusinessLayer.csprojResolveAssemblyReference.cache
+F:\Desktop\新增資料夾 (2)\ActivityApply\BusinessLayer\obj\Debug\BusinessLayer.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\BusinessLayer\obj\Debug\BusinessLayer.pdb

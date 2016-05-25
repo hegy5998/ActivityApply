@@ -3,6 +3,16 @@
 <%@ Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead_cph" runat="server">
+    <style type="text/css">
+        .over_hide {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        table {
+            box-shadow: none;
+        }
+    </style>
     <script type="text/javascript">
         $(function () {
             Sys.WebForms.PageRequestManager.getInstance().add_pageLoaded(function (evt, args) {
@@ -77,7 +87,7 @@
                                     <asp:PostBackTrigger ControlID="imageUpload_btn"></asp:PostBackTrigger>
                                 </Triggers>
                             </asp:UpdatePanel>
-                            <label id="imgpath_lab">選擇圖片</label>
+                            <label id="imgpath_lab" class="over_hide">選擇圖片</label>
                             <br />
                             <input id="delete_img_btn" type="button" class="btn btn-theme" onclick="delete_img_btn_click()" value="刪除已上傳圖片" style="display: none" />
                             <br />
@@ -92,16 +102,16 @@
                         <!-- 增加活動區塊地方_START -->
                         <div class="row" id="add_Session_div">
                             <!-- 活動場次區塊_START -->
-                            <h3><i class="fa fa-angle-right"></i>活動分類</h3>
+                            <h3><i class="fa fa-angle-right"></i>活動分類<b class="red">*</b></h3>
 
                             <select class="select" id="select_class" style="width: 100%; height: 30px; border-radius: 4px; margin-bottom: 15px;">
                             </select>
 
                             <!-- 活動名稱 -->
-                            <h3><i class="fa fa-angle-right"></i>活動名稱</h3>
+                            <h3><i class="fa fa-angle-right"></i>活動名稱<b class="red">*</b></h3>
                             <input type="text" class="form-control" placeholder="活動名稱" id="activity_Name_txt" maxlength="60" /><br />
                             <!-- 報名限制 -->
-                            <h3><i class="fa fa-angle-right"></i>報名場次次數限制 <a title="此區填寫的數字可以限制同一個報名者(姓名以及信箱相同)在這個活動最多可以報名幾個場次" style="cursor: help;"> <i class="fa fa-question-circle" aria-hidden="true"></i></a></h3>
+                            <h3><i class="fa fa-angle-right"></i>報名場次次數限制 <a title="此區填寫的數字可以限制同一個報名者(姓名以及信箱相同)在這個活動最多可以報名幾個場次" style="cursor: help;"><i class="fa fa-question-circle" aria-hidden="true"></i></a></h3>
                             <input type="text" class="form-control" placeholder="不填寫則不限制(只能填寫數字)" id="act_num_limit_txt" maxlength="3" onkeyup="return ValidateNumber($(this),value)" /><br />
 
                         </div>
@@ -155,7 +165,7 @@
                                                 <ContentTemplate>
                                                     <input type="button" onclick="upload_file_btn()" class="btn btn-theme" value="選擇檔案" />
                                                     <label id="filepath_lab">選擇檔案</label><br />
-                                                    <input id="delete_file_btn" type="button" class="btn btn-theme" onclick="delete_file_btn_click()" value="刪除已上傳檔案" style="display: none;margin-top: 5px;" />
+                                                    <input id="delete_file_btn" type="button" class="btn btn-theme" onclick="delete_file_btn_click()" value="刪除已上傳檔案" style="display: none; margin-top: 5px;" />
                                                     <asp:FileUpload ID="FileUpload" runat="server" onchange="upload_file(this.value)" Style="display: none" />
                                                     <asp:Button ID="btnUpload" runat="server" OnClick="btnUpload_Click1" Style="display: none" />
                                                 </ContentTemplate>
@@ -286,8 +296,8 @@
 
     <!-- loading -->
     <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog" style="margin: 2% 30%; padding: 0px 0px; border-radius: 6px;text-align: center;height:92%;">
-            <div style="transform: translateY(-50%);top: 50%;position: relative;">
+        <div class="modal-dialog" style="margin: 2% 30%; padding: 0px 0px; border-radius: 6px; text-align: center; height: 92%;">
+            <div style="transform: translateY(-50%); top: 50%; position: relative;">
                 <div class="modal-body">
                     <i class="fa fa-spinner fa-pulse fa-5x fa-fw margin-bottom" style="color: white"></i>
                     <span class="sr-only">Loading...</span>
@@ -594,7 +604,7 @@
                             add_Preset_Qus_Click('', "身份證字號", "英文字母請大寫", null, "text", "idNumber", [], true);
                             break;
                         case "出生年月日":
-                            add_Preset_Qus_Click('', "出生年月日", "ex:83/07/08", null, "text", "", [], true);
+                            add_Preset_Qus_Click('', "出生年月日", "ex:83/07/08", null, "text", "date", [], true);
                             break;
                         case "服務單位":
                             add_Preset_Qus_Click('', "服務單位", "請填寫完整名稱", null, "text", "", [], true);
@@ -784,6 +794,7 @@
                                                               '<option value="email">電子信箱</option>' +
                                                               '<option value="idNumber">身份證</option>' +
                                                               '<option value="int">數字</option>' +
+                                                              '<option value="date">日期</option>' +
                                                               '<option value="length">字數</option>' +
                                                             '</select>' +
                                                         '<a id="del_qus_btn_' + qusId + '" onclick="del_Qus_click(' + qusId + ')" type="submit" class="btn btn-theme" style="margin-left: 5px;">刪除</a>' +
@@ -1232,23 +1243,23 @@
                                 '</div>' +
                             '</div>' +
                             '<div class="form-group">' +
-                                '<label class="col-sm-2 control-label">活動開始日期<b class="red">*</b></label>' +
-                                '<div class="col-sm-4">' +
-                                    '<input class="form-control datetimepicker" type="text" id="datetimepicker_Activity_Start_txt_' + sessionId + '" readonly="true" style="background-color: white;cursor: auto;"/>' +
-                                '</div>' +
-                                '<label class="col-sm-2 control-label">活動結束日期<b class="red">*</b></label>' +
-                                '<div class="col-sm-4">' +
-                                    '<input class="form-control datetimepicker" type="text" id="datetimepicker_Activity_End_txt_' + sessionId + '" readonly="true" style="background-color: white;cursor: auto;"/>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="form-group">' +
                                 '<label class="col-sm-2 control-label">報名開始日期<b class="red">*</b></label>' +
                                 '<div class="col-sm-4">' +
-                                    '<input class="form-control datetimepicker" type="text" id="datetimepicker_Activity_Sign_Start_txt_' + sessionId + '" readonly="true" style="background-color: white;cursor: auto;"/>' +
+                                    '<input class="form-control datetimepicker" type="text" id="datetimepicker_Activity_Sign_Start_txt_' + sessionId + '" style="background-color: white;cursor: auto;"/>' +
                                 '</div>' +
                                 '<label class="col-sm-2 control-label">報名結束日期<b class="red">*</b></label>' +
                                 '<div class="col-sm-4">' +
-                                    '<input class="form-control datetimepicker" type="text" id="datetimepicker_Activity_Sign_End_txt_' + sessionId + '" readonly="true" style="background-color: white;cursor: auto;"/>' +
+                                    '<input class="form-control datetimepicker" type="text" id="datetimepicker_Activity_Sign_End_txt_' + sessionId + '" style="background-color: white;cursor: auto;"/>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="form-group">' +
+                                '<label class="col-sm-2 control-label">活動開始日期<b class="red">*</b></label>' +
+                                '<div class="col-sm-4">' +
+                                    '<input class="form-control datetimepicker" type="text" id="datetimepicker_Activity_Start_txt_' + sessionId + '" style="background-color: white;cursor: auto;"/>' +
+                                '</div>' +
+                                '<label class="col-sm-2 control-label">活動結束日期<b class="red">*</b></label>' +
+                                '<div class="col-sm-4">' +
+                                    '<input class="form-control datetimepicker" type="text" id="datetimepicker_Activity_End_txt_' + sessionId + '" style="background-color: white;cursor: auto;"/>' +
                                 '</div>' +
                             '</div>' +
                             '<div class="form-group">' +
@@ -1270,14 +1281,18 @@
                                 '</div>' +
                             '</div>' +
                             '<div class="form-group" style="padding-right: 10px;">' +
-                                '<a style="float: right;" class="btn btn-theme" onclick="add_Session_click(0)">增加場次</a>' +
+                                '<a style="float: right;" class="btn btn-theme" onclick="add_Session_click()">增加場次</a>' +
                             '</div>' +
                         '</div>' +
                     '</div>');
             //呼叫日期時間選擇器
             $(function () {
-                $('.datetimepicker').datetimepicker({
-                    lang: 'ch'
+                $.datetimepicker.setLocale('zh-TW');
+                $("input[id*=Start]").datetimepicker({
+                    defaultTime: '00:00:00'
+                });
+                $("input[id*=End]").datetimepicker({
+                    defaultTime: '23:59:59'
                 });
             });
             //場次名稱是否填寫的判斷
@@ -1352,7 +1367,7 @@
                 if ($.trim($(this).val()) <= $.trim($("#datetimepicker_Activity_Sign_Start_txt_" + datetimepicker_Activity_Start_txtId).val()) && $.trim($("#datetimepicker_Activity_Sign_Start_txt_" + datetimepicker_Activity_Start_txtId).val()) != "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#datetimepicker_Activity_Start_txt_error_WithSignStart_" + datetimepicker_Activity_Start_txtId).length == 0)
-                        $(this).after('<em id="datetimepicker_Activity_Start_txt_error_WithSignStart_' + datetimepicker_Activity_Start_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">活動開始日期必須在報名開始日期之後</em>');
+                        $(this).after('<em id="datetimepicker_Activity_Start_txt_error_WithSignStart_' + datetimepicker_Activity_Start_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">活動開始日期必須在報名開始日期之後</em>');
                     check_Activity_Data = false;
                 }
                 else {
@@ -1616,7 +1631,7 @@
                                 $("#myModal1").modal("hide");
                                 alert("活動儲存失敗");
                             }
-                                
+
                         },
                         //失敗時
                         error: function () {
@@ -1656,8 +1671,8 @@
                     if ($("#delete_Session_div_" +temp).find("[id^=old_as_idn_]").length) {
                         $("#delete_Session_div_" +temp).find("[id^=old_as_idn_]").each(function () {
                             As_idn = $(this).text();
-                        })
-                    }
+            })
+            }
                     session_Json_Data.As_idn = As_idn;
                     //存入場次名稱
                     session_Json_Data.As_title = $("#session_Name_txt_" +temp).val();
@@ -1681,22 +1696,22 @@
                         if ($("#session_Name_txt_error_" +temp).length == 0)
                             $("#session_Name_txt_" +temp).after('<em id="session_Name_txt_error_' +temp + '" class="error help-block red">必須填寫</em>');
                         check_Activity_Data = false;
-                    }
-                    else {
+            }
+            else {
                         $("#session_Name_txt_" +temp).css({ "box-shadow": "" });
                         $("#session_Name_txt_error_" +temp).remove();
-                    }
+            }
                     //判斷活動地點不為空
                     if (!session_Json_Data.As_position) {
                         $("#activity_Location_txt_" +temp).css({ "box-shadow": "0px 0px 9px red" });
                         if ($("#activity_Location_txt_error_" +temp).length == 0)
                             $("#activity_Location_txt_" +temp).after('<em id="activity_Location_txt_error_' +temp + '" class="error help-block red">必須填寫</em>');
                         check_Activity_Data = false;
-                    }
-                    else {
+            }
+            else {
                                 $("#activity_Location_txt_" +temp).css({ "box-shadow": "" });
                                 $("#sactivity_Location_txt_error_" +temp).remove();
-                    }
+            }
                     //判斷報名人數限制不為空以及要是整數數字
                     var if_int = /^[0-9]*[1-9][0-9]*$/;
                     if (!session_Json_Data.As_num_limit || isNaN(session_Json_Data.As_num_limit) || !if_int.test(session_Json_Data.As_num_limit) || parseInt($("#activity_Limit_Num_txt_" +temp).val()) > 100000) {
@@ -1706,9 +1721,9 @@
                         if (parseInt($("#activity_Limit_Num_txt_" +temp).val()) > 100000)
                             $("#activity_Limit_Num_txt_error_" +temp).text("請輸入小於100000的數字!!");
                         check_Activity_Data = false;
-                    }
-                    else {
-                        $("#activity_Limit_Num_txt_" + temp).css({ "box-shadow": "" });
+            }
+            else {
+                        $("#activity_Limit_Num_txt_" +temp).css({ "box-shadow": "" });
                         $("#activity_Limit_Num_txt_error_" + temp).remove();
                     }
                     //判斷活動開始日期不能為空
@@ -1943,7 +1958,7 @@
                             //儲存題目順序
                             activity_Column_Json_Data.Acc_seq = qus_seq;
                             //判斷是否必填
-                            if ($("#" + $qus_sortable[qus_count]).find("#required_checkbox_" + chooseId).is(":checked") === false)
+                            if ($("#" +$qus_sortable[qus_count]).find("#required_checkbox_" +chooseId).is(":checked") === false)
                                 //沒有必填存0
                                 activity_Column_Json_Data.Acc_required = 0;
                             else if ($("#" + $qus_sortable[qus_count]).find("#required_checkbox_" + chooseId).is(":checked") === true)

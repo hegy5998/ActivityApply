@@ -4,7 +4,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead_cph" runat="server">
     <style type="text/css">
-        .table {
+        table {
             box-shadow: none;
         }
     </style>
@@ -612,7 +612,7 @@
                             add_Preset_Qus_Click("身份證字號", "英文字母請大寫", null, "text", "idNumber", [], true);
                             break;
                         case "出生年月日":
-                            add_Preset_Qus_Click("出生年月日", "ex:83/07/08", null, "text", "", [], true);
+                            add_Preset_Qus_Click("出生年月日", "ex:83/07/08", null, "text", "date", [], true);
                             break;
                         case "服務單位":
                             add_Preset_Qus_Click("服務單位", "請填寫完整名稱", null, "text", "", [], true);
@@ -754,6 +754,7 @@
                                                               '<option value="email">電子信箱</option>' +
                                                               '<option value="idNumber">身份證</option>' +
                                                               '<option value="int">數字</option>' +
+                                                              '<option value="date">日期</option>' +
                                                               '<option value="length">字數</option>' +
                                                             '</select>' +
                                                         '<a onclick="del_Qus_click(' + qusId + ')" type="submit" class="btn btn-theme" style="margin-left: 5px;">刪除</a>' +
@@ -1147,23 +1148,23 @@
                                 '</div>' +
                             '</div>' +
                             '<div class="form-group">' +
-                                '<label class="col-sm-2 control-label">活動開始日期<b class="red">*</b></label>' +
-                                '<div class="col-sm-4">' +
-                                    '<input class="form-control datetimepicker" type="text" id="datetimepicker_Activity_Start_txt_' + sessionId + '" readonly="true" style="background-color: white;cursor: auto;"/>' +
-                                '</div>' +
-                                '<label class="col-sm-2 control-label">活動結束日期<b class="red">*</b></label>' +
-                                '<div class="col-sm-4">' +
-                                    '<input class="form-control datetimepicker" type="text" id="datetimepicker_Activity_End_txt_' + sessionId + '" readonly="true" style="background-color: white;cursor: auto;"/>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="form-group">' +
                                 '<label class="col-sm-2 control-label">報名開始日期<b class="red">*</b></label>' +
                                 '<div class="col-sm-4">' +
-                                    '<input class="form-control datetimepicker" type="text" id="datetimepicker_Activity_Sign_Start_txt_' + sessionId + '" readonly="true" style="background-color: white;cursor: auto;"/>' +
+                                    '<input class="form-control datetimepicker" type="text" id="datetimepicker_Activity_Sign_Start_txt_' + sessionId + '" style="background-color: white;cursor: auto;"/>' +
                                 '</div>' +
                                 '<label class="col-sm-2 control-label">報名結束日期<b class="red">*</b></label>' +
                                 '<div class="col-sm-4">' +
-                                    '<input class="form-control datetimepicker" type="text" id="datetimepicker_Activity_Sign_End_txt_' + sessionId + '" readonly="true" style="background-color: white;cursor: auto;"/>' +
+                                    '<input class="form-control datetimepicker" type="text" id="datetimepicker_Activity_Sign_End_txt_' + sessionId + '" style="background-color: white;cursor: auto;"/>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="form-group">' +
+                                '<label class="col-sm-2 control-label">活動開始日期<b class="red">*</b></label>' +
+                                '<div class="col-sm-4">' +
+                                    '<input class="form-control datetimepicker" type="text" id="datetimepicker_Activity_Start_txt_' + sessionId + '" style="background-color: white;cursor: auto;"/>' +
+                                '</div>' +
+                                '<label class="col-sm-2 control-label">活動結束日期<b class="red">*</b></label>' +
+                                '<div class="col-sm-4">' +
+                                    '<input class="form-control datetimepicker" type="text" id="datetimepicker_Activity_End_txt_' + sessionId + '" style="background-color: white;cursor: auto;"/>' +
                                 '</div>' +
                             '</div>' +
                             '<div class="form-group">' +
@@ -1191,8 +1192,12 @@
                     '</div>');
             //呼叫日期時間選擇器
             $(function () {
-                $('.datetimepicker').datetimepicker({
-                    lang: 'ch'
+                $.datetimepicker.setLocale('zh-TW');
+                $("input[id*=Start]").datetimepicker({
+                    defaultTime: '00:00:00'
+                });
+                $("input[id*=End]").datetimepicker({
+                    defaultTime: '23:59:59'
                 });
             });
             //場次名稱是否填寫的判斷
@@ -1267,7 +1272,7 @@
                 if ($.trim($(this).val()) <= $.trim($("#datetimepicker_Activity_Sign_Start_txt_" + datetimepicker_Activity_Start_txtId).val()) && $.trim($("#datetimepicker_Activity_Sign_Start_txt_" + datetimepicker_Activity_Start_txtId).val()) != "") {
                     $(this).css({ "box-shadow": "0px 0px 9px red" });
                     if ($("#datetimepicker_Activity_Start_txt_error_WithSignStart_" + datetimepicker_Activity_Start_txtId).length == 0)
-                        $(this).after('<em id="datetimepicker_Activity_Start_txt_error_WithSignStart_' + datetimepicker_Activity_Start_txtId + '" class="error help-block red" style="width: 222px;margin-bottom: 5px;">活動開始日期必須在報名開始日期之後</em>');
+                        $(this).after('<em id="datetimepicker_Activity_Start_txt_error_WithSignStart_' + datetimepicker_Activity_Start_txtId + '" class="error help-block red" style="width: auto;margin-bottom: 5px;">活動開始日期必須在報名開始日期之後</em>');
                     check_Activity_Data = false;
                 }
                 else {

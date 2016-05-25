@@ -1,20 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using Model;
 using Util;
 using BusinessLayer.S02;
 using System.Data;
-using System.Collections;
-using AjaxControlToolkit;
 using System.IO;
-using System.Text;
-using Web.App_Code;
-using NPOI.HSSF.UserModel;
-using NPOI;
 using NPOI.XSSF.UserModel;
 using NPOI.SS.UserModel;
 
@@ -26,6 +18,7 @@ namespace Web.S02
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             //已發佈活動
             ucGridViewPager.GridView = main_gv;
             ucGridViewPager.BindDataHandler += () => { BindGridView(GetAlreadyData(), GetReadyData(), GetEndData()); };
@@ -249,7 +242,7 @@ namespace Web.S02
                     break;
 
                 // 編輯協作者
-                case "Set": 
+                case "Set":                    
                     // 設定彈出視窗
                     InitControlSetPopupWindow(sender, e);
                     break;

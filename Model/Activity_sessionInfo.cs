@@ -59,6 +59,12 @@ namespace Model
         /// <summary>
         ///  
         /// </summary>
+        [Column("as_short_link")]
+        public String As_short_link { get; set; }
+
+        /// <summary>
+        ///  
+        /// </summary>
         [Column("as_gmap")]
         public String As_gmap { get; set; }
 

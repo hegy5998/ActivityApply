@@ -168,6 +168,8 @@
     <Content Include="assets\img\ui-zac.jpg" />
     <Content Include="assets\img\weather.jpg" />
     <Content Include="assets\img\zoom.png" />
+    <Content Include="assets\jQuery-datetimepicker\jquery.datetimepicker.full.min.js" />
+    <Content Include="assets\jQuery-datetimepicker\jquery.datetimepicker.min.css" />
     <Content Include="assets\jquery\dist\jquery.js" />
     <Content Include="assets\jquery\dist\jquery.min.js" />
     <Content Include="assets\jquery\MIT-LICENSE.txt" />
@@ -367,6 +369,7 @@
     <Content Include="Activity_List.aspx" />
     <Content Include="Activity_List.html" />
     <Content Include="Index.aspx" />
+    <Content Include="Info.aspx" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -602,6 +605,7 @@
     <Content Include="assets\bootstrap\nuget\MyGet.ps1" />
     <Content Include="assets\bootstrap\package.json" />
     <Content Include="assets\bootstrap\README.md" />
+    <Content Include="WebForm2.aspx" />
     <None Include="Properties\PublishProfiles\activity.pubxml" />
     <Content Include="Sign_Up.aspx" />
     <Content Include="Web.config" />
@@ -636,6 +640,13 @@
     </Compile>
     <Compile Include="Index.aspx.designer.cs">
       <DependentUpon>Index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Info.aspx.cs">
+      <DependentUpon>Info.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Info.aspx.designer.cs">
+      <DependentUpon>Info.aspx</DependentUpon>
     </Compile>
     <Compile Include="MasterPages\Base.Master.cs">
       <DependentUpon>Base.Master</DependentUpon>
@@ -679,6 +690,13 @@
     </Compile>
     <Compile Include="WebForm1.aspx.designer.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebForm2.aspx.cs">
+      <DependentUpon>WebForm2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm2.aspx.designer.cs">
+      <DependentUpon>WebForm2.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

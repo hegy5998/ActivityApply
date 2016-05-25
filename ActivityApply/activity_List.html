@@ -12,7 +12,7 @@
         var act_class = $.url().param("act_class");
         //產生所有活動
         var local = location.href.split("/")[location.href.split("/").length - 1].split("?")[0];
-        if (local != "Index.aspx")
+        if (local != "Info.aspx")
             searchActivityAllList(search_title, act_class);
 
         //pageselectCallback($.cookie('page_index'));
@@ -91,9 +91,9 @@
     //#region 搜尋活動事件
     function searchActivityAllList(act_title, act_class) {
         var local = location.href.split("/")[location.href.split("/").length - 1].split("?")[0];
-        if (local == "Index.aspx"){
+        if (local == "Info.aspx"){
             $("#add_activity_list").remove();
-            var url = 'Index.aspx/getActivityAllList';
+            var url = 'Info.aspx/getActivityAllList';
         }
         else
             var url = 'activity_List.aspx/getActivityAllList';

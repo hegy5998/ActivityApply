@@ -307,7 +307,14 @@ namespace Web.S02
                     save_Session_Information["as_num_limit"] = activity_Session_List[count].As_num_limit;
                     save_Session_Information["as_remark"] = activity_Session_List[count].As_remark;
                     save_Session_Information["as_isopen"] = 0;
-                    _bl.InsertData_session(save_Session_Information);
+                    CommonResult session_res = _bl.InsertData_session(save_Session_Information);
+                    string as_shorterURL = Util.CustomHelper.URLshortener(sysConfig.SOLUTION_HTTPADDR + "Sign_Up.aspx?as_idn=" + Int32.Parse(session_res.Message) + "&act_class=" + activity_List[0].Act_class + "&act_idn=" + act_idn + "&act_title=" + HttpUtility.UrlEncode(activity_List[0].Act_title) + "&short=1", sysConfig.URL_SHORTENER_API_KEY);
+                    Dictionary<string, Object> as_old_shorlink = new Dictionary<string, Object>();
+                    as_old_shorlink["as_idn"] = Int32.Parse(session_res.Message);
+                    as_old_shorlink["as_act"] = act_idn;
+                    Dictionary<string, Object> as_new_shorlink = new Dictionary<string, Object>();
+                    as_new_shorlink["as_short_link"] = as_shorterURL;
+                    _bl.Update_Session_Data(as_old_shorlink, as_new_shorlink);
                 }
             }
             return "true";

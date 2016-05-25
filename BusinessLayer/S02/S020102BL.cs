@@ -43,9 +43,20 @@ namespace BusinessLayer.S02
 
             return res;
         }
+        public CommonResult Session_UpdateData(Dictionary<string, object> oldData_dict, Dictionary<string, object> newData_dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_sessionInfo>(newData_dict);
+
+            if (res.IsSuccess)
+            {
+                return _sessiondata.UpdateData(oldData_dict, newData_dict);
+            }
+
+            return res;
+        }
         #endregion
 
-        
+
 
         #region 新增
         /// <summary>

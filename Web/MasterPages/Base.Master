@@ -49,6 +49,8 @@
             }
         });
     </script>
+    <!-- 剪貼簿功能 -->
+    <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/clipboard.js-master/dist/clipboard.min.js") %>"></script>
     <!-- Bootstrap-->
     <link href="<%=ResolveUrl("~/Css/Lib/bootstrap.css") %>" rel="stylesheet" />
     <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/assets/js/bootstrap.min.js") %>"></script>
@@ -115,8 +117,8 @@
             }
     </style>
     <!-- dateptimeicker -->
-    <link rel="stylesheet" type="text/css" href="<%=ResolveUrl("~/Scripts/Lib/jQuery-datetimepicker/jquery.datetimepicker.css") %>" />
-    <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/jQuery-datetimepicker/jquery.datetimepicker.js") %>"></script>
+    <link rel="stylesheet" type="text/css" href="<%=ResolveUrl("~/Scripts/Lib/jQuery-datetimepicker/jquery.datetimepicker.min.css") %>" />
+    <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/jQuery-datetimepicker/jquery.datetimepicker.full.min.js") %>"></script>
     <!-- ckeditor -->
     <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/ckeditor/ckeditor.js") %>"></script>
     <!-- Custom styles for this template -->

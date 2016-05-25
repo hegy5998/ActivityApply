@@ -56,3 +56,32 @@ C:\Users\Saki\Desktop\報名系統UI更改\ActivityApply\Web\bin\UtilBase.xml
 C:\Users\Saki\Desktop\報名系統UI更改\ActivityApply\Web\obj\Debug\Web.csprojResolveAssemblyReference.cache
 C:\Users\Saki\Desktop\報名系統UI更改\ActivityApply\Web\obj\Debug\Web.dll
 C:\Users\Saki\Desktop\報名系統UI更改\ActivityApply\Web\obj\Debug\Web.pdb
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\Web.dll.config
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\Web.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\Web.pdb
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\AjaxControlToolkit.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\BusinessLayer.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\DataAccess.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\ICSharpCode.SharpZipLib.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\Model.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\Newtonsoft.Json.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\NPOI.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\NPOI.OOXML.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\NPOI.OpenXml4Net.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\NPOI.OpenXmlFormats.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\Util.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\BusinessLayer.pdb
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\DataAccess.pdb
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\Model.pdb
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\Util.pdb
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\BusinessLayerBase.xml
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\CKEditor.NET.pdb
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\DataAccessBase.xml
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\Newtonsoft.Json.xml
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\NPOI.xml
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\NPOI.OOXML.xml
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\NPOI.OpenXml4Net.xml
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\bin\UtilBase.xml
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\obj\Debug\Web.csprojResolveAssemblyReference.cache
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\obj\Debug\Web.dll
+F:\Desktop\新增資料夾 (2)\ActivityApply\Web\obj\Debug\Web.pdb

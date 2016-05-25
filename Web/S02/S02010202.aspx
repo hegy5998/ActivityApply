@@ -38,6 +38,9 @@
         label.error {
             color: red;
         }
+        table {
+            box-shadow: none;
+        }
     </style>
 </asp:Content>
 
@@ -107,7 +110,8 @@
                     case "dropDownList": code = DropDownListCol_Code(questionInfo[i], i); break;
                 }
                 $("#question_div_" + questionInfo[i].Acc_asc).append(decodeURI(code));
-
+                $.datetimepicker.setLocale('zh-TW');
+                $('.datetimepicker').datetimepicker();
             }
         }
         //#endregion
@@ -230,7 +234,7 @@
                 case 'email': code += ' email"'; break;
                 case 'idNumber': code += ' TWIDCheck"'; break;
                 case 'cellPhone': code += ' mobileTW"'; break;
-                case 'date': code += ' date"'; break;
+                case 'date': code += ' date datetimepicker"'; break;
                 case 'url': code += ' url"'; break;
                 case 'int': code += ' number"' + (validation[1] != 'N' ? ' min="' + validation[1] + '"' : '') + (validation[2] != 'N' ? ' max="' + validation[2] + '"' : ''); break;
                 case 'length': code += '"' + (validation[1] != 'N' ? ' minlength="' + validation[1] + '"' : '') + (validation[2] != 'N' ? ' maxlength="' + validation[2] + '"' : ''); break;
