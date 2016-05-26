@@ -17,30 +17,30 @@
     <link href="<%=ResolveUrl("~/assets/bootstrap/dist/css/bootstrap.css") %>" rel="stylesheet" />
     <link href="<%=ResolveUrl("~/assets/css/sb-admin-2.css") %>" rel="stylesheet" />
     <!--external css-->
-    <link href="<%=ResolveUrl("~/assets/font-awesome/css/font-awesome.css")%>" rel="stylesheet" type="text/css"/>
-    <link href="<%=ResolveUrl("~/assets/css/zabuto_calendar.css")%>" rel="stylesheet" type="text/css"/>
-    <link href="<%=ResolveUrl("~/assets/js/gritter/css/jquery.gritter.css")%>" rel="stylesheet" type="text/css"/>
-    <link href="<%=ResolveUrl("~/assets/lineicons/style.css")%>" rel="stylesheet" type="text/css"/>
-    <link href="<%=ResolveUrl("~/assets/css/jquery-ui.css")%>" rel="stylesheet" type="text/css"/>
+    <link href="<%=ResolveUrl("~/assets/font-awesome/css/font-awesome.css")%>" rel="stylesheet" type="text/css" />
+    <link href="<%=ResolveUrl("~/assets/css/zabuto_calendar.css")%>" rel="stylesheet" type="text/css" />
+    <link href="<%=ResolveUrl("~/assets/js/gritter/css/jquery.gritter.css")%>" rel="stylesheet" type="text/css" />
+    <link href="<%=ResolveUrl("~/assets/lineicons/style.css")%>" rel="stylesheet" type="text/css" />
+    <link href="<%=ResolveUrl("~/assets/css/jquery-ui.css")%>" rel="stylesheet" type="text/css" />
 
     <!-- Custom styles for this template -->
-    <link href="<%=ResolveUrl("~/assets/css/style.css")%>" rel="stylesheet" type="text/css"/>
-    <link href="<%=ResolveUrl("~/assets/css/style-responsive.css")%>" rel="stylesheet" type="text/css"/>
+    <link href="<%=ResolveUrl("~/assets/css/style.css")%>" rel="stylesheet" type="text/css" />
+    <link href="<%=ResolveUrl("~/assets/css/style-responsive.css")%>" rel="stylesheet" type="text/css" />
 
 
-    <link href="<%=ResolveUrl("~/assets/css/index.css")%>" rel="stylesheet" type="text/css"/>
-    <link href="<%=ResolveUrl("~/assets/metisMenu/dist/metisMenu.css")%>" rel="stylesheet" type="text/css"/>
+    <link href="<%=ResolveUrl("~/assets/css/index.css")%>" rel="stylesheet" type="text/css" />
+    <link href="<%=ResolveUrl("~/assets/metisMenu/dist/metisMenu.css")%>" rel="stylesheet" type="text/css" />
     <!-- Timeline CSS -->
-    <link href="<%=ResolveUrl("~/assets/dist/css/timeline.css")%>" rel="stylesheet" type="text/css"/>
+    <link href="<%=ResolveUrl("~/assets/dist/css/timeline.css")%>" rel="stylesheet" type="text/css" />
     <!-- Custom CSS -->
-    <link href="<%=ResolveUrl("~/assets/dist/css/sb-admin-2.css")%>" rel="stylesheet" type="text/css"/>
+    <link href="<%=ResolveUrl("~/assets/dist/css/sb-admin-2.css")%>" rel="stylesheet" type="text/css" />
     <!-- Morris Charts CSS -->
-    <link href="<%=ResolveUrl("~/assets/morrisjs/morris.css")%>" rel="stylesheet" type="text/css"/>
+    <link href="<%=ResolveUrl("~/assets/morrisjs/morris.css")%>" rel="stylesheet" type="text/css" />
 
 
     <!-- jQuery -->
     <%--<script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery-2.2.3.min.js") %>"></script>--%>
-    
+
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/jquery/dist/jquery.min.js") %>"></script>
     <!-- Bootstrap Core JavaScript -->
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/bootstrap/dist/js/bootstrap.min.js") %>"></script>
@@ -54,13 +54,43 @@
 
 
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery.cookie.js") %>"></script>
- 
+
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/purl.js") %>"></script>
 
     <!-- dateptimeicker -->
     <link rel="stylesheet" type="text/css" href="<%=ResolveUrl("~/assets/jQuery-datetimepicker/jquery.datetimepicker.min.css") %>" />
-    <script type="text/javascript" src="<%=ResolveUrl("~/assets/jQuery-datetimepicker/jquery.datetimepicker.full.min.js") %>"></script>    
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/jQuery-datetimepicker/jquery.datetimepicker.full.min.js") %>"></script>
 
+    <link rel="stylesheet" type="text/css" href="<%=ResolveUrl("~/assets/jGrowl-master/jquery.jgrowl.min.css") %>" />
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/jGrowl-master/jquery.jgrowl.min.js") %>"></script>
+
+
+    <style type="text/css">
+        .jGrowl-closer{
+            background-color:#5E5E5E;
+        }
+        div.jGrowl div.success {
+            background-color: #99f19e;
+            color: #6E6E6E;
+            border-color: #99f19e;
+            text-align: center;
+            font-size: large;
+        }
+        div.jGrowl div.error {
+            background-color: #f1404b;
+            color: #FFFFFF;
+            border-color: #f1404b;
+            text-align: center;
+            font-size: large;
+        }
+        div.jGrowl div.warning {
+            background-color: #feee7d;
+            color: #6E6E6E;
+            border-color: #feee7d;
+            text-align: center;
+            font-size: large;
+        }
+    </style>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -70,6 +100,6 @@
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
             </asp:ContentPlaceHolder>
         </div>
-    </form>    
+    </form>
 </body>
 </html>

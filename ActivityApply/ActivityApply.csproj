@@ -113,6 +113,7 @@
     <Content Include="assets\css\jquery.steps.css" />
     <Content Include="assets\css\pagination.css" />
     <Content Include="assets\css\sb-admin-2.css" />
+    <Content Include="assets\css\strength.css" />
     <Content Include="assets\css\style-responsive.css" />
     <Content Include="assets\css\style.css" />
     <Content Include="assets\css\table-responsive.css" />
@@ -124,6 +125,15 @@
     <Content Include="assets\font-awesome\css\font-awesome.css" />
     <Content Include="assets\font-awesome\css\font-awesome.min.css" />
     <Content Include="assets\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="assets\jGrowl-master\Gruntfile.js" />
+    <Content Include="assets\jGrowl-master\jquery.jgrowl.css" />
+    <Content Include="assets\jGrowl-master\jquery.jgrowl.js" />
+    <Content Include="assets\jGrowl-master\jquery.jgrowl.min.css" />
+    <Content Include="assets\jGrowl-master\jquery.jgrowl.min.js" />
+    <Content Include="assets\js\strength.js" />
+    <Content Include="assets\lineicons\font-awesome\css\font-awesome.css" />
+    <Content Include="assets\lineicons\font-awesome\css\font-awesome.min.css" />
+    <Content Include="assets\lineicons\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="assets\img\12767525_955825364513665_1121294852_n.jpg" />
     <Content Include="assets\img\blog-bg.jpg" />
@@ -364,6 +374,9 @@
     <Content Include="assets\raphael\license.txt" />
     <Content Include="assets\raphael\raphael-min.js" />
     <Content Include="assets\raphael\raphael.js" />
+    <Content Include="CommonPages\BasePage.aspx" />
+    <Content Include="CommonPages\Captcha.aspx" />
+    <Content Include="CommonPages\Error.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Activity_List.aspx" />
@@ -386,12 +399,12 @@
     <Content Include="Sign_Search_Context.aspx" />
     <Content Include="Sign_Change.aspx" />
     <Content Include="WebForm1.aspx" />
-    <Content Include="assets\font-awesome\css\font-awesome.css.map" />
-    <Content Include="assets\font-awesome\fonts\fontawesome-webfont.eot" />
-    <Content Include="assets\font-awesome\fonts\fontawesome-webfont.ttf" />
-    <Content Include="assets\font-awesome\fonts\fontawesome-webfont.woff" />
-    <Content Include="assets\font-awesome\fonts\fontawesome-webfont.woff2" />
-    <Content Include="assets\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="assets\lineicons\font-awesome\css\font-awesome.css.map" />
+    <Content Include="assets\lineicons\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="assets\lineicons\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="assets\lineicons\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="assets\lineicons\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="assets\lineicons\font-awesome\fonts\FontAwesome.otf" />
     <Content Include="assets\less\.csscomb.json" />
     <Content Include="assets\less\.csslintrc" />
     <Content Include="assets\less\alerts.less" />
@@ -606,6 +619,25 @@
     <Content Include="assets\bootstrap\package.json" />
     <Content Include="assets\bootstrap\README.md" />
     <Content Include="WebForm2.aspx" />
+    <Content Include="assets\font-awesome\.DS_Store" />
+    <Content Include="assets\font-awesome\css\.DS_Store" />
+    <Content Include="assets\font-awesome\css\font-awesome.css.map" />
+    <Content Include="assets\font-awesome\fonts\.DS_Store" />
+    <Content Include="assets\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="assets\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="assets\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="assets\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="assets\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="assets\jGrowl-master\.gitignore" />
+    <Content Include="assets\jGrowl-master\bower.json" />
+    <Content Include="assets\jGrowl-master\jgrowl.jquery.json" />
+    <Content Include="assets\jGrowl-master\jquery.jgrowl.map" />
+    <Content Include="assets\jGrowl-master\less\jgrowl.core.less" />
+    <Content Include="assets\jGrowl-master\less\jgrowl.less" />
+    <Content Include="assets\jGrowl-master\less\jgrowl.variables.less" />
+    <Content Include="assets\jGrowl-master\LICENSE" />
+    <Content Include="assets\jGrowl-master\package.json" />
+    <Content Include="assets\jGrowl-master\README.md" />
     <None Include="Properties\PublishProfiles\activity.pubxml" />
     <Content Include="Sign_Up.aspx" />
     <Content Include="Web.config" />
@@ -623,6 +655,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>applyProve.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CommonPages\BasePage.aspx.cs">
+      <DependentUpon>BasePage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CommonPages\Captcha.aspx.cs">
+      <DependentUpon>Captcha.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CommonPages\Error.aspx.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

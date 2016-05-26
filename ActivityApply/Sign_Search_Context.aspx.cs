@@ -21,7 +21,7 @@ namespace ActivityApply
         private SignSearchContextBL BL { get { if (_bl == null) _bl = new SignSearchContextBL(); return _bl; } }
         private string _dataCacheKey;
         //儲存使用者密碼
-        private static string user_password;
+        //private static string user_password;
         //活動序號
         private static string act_idn;
         //場次序號
@@ -32,6 +32,7 @@ namespace ActivityApply
         private static string act_title;
         //報名序號
         private static string aa_idn;
+        //場次標題
         private static string as_title;
         //報名人姓名
         private static string name;
@@ -136,13 +137,14 @@ namespace ActivityApply
         /// <param name="e"></param>
         protected void main_gv_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            //判斷是分是否是頁事件
             if (e.CommandName == "Page") return;
             DataTable dt = (DataTable)Cache[_dataCacheKey];
             //取得選擇的row
             GridViewRow gvr = sender as GridViewRow;
             //取得選擇的row的Index
-            int rowIndex = Convert.ToInt32(e.CommandArgument)%10;
-            
+            int rowIndex = Convert.ToInt32(e.CommandArgument) % 10;
+
             //抓取活動序號隱藏欄位
             HiddenField Act_idn_hf = main_gv.Rows[rowIndex].FindControl("Act_idn_hf") as HiddenField;
             //抓取場次序號隱藏欄位
@@ -272,17 +274,22 @@ namespace ActivityApply
                 //顯示忘記密碼按鈕、更改密碼按鈕
                 forget_password_btn.Visible = true;
                 change_password_btn.Visible = true;
-                //抓取使用者密碼
-                DataTable dt_password = BL.GetEmailData(aa_email_hf.Value);
-                //儲存使用者密碼
-                if (dt_password.Rows.Count != 0)
-                    user_password = dt_password.Rows[0]["aae_password"].ToString();
+                ////抓取使用者密碼
+
+                //DataTable dt_password = BL.GetEmailData(aa_email_hf.Value);
+                ////儲存使用者密碼
+                //if (dt_password.Rows.Count != 0)
+                //    user_password = dt_password.Rows[0]["aae_password"].ToString();
             }
             else
             {
-                string error_msg = "無報名資料!";
-                Response.Write("<script language='javascript'>alert('" + error_msg + "');</script>");
-                user_password = null;
+                string msg = "無報名資料!";
+                StringBuilder sb = new StringBuilder();
+                sb.Append("<script language='javascript'>");
+                sb.Append("$.jGrowl('" + msg + "', {position: 'center',theme: 'warning',sticky: false,life:1000})");
+                sb.Append("</script>");
+                ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
+
                 forget_password_btn.Visible = false;
                 change_password_btn.Visible = false;
             }
@@ -293,21 +300,29 @@ namespace ActivityApply
         #region 更換密碼按鈕確認事件
         protected void change_password_ok_btn_Click(object sender, EventArgs e)
         {
+            string captcha = (string)Session[CommonPages.Captcha.CaptchaSessionKey];    // 產生的驗證碼
             //判斷使用者輸入密碼資料是否正確
-            if (user_password == old_password_txt.Text && new_password_txt.Text == new_password_check_txt.Text)
+            if (ValidPassword(aa_email_hf.Value, old_password_txt.Text) && new_password_txt.Text == new_password_check_txt.Text && !captcha.IsNullOrWhiteSpace() && confirm_txt_pf.Value.Trim().EqualsIgnoreCase(captcha.ToUpper()))
             {
+                string password = new_password_txt.Text;
+                string salt = BL.GetEmailData(aa_email_hf.Value).Rows[0]["aae_salt"].ToString().Trim();
+
+                byte[] passwordAndSaltBytes = System.Text.Encoding.UTF8.GetBytes(password + salt);
+                byte[] hashBytes = new System.Security.Cryptography.SHA256Managed().ComputeHash(passwordAndSaltBytes);
+
+                string hashString = Convert.ToBase64String(hashBytes);
+
                 Dictionary<string, object> oldpassworddict = new Dictionary<string, object>();
                 oldpassworddict["aae_email"] = aa_email_hf.Value;
-                oldpassworddict["aae_password"] = user_password;
                 Dictionary<string, object> newpassworddict = new Dictionary<string, object>();
-                newpassworddict["aae_password"] = user_password = new_password_txt.Text;
+                newpassworddict["aae_password"] = hashString;
                 var upres = BL.UpdateData(oldpassworddict, newpassworddict);
                 if (upres.IsSuccess)
                 {
                     string msg = "成功更改密碼!";
                     StringBuilder sb = new StringBuilder();
                     sb.Append("<script language='javascript'>");
-                    sb.Append("alert('" + msg + "')");
+                    sb.Append("$.jGrowl('" + msg + "', {position: 'center',theme: 'success',sticky: false,life:1000})");
                     sb.Append("</script>");
                     ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
                 }
@@ -315,21 +330,33 @@ namespace ActivityApply
                 SystemConfigInfo config_info = CommonHelper.GetSysConfig();
                 CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubjectChange(email), getMailContnetChange());
             }
-            else if (user_password != old_password_txt.Text)
+            else if (ValidPassword(aa_email_hf.Value, old_password_txt.Text))
             {
-                string error_msg = "密碼錯誤!";
+                Page.RegisterStartupScript("Show", "<script language=\"JavaScript\">modal1_open();</script>");
+                string msg = "密碼錯誤!";
                 StringBuilder sb = new StringBuilder();
                 sb.Append("<script language='javascript'>");
-                sb.Append("alert('" + error_msg + "')");
+                sb.Append("$.jGrowl('" + msg + "', {position: 'center',theme: 'error',sticky: false,life:1000})");
                 sb.Append("</script>");
                 ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
             }
             else if (new_password_txt.Text != new_password_check_txt.Text)
             {
-                string error_msg = "新密碼不相同!";
+                Page.RegisterStartupScript("Show", "<script language=\"JavaScript\">modal1_open();</script>");
+                string msg = "新密碼不相同!";
                 StringBuilder sb = new StringBuilder();
                 sb.Append("<script language='javascript'>");
-                sb.Append("alert('" + error_msg + "')");
+                sb.Append("$.jGrowl('" + msg + "', {position: 'center',theme: 'error',sticky: false,life:1000})");
+                sb.Append("</script>");
+                ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
+            }
+            else if (!confirm_txt_pf.Value.Trim().EqualsIgnoreCase(captcha.ToUpper()))
+            {
+                Page.RegisterStartupScript("Show", "<script language=\"JavaScript\">modal1_open();</script>");
+                string msg = "驗證碼錯誤!";
+                StringBuilder sb = new StringBuilder();
+                sb.Append("<script language='javascript'>");
+                sb.Append("$.jGrowl('" + msg + "', {position: 'center',theme: 'error',sticky: false,life:1000})");
                 sb.Append("</script>");
                 ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
             }
@@ -340,27 +367,45 @@ namespace ActivityApply
         protected void get_password_ok_btn_Click(object sender, EventArgs e)
         {
             string email = email_txt.Text;
+            Random rd = new Random();//亂數種子
+            //int password_rd = rd.Next(0, 1000000);//回傳0-999999的亂數
+            string password_rd = getRandStringEx(6);
             //寄信
             SystemConfigInfo config_info = CommonHelper.GetSysConfig();
-            DataTable dt_password = BL.GetEmailData(email);
-            if (dt_password.Rows.Count > 0)
+
+            string password = password_rd;
+            string salt = BL.GetEmailData(aa_email_hf.Value).Rows[0]["aae_salt"].ToString().Trim();
+
+            byte[] passwordAndSaltBytes = System.Text.Encoding.UTF8.GetBytes(password + salt);
+            byte[] hashBytes = new System.Security.Cryptography.SHA256Managed().ComputeHash(passwordAndSaltBytes);
+
+            string hashString = Convert.ToBase64String(hashBytes);
+
+            Dictionary<string, object> old_dt = new Dictionary<string, object>();
+            old_dt["aae_email"] = email;
+            Dictionary<string, object> new_dt = new Dictionary<string, object>();
+            new_dt["aae_password"] = hashString;
+            CommonResult res = BL.UpdateData(old_dt, new_dt);
+            if (res.IsSuccess)
             {
-                CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubject(email), getMailContnet(dt_password));
+                CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubject(email), getMailContnet(password_rd));
                 //Page.RegisterStartupScript("Show", "<script language=\"JavaScript\">closeme();</script>");
-                string error_msg = "已寄送Email到 : " + email;
+                string msg = "已寄送Email到 : " + email;
                 StringBuilder sb = new StringBuilder();
                 sb.Append("<script language='javascript'>");
-                sb.Append("alert('" + error_msg + "')");
+                sb.Append("$.jGrowl('" + msg + "', {position: 'center',theme: 'success',sticky: false,life:1000})");
                 sb.Append("</script>");
                 ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
             }
             else
             {
-                string error_msg = "無此信箱資料!";
+                email_txt.Text = "";
+                string msg = "無此信箱!!";
                 StringBuilder sb = new StringBuilder();
                 sb.Append("<script language='javascript'>");
-                sb.Append("alert('" + error_msg + "')");
+                sb.Append("$.jGrowl('"+ msg + "', {position: 'center',theme: 'error',sticky: false,life:1000})");
                 sb.Append("</script>");
+
                 ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
             }
 
@@ -368,13 +413,12 @@ namespace ActivityApply
         #endregion
 
         #region 信件內容
-        public static string getMailContnet(DataTable dt_password)
+        public static string getMailContnet(string password_rd)
         {
-            string aae_password = dt_password.Rows[0]["aae_password"].ToString();                  // 活動名稱
             string content = "<p> 您好：</p>" +
                                 "<br/>--------------------------------------------------------------------------------------" +
-                                "<p>您的密碼為 : " + aae_password + "" +
-                                "<br/>為了您的帳戶安全，請您立即更改您的密碼" +
+                                "<p>您的新密碼為:"+password_rd +
+                                "<br/>為了您的帳戶安全，請立即更改密碼。" +
                                 "<br/>--------------------------------------------------------------------------------------" +
                                 "<p>※這是由系統自動發出的通知信，請勿回覆，感謝您的配合。</p>";
             return content;
@@ -409,8 +453,8 @@ namespace ActivityApply
         {
             string content = "<p> 您好：</p>" +
                                 "<br/>--------------------------------------------------------------------------------------" +
-                                "<p>您的密碼已經被更改為:&nbsp;" + user_password + "&nbsp;，請確認是否是您本人" +
-                                "<br/>為了您的安全，如果不是您請立即更改您的密碼" +
+                                "<p>您的密碼已被更改" +
+                                "<br/>為了您的帳戶安全，若非本人修改，請立即聯絡客服人員!" +
                                 "<br/>--------------------------------------------------------------------------------------" +
                                 "<p>※這是由系統自動發出的通知信，請勿回覆，感謝您的配合。</p>";
             return content;
@@ -432,62 +476,76 @@ namespace ActivityApply
         #region 修改報名資料、刪除按鈕，輸入密碼確認事件
         protected void password_ok_btn_Click(object sender, EventArgs e)
         {
-            if (user_password == password_txt.Text && Session["user_password"] == null)
-                Session["user_password"] = password_txt.Text;
+            
+            string captcha = (string)Session[CommonPages.Captcha.CaptchaSessionKey];    // 產生的驗證碼
+            
+            if((!captcha.IsNullOrWhiteSpace() && confirm_txt_pf.Value.Trim().EqualsIgnoreCase(captcha.ToUpper())) || Session["user_password"] != null)
+            {
+                if (ValidPassword(aa_email_hf.Value , password_txt.Text) || Session["user_password"] != null)
+                {
+                    if(Session["user_password"] == null)
+                        Session["user_password"] = password_txt.Text;
+                    //判斷使用者密碼是否正確以及是按了修改還是刪除按鈕
+                    if (gridview_event == "edit")
+                    {
+                        Session["aa_idn"] = aa_idn;
+                        Session["act_idn"] = act_idn;
+                        Session["as_idn"] = as_idn;
+                        Response.Redirect("Sign_Change.aspx");
+                    }
+                    else if (gridview_event == "delete")
+                    {
+                        DataTable columndt = BL.GetColumnData(act_idn);
+                        for (int count = 0; count < columndt.Rows.Count; count++)
+                        {
+                            Dictionary<string, object> detaildict = new Dictionary<string, object>();
+                            detaildict["aad_apply_id"] = aa_idn;
+                            detaildict["aad_col_id"] = columndt.Rows[count][0].ToString();
+                            var detailres = BL.DeleteDetailData(detaildict);
 
-            //判斷使用者密碼是否正確以及是按了修改還是刪除按鈕
-            if (Session["user_password"] != null && Session["user_password"].ToString() == user_password && gridview_event == "edit")
-            {
-                Session["aa_idn"] = aa_idn;
-                Session["act_idn"] = act_idn;
-                Session["as_idn"] = as_idn;
-                Response.Redirect("Sign_Change.aspx");
-                //Server.Transfer("SignChange.aspx",true);
-                //Page.RegisterStartupScript("Show", "<script language=\"JavaScript\">change();</script>");
-                //Response.Redirect("SignChange.aspx?act_idn=" + act_idn + "&as_idn=" + as_idn);
-            }
-            else if (Session["user_password"] != null && Session["user_password"].ToString() == user_password && gridview_event == "delete")
-            {
-                DataTable columndt = BL.GetColumnData(act_idn);
-                for (int count = 0; count < columndt.Rows.Count; count++)
-                {
-                    Dictionary<string, object> detaildict = new Dictionary<string, object>();
-                    detaildict["aad_apply_id"] = aa_idn;
-                    detaildict["aad_col_id"] = columndt.Rows[count][0].ToString();
-                    var detailres = BL.DeleteDetailData(detaildict);
-
+                        }
+                        Dictionary<string, object> applydict = new Dictionary<string, object>();
+                        applydict["aa_idn"] = aa_idn;
+                        var applyres = BL.DeleteApplyData(applydict);
+                        //如果刪除成功則寄信通知
+                        if (applyres.IsSuccess)
+                        {
+                            string email = aa_email_hf.Value;
+                            SystemConfigInfo config_info = CommonHelper.GetSysConfig();
+                            DataTable dt_email = _bl.GetActivityData(Int32.Parse(act_idn), Int32.Parse(as_idn));
+                            CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubjectDelete(), getMailContnetDelete(dt_email, name));
+                        }
+                        DataTable dt = GetData(true);
+                        if (dt.Rows.Count == 0)
+                        {
+                            forget_password_btn.Visible = false;
+                            change_password_btn.Visible = false;
+                        }
+                        BindGridView(GetData(true));
+                    }
                 }
-                Dictionary<string, object> applydict = new Dictionary<string, object>();
-                applydict["aa_idn"] = aa_idn;
-                var applyres = BL.DeleteApplyData(applydict);
-                //如果刪除成功則寄信通知
-                if (applyres.IsSuccess)
+                else 
                 {
-                    string email = aa_email_hf.Value;
-                    SystemConfigInfo config_info = CommonHelper.GetSysConfig();
-                    DataTable dt_email = _bl.GetActivityData(Int32.Parse(act_idn), Int32.Parse(as_idn));
-                    CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubjectDelete(), getMailContnetDelete(dt_email, name));
+                    password_pop.Show();
+                    password_txt.Focus();
+                    Session["user_password"] = null;
+                    string msg = "密碼錯誤!";
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append("<script language='javascript'>");
+                    sb.Append("$.jGrowl('" + msg + "', {position: 'center',theme: 'error',sticky: false,life:1000})");
+                    sb.Append("</script>");
+                    ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
                 }
-                DataTable dt = GetData(true);
-                if (dt.Rows.Count == 0)
-                {
-                    forget_password_btn.Visible = false;
-                    change_password_btn.Visible = false;
-                }
-                BindGridView(GetData(true));
             }
-            else if (Session["user_password"] != null && Session["user_password"].ToString() == user_password && gridview_event == "Custom_dowload")
+            else if (!confirm_txt_pf.Value.Trim().EqualsIgnoreCase(captcha.ToUpper()))
             {
-                //password_pop.Hide();
-                Page.RegisterStartupScript("Show", "<script language=\"JavaScript\">download();</script>");
-                //print_ApplyProve(Int32.Parse(aa_idn));
-            }
-            else
-            {
-                string error_msg = "密碼錯誤!";
+                password_pop.Show();
+                password_txt.Focus();
+                Session["user_password"] = null;
+                string msg = "驗證碼錯誤!";
                 StringBuilder sb = new StringBuilder();
                 sb.Append("<script language='javascript'>");
-                sb.Append("alert('" + error_msg + "')");
+                sb.Append("$.jGrowl('" + msg + "', {position: 'center',theme: 'error',sticky: false,life:1000})");
                 sb.Append("</script>");
                 ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
             }
@@ -513,10 +571,55 @@ namespace ActivityApply
         }
         #endregion
 
+        #region GridView分頁事件
         protected void main_gv_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             main_gv.PageIndex = e.NewPageIndex;
             BindGridView(GetData(false));
+        }
+        #endregion
+
+        #region 英數亂數產生
+        public static String getRandStringEx(int length)
+        {
+            char[] charList = { '0','1','2','3','4','5','6','7','8','9',
+                                'A','B','C','D','E','F','G','H','I','J','K','L','M',
+                                'N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+                                'a','b','c','d','e','f','g','h','i','j','k','l','m',
+                                'n','o','p','q','r','s','t','u','v','w','x','y','z'};
+            char[] rev = new char[length];
+            Random f = new Random();
+            for (int i = 0; i < length; i++)
+            {
+                rev[i] = charList[Math.Abs(f.Next(1,61))];
+            }
+            return new String(rev);
+        }
+        #endregion
+
+        /// <summary> 
+        /// 驗證使用者密碼 
+        /// </summary> 
+        /// <param name="email">信箱</param> 
+        /// <param name="password">密碼</param> 
+        /// <returns></returns> 
+        protected bool ValidPassword(string email, string password)
+        {
+            DataTable dt = BL.GetEmailData(email);
+            string salt = dt.Rows[0]["aae_salt"].ToString().Trim();
+            string pwd = dt.Rows[0]["aae_password"].ToString().Trim();
+            byte[] passwordAndSaltBytes = System.Text.Encoding.UTF8.GetBytes(password + salt);
+            byte[] hashBytes = new System.Security.Cryptography.SHA256Managed().ComputeHash(passwordAndSaltBytes);
+            string hashString = Convert.ToBase64String(hashBytes);
+
+            if (hashString == pwd)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

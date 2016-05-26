@@ -9,7 +9,19 @@
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/validation/jquery.validate.js") %>"></script>
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/validation/messages_zh_TW.js") %>"></script>
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/validation/additional-methods.js") %>"></script>
+
+    <!-- Jquery Strength -->
+    <link href="<%=ResolveUrl("~/assets/css/strength.css")%>" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/strength.js") %>"></script>
     <style type="text/css">
+        .strength_meter {
+            top: 0px;
+            width: 100%;
+            padding-right: 0px;
+        }
+        .col-xs-12{
+            padding:0px
+        }
         .p {
             margin-top: 8px;
         }
@@ -110,7 +122,6 @@
             </div>
             <!-- /.panel -->
 
-
             <!-- 報名資料GridView -->
             <div class="table-responsive dataTable_wrapper" style="margin-bottom: 70px;">
                 <asp:UpdatePanel ID="lup" runat="server" ChildrenAsTriggers="False" UpdateMode="Conditional">
@@ -134,7 +145,8 @@
                                     <ItemTemplate>
                                         <a title="<%# Eval("As_title") %>" style="color: #333333; cursor: default">
                                             <p style="width: 110px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0px">
-                                                <asp:Label ID="As_title_lbl" runat="server" Text='<%# Bind("As_title") %>'></asp:Label></p>
+                                                <asp:Label ID="As_title_lbl" runat="server" Text='<%# Bind("As_title") %>'></asp:Label>
+                                            </p>
                                         </a>
                                         <asp:HiddenField ID="As_idn_hf" runat="server" Value='<%# Bind("As_idn") %>' Visible="false" ViewStateMode="Enabled" />
                                         <asp:HiddenField ID="As_title_hf" runat="server" Value='<%# Bind("As_title") %>' Visible="false" ViewStateMode="Enabled" />
@@ -220,11 +232,32 @@
                     <h4 class="modal-title">請輸入密碼</h4>
                 </div>
                 <div class="modal-body">
-                    <asp:TextBox CssClass="form-control placeholder-no-fix" ID="password_txt" runat="server" TextMode="Password" minlength="4" MaxLength="20"></asp:TextBox>
+                    <div class="row">
+                        <div class="col-xs-1" style="padding: 0px">
+                            <p class="p">密碼</p>
+                        </div>
+                        <div class="col-xs-10" style="padding-left: 27px;">
+                            <asp:TextBox CssClass="form-control placeholder-no-fix" ID="password_txt" runat="server" TextMode="Password" minlength="4" MaxLength="20" placeholder="密碼"></asp:TextBox>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-xs-2" style="padding: 0px">
+                            <p class="p">驗證碼</p>
+                        </div>
+                        <div class="col-xs-3" style="padding: 0px;">
+                            <input type="text" id="confirm_txt1" class="form-control placeholder-no-fix" maxlength="4" autocomplete="off" style="display: inherit;" placeholder="驗證碼" />
+                        </div>
+                        <div class="col-xs-1" style="margin-top: 5px;">
+                            <span id="captchaBox1">
+                                <img alt="" class="captcha" src="<%=ResolveUrl("~/CommonPages/Captcha.aspx") %>" />
+                            </span>
+                            <span class="refeshBtn" title="更新驗證碼圖片" id="captchaRefresh1" style=""></span>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <asp:Button ID="password_cancle_btn" runat="server" Text="取消" CssClass="btn btn-default" />
-                    <asp:Button ID="password_ok_btn" runat="server" Text="確定" OnClick="password_ok_btn_Click" CssClass="btn btn-info" />
+                    <asp:Button ID="password_ok_btn" runat="server" Text="確定" OnClick="password_ok_btn_Click" CssClass="btn btn-info" OnClientClick="encryptPwd1();" />
                 </div>
             </div>
         </div>
@@ -242,15 +275,40 @@
                 </div>
                 <div class="modal-body">
                     <p class="p">舊密碼</p>
-                    <asp:TextBox ID="old_password_txt" runat="server" CssClass="form-control placeholder-no-fix" TextMode="Password" minlength="4" MaxLength="20"></asp:TextBox>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <asp:TextBox ID="old_password_txt" runat="server" CssClass="form-control placeholder-no-fix" TextMode="Password" minlength="4" MaxLength="20"></asp:TextBox>
+                        </div>
+                    </div>
                     <p class="p">新密碼</p>
-                    <asp:TextBox ID="new_password_txt" runat="server" CssClass="form-control placeholder-no-fix" TextMode="Password" minlength="4" MaxLength="20"></asp:TextBox>
+                    <div class="row" style="height:34px;">
+                        <div class="col-xs-12">
+                            <asp:TextBox ID="new_password_txt" runat="server" CssClass="form-control placeholder-no-fix" TextMode="Password" minlength="4" MaxLength="20"></asp:TextBox>
+                        </div>
+                    </div>
+
                     <p class="p">再次確認密碼</p>
-                    <asp:TextBox ID="new_password_check_txt" runat="server" CssClass="form-control placeholder-no-fix" TextMode="Password" minlength="4" MaxLength="20"></asp:TextBox>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <asp:TextBox ID="new_password_check_txt" runat="server" CssClass="form-control placeholder-no-fix" TextMode="Password" minlength="4" MaxLength="20"></asp:TextBox>
+                        </div>
+                    </div>
+                    <p class="p">驗證碼</p>
+                    <div class="row">
+                        <div class="col-xs-3" style="padding: 0px;">
+                            <input type="text" id="confirm_txt" class="form-control placeholder-no-fix" maxlength="4" autocomplete="off" style="display: inherit;" />
+                        </div>
+                        <div class="col-xs-1" style="margin-top: 5px;">
+                            <span id="captchaBox">
+                                <img alt="" class="captcha" src="<%=ResolveUrl("~/CommonPages/Captcha.aspx") %>" />
+                            </span>
+                            <span class="refeshBtn" title="更新驗證碼圖片" id="captchaRefresh" style=""></span>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
-                    <asp:Button ID="change_password_ok_btn" runat="server" Text="確定" OnClick="change_password_ok_btn_Click" CssClass="btn btn-info" />
+                    <asp:Button ID="change_password_ok_btn" runat="server" Text="確定" OnClick="change_password_ok_btn_Click" CssClass="btn btn-info" OnClientClick="encryptPwd();" />
                 </div>
             </div>
         </div>
@@ -278,12 +336,22 @@
     </div>
     <!-- modal -->
 
-
+    <asp:HiddenField ID="confirm_txt_pf" runat="server" />
     <script type="text/javascript">
         $(document).ready(function () {
+            //$.jGrowl('無此信箱', {position: 'center',theme: 'success',sticky: true})
+
             //判斷更改密碼內新密碼確是否相同
             $("#<%=new_password_txt.ClientID %>").rules("add", { required: true, minlength: 4 });
+            $("#<%=new_password_txt.ClientID %>").css({'z-index': 2,'position': 'absolute', 'background': 'transparent'});
             $("#<%=new_password_check_txt.ClientID %>").rules("add", { required: true, equalTo: $("#<%=new_password_txt.ClientID %>") });
+            $("#<%=new_password_txt.ClientID %>").strength({
+                strengthClass: 'strength',
+                strengthMeterClass: 'strength_meter',
+                strengthButtonClass: 'button_strength',
+                strengthButtonText: 'Show Password',
+                strengthButtonTextToggle: 'Hide Password'
+            });
             //設定麵包削尋覽
             setSessionBread();
             
@@ -291,11 +359,17 @@
             $("#<%=aa_email_txt.ClientID %>").keypress(function (event) {
                 if (event.keyCode == 13) {
                     $("#<%=search_btn.ClientID %>").click();
-                    return false;
-                }
+                return false;
+            }
             });
             //打完密碼按下Enter會去按確認按鈕
             $("#<%=password_txt.ClientID %>").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    $("#<%=password_ok_btn.ClientID %>").click();
+                    return false;
+                }
+            });
+            $("#confirm_txt1").keypress(function (event) {
                 if (event.keyCode == 13) {
                     $("#<%=password_ok_btn.ClientID %>").click();
                     return false;
@@ -320,6 +394,12 @@
                     return false;
                 }
             });
+            $("#confirm_txt").keypress(function (event) {
+                if (event.keyCode == 13) {
+                    $("#<%=change_password_ok_btn.ClientID %>").click();
+                    return false;
+                }
+            });
             //忘記密碼Enter事件
             $("#<%=email_txt.ClientID %>").keypress(function (event) {
                 if (event.keyCode == 13) {
@@ -332,8 +412,8 @@
 
         function check(){
             if($.trim($("#<%= email_txt.ClientID %>").val()) == ""){
-                alert("請輸入信箱!");
-                $("#<%= email_txt.ClientID %>").focus();
+            alert("請輸入信箱!");
+            $("#<%= email_txt.ClientID %>").focus();
                 return false;
             }
             else
@@ -361,10 +441,26 @@
         } 
         //#endregion 
 
-        //下載報名資訊
+        //#rehion 下載報名資訊
         function download(){
             $("#<%=download.ClientID%>").click();
-        }
+            }
+            //#endregion
+
+            //#region 輸入密碼確認事件 
+            function encryptPwd() {
+                $("#<%=confirm_txt_pf.ClientID%>").val($("#confirm_txt").val());
+    }
+    function encryptPwd1() {
+        $("#<%=confirm_txt_pf.ClientID%>").val($("#confirm_txt1").val());
+            }
+            //#endregion
+
+            //#region 更改密碼視窗開啟
+            function modal1_open(){
+                $("#myModal").modal('show')
+            }
+            //#endregion
     </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="pageUnitEnd" runat="server">

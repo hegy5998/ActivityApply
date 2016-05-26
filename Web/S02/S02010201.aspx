@@ -1191,15 +1191,45 @@
                         '</div>' +
                     '</div>');
             //呼叫日期時間選擇器
-            $(function () {
                 $.datetimepicker.setLocale('zh-TW');
-                $("input[id*=Start]").datetimepicker({
-                    defaultTime: '00:00:00'
+                $("#datetimepicker_Activity_Sign_Start_txt_" + sessionId).datetimepicker({
+                    defaultTime: '00:00:00',
+                    onShow: function (ct, $i) {                        
+                        var i = $i.attr("id").split("_")[$i.attr("id").split("_").length - 1];
+                        this.setOptions({                            
+                            maxDate: $("#datetimepicker_Activity_Sign_End_txt_" + i).val() ? $("#datetimepicker_Activity_Sign_End_txt_" + i).val() : false
+                        })
+                    }
                 });
-                $("input[id*=End]").datetimepicker({
-                    defaultTime: '23:59:59'
+                $("#datetimepicker_Activity_Sign_End_txt_" + 1).datetimepicker({
+                    defaultTime: '23:59:59',
+                    onShow: function (ct, $i) {
+                        var i = $i.attr("id").split("_")[$i.attr("id").split("_").length - 1];
+                        this.setOptions({
+                            minDate: $("#datetimepicker_Activity_Sign_Start_txt_" + i).val() ? $("#datetimepicker_Activity_Sign_Start_txt_" + i).val() : false,
+                            maxDate: $("#datetimepicker_Activity_End_txt_" + i).val() ? $("#datetimepicker_Activity_End_txt_" + i).val() : false
+                        })
+                    }
                 });
-            });
+                $("#datetimepicker_Activity_Start_txt_" + sessionId).datetimepicker({
+                    defaultTime: '00:00:00',
+                    onShow: function (ct, $i) {
+                        var i = $i.attr("id").split("_")[$i.attr("id").split("_").length - 1];
+                        this.setOptions({
+                            minDate: $("#datetimepicker_Activity_Sign_Start_txt_" + i).val() ? $("#datetimepicker_Activity_Sign_Start_txt_" + i).val() : false,
+                            maxDate: $("#datetimepicker_Activity_End_txt_" + i).val() ? $("#datetimepicker_Activity_End_txt_" + i).val() : false
+                        })
+                    }
+                });
+                $("#datetimepicker_Activity_End_txt_" + sessionId).datetimepicker({
+                    defaultTime: '23:59:59',
+                    onShow: function (ct, $i) {
+                        var i = $i.attr("id").split("_")[$i.attr("id").split("_").length - 1];
+                        this.setOptions({
+                            minDate: $("#datetimepicker_Activity_Start_txt_" + i).val() ? $("#datetimepicker_Activity_Start_txt_" + i).val() : false
+                        })
+                    }
+                });
             //場次名稱是否填寫的判斷
             $("#session_Name_txt_" + sessionId).blur(function () {
                 var choose_Session_Name_temp = $(this).attr("id");

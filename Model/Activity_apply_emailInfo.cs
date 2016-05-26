@@ -29,6 +29,12 @@ namespace Model
         /// <summary>
         ///  
         /// </summary>
+        [Column("aae_salt")]
+        public String Aae_salt { get; set; }
+
+        /// <summary>
+        ///  
+        /// </summary>
         [Column("createtime")]
         public DateTime? Createtime { get; set; }
 

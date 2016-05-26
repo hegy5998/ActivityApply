@@ -112,6 +112,7 @@
 
         //#region 初始化
         $(document).ready(function () {
+
             getClass();
             //判斷搜尋列輸入完後如果按ENTER則要執行搜尋功能
             $("#search_txt").keypress(function (event) {
@@ -243,7 +244,7 @@
                     r = 2;
                 else if (6 <= r && r < 9)
                     r = 3;
-                $("#a"+r).append('<div class="col-lg-4 result">\
+                $("#a" + r).append('<div class="col-lg-4 result">\
                                             <div class="panel panel-info">\
                                                 <div class="panel-heading"><a target="_self" href="Activity.aspx?act_class=' + ActivityInfo[count].act_class + '&act_idn=' + ActivityInfo[count].act_idn + '&act_title=' + ActivityInfo[count].act_title + '" title="' + ActivityInfo[count].act_title + ' 場次數:' + ActivityInfo[count].num + '"><h4>' + ActivityInfo[count].act_title + '<a title="場次數" style="cursor: help;">  <spna class="badge bg-info" style="background-color: #35BCFF;font-size: 15px;margin-bottom: 3px;">' + ActivityInfo[count].num + '</span></a></h4></a></div>\
                                                     <div class="panel-body">\

@@ -310,7 +310,10 @@
 
             }
             $.datetimepicker.setLocale('zh-TW');
-            $('.datetimepicker').datetimepicker();
+            $('.datetimepicker').datetimepicker({
+                timepicker: false,
+                format: 'Y/m/d'
+            });
             $(document).dequeue("myQueue");
         }
         //#endregion

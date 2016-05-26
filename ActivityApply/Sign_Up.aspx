@@ -17,6 +17,9 @@
             $("#form1").validate();
         });
     </script>
+    <!-- Jquery Strength -->
+    <link href="<%=ResolveUrl("~/assets/css/strength.css")%>" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/strength.js") %>"></script>
 
     <style type="text/css">
         /* 欄位控制項 */
@@ -164,8 +167,15 @@
                         }
                         else {
                             Add_SetPwd();
-                            $("#password").rules("add", { required: true, minlength: 4, maxlength: 20 });
+                            $("#password").rules("add", { required: true, minlength: 6, maxlength: 20 });
                             $("#confirm_password").rules("add", { required: true, equalTo: "#password" });
+                            $("#password").strength({
+                                strengthClass: 'strength',
+                                strengthMeterClass: 'strength_meter',
+                                strengthButtonClass: 'button_strength',
+                                strengthButtonText: 'Show Password',
+                                strengthButtonTextToggle: 'Hide Password'
+                            });
                         }
                     }
                     resizeJquerySteps();
@@ -272,7 +282,10 @@
                 $("#qus_div_" + i).find('select').css({ 'width': '99%' });
             }
             $.datetimepicker.setLocale('zh-TW');
-            $('.datetimepicker').datetimepicker();
+            $('.datetimepicker').datetimepicker({
+                timepicker: false,
+                format: 'Y/m/d'
+            });
             $(document).dequeue("myQueue");
         }
         //#endregion

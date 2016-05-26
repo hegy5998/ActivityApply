@@ -150,10 +150,18 @@ namespace ActivityApply
         public static bool savePassword(List<Activity_apply_emailInfo> Activity_apply_emailInfo)
         {
             Sign_UpBL _bl = new Sign_UpBL();
+            string password = Activity_apply_emailInfo[0].Aae_password;
+            string salt = Guid.NewGuid().ToString();
+
+            byte[] passwordAndSaltBytes = System.Text.Encoding.UTF8.GetBytes(password + salt);
+            byte[] hashBytes = new System.Security.Cryptography.SHA256Managed().ComputeHash(passwordAndSaltBytes);
+
+            string hashString = Convert.ToBase64String(hashBytes);
 
             Dictionary<String, Object> save_Activity_apply_email = new Dictionary<string, object>();
             save_Activity_apply_email["aae_email"] = Activity_apply_emailInfo[0].Aae_email;
-            save_Activity_apply_email["aae_password"] = Activity_apply_emailInfo[0].Aae_password;
+            save_Activity_apply_email["aae_password"] = hashString;
+            save_Activity_apply_email["aae_salt"] = salt;
 
             var result = _bl.InsertData_Password(save_Activity_apply_email);
             if (result.IsSuccess)
