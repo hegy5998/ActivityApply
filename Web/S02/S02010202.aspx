@@ -111,7 +111,10 @@
                 }
                 $("#question_div_" + questionInfo[i].Acc_asc).append(decodeURI(code));
                 $.datetimepicker.setLocale('zh-TW');
-                $('.datetimepicker').datetimepicker();
+                $('.datetimepicker').datetimepicker({
+                    timepicker: false,
+                    format: 'Y/m/d'
+                });
             }
         }
         //#endregion

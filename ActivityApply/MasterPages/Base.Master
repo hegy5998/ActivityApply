@@ -66,9 +66,20 @@
 
 
     <style type="text/css">
-        .jGrowl-closer{
-            background-color:#5E5E5E;
+        .jGrowl.center {
+            top: 0;
+            width: 100%;
+            left: 0%;
         }
+
+        .jGrowl-close {
+            display: none;
+        }
+
+        .jGrowl-closer {
+            background-color: #5E5E5E;
+        }
+
         div.jGrowl div.success {
             background-color: #99f19e;
             color: #6E6E6E;
@@ -76,6 +87,7 @@
             text-align: center;
             font-size: large;
         }
+
         div.jGrowl div.error {
             background-color: #f1404b;
             color: #FFFFFF;
@@ -83,6 +95,7 @@
             text-align: center;
             font-size: large;
         }
+
         div.jGrowl div.warning {
             background-color: #feee7d;
             color: #6E6E6E;

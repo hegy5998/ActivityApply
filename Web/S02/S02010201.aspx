@@ -353,8 +353,8 @@
                     </div>--%>
                     <div class="checkbox">
                         <label>
-                            <input name="check_usually_Column" type="checkbox" value="出生年月日" />
-                            出生年月日
+                            <input name="check_usually_Column" type="checkbox" value="生日" />
+                            生日
                         </label>
                     </div>
                     <div class="checkbox">
@@ -611,8 +611,8 @@
                         case "身份證字號":
                             add_Preset_Qus_Click("身份證字號", "英文字母請大寫", null, "text", "idNumber", [], true);
                             break;
-                        case "出生年月日":
-                            add_Preset_Qus_Click("出生年月日", "ex:83/07/08", null, "text", "date", [], true);
+                        case "生日":
+                            add_Preset_Qus_Click("生日", "", null, "text", "date", [], true);
                             break;
                         case "服務單位":
                             add_Preset_Qus_Click("服務單位", "請填寫完整名稱", null, "text", "", [], true);
@@ -1201,7 +1201,7 @@
                         })
                     }
                 });
-                $("#datetimepicker_Activity_Sign_End_txt_" + 1).datetimepicker({
+                $("#datetimepicker_Activity_Sign_End_txt_" + sessionId).datetimepicker({
                     defaultTime: '23:59:59',
                     onShow: function (ct, $i) {
                         var i = $i.attr("id").split("_")[$i.attr("id").split("_").length - 1];
@@ -1932,12 +1932,20 @@
 
                                 });
                                 //將上面抓到的div裡面所有的input轉成序列儲存
-                                var $option = $option_div.find($('[name="qus_Options"]')).serialize();
+                                //var $option = $option_div.find($('[name="qus_Options"]')).serialize();
+                                var $merge = "qus_Options=";
+                                var $option = $option_div.find($('[name="qus_Options"]'));
+                                for (var cc = 0 ; cc < $option.length ; cc++) {
+                                    var a = $option[cc];
+                                    $merge += encodeURI($(a).val());
+                                    if (cc != $option.length - 1)
+                                        $merge += "&qus_Options=";
+                                }
                                 //var $option = $.map($option_div.find($('[name="qus_Options"]')), function ($op) {
                                 //    return $($op).val();
                                 //})
                                 //儲存選項序列
-                                activity_Column_Json_Data.Acc_option = $option;
+                                activity_Column_Json_Data.Acc_option = $merge;
 
                             }
                             //問題順序加一

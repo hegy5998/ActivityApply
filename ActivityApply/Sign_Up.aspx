@@ -46,6 +46,7 @@
         label.error {
             color: red;
         }
+
         table {
             box-shadow: none;
         }
@@ -55,7 +56,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="sideCon" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="mainCon" runat="server">
-    <div class="advanced-form row" style="display: none; padding-top: 25px;padding-bottom: 25px;">
+    <div class="advanced-form row" style="display: none; padding-top: 25px; padding-bottom: 25px;">
         <h3>活動報名</h3>
         <section>
             <h3><i class="fa fa-angle-right"></i>活動報名</h3>
@@ -80,9 +81,8 @@
         <h3>設定密碼</h3>
         <section>
             <h3><i class="fa fa-angle-right"></i>設定密碼</h3>
-            <div  class="col-sm-8 form-horizontal panel panel-default style-form">
+            <div class="col-sm-8 form-horizontal panel panel-default style-form">
                 <div id="password_div" class="panel-body">
-
                 </div>
             </div>
         </section>
@@ -99,7 +99,9 @@
     </div>
 
 
+
     <script type="text/javascript">
+        var title;
         var sectionList;
         var questionList;
         var email;
@@ -113,6 +115,7 @@
         });
 
         $(document).ready(function () {
+            
             var funcList = [getSectionList,
                             getQuestionList,
                             resizeJquerySteps];
@@ -199,9 +202,8 @@
             function resizeJquerySteps() {
                 $('.wizard .content').animate({ height: $('.body.current').outerHeight() }, "slow");
             }
-            form.show();            
+            form.show();
             //#endregion
-
         })
         /* 活動報名 */
         // #region 取得區塊列表
@@ -633,6 +635,8 @@
             $("#add_breach").append('<li>報名</li>');
         }
         //#endregion
+
+
     </script>
 
 </asp:Content>

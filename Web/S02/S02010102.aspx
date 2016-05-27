@@ -121,7 +121,7 @@
         <!-- 多選 END -->
 
         <%--新增密碼跳出視窗--%>
-        <asp:ModalPopupExtender ID="emailpassword_mpe" runat="server" PopupControlID="emailpassword_pl" TargetControlID="email_OK_btn" BackgroundCssClass="popupWindowOverlay" OkControlID="email_cancel_btn"></asp:ModalPopupExtender>
+        <asp:ModalPopupExtender ID="emailpassword_mpe" runat="server" PopupControlID="emailpassword_pl" TargetControlID="email_OK_btn" BackgroundCssClass="popupWindowOverlay" OkControlID=""></asp:ModalPopupExtender>
 
         <!-- 新增密碼 START -->
         <asp:Panel ID="emailpassword_pl" class="popupWindow" runat="server" Visible="false">
@@ -137,7 +137,7 @@
                 </div>
 
                 <!-- 關閉按鈕 -->
-                <asp:Button ID="email_cancel_btn" CssClass="close" runat="server" Text="關閉" ToolTip="關閉" OnClick="control_cancel_btn_Click" UseSubmitBehavior="False" />
+                <%--<asp:Button ID="email_cancel_btn" CssClass="close" runat="server" Text="關閉" ToolTip="關閉" OnClick="control_cancel_btn_Click" UseSubmitBehavior="False" />--%>
                 <asp:Button ID="email_OK_btn" CssClass="open" runat="server" Text="開啟" ToolTip="開啟" UseSubmitBehavior="False" />
             </div>
             <!-- 標頭 END -->

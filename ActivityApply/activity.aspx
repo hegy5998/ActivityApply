@@ -97,7 +97,31 @@
     </div>
     <!-- modal -->
 
-    <script>
+    <!-- 個資聲明_Modal -->
+    <div aria-hidden="true" aria-labelledby="myModalLabel" data-backdrop="static" role="dialog" tabindex="-1" id="person_data_Modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">個資聲明</h4>
+                </div>
+                <div class="modal-body">
+                    <label id="person_data">
+                        逢甲大學為XXXX之目的，本XXXX所蒐集之個人資訊，將僅作為XXXXXXXXXXX之用，(請依實際情形載明利用個資的期間、地區、對象及方式)。
+                        您得以下列聯絡方式行使查閱、更正等個人資料保護法第3條的當事人權利。如您提供的資料不完整或不確實，將可能無法完成本次申請 / 享有本次服務。
+                        聯絡方式：台中市西屯區文華路100號, 電話(04)24517250 分機XXXX, Email: XXXX@fcu.edu.tw。
+                    </label>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default" onclick="personal_cnacle()">取消</a>
+                    <a href="#" id="personal_ok_btn" class="btn btn-info" onclick="personal_ok()">確定</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal -->
+
+    <script type="text/javascript">
         $(document).ready(function () {
             //產生活動資訊
             getActivityList();
@@ -270,6 +294,7 @@
                     apply_num = SessionInfo[count].apply_num;
                 if (SessionInfo[count].as_remark == "")
                     as_remark_vis = "display:none;";
+                var url = new String('Sign_Up.aspx?act_idn=' + SessionInfo[count].as_act + '&as_idn=' + SessionInfo[count].as_idn + '&act_class=' + $.url().param("act_class") + '&act_title=' + $.url().param("act_title"));
                 $("#add_Session_div").append('<div class="panel panel-default">\
                                                 <div class="panel-heading">活動場次</div>\
                                                     <div class="panel-body">\
@@ -280,10 +305,10 @@
                                                             <br>報名/限制人數：' + apply_num + '/' + SessionInfo[count].as_num_limit + '人\
                                                             <br><p style="' + as_remark_vis + ' margin:0px;">備註：' + SessionInfo[count].as_remark + '</p>\
                                                             <br>\
-                                                            <a id="apply_btn_' + count + '" href="Sign_Up.aspx?act_idn=' + SessionInfo[count].as_act + '&as_idn=' + SessionInfo[count].as_idn + '&act_class=' + $.url().param("act_class") + '&act_title=' + $.url().param("act_title") + '" class="btn btn-info" data-toggle="tooltip" data-placement="right" style="color: white;">我要報名</a>\
+                                                            <a id="apply_btn_' + count + '" onclick=openss("'+url+'") class="btn btn-info" data-toggle="tooltip" data-placement="right" style="color: white;">我要報名</a>\
                                                         </div>');
                 if (apply_num >= SessionInfo[count].as_num_limit) {
-                    $("#apply_btn_" + count).attr("href", 'javascript:void(0)');
+                    $("#apply_btn_" + count).attr("onclick", 'javascript:void(0)');
                     $("#apply_btn_" + count).html("名額已滿");
                     $("#apply_btn_" + count).removeClass("btn-info");
                     $("#apply_btn_" + count).addClass("btn_info_dis");
@@ -295,14 +320,14 @@
                 var NowDate = new Date();
                 //判斷報名結束時間是否結束
                 if (apply_end < NowDate) {
-                    $("#apply_btn_" + count).attr("href", 'javascript:void(0)');
+                    $("#apply_btn_" + count).attr("onclick", 'javascript:void(0)');
                     $("#apply_btn_" + count).html("報名日期截止");
                     $("#apply_btn_" + count).removeClass("btn-info");
                     $("#apply_btn_" + count).addClass("btn_info_dis");
                 }
                 //判斷是否開始報名
                 if (apply_start > NowDate) {
-                    $("#apply_btn_" + count).attr("href", 'javascript:void(0)');
+                    $("#apply_btn_" + count).attr("onclick", 'javascript:void(0)');
                     $("#apply_btn_" + count).html("尚未開放報名");
                     $("#apply_btn_" + count).removeClass("btn-info");
                     $("#apply_btn_" + count).addClass("btn_info_dis");
@@ -320,6 +345,15 @@
             else
                 return "";
         };
+
+        function openss(url) {
+            $("#personal_ok_btn").attr('href', url);
+            $("#person_data_Modal").modal('show');
+        }
+
+        function personal_cnacle() {
+            $("#person_data_Modal").modal('hide');
+        }
 
     </script>
 </asp:Content>

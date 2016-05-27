@@ -59,6 +59,7 @@
     <Compile Include="Common\Sys_login_logInfoExt.cs" />
     <Compile Include="Common\Sys_moduleInfoExt.cs" />
     <Compile Include="Common\Sys_processcontrol_roleInfoExt.cs" />
+    <Compile Include="Common\Activity_sectionInfoExt.cs" />
     <Compile Include="Common\Sys_processInfoExt.cs" />
     <Compile Include="Common\Sys_process_roleInfoExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

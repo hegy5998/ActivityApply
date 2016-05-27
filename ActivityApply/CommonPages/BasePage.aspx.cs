@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 using System.IO.Compression;
 using BusinessLayer;
 
-namespace Web.CommonPages
+namespace ActivityApply.CommonPages
 {
     public partial class BasePage : System.Web.UI.Page
     {
@@ -64,19 +64,10 @@ namespace Web.CommonPages
         protected virtual void PageBase_Load(object sender, EventArgs e)
         {
             // Init 權限
-            InitAuth();
 
             // 清除原頁面的jgrowl訊息
             CallJavascript("jgrowl_close", "$('div.jGrowl').find('div.jGrowl-notification').children().parent().remove();");
 
-            if (!IsPostBack)
-            {
-                if (!string.IsNullOrWhiteSpace(Request["msg"]))
-                {
-                    // 顯示傳入的訊息
-                    ShowPopupMessage(ITCEnum.PopupMessageType.Success, Request["msg"]);
-                }
-            }
         }
 
         #region 在UpdataPanel Response後執行Javascript
@@ -92,6 +83,19 @@ namespace Web.CommonPages
         #endregion
 
         #region 顯示資料處理提示訊息
+        protected void ShowPopupMessage(string msg)
+        {
+            CallJavascript("jgrowl", @"
+                $.jGrowl('" + msg + @"', {
+                    theme: 'error',
+                    sticky: false,
+                    position: 'center',
+                    speed: 1000,
+                    beforeOpen: function(e, m) {
+                        $('div.jGrowl').find('div.jGrowl-notification').children().parent().remove();
+                    }
+                })");
+        }
         protected void ShowPopupMessage(ITCEnum.PopupMessageType pmType, ITCEnum.DataActionType dataActType, string msg = "")
         {
             string header = "";

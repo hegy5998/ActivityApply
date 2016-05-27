@@ -178,7 +178,16 @@ namespace Web.S02
                     if (!session_res.IsSuccess)
                         sessionSuccess = false;
                     else
+                    {
+                        string as_shorterURL = Util.CustomHelper.URLshortener(sysConfig.SOLUTION_HTTPADDR + "Sign_Up.aspx?act_class=" + activity_List[0].Act_class+ "&act_idn=" + act_idn + "&as_idn=" + Int32.Parse(session_res.Message) + "&act_title=" + HttpUtility.UrlEncode(activity_List[0].Act_title)+"&short=1", sysConfig.URL_SHORTENER_API_KEY);
+                        Dictionary<string, Object> as_old_shorlink = new Dictionary<string, Object>();
+                        as_old_shorlink["as_idn"] = Int32.Parse(session_res.Message);
+                        Dictionary<string, Object> as_new_shorlink = new Dictionary<string, Object>();
+                        as_new_shorlink["as_short_link"] = as_shorterURL;
+                        _bl.Session_UpdateData(as_old_shorlink, as_new_shorlink);
                         sessioncount.Add(Int32.Parse(session_res.Message));
+                    }
+                        
                 }
                 if (sessionSuccess == false)
                 {

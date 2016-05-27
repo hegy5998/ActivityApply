@@ -19,9 +19,11 @@
             width: 100%;
             padding-right: 0px;
         }
-        .col-xs-12{
-            padding:0px
+
+        .col-xs-12 {
+            padding: 0px;
         }
+
         .p {
             margin-top: 8px;
         }
@@ -281,7 +283,7 @@
                         </div>
                     </div>
                     <p class="p">新密碼</p>
-                    <div class="row" style="height:34px;">
+                    <div class="row" style="height: 34px;">
                         <div class="col-xs-12">
                             <asp:TextBox ID="new_password_txt" runat="server" CssClass="form-control placeholder-no-fix" TextMode="Password" minlength="4" MaxLength="20"></asp:TextBox>
                         </div>
@@ -336,14 +338,16 @@
     </div>
     <!-- modal -->
 
+
+
     <asp:HiddenField ID="confirm_txt_pf" runat="server" />
     <script type="text/javascript">
         $(document).ready(function () {
             //$.jGrowl('無此信箱', {position: 'center',theme: 'success',sticky: true})
-
+            //$.jGrowl('123', {position: 'center',theme: 'error',sticky: false,life:1000,beforeOpen: function(e, m) {$('div.jGrowl').find('div.jGrowl-notification').children().parent().remove()})
             //判斷更改密碼內新密碼確是否相同
             $("#<%=new_password_txt.ClientID %>").rules("add", { required: true, minlength: 4 });
-            $("#<%=new_password_txt.ClientID %>").css({'z-index': 2,'position': 'absolute', 'background': 'transparent'});
+            $("#<%=new_password_txt.ClientID %>").css({'z-index': '2','position': 'relative', 'background': 'transparent'});
             $("#<%=new_password_check_txt.ClientID %>").rules("add", { required: true, equalTo: $("#<%=new_password_txt.ClientID %>") });
             $("#<%=new_password_txt.ClientID %>").strength({
                 strengthClass: 'strength',
@@ -359,8 +363,8 @@
             $("#<%=aa_email_txt.ClientID %>").keypress(function (event) {
                 if (event.keyCode == 13) {
                     $("#<%=search_btn.ClientID %>").click();
-                return false;
-            }
+                    return false;
+                }
             });
             //打完密碼按下Enter會去按確認按鈕
             $("#<%=password_txt.ClientID %>").keypress(function (event) {
@@ -412,8 +416,8 @@
 
         function check(){
             if($.trim($("#<%= email_txt.ClientID %>").val()) == ""){
-            alert("請輸入信箱!");
-            $("#<%= email_txt.ClientID %>").focus();
+                $.jGrowl('請輸入信箱', {position: 'center',theme: 'error',sticky: false,life:1000,beforeOpen: function(e, m) {$('div.jGrowl').find('div.jGrowl-notification').children().parent().remove();}});
+                $("#<%= email_txt.ClientID %>").focus();
                 return false;
             }
             else
@@ -437,30 +441,30 @@
             if(date_end > NowDate)
                 window.open("Activity.aspx?act_idn=" + act_idn, "_blank"); 
             else
-                alert("活動已結束");
+                $.jGrowl('活動已結束', {position: 'center',theme: 'warning',sticky: false,life:1000,beforeOpen: function(e, m) {$('div.jGrowl').find('div.jGrowl-notification').children().parent().remove();}});
         } 
         //#endregion 
 
         //#rehion 下載報名資訊
         function download(){
             $("#<%=download.ClientID%>").click();
-            }
-            //#endregion
+        }
+        //#endregion
 
-            //#region 輸入密碼確認事件 
-            function encryptPwd() {
-                $("#<%=confirm_txt_pf.ClientID%>").val($("#confirm_txt").val());
+        //#region 輸入密碼確認事件 
+        function encryptPwd() {
+            $("#<%=confirm_txt_pf.ClientID%>").val($("#confirm_txt").val());
+        }
+        function encryptPwd1() {
+            $("#<%=confirm_txt_pf.ClientID%>").val($("#confirm_txt1").val());
     }
-    function encryptPwd1() {
-        $("#<%=confirm_txt_pf.ClientID%>").val($("#confirm_txt1").val());
-            }
-            //#endregion
+    //#endregion
 
-            //#region 更改密碼視窗開啟
-            function modal1_open(){
-                $("#myModal").modal('show')
-            }
-            //#endregion
+    //#region 更改密碼視窗開啟
+    function modal1_open(){
+        $("#myModal").modal('show')
+    }
+        //#endregion
     </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="pageUnitEnd" runat="server">

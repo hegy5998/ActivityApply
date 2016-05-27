@@ -138,7 +138,7 @@ namespace DataAccess
         #region 查詢
         public List<Activity_sectionInfo> GetList(int acs_act,int as_idn)
         {
-            string sql = @" SELECT activity_section.*
+            string sql = @" SELECT activity_section.*,activity_session.as_title
                             FROM activity_section,activity_session
                             WHERE acs_act = @acs_act AND as_idn = @as_idn AND CONVERT(DATETIME, as_apply_end, 121) >= CONVERT(VARCHAR(256), Getdate(), 121) 
                             ORDER BY acs_seq";

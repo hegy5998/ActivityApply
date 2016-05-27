@@ -474,11 +474,12 @@ namespace Web.S02
             var res = new CommonResult(false);
             TextBox textbox = new TextBox();
             new_hf.Value = "Edit";
+            string required = ""; //必填沒填的選項
+            int checkrequired = 0; //判斷必填是否有填資料
 
             //修改Apply資料
             var newApplyData_dict = new Dictionary<string, object>();
             var oldApplyData_dict = new Dictionary<string, object>();
-            //newApplyData_dict["aa_idn"] = (gvr.FindControl("old_aa_idn_hf") as HiddenField).Value;
             newApplyData_dict["aa_act"] = _bl.Getactidn(i);
             newApplyData_dict["aa_as"] = i;
             oldApplyData_dict["aa_idn"] = (gvr.FindControl("old_aa_idn_hf") as HiddenField).Value;
@@ -493,76 +494,150 @@ namespace Web.S02
             //修改前的資料
             var oldData_dict = new Dictionary<string, object>();
             oldData_dict["aad_apply_id"] = (gvr.FindControl("old_aa_idn_hf") as HiddenField).Value;
-            
-            //根據欄位資料對應修改資料
-            foreach (DataRow r in col_id.Rows)
+
+            //判斷必填
+            for (int j = 0; j < col_id.Rows.Count; j++)
             {
-                newData_dict["aad_col_id"] = r.ItemArray.GetValue(2).ToString();
-                oldData_dict["aad_col_id"] = r.ItemArray.GetValue(2).ToString();
-
-                //文字輸入
-                if (r.ItemArray.GetValue(6).ToString() == "text")
+                //此欄位為必填
+                if (col_id.Rows[j][8].ToString() == "1")
                 {
-                    //尋找姓名 & email
-                    textbox = gvr.Cells[check].Controls[0] as TextBox;
-                    if (r.ItemArray.GetValue(3).ToString() == "姓名")
+                    //文字輸入框
+                    if (col_id.Rows[j][6].ToString() == "text")
                     {
-                        newApplyData_dict["aa_name"] = textbox.Text;
+                        textbox = gvr.Cells[j + 2].Controls[0] as TextBox;
+                        if (textbox.Text.IsNullOrEmpty())
+                        {
+                            required = required + "," + col_id.Rows[j][3].ToString();
+                            checkrequired = 1;
+                        }
                     }
+                    //單選 & 下拉式選單
+                    else if ((col_id.Rows[j][6].ToString() == "singleSelect") || (col_id.Rows[j][6].ToString() == "dropDownList"))
+                    {
+                        DropDownList d = gvr.Cells[j + 2].Controls[0] as DropDownList;
+                        if (d.SelectedValue.IsNullOrEmpty())
+                        {
+                            required = required + "," + col_id.Rows[j][3].ToString();
+                            checkrequired = 1;
+                        }
+                    }
+                    //多選
+                    else if (col_id.Rows[j][6].ToString() == "multiSelect")
+                    {
+                        Label s = gvr.Cells[check].Controls[1] as Label;
+                        if (s.Text.IsNullOrEmpty())
+                        {
+                            required = required + "," + col_id.Rows[j][3].ToString();
+                            checkrequired = 1;
+                        }
+                    }
+                }
+            }
 
-                    if (r.ItemArray.GetValue(3).ToString() == "電子信箱Email")
+            int emailcheck = 0;
+            //必填驗證成功
+            if (checkrequired == 0)
+            {
+                //根據欄位資料對應修改資料
+                foreach (DataRow r in col_id.Rows)
+                {
+                    newData_dict["aad_col_id"] = r.ItemArray.GetValue(2).ToString();
+                    oldData_dict["aad_col_id"] = r.ItemArray.GetValue(2).ToString();
+
+                    //文字輸入
+                    if (r.ItemArray.GetValue(6).ToString() == "text")
                     {
-                        newApplyData_dict["aa_email"] = textbox.Text;
-                    }
+                        //尋找姓名 & email
+                        textbox = gvr.Cells[check].Controls[0] as TextBox;
+                        if (r.ItemArray.GetValue(3).ToString() == "姓名")
+                        {
+                            newApplyData_dict["aa_name"] = textbox.Text;
+                        }
+
+                        if (r.ItemArray.GetValue(3).ToString() == "電子信箱Email")
+                        {
+                            newApplyData_dict["aa_email"] = textbox.Text;
+
+                            //若是第一次申請email則需要新增密碼
+                            DataTable emailData = _bl.GetEmailData();
+                            foreach (DataRow rr in emailData.Rows)
+                            {
+                                if (rr[0].ToString() == textbox.Text)
+                                {
+                                    emailcheck = 1;
+                                    break;
+                                }
+                            }
+
+                            //跳出設定密碼的視窗
+                            if (emailcheck == 0)
+                            {
+                                email_hf.Value = textbox.Text;
+                                password_txt.Text = null;
+                                passwordcheck_txt.Text = null;
+
+                                emailpassword_mpe.Show();  // Popup Window
+                                emailpassword_pl.Visible = true;
+                            }
+                        }
                     
-                    newData_dict["aad_val"] = textbox.Text;
+                        newData_dict["aad_val"] = textbox.Text;
                 
-                    res = _bl.UpdateApplyDetailData(oldData_dict, newData_dict);
+                        res = _bl.UpdateApplyDetailData(oldData_dict, newData_dict);
 
-                    check++;
+                        check++;
+                    }
+                    //單選 & 下拉式選單
+                    else if ((r.ItemArray.GetValue(6).ToString() == "singleSelect") || (r.ItemArray.GetValue(6).ToString() == "dropDownList"))
+                    {
+                        DropDownList dropdownlist = gvr.Cells[check].Controls[0] as DropDownList;
+                        newData_dict["aad_val"] = dropdownlist.SelectedValue;
+
+                        res = _bl.UpdateApplyDetailData(oldData_dict, newData_dict);
+
+                        check++;
+                    }
+                    //多選
+                    else if (r.ItemArray.GetValue(6).ToString() == "multiSelect")
+                    {
+                        string s = (gvr.Cells[check].Controls[1] as Label).Text;
+                        newData_dict["aad_val"] = s;
+
+                        res = _bl.UpdateApplyDetailData(oldData_dict, newData_dict);
+
+                        check++;
+                    }
+
+                    //修改失敗，此問題為後來新增的問題(需用新增的方式)
+                    if (!res.IsSuccess)
+                    {
+                        res = _bl.InsertData_column(newData_dict);
+                    }
+
+                    res = _bl.UpdateApplyData(oldApplyData_dict, newApplyData_dict);
                 }
-                //單選 & 下拉式選單
-                else if ((r.ItemArray.GetValue(6).ToString() == "singleSelect") || (r.ItemArray.GetValue(6).ToString() == "dropDownList"))
+
+                if (emailcheck != 0)
                 {
-                    DropDownList dropdownlist = gvr.Cells[check].Controls[0] as DropDownList;
-                    newData_dict["aad_val"] = dropdownlist.SelectedValue;
-
-                    res = _bl.UpdateApplyDetailData(oldData_dict, newData_dict);
-
-                    check++;
-                }
-                //多選
-                else if (r.ItemArray.GetValue(6).ToString() == "multiSelect")
-                {
-                    string s = (gvr.Cells[check].Controls[1] as Label).Text;
-                    newData_dict["aad_val"] = s;
-
-                    res = _bl.UpdateApplyDetailData(oldData_dict, newData_dict);
-
-                    check++;
-                }
-
-                //修改失敗，此問題為後來新增的問題(需用新增的方式)
-                if (!res.IsSuccess)
-                {
-                    res = _bl.InsertData_column(newData_dict);
+                    if (res.IsSuccess)
+                    {
+                        // 修改成功，切換回一般模式
+                        GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, main_gv);
+                        BindGridView(GetData(CommonConvert.GetIntOrZero(Request.QueryString["i"])));
+                        ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Update);
+                    }
+                    else
+                    {
+                        // 修改失敗，顯示錯誤訊息
+                        ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Update, res.Message);
+                    }
                 }
             }
-
-            res = _bl.UpdateApplyData(oldApplyData_dict, newApplyData_dict);
-
-            if (res.IsSuccess)
+            //必填有資料沒填
+            else if (checkrequired == 1)
             {
-                // 更新成功，切換回一般模式
-                GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, main_gv);
-                BindGridView(GetData(i));
-                ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Update);
-            }
-            else
-            {
-                // 更新失敗，顯示錯誤訊息
-                e.Cancel = true;
-                ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Update, res.Message);
+                required = required.Substring(1);
+                ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Update, required + "為必填資料");
             }
         }
 
@@ -810,7 +885,17 @@ namespace Web.S02
                     // 新增成功，切換回一般模式
                     GridViewHelper.ChgGridViewMode(GridViewHelper.GVMode.Normal, main_gv);
                     BindGridView(GetData(CommonConvert.GetIntOrZero(Request.QueryString["i"])));
-                    ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Insert);
+
+                    //修改
+                    if (new_hf.Value == "Edit")
+                    {
+                        ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Update);
+                    }
+                    //新增
+                    else
+                    {
+                        ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Insert);
+                    }
                 }
                 else
                 {

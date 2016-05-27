@@ -33,7 +33,7 @@ namespace ActivityApply
         {
             Sign_UpBL _bl = new Sign_UpBL();
             List<Activity_sectionInfo> sectionList = _bl.GetSectionList(ACT_IDN,AS_IDN);
-            if(sectionList.Count == 0)
+            if (sectionList.Count == 0)
                 return "false";
             else
             {

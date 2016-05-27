@@ -207,9 +207,9 @@ namespace DataAccess
                             as_isopen = 1 AND
                             CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121) AND
                             activity_session.createid LIKE '" + loginUser.Act_id + @"'
-                    GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
+                    GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
                     UNION
-                    (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
+                    (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
                     FROM activity, account_copperate, activity_session
                     LEFT JOIN activity_apply
                     ON aa_as = as_idn
@@ -255,9 +255,9 @@ namespace DataAccess
                           as_isopen = 0 AND
                           CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121) AND
                           activity_session.createid LIKE '" + loginUser.Act_id + @"'
-                    GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
+                    GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_short_link,as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
                     UNION
-                    (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
+                    (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_short_link,CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
                     FROM activity, account_copperate, activity_session
                     LEFT JOIN activity_apply
                     ON aa_as = as_idn

@@ -2,8 +2,8 @@
 // <自動產生的>
 //     這段程式碼是由工具產生的。
 //
-//     變更這個檔案可能會導致不正確的行為，而且如果已重新產生
-//     程式碼，則會遺失變更。
+//     對這個檔案所做的變更可能會造成錯誤的行為，而且如果重新產生程式碼，
+//     所做的變更將會遺失。 
 // </自動產生的>
 //------------------------------------------------------------------------------
 
@@ -17,7 +17,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button download_btn;
         
@@ -26,7 +26,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView main_gv;
         
@@ -35,7 +35,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView copperate_gv;
         
@@ -44,7 +44,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::AjaxControlToolkit.ModalPopupExtender multi_mpe;
         
@@ -53,7 +53,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel multi_pl;
         
@@ -62,7 +62,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.ScriptManager ScriptManager;
         
@@ -71,7 +71,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel control_title_upl;
         
@@ -80,7 +80,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label control_tilte_lbl;
         
@@ -89,7 +89,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button control_cancel_btn;
         
@@ -98,7 +98,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button control_OK_btn;
         
@@ -107,7 +107,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel multioption_pl;
         
@@ -116,7 +116,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField col_idn_hf;
         
@@ -125,7 +125,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField row_idn_hf;
         
@@ -134,7 +134,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField new_hf;
         
@@ -143,7 +143,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::AjaxControlToolkit.ModalPopupExtender emailpassword_mpe;
         
@@ -152,7 +152,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel emailpassword_pl;
         
@@ -161,7 +161,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel1;
         
@@ -170,25 +170,16 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label1;
-        
-        /// <summary>
-        /// email_cancel_btn 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button email_cancel_btn;
         
         /// <summary>
         /// email_OK_btn 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button email_OK_btn;
         
@@ -197,7 +188,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel Panel2;
         
@@ -206,7 +197,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField email_hf;
         
@@ -215,7 +206,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label password_lbl;
         
@@ -224,7 +215,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox password_txt;
         
@@ -233,7 +224,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label passwordcheck_lbl;
         
@@ -242,7 +233,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox passwordcheck_txt;
         
@@ -251,7 +242,7 @@ namespace Web.S02 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button password_btn;
     }

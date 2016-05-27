@@ -1,4 +1,5 @@
-﻿using AjaxControlToolkit;
+﻿using ActivityApply.CommonPages;
+using AjaxControlToolkit;
 using BusinessLayer.Web;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
@@ -15,7 +16,7 @@ using Util;
 
 namespace ActivityApply
 {
-    public partial class Sign_Search_Context : System.Web.UI.Page
+    public partial class Sign_Search_Context : BasePage
     {
         private SignSearchContextBL _bl;
         private SignSearchContextBL BL { get { if (_bl == null) _bl = new SignSearchContextBL(); return _bl; } }
@@ -265,35 +266,44 @@ namespace ActivityApply
         {
             //抓取使用者輸入Email值
             aa_email_hf.Value = aa_email_txt.Text.Trim();
-            //抓取報名資料
-            DataTable dt = GetData(true);
-            Session.Remove("user_password");
-            //判斷是否有報名資料
-            if (dt.Rows.Count != 0)
+            if(aa_email_hf.Value != "")
             {
-                //顯示忘記密碼按鈕、更改密碼按鈕
-                forget_password_btn.Visible = true;
-                change_password_btn.Visible = true;
-                ////抓取使用者密碼
+                //抓取報名資料
+                DataTable dt = GetData(true);
+                Session.Remove("user_password");
+                //判斷是否有報名資料
+                if (dt.Rows.Count != 0)
+                {
+                    //顯示忘記密碼按鈕、更改密碼按鈕
+                    forget_password_btn.Visible = true;
+                    change_password_btn.Visible = true;
+                    ////抓取使用者密碼
 
-                //DataTable dt_password = BL.GetEmailData(aa_email_hf.Value);
-                ////儲存使用者密碼
-                //if (dt_password.Rows.Count != 0)
-                //    user_password = dt_password.Rows[0]["aae_password"].ToString();
+                    //DataTable dt_password = BL.GetEmailData(aa_email_hf.Value);
+                    ////儲存使用者密碼
+                    //if (dt_password.Rows.Count != 0)
+                    //    user_password = dt_password.Rows[0]["aae_password"].ToString();
+                }
+                else
+                {
+                    string msg = "無報名資料!";
+                    ShowPopupMessage(msg);
+
+                    forget_password_btn.Visible = false;
+                    change_password_btn.Visible = false;
+                }
+                BindGridView(dt);
             }
             else
             {
-                string msg = "無報名資料!";
-                StringBuilder sb = new StringBuilder();
-                sb.Append("<script language='javascript'>");
-                sb.Append("$.jGrowl('" + msg + "', {position: 'center',theme: 'warning',sticky: false,life:1000})");
-                sb.Append("</script>");
-                ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
+                string msg = "請輸入信箱!";
+                ShowPopupMessage(msg);
 
                 forget_password_btn.Visible = false;
                 change_password_btn.Visible = false;
             }
-            BindGridView(dt);
+
+            
         }
         #endregion
 
@@ -320,45 +330,29 @@ namespace ActivityApply
                 if (upres.IsSuccess)
                 {
                     string msg = "成功更改密碼!";
-                    StringBuilder sb = new StringBuilder();
-                    sb.Append("<script language='javascript'>");
-                    sb.Append("$.jGrowl('" + msg + "', {position: 'center',theme: 'success',sticky: false,life:1000})");
-                    sb.Append("</script>");
-                    ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
+                    ShowPopupMessage(msg);
                 }
                 string email = aa_email_hf.Value;
                 SystemConfigInfo config_info = CommonHelper.GetSysConfig();
                 CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubjectChange(email), getMailContnetChange());
             }
-            else if (ValidPassword(aa_email_hf.Value, old_password_txt.Text))
+            else if (!ValidPassword(aa_email_hf.Value, old_password_txt.Text))
             {
                 Page.RegisterStartupScript("Show", "<script language=\"JavaScript\">modal1_open();</script>");
                 string msg = "密碼錯誤!";
-                StringBuilder sb = new StringBuilder();
-                sb.Append("<script language='javascript'>");
-                sb.Append("$.jGrowl('" + msg + "', {position: 'center',theme: 'error',sticky: false,life:1000})");
-                sb.Append("</script>");
-                ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
+                ShowPopupMessage(msg);
             }
             else if (new_password_txt.Text != new_password_check_txt.Text)
             {
                 Page.RegisterStartupScript("Show", "<script language=\"JavaScript\">modal1_open();</script>");
                 string msg = "新密碼不相同!";
-                StringBuilder sb = new StringBuilder();
-                sb.Append("<script language='javascript'>");
-                sb.Append("$.jGrowl('" + msg + "', {position: 'center',theme: 'error',sticky: false,life:1000})");
-                sb.Append("</script>");
-                ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
+                ShowPopupMessage(msg);
             }
             else if (!confirm_txt_pf.Value.Trim().EqualsIgnoreCase(captcha.ToUpper()))
             {
                 Page.RegisterStartupScript("Show", "<script language=\"JavaScript\">modal1_open();</script>");
                 string msg = "驗證碼錯誤!";
-                StringBuilder sb = new StringBuilder();
-                sb.Append("<script language='javascript'>");
-                sb.Append("$.jGrowl('" + msg + "', {position: 'center',theme: 'error',sticky: false,life:1000})");
-                sb.Append("</script>");
-                ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
+                ShowPopupMessage(msg);
             }
         }
         #endregion
@@ -389,24 +383,14 @@ namespace ActivityApply
             if (res.IsSuccess)
             {
                 CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubject(email), getMailContnet(password_rd));
-                //Page.RegisterStartupScript("Show", "<script language=\"JavaScript\">closeme();</script>");
                 string msg = "已寄送Email到 : " + email;
-                StringBuilder sb = new StringBuilder();
-                sb.Append("<script language='javascript'>");
-                sb.Append("$.jGrowl('" + msg + "', {position: 'center',theme: 'success',sticky: false,life:1000})");
-                sb.Append("</script>");
-                ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
+                ShowPopupMessage(msg);
             }
             else
             {
                 email_txt.Text = "";
                 string msg = "無此信箱!!";
-                StringBuilder sb = new StringBuilder();
-                sb.Append("<script language='javascript'>");
-                sb.Append("$.jGrowl('"+ msg + "', {position: 'center',theme: 'error',sticky: false,life:1000})");
-                sb.Append("</script>");
-
-                ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
+                ShowPopupMessage(msg);
             }
 
         }
@@ -491,6 +475,7 @@ namespace ActivityApply
                         Session["aa_idn"] = aa_idn;
                         Session["act_idn"] = act_idn;
                         Session["as_idn"] = as_idn;
+                        password_pop.Hide();
                         Response.Redirect("Sign_Change.aspx");
                     }
                     else if (gridview_event == "delete")
@@ -514,6 +499,8 @@ namespace ActivityApply
                             SystemConfigInfo config_info = CommonHelper.GetSysConfig();
                             DataTable dt_email = _bl.GetActivityData(Int32.Parse(act_idn), Int32.Parse(as_idn));
                             CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubjectDelete(), getMailContnetDelete(dt_email, name));
+                            string msg = "取消報名成功!";
+                            ShowPopupMessage(msg);
                         }
                         DataTable dt = GetData(true);
                         if (dt.Rows.Count == 0)
@@ -526,28 +513,21 @@ namespace ActivityApply
                 }
                 else 
                 {
-                    password_pop.Show();
-                    password_txt.Focus();
+                    //password_pop.Show();
+                    //password_txt.Focus();
                     Session["user_password"] = null;
                     string msg = "密碼錯誤!";
-                    StringBuilder sb = new StringBuilder();
-                    sb.Append("<script language='javascript'>");
-                    sb.Append("$.jGrowl('" + msg + "', {position: 'center',theme: 'error',sticky: false,life:1000})");
-                    sb.Append("</script>");
-                    ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
+                    ShowPopupMessage(msg);
                 }
             }
             else if (!confirm_txt_pf.Value.Trim().EqualsIgnoreCase(captcha.ToUpper()))
             {
-                password_pop.Show();
-                password_txt.Focus();
+                ClientScriptManager cs = Page.ClientScript;
+                //password_pop.Show();
+                //password_txt.Focus();
                 Session["user_password"] = null;
                 string msg = "驗證碼錯誤!";
-                StringBuilder sb = new StringBuilder();
-                sb.Append("<script language='javascript'>");
-                sb.Append("$.jGrowl('" + msg + "', {position: 'center',theme: 'error',sticky: false,life:1000})");
-                sb.Append("</script>");
-                ClientScript.RegisterStartupScript(this.GetType(), "LoadPicScript", sb.ToString());
+                ShowPopupMessage(msg);
             }
         }
         #endregion

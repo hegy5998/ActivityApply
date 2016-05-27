@@ -156,7 +156,6 @@ namespace BusinessLayer.S02
             }
             return res;
         }
-
         #endregion
 
         #region 更新區塊資料
@@ -471,12 +470,6 @@ namespace BusinessLayer.S02
             return _data.GetEndList();
         }
 
-        //取得修改活動資料
-        //public DataTable GetEditData(int i)
-        //{
-        //    return _data.GetEditData(i);
-        //}
-
         //取得協作者資料
         public DataTable GetCopData(int i)
         {
@@ -513,12 +506,10 @@ namespace BusinessLayer.S02
             //報名資料
             DataTable test = new DataTable();
             //欄位資料
-            DataTable column;
+            DataTable column = _data.GetApplyDataDetail(i);
             //欄位實際值
             DataTable columnDetail = new DataTable();
             DataTable time = new DataTable();
-
-            column = _data.GetApplyDataDetail(i);
 
             if (column.Rows.Count != 0)
             {
@@ -532,6 +523,7 @@ namespace BusinessLayer.S02
                         time = _data.GetApplyDataColumn(CommonConvert.GetIntOrZero(r.ItemArray.GetValue(2)), i);
                     }
                 }
+                //加入列的資料
                 for (int j = 0; j < time.Rows.Count; j++)
                 {
                     test.Rows.Add();
@@ -542,6 +534,7 @@ namespace BusinessLayer.S02
                 //存入欄位的值
                 foreach (DataRow r in column.Rows)
                 {
+                    //判斷欄位是否重複
                     int checkcolumn = 1;
                     for (int j = 0; j < count; j++)
                     {
@@ -553,7 +546,15 @@ namespace BusinessLayer.S02
                     }
 
                     //增加欄位
-                    test.Columns.Add(r.ItemArray.GetValue(3).ToString());
+                    if (r.ItemArray.GetValue(8).ToString() == "1")
+                    {
+                        test.Columns.Add(r.ItemArray.GetValue(3).ToString() + "*");
+                    }
+                    else
+                    {
+                        test.Columns.Add(r.ItemArray.GetValue(3).ToString());
+                    }
+                    //test.Columns.Add(r.ItemArray.GetValue(3).ToString());
                     columnDetail = _data.GetApplyDataColumn(CommonConvert.GetIntOrZero(r.ItemArray.GetValue(2)), i);
 
                     if (columnDetail.Rows.Count != 0)
@@ -566,7 +567,15 @@ namespace BusinessLayer.S02
                             //判斷是否有跳資料
                             if (test.Rows[j][0].ToString() == columnDetail.Rows[k][0].ToString())
                             {
-                                test.Rows[j][r.ItemArray.GetValue(3).ToString()] = columnDetail.Rows[k][1].ToString();
+                                if (r.ItemArray.GetValue(8).ToString() == "1")
+                                {
+                                    test.Rows[j][r.ItemArray.GetValue(3).ToString() + "*"] = columnDetail.Rows[k][1].ToString();
+                                }
+                                else
+                                {
+                                    test.Rows[j][r.ItemArray.GetValue(3).ToString()] = columnDetail.Rows[k][1].ToString();
+                                }
+                                //test.Rows[j][r.ItemArray.GetValue(3).ToString()] = columnDetail.Rows[k][1].ToString();
                                 k++;
                             }
                             //若此欄位是空的則補null

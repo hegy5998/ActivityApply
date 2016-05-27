@@ -14,7 +14,6 @@
         var local = location.href.split("/")[location.href.split("/").length - 1].split("?")[0];
         if (local != "Info.aspx")
             searchActivityAllList(search_title, act_class);
-
         //pageselectCallback($.cookie('page_index'));
     })
     //#endregion
@@ -139,7 +138,9 @@
                                             </div>\
                                         </div>');
         }
-
+        if (ActivityInfo.length == 0) {
+            $.jGrowl('無活動!', { position: 'center', theme: 'error', sticky: false, life: 1000, beforeOpen: function (e, m) { $('div.jGrowl').find('div.jGrowl-notification').children().parent().remove(); } });
+        }
 
 
         //後臺轉換DateTime格式時會把他轉成字串，使用JSON.parse會把它當成子串解析，需要在做轉換與切割成我們要的格式
