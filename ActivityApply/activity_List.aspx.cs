@@ -11,7 +11,7 @@ using System.Web.UI.WebControls;
 
 namespace ActivityApply
 {
-    public partial class activity_List : System.Web.UI.Page
+    public partial class Activity_List : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

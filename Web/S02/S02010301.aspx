@@ -58,11 +58,11 @@
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="分類名稱">
                             <EditItemTemplate>
-                                <asp:TextBox ID="Ac_title_txt" runat="server" CssClass="center" Text='<%# Bind("Ac_title")  %>' Width="100px"></asp:TextBox>
+                                <asp:TextBox ID="Ac_title_txt" runat="server" CssClass="center" Text='<%# Bind("Ac_title")  %>' Width="100px" MaxLength="30"></asp:TextBox>
                                 <asp:HiddenField ID="Ac_idn_hf" runat="server" Value='<%# Bind("Ac_idn") %>' Visible="false" ViewStateMode="Enabled" />
                             </EditItemTemplate>
                             <FooterTemplate>
-                                <asp:TextBox ID="Ac_title_txt" runat="server" CssClass="center" Width="100px"></asp:TextBox>
+                                <asp:TextBox ID="Ac_title_txt" runat="server" CssClass="center" Width="100px" MaxLength="30"></asp:TextBox>
                             </FooterTemplate>
                             <ItemTemplate>
                                 <asp:Label ID="Ac_title_lb" runat="server" Text='<%# Bind("Ac_title") %>'></asp:Label>
@@ -73,10 +73,10 @@
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="分類敘述">
                             <EditItemTemplate>
-                                <asp:TextBox ID="Ac_desc_txt" runat="server" CssClass="center" Text='<%# Bind("Ac_desc")  %>' Width="100px"></asp:TextBox>
+                                <asp:TextBox ID="Ac_desc_txt" runat="server" CssClass="center" Text='<%# Bind("Ac_desc")  %>' Width="100px" MaxLength="255"></asp:TextBox>
                             </EditItemTemplate>
                             <FooterTemplate>
-                                <asp:TextBox ID="Ac_desc_txt" runat="server" CssClass="center" Width="100px"></asp:TextBox>
+                                <asp:TextBox ID="Ac_desc_txt" runat="server" CssClass="center" Width="100px" MaxLength="255"></asp:TextBox>
                             </FooterTemplate>
                             <ItemTemplate>
                                 <asp:Label ID="Ac_desc_lb" runat="server" Text='<%# Bind("Ac_desc") %>'></asp:Label>

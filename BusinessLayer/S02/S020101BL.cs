@@ -24,7 +24,7 @@ namespace BusinessLayer.S02
         //報名資訊
         Activity_applyData _applydata = new Activity_applyData();
         //協作者
-        Account_copperateData _cooperate = new Account_copperateData();
+        Account_copperateData _copperate = new Account_copperateData();
         //報名資料(詳細)
         Activity_apply_detailData _applyDetaildata = new Activity_apply_detailData();
         //Email資料
@@ -185,7 +185,6 @@ namespace BusinessLayer.S02
         #endregion
         #endregion
 
-
         #region 更新
         /// <summary>
         /// 更新資料
@@ -232,7 +231,7 @@ namespace BusinessLayer.S02
 
             if (res.IsSuccess)
             {
-                return _cooperate.UpdateData(oldData_dict, newData_dict);
+                return _copperate.UpdateData(oldData_dict, newData_dict);
             }
 
             return res;
@@ -302,7 +301,7 @@ namespace BusinessLayer.S02
 
             if (res.IsSuccess)
             {
-                res = _cooperate.InsertData(dict);
+                res = _copperate.InsertData(dict);
             }
 
             return res;
@@ -365,8 +364,19 @@ namespace BusinessLayer.S02
                 _applydata.DeleteData(dict_apply);
             }
 
+            //刪除此場次的協作者
+            DataTable copperate = _copperate.GetList(CommonConvert.GetIntOrZero(dict_act["act_idn"]));
+            var dict_copperate = new Dictionary<string, object>();
+            dict_copperate["cop_act"] = dict_act["act_idn"].ToString();
+            for (int i = 0; i < copperate.Rows.Count; i++)
+            {
+                dict_copperate["cop_id"] = copperate.Rows[i][1].ToString();
+
+                _copperate.DeleteData(dict_copperate);
+            }
+
             //確定此活動是否還有其他場次
-            DataTable check = _data.CheckDelData(Convert.ToInt32(dict_act["act_idn"]));
+            DataTable check = _data.CheckDelData(CommonConvert.GetIntOrZero(dict_act["act_idn"]));
             int a = Convert.ToInt32(check.Rows[0]["as_number"]);
 
             //此活動沒有剩餘場次，因此刪除場次and活動
@@ -395,7 +405,7 @@ namespace BusinessLayer.S02
         // 刪除協作者
         public CommonResult DeleteCopData(Dictionary<string, object> dict)
         {
-            return _cooperate.DeleteData(dict);
+            return _copperate.DeleteData(dict);
         }
 
         //刪除報名資料
@@ -460,16 +470,10 @@ namespace BusinessLayer.S02
             return _data.GetEndList();
         }
 
-        //取得修改活動資料
-        public DataTable GetEditData(int i)
-        {
-            return _data.GetEditData(i);
-        }
-
         //取得協作者資料
         public DataTable GetCopData(int i)
         {
-            return _cooperate.GetList(i);
+            return _copperate.GetList(i);
         }
 
         //取得協作者Info資料
@@ -502,12 +506,10 @@ namespace BusinessLayer.S02
             //報名資料
             DataTable test = new DataTable();
             //欄位資料
-            DataTable column;
+            DataTable column = _data.GetApplyDataDetail(i);
             //欄位實際值
             DataTable columnDetail = new DataTable();
             DataTable time = new DataTable();
-
-            column = _data.GetApplyDataDetail(i);
 
             if (column.Rows.Count != 0)
             {
@@ -521,6 +523,7 @@ namespace BusinessLayer.S02
                         time = _data.GetApplyDataColumn(CommonConvert.GetIntOrZero(r.ItemArray.GetValue(2)), i);
                     }
                 }
+                //加入列的資料
                 for (int j = 0; j < time.Rows.Count; j++)
                 {
                     test.Rows.Add();
@@ -531,6 +534,7 @@ namespace BusinessLayer.S02
                 //存入欄位的值
                 foreach (DataRow r in column.Rows)
                 {
+                    //判斷欄位是否重複
                     int checkcolumn = 1;
                     for (int j = 0; j < count; j++)
                     {
@@ -542,7 +546,15 @@ namespace BusinessLayer.S02
                     }
 
                     //增加欄位
-                    test.Columns.Add(r.ItemArray.GetValue(3).ToString());
+                    if (r.ItemArray.GetValue(8).ToString() == "1")
+                    {
+                        test.Columns.Add(r.ItemArray.GetValue(3).ToString() + "*");
+                    }
+                    else
+                    {
+                        test.Columns.Add(r.ItemArray.GetValue(3).ToString());
+                    }
+                    //test.Columns.Add(r.ItemArray.GetValue(3).ToString());
                     columnDetail = _data.GetApplyDataColumn(CommonConvert.GetIntOrZero(r.ItemArray.GetValue(2)), i);
 
                     if (columnDetail.Rows.Count != 0)
@@ -555,7 +567,15 @@ namespace BusinessLayer.S02
                             //判斷是否有跳資料
                             if (test.Rows[j][0].ToString() == columnDetail.Rows[k][0].ToString())
                             {
-                                test.Rows[j][r.ItemArray.GetValue(3).ToString()] = columnDetail.Rows[k][1].ToString();
+                                if (r.ItemArray.GetValue(8).ToString() == "1")
+                                {
+                                    test.Rows[j][r.ItemArray.GetValue(3).ToString() + "*"] = columnDetail.Rows[k][1].ToString();
+                                }
+                                else
+                                {
+                                    test.Rows[j][r.ItemArray.GetValue(3).ToString()] = columnDetail.Rows[k][1].ToString();
+                                }
+                                //test.Rows[j][r.ItemArray.GetValue(3).ToString()] = columnDetail.Rows[k][1].ToString();
                                 k++;
                             }
                             //若此欄位是空的則補null
@@ -608,7 +628,7 @@ namespace BusinessLayer.S02
             //已結束活動
             if (tab == 2)
             {
-                data = _data.GetQueryEndClassData(keyword);
+                data = _data.GetQueryEndClassData(keyword, cl);
             }
             //已發佈活動
             else if (tab == 0)
@@ -658,6 +678,20 @@ namespace BusinessLayer.S02
         public DataTable GetClassData()
         {
             return _data.GetClassData();
+        }
+        #endregion
+
+        #region 取得區塊列表
+        public List<Activity_sectionInfo> GetSectionList(int acs_act)
+        {
+            return _data.GetSectionList(acs_act);
+        }
+        #endregion
+
+        #region 取得問題列表
+        public List<Activity_columnInfo> GetQuestionList(int acc_act)
+        {
+            return _data.GetQuestionList(acc_act);
         }
         #endregion
     }

@@ -38,6 +38,9 @@
         label.error {
             color: red;
         }
+        table {
+            box-shadow: none;
+        }
     </style>
 </asp:Content>
 
@@ -45,18 +48,22 @@
     <section class="content-wrapper main-content clear-fix">
         <section id="container">
             <section id="main-content" style="margin-left: 0px;">
-                <section class="wrapper" style="margin-top: 38px;">
+                <div style="background-color: white; width: 100%; height: 100%;">
+                <section class="wrapper" style="margin-top: 10px;padding: 29px 53px 33px 53px;">
+                    
                     <div class="row"></div>
                     <h3><i class="fa fa-angle-right"></i>活動報名</h3>
                     <!-- 放置區塊區域 -->
-                    <div id="sections_div" style="margin-right: 1%;">
-                        <!-- 放置問題區域 -->
+                    <div id="sections_div">
+                    <!-- 放置問題區域 -->
                     </div>
                     <!-- 送出按鈕 -->
-                    <div class="row col-sm-12">
-                        <input role="button" type="submit" class="btn btn-theme btn-lg btn-block" value="送出" />
+                    <div class="row col-sm-12" style="padding: 0px;">
+                        <input role="button" type="submit" class="btn btn-info btn-lg btn-block" value="此報名表僅供檢視"/>
                     </div>
+                       
                 </section>
+                     </div>
             </section>
         </section>
     </section>
@@ -103,7 +110,11 @@
                     case "dropDownList": code = DropDownListCol_Code(questionInfo[i], i); break;
                 }
                 $("#question_div_" + questionInfo[i].Acc_asc).append(decodeURI(code));
-
+                $.datetimepicker.setLocale('zh-TW');
+                $('.datetimepicker').datetimepicker({
+                    timepicker: false,
+                    format: 'Y/m/d'
+                });
             }
         }
         //#endregion
@@ -112,10 +123,10 @@
         function Section_Code(section) {
             var sectionId = "sec_div_" + section.Acs_seq;
             var questionId = "question_div_" + section.Acs_seq;
-            var code = '<div id="' + sectionId + '" class="row col-sm-12 form-panel">\
-                            <h4 class="mb"><i class="fa fa-angle-right"></i>' + section.Acs_title + '</h4>\
-                            <label class="desc">' + section.Acs_desc + '</label>\
-                            <div id="' + questionId + '" class="form-horizontal style-form">\
+            var code = '<div id="' + sectionId + '" class="panel panel-default">\
+                            <div class="panel-heading">' + section.Acs_title + '</div>\
+                            <label class="desc" style="margin: 15px 15px 0px 30px;">' + section.Acs_desc + '</label>\
+                            <div id="' + questionId + '" class="panel-body form-horizontal style-form">\
                             </div>\
                         </div>';
             return code;
@@ -226,7 +237,7 @@
                 case 'email': code += ' email"'; break;
                 case 'idNumber': code += ' TWIDCheck"'; break;
                 case 'cellPhone': code += ' mobileTW"'; break;
-                case 'date': code += ' date"'; break;
+                case 'date': code += ' date datetimepicker"'; break;
                 case 'url': code += ' url"'; break;
                 case 'int': code += ' number"' + (validation[1] != 'N' ? ' min="' + validation[1] + '"' : '') + (validation[2] != 'N' ? ' max="' + validation[2] + '"' : ''); break;
                 case 'length': code += '"' + (validation[1] != 'N' ? ' minlength="' + validation[1] + '"' : '') + (validation[2] != 'N' ? ' maxlength="' + validation[2] + '"' : ''); break;

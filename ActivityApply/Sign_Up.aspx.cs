@@ -32,8 +32,8 @@ namespace ActivityApply
         public static string getSectionList()
         {
             Sign_UpBL _bl = new Sign_UpBL();
-            List<Activity_sectionInfo> sectionList = _bl.GetSectionList(ACT_IDN);
-            if(sectionList.Count == 0)
+            List<Activity_sectionInfo> sectionList = _bl.GetSectionList(ACT_IDN,AS_IDN);
+            if (sectionList.Count == 0)
                 return "false";
             else
             {
@@ -83,7 +83,12 @@ namespace ActivityApply
             // 判斷是否重複報名
             if (_bl.isRepeatApply(AS_IDN, email, name))
             {
-                return "Error:您已報名此活動！";
+                return "Error:您已報名此場次！";
+            }
+            // 判斷是否超過報名限制
+            if (_bl.isOverApplyLimit(ACT_IDN, email, name))
+            {
+                return "Error:您已超過活動報名限制名額！";
             }
 
             Dictionary<String, Object> save_Activity_apply = new Dictionary<string, object>();
@@ -145,10 +150,18 @@ namespace ActivityApply
         public static bool savePassword(List<Activity_apply_emailInfo> Activity_apply_emailInfo)
         {
             Sign_UpBL _bl = new Sign_UpBL();
+            string password = Activity_apply_emailInfo[0].Aae_password;
+            string salt = Guid.NewGuid().ToString();
+
+            byte[] passwordAndSaltBytes = System.Text.Encoding.UTF8.GetBytes(password + salt);
+            byte[] hashBytes = new System.Security.Cryptography.SHA256Managed().ComputeHash(passwordAndSaltBytes);
+
+            string hashString = Convert.ToBase64String(hashBytes);
 
             Dictionary<String, Object> save_Activity_apply_email = new Dictionary<string, object>();
             save_Activity_apply_email["aae_email"] = Activity_apply_emailInfo[0].Aae_email;
-            save_Activity_apply_email["aae_password"] = Activity_apply_emailInfo[0].Aae_password;
+            save_Activity_apply_email["aae_password"] = hashString;
+            save_Activity_apply_email["aae_salt"] = salt;
 
             var result = _bl.InsertData_Password(save_Activity_apply_email);
             if (result.IsSuccess)
@@ -212,7 +225,7 @@ namespace ActivityApply
             rd.Load(Server.MapPath("~/applyProve.rpt"));
             //設定資料
             rd.SetDataSource(dt);
-            rd.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, true, "applyProve");
+            rd.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, true, dt.Rows[0]["act_title"] + "_" +dt.Rows[0]["as_title"] + "_活動資訊");
         }
     }
 }

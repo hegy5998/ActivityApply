@@ -15,87 +15,82 @@
         .session-control-label-context {
             font-size: large;
         }
+        /*不能報名按鈕樣式*/
+        .btn_info_dis {
+            background-color: gray;
+            border-color: gray;
+            color: white;
+            display: inline-block;
+            padding: 6px 12px;
+            font-size: 14px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            font-family: '微軟正黑體',sans-serif;
+        }
     </style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="baseContent_cph" runat="server">
-    <div class="row mt" id="dispaly_div" style="display: none;margin-top: 15px;">
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 desc">
-            <div class="project-wrapper" style="margin-bottom: 16px;">
-                <div class="project">
-                    <div class="photo-wrapper" style="background-image: url(../Scripts/Lib/assets/img/zoom.png)">
-                        <div class="photo">
-                            <a data-toggle="modal" href="#myModal">
-                                <img id="act_image" class="img-responsive" src="#" />
-                            </a>
-                        </div>
-                        <div class="overlay"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="showback">
-                <h3>短網址</h3>
-                <a id="short_link" href="#" target="_blank"></a>
-            </div>
-
-            <div class="photo">
-                <a class="thumbnail">
-                    <img id="QRcode" class="imp-responsive" src="#" alt="" /></a>
+    <div style="background-color: white; width: 100%; height: 100%;">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 id="title_txt" class="page-header text-info"></h1>
             </div>
         </div>
+        <div class="row mt" id="dispaly_div" style="display: none; margin-top: 20px;">
 
-        <!-- 活動頁面右半邊 -->
-        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 dexc">
-            <!-- 活動資訊 -->
-            <div class="showback">
-                <label class="control-label">活動名稱</label>
-                <br />
-                <label id="act_title"></label>
-                <hr />
-                <label class="control-label">主辦單位</label>
-                <br />
-                <label id="unit"></label>
-                <hr />
-                <label class="control-label">聯絡資訊</label>
-                <br />
-                <label id="contact_name"></label>
-                <br />
-                <label id="contact_phone"></label>
-                <hr />
-
-                <label class="control-label">活動簡介</label>
-                <br />
-
-                <!-- 設定活動簡介大小，超出變成卷軸 -->
-                <div id="desc_div" style="width: auto; height: auto; overflow-x: auto; overflow-y: auto; background-color: white;">
-                    <asp:Label ID="Act_desc_lbl" runat="server" Text="Label"></asp:Label>
+            <div class="col-lg-3">
+                <div class="project-wrapper">
+                    <div class="project">
+                        <div class="photo-wrapper" style="background-image: url(../Scripts/Lib/assets/img/zoom.png);">
+                            <div class="photo">
+                                <a data-toggle="modal" href="#myModal">
+                                    <img id="act_image" class="img-responsive" src="#" />
+                                </a>
+                            </div>
+                            <div class="overlay" style="height: 20px;"></div>
+                        </div>
+                    </div>
                 </div>
-                <hr />
+                <div class="panel panel-default" style="margin-top: 20px">
+                    <div class="panel-heading">短網址</div>
+                    <div class="panel-body" style="padding: 20px;">
+                        <a id="short_link" href="#" target="_blank" style="font-size: large; padding: 10px;"></a>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">QR Code</div>
+                    <div class="panel-body" style="text-align: center;">
+                        <img id="QRcode" class="imp-responsive" src="#" alt="" />
+                    </div>
+                </div>
 
-                <label class="control-label">附加檔案</label>
-                <br />
-                <a id="relate_File" href="#" target="_blank">下載</a>
-                <hr />
-
-                <label class="control-label">相關連結</label>
-                <br />
-                <a id="relate_link" href="#" target="_blank">活動資訊</a>
-                <hr />
             </div>
-
-            <div class="row" id="add_Session_div">
-                <!-- 加入場次地方 -->
+            <!-- 活動頁面右半邊 -->
+            <div class="col-lg-9">
+                <!-- 活動資訊 -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">活動簡介</div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div id="add_activity_desc"></div>
+                        <div id="desc_div" style="width: auto; height: auto; overflow-x: auto; overflow-y: auto; background-color: white; border-style: ridge; display: none;">
+                            <asp:Label ID="Act_desc_lbl" runat="server" Text="Label"></asp:Label>
+                        </div>
+                    </div>
+                </div>
+                <div id="add_Session_div" style="margin-bottom: 75px;">
+                    <!-- 加入場次地方 -->
+                </div>
             </div>
         </div>
     </div>
-
     <!-- Modal -->
     <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade text-center">
         <div class="modal-dialog" style="display: inline-block; width: auto;">
             <div class="modal-content">
                 <div class="modal-body">
-                    <img id="act_image_modal" class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" />
+                    <img id="act_image_modal" class="img-responsive" src="assets/img/fcu.jpg" />
                 </div>
             </div>
         </div>
@@ -110,8 +105,8 @@
             $("#dispaly_div").css({ 'display': '' });
             //產生場次
             getSessionList();
-            
-            
+
+
             //判斷活動簡介內容高度超過300px變成卷軸式
             var obheight = 300;//超過容器高度自動捲軸
             var mc = $("#desc_div").height();
@@ -170,35 +165,68 @@
             //轉換活動資訊的JSON字串成JSON物件
             var ActivityInfo = JSON.parse(ActivityInfo);
             var act_title = ActivityInfo[0].Act_title;
+            $("#title_txt").text(ActivityInfo[0].Act_title);
             //設定活動標題
-            $("#act_title").text(ActivityInfo[0].Act_title);
+            if (ActivityInfo[0].Act_title != "") {
+                $("#add_activity_desc").append('<label class="control-label">活動名稱</label>' +
+                        '<br />' +
+                        '<label>' + ActivityInfo[0].Act_title + '</label>');
+            }
             //設定主辦單位
-            $("#unit").text(ActivityInfo[0].Act_unit);
+            if (ActivityInfo[0].Act_unit != "") {
+                $("#add_activity_desc").append('<hr />');
+                $("#add_activity_desc").append('<label class="control-label">主辦單位</label>' +
+                        '<br />' +
+                        '<label>' + ActivityInfo[0].Act_unit + '</label><br />');
+            }
             //設定聯絡人
-            $("#contact_name").text("聯絡人:" + ActivityInfo[0].Act_contact_name);
+            if (ActivityInfo[0].Act_contact_name != "" || ActivityInfo[0].Act_contact_phone != "") {
+                $("#add_activity_desc").append('<hr />');
+                $("#add_activity_desc").append('<label class="control-label">聯絡資訊</label>' +
+                        '<br />');
+                if (ActivityInfo[0].Act_contact_name != "")
+                    $("#add_activity_desc").append('<label>聯絡人:' + ActivityInfo[0].Act_contact_name + '</label><br />');
+            }
             //設定聯絡人電話
-            $("#contact_phone").text("聯絡電話:" + ActivityInfo[0].Act_contact_phone);
+            if (ActivityInfo[0].Act_contact_phone != "") {
+                $("#add_activity_desc").append('<label>聯絡電話:' + ActivityInfo[0].Act_contact_phone + '</label><br />');
+            }
+            //設定相關連結
+            if (ActivityInfo[0].Act_relate_link != "") {
+                $("#add_activity_desc").append('<hr />');
+                $("#add_activity_desc").append('<label class="control-label">相關連結</label>' +
+                        '<br />' +
+                        '<a id="relate_link" href="' + ActivityInfo[0].Act_relate_link + '" target="_blank">活動資訊</a>');
+            }
+            //設定相關連結
+            if (ActivityInfo[0].Act_relate_file != "") {
+                $("#add_activity_desc").append('<hr />');
+                $("#add_activity_desc").append('<label class="control-label">附加檔案</label>' +
+                        '<br />' +
+                        '<a id="relate_File" href="' + ActivityInfo[0].Act_relate_file + '" target="_blank">下載</a>');
+            }
+            if (ActivityInfo[0].Act_desc != "") {
+                $("#add_activity_desc").append('<hr />');
+                $("#add_activity_desc").append('<label class="control-label">活動簡介</label>');
+            }
+
             //設定短網址連結
             $("#short_link").attr("href", ActivityInfo[0].Act_short_link);
-            //設定短網址內容
             $("#short_link").html(ActivityInfo[0].Act_short_link);
             //設定QRcode圖片
             $("#QRcode").attr("src", ActivityInfo[0].Act_short_link + ".qr");
+
+
             //設定相關連結，如果沒有則不顯示
-            if (ActivityInfo[0].Act_relate_link != "") {
-                $("#relate_link").attr("href", ActivityInfo[0].Act_relate_link);
-                //$("#relate_link").html(ActivityInfo[0].Act_relate_link);
-            }
-            else
+            if (ActivityInfo[0].Act_relate_link == "") {
                 $("#relate_link").remove();
-            //設定附加檔案
-            if (ActivityInfo[0].Act_relate_file != null) {
-                $("#relate_File").attr("href", ActivityInfo[0].Act_relate_file);
             }
-            else
+            //設定附加檔案
+            if (ActivityInfo[0].Act_relate_file == "") {
                 $("#relate_File").remove();
+            }
             //設定活動圖片
-            if (ActivityInfo[0].Act_image != null) {
+            if (ActivityInfo[0].Act_image != "") {
                 $("#act_image").attr("src", ActivityInfo[0].Act_image);
                 $("#act_image_modal").attr("src", ActivityInfo[0].Act_image);
             }
@@ -206,7 +234,6 @@
                 $("#act_image").attr("src", "../Scripts/Lib/assets/img/fcu.jpg");
                 $("#act_image_modal").attr("src", "../Scripts/Lib/assets/img/fcu.jpg");
             }
-
         }
         //#endregion
 
@@ -217,25 +244,30 @@
             //產生場次
             for (var count = 0 ; count < SessionInfo.length ; count++) {
                 var apply_num;
+                var as_remark_vis = "";
                 if ((SessionInfo[count].as_num_limit - SessionInfo[count].apply_num) < 0)
                     apply_num = 0;
                 else
                     apply_num = SessionInfo[count].as_num_limit - SessionInfo[count].apply_num;
-                $("#add_Session_div").append('<div class="showback">\
-                                             <label class="session-control-label" id="as_title_">'+ SessionInfo[count].as_title + '</label>\
-                                             <br />\
-                                             <label class="session-control-label-context" id="as_position_">活動地點：' + SessionInfo[count].as_position + '</label>\
-                                             <br />\
-                                             <label class="session-control-label-context" id="as_data_">活動日期：' + dateReviver(SessionInfo[count].as_date_start) + ' ~ ' + dateReviver(SessionInfo[count].as_date_end) + '</label>\
-                                             <br />\
-                                             <label class="session-control-label-context" id="as_apply_">報名日期：' + dateReviver(SessionInfo[count].as_apply_start) + ' ~ ' + dateReviver(SessionInfo[count].as_apply_end) + '</label>\
-                                             <br />\
-                                             <label class="session-control-label-context" id="as_numlimit_">剩餘/限制人數：' + SessionInfo[count].apply_num + '/' + SessionInfo[count].as_num_limit + '人</label>\
-                                             <br />\
-                                             <a id="apply_btn_' + count + '" href="S02010105.aspx?sys_id=S02&sys_pid=S02010105&act_idn=' + SessionInfo[count].as_act + '&as_idn=' + SessionInfo[count].as_idn + '" class="btn btn-theme btn-lg" role="button">我要報名</a>\
-                                         </div>');
+                if (SessionInfo[count].as_remark == "")
+                    as_remark_vis = "display:none;";
+                $("#add_Session_div").append('<div class="panel panel-default">\
+                                                <div class="panel-heading">活動場次</div>\
+                                                    <div class="panel-body">\
+                                                        <h3 style="color:#069;">'+ SessionInfo[count].as_title + '</h3>\
+                                                        <div class="tooltip-demo">活動地點：' + SessionInfo[count].as_position + '\
+                                                            <br>活動日期：' + dateReviver(SessionInfo[count].as_date_start) + ' ~ ' + dateReviver(SessionInfo[count].as_date_end) + '\
+                                                            <br>報名日期：' + dateReviver(SessionInfo[count].as_apply_start) + ' ~ ' + dateReviver(SessionInfo[count].as_apply_end) + '\
+                                                            <br>報名/限制人數：' + SessionInfo[count].apply_num + '/' + SessionInfo[count].as_num_limit + '人\
+                                                            <br><p style="' + as_remark_vis + ' margin:0px;">備註：' + SessionInfo[count].as_remark + '</p>\
+                                                            <br>\
+                                                            <a id="apply_btn_' + count + '" href="S02010105.aspx?sys_id=S02&sys_pid=S02010105&act_idn=' + SessionInfo[count].as_act + '&as_idn=' + SessionInfo[count].as_idn + '" class="btn btn-info" data-toggle="tooltip" data-placement="right" style="color: white;">我要報名</a>\
+                                                        </div>');
+
                 if (apply_num <= 0) {
                     $("#apply_btn_" + count).html("名額已滿");
+                    $("#apply_btn_" + count).removeClass("btn btn-info");
+                    $("#apply_btn_" + count).addClass("btn_info_dis");
                 }
                 //將時間字串轉成DateTime格式
                 var apply_end = new Date(dateReviver(SessionInfo[count].as_apply_end));
@@ -246,15 +278,20 @@
                 //判斷報名結束時間是否結束
                 if (apply_end < NowDate) {
                     $("#apply_btn_" + count).html("報名日期截止");
+                    $("#apply_btn_" + count).removeClass("btn btn-info");
+                    $("#apply_btn_" + count).addClass("btn_info_dis");
                 }
                 //判斷活動是否結束
                 if (date_end < NowDate) {
                     $("#apply_btn_" + count).html("活動已結束");
+                    $("#apply_btn_" + count).removeClass("btn btn-info");
+                    $("#apply_btn_" + count).addClass("btn_info_dis");
                 }
                 //判斷是否開始報名
                 if (apply_start > NowDate) {
-                    $("#apply_btn_" + count).attr("href", 'javascript:void(0)');
                     $("#apply_btn_" + count).html("尚未開放報名");
+                    $("#apply_btn_" + count).removeClass("btn btn-info");
+                    $("#apply_btn_" + count).addClass("btn_info_dis");
                 }
             }
         }

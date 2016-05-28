@@ -3,31 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Model;
-using DataAccess;
-using BusinessLayer;
-using DataAccess.S01;
 using Util;
-using System.Data;
+using DataAccess;
+using DataAccess.S02;
+using Model;
 
-namespace BusinessLayer.S01
+namespace BusinessLayer.S02
 {
-    public class S020105BL
+    public class S020105BL : BaseBL
     {
-        S020105Data _data = new S020105Data();
+        S020105Data _da = new S020105Data();
+        Activity_statementData ast_data = new Activity_statementData();
 
-        #region 取得區塊列表
-        public List<Activity_sectionInfo> GetSectionList(int acs_act)
+        #region 取得資料
+        /// <summary>
+        /// 取得資料
+        /// </summary>
+        /// <param name="cond_dict">查詢條件</param>
+        /// <returns></returns>
+        public List<Activity_statementInfo> GetList(string act_id)
         {
-            return _data.GetSectionList(acs_act);
+            return _da.GetList(act_id);
         }
         #endregion
 
-        #region 取得問題列表
-        public List<Activity_columnInfo> GetQuestionList(int acc_act)
+        public CommonResult DeleteData(Dictionary<string, object> dict)
         {
-            return _data.GetQuestionList(acc_act);
+            return ast_data.DeleteData(dict);
         }
-        #endregion
     }
 }

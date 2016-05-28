@@ -13,9 +13,9 @@ namespace BusinessLayer.Web
         SignChangeData _data = new SignChangeData();   
 
         #region 取得區塊列表
-        public List<Activity_sectionInfo> GetSectionList(int acs_act)
+        public List<Activity_sectionInfo> GetSectionList(int acs_act, int as_idn)
         {
-            return _data.GetSectionList(acs_act);
+            return _data.GetSectionList(acs_act, as_idn);
         }
         #endregion
 

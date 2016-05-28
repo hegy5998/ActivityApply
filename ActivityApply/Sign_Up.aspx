@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true" CodeBehind="Sign_Up.aspx.cs" Inherits="ActivityApply.Sign_Up" %>
+
 <%@ Register Assembly="CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="mainHead" runat="server">
@@ -16,6 +17,9 @@
             $("#form1").validate();
         });
     </script>
+    <!-- Jquery Strength -->
+    <link href="<%=ResolveUrl("~/assets/css/strength.css")%>" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/strength.js") %>"></script>
 
     <style type="text/css">
         /* 欄位控制項 */
@@ -42,71 +46,76 @@
         label.error {
             color: red;
         }
+
+        table {
+            box-shadow: none;
+        }
     </style>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="sideCon" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="mainCon" runat="server">
-    <section id="container">
-        <section id="main-content">
-            <section class="wrapper">
-                <div class="advanced-form row" style="display: none;">
-                    <h3>活動報名</h3>
-                    <section>
-                        <h3><i class="fa fa-angle-right"></i>活動報名</h3>
-                        <!-- 放置區塊區域 -->
-                        <div id="sections_div">
-                            <!-- 放置問題區域 -->
-                        </div>
-                    </section>
-
-                    <h3>資料確認</h3>
-                    <section>
-                        <h3><i class="fa fa-angle-right"></i>資料確認</h3>
-                        <div id="check_div" class="col-sm-8 form-panel table-responsive">
-                            <table id="checkData_table" class="table table-condensed">
-                                <tbody>
-                                    <!-- 放置使用者資料確認欄位 -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </section>
-
-                    <h3>設定密碼</h3>
-                    <section>
-                        <h3><i class="fa fa-angle-right"></i>設定密碼</h3>
-                        <div id="password_div" class="col-sm-8 form-panel">
-                        
-                        </div>
-                    </section>
-
-                    <h3>報名完成</h3>
-                    <section>
-                        <h3><i class="fa fa-angle-right"></i>報名完成</h3>
-                        <div id="finish_div" class="col-sm-8 form-panel"> 
-                            <asp:Button runat="server" ID="print_btn" OnClick="print_ApplyProve" Text="下載報名證明" CssClass="btn btn-theme" />
-                        </div>
-                    </section>
-                </div>
-            </section>
+    <div class="advanced-form row" style="display: none; padding-top: 25px; padding-bottom: 25px;">
+        <h3>活動報名</h3>
+        <section>
+            <h3><i class="fa fa-angle-right"></i>活動報名</h3>
+            <!-- 放置區塊區域 -->
+            <div id="sections_div">
+                <!-- 放置問題區域 -->
+            </div>
         </section>
-    </section>
+
+        <h3>資料確認</h3>
+        <section>
+            <h3><i class="fa fa-angle-right"></i>資料確認</h3>
+            <div id="check_div" class="col-sm-8 panel panel-default table-responsive">
+                <table id="checkData_table" class="panel-body table table-condensed">
+                    <tbody>
+                        <!-- 放置使用者資料確認欄位 -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <h3>設定密碼</h3>
+        <section>
+            <h3><i class="fa fa-angle-right"></i>設定密碼</h3>
+            <div class="col-sm-8 form-horizontal panel panel-default style-form">
+                <div id="password_div" class="panel-body">
+                </div>
+            </div>
+        </section>
+
+        <h3>報名完成</h3>
+        <section>
+            <h3><i class="fa fa-angle-right"></i>報名完成</h3>
+            <div class="col-sm-8 panel panel-default">
+                <div id="finish_div" class="panel-body">
+                    <asp:Button runat="server" ID="print_btn" OnClick="print_ApplyProve" Text="下載報名資訊" CssClass="btn btn-info" />
+                </div>
+            </div>
+        </section>
+    </div>
+
+
 
     <script type="text/javascript">
+        var title;
         var sectionList;
         var questionList;
         var email;
         var signFlag = false;
         // Enter 事件：改為按下一步
-        $(document).keydown(function(){
+        $(document).keydown(function () {
             if (event.keyCode == 13) {
                 $(".advanced-form").steps("next");
                 return false;
             }
         });
-        
+
         $(document).ready(function () {
+            
             var funcList = [getSectionList,
                             getQuestionList,
                             resizeJquerySteps];
@@ -147,8 +156,8 @@
                             if (SaveUserData()) {
                                 Add_Finish();
                                 return true;
-                            }                         
-                        }                        
+                            }
+                        }
                     }
                     resizeJquerySteps();
                     return false;
@@ -161,14 +170,21 @@
                         }
                         else {
                             Add_SetPwd();
-                            $("#password").rules("add", { required: true, minlength: 4 ,maxlength : 20});
+                            $("#password").rules("add", { required: true, minlength: 6, maxlength: 20 });
                             $("#confirm_password").rules("add", { required: true, equalTo: "#password" });
+                            $("#password").strength({
+                                strengthClass: 'strength',
+                                strengthMeterClass: 'strength_meter',
+                                strengthButtonClass: 'button_strength',
+                                strengthButtonText: 'Show Password',
+                                strengthButtonTextToggle: 'Hide Password'
+                            });
                         }
                     }
                     resizeJquerySteps();
                 },
                 onFinishing: function (event, currentIndex) {
-                    window.location.replace("index.aspx");
+                    window.location.replace("Sign_Search_Context.aspx");
                     return true;
                 },
                 onFinished: function (event, currentIndex) {
@@ -188,7 +204,6 @@
             }
             form.show();
             //#endregion
-            
         })
         /* 活動報名 */
         // #region 取得區塊列表
@@ -206,7 +221,7 @@
                     if (result.d != "false")
                         Add_Section(result.d);
                     else
-                        window.location.replace("index.aspx");
+                        window.location.replace("Index.aspx");
                 },
                 //失敗時
                 error: function () {
@@ -231,7 +246,7 @@
                     if (result.d != "false")
                         Add_Question(result.d);
                     else
-                        window.location.replace("index.aspx");
+                        window.location.replace("Index.aspx");
                 },
                 //失敗時
                 error: function () {
@@ -262,7 +277,17 @@
                     case "dropDownList": code = DropDownListCol_Code(questionInfo[i], i); break;
                 }
                 $("#question_div_" + questionInfo[i].Acc_asc).append(decodeURI(code));
+                if (questionInfo[i].Acc_type == "text")
+                    $("#qus_div_" + i).find('input').css({ 'width': '99%' });
+                else
+                    $("#qus_div_" + i).find('input').css({ 'width': 'auto' });
+                $("#qus_div_" + i).find('select').css({ 'width': '99%' });
             }
+            $.datetimepicker.setLocale('zh-TW');
+            $('.datetimepicker').datetimepicker({
+                timepicker: false,
+                format: 'Y/m/d'
+            });
             $(document).dequeue("myQueue");
         }
         //#endregion
@@ -270,10 +295,10 @@
         function Section_Code(section) {
             var sectionId = "sec_div_" + section.Acs_seq;
             var questionId = "question_div_" + section.Acs_seq;
-            var code = '<div id="' + sectionId + '" class="col-sm-12 form-panel">\
-                            <h4 class="mb"><i class="fa fa-angle-right"></i>' + section.Acs_title + '</h4>\
-                            <label class="desc">' + section.Acs_desc + '</label>\
-                            <div id="' + questionId + '" class="form-horizontal style-form">\
+            var code = '<div id="' + sectionId + '" class="panel panel-default">\
+                            <div class="panel-heading">' + section.Acs_title + '</div>\
+                            <label class="desc" style="margin: 15px 15px 0px 30px;">' + section.Acs_desc + '</label>\
+                            <div id="' + questionId + '" class="panel-body form-horizontal style-form">\
                             </div>\
                         </div>';
             return code;
@@ -285,8 +310,8 @@
             var qusName = questionList[seq].Input_name = "qus_txt_" + seq;
             var code = '<div id="' + qusId + '" class="form-group">\
                             <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
-                            <div class="col-sm-10">\
-                                <input type="text" name="' + qusName + '" class="form-control' + Validate(question.Acc_required, question.Acc_validation) + '>\
+                            <div class="col-sm-10 col-lg-5">\
+                                <input type="text" name="' + qusName + '" class="form-control' + Validate(question.Acc_required, question.Acc_validation) + ' >\
                                 <span class="help-block">' + question.Acc_desc + '</span>\
                             </div>\
                         </div>';
@@ -299,7 +324,7 @@
             var qusName = questionList[seq].Input_name = "qus_radio_" + seq;
             var code = '<div id="' + qusId + '" class="form-group">\
                             <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
-                            <div class="col-sm-10">\
+                            <div class="col-sm-10 col-lg-5">\
                                 <span class="help-block">' + question.Acc_desc + '</span>';
             //反序列化
             question.Acc_option.split('&').forEach(function (param, index) {
@@ -307,7 +332,7 @@
                 var val = param[1];
                 code += '<div class="radio">\
                             <label>\
-                                <input type="radio" name="' + qusName + '" value="' + val + '"' + (index == 0 ? ' class="' + Validate(question.Acc_required, question.Acc_validation) : '') + '>\
+                                <input type="radio" style="width: auto;" name="' + qusName + '" value="' + val + '"' + (index == 0 ? ' class="' + Validate(question.Acc_required, question.Acc_validation) : '') + '>\
                                 ' + val + '\
                             </label>\
                         </div>';
@@ -323,7 +348,7 @@
             var qusName = questionList[seq].Input_name = "qus_checkbox_" + seq;
             var code = '<div id="' + qusId + '" class="form-group">\
                             <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
-                            <div class="col-sm-10">\
+                            <div class="col-sm-10 col-lg-5">\
                                 <span class="help-block">' + question.Acc_desc + '</span>';
             //反序列化
             question.Acc_option.split('&').forEach(function (param, index) {
@@ -331,7 +356,7 @@
                 var val = param[1];
                 code += '<div class="checkbox">\
                             <label>\
-                                <input type="checkbox" name="' + qusName + '" value="' + val + '"' + (index == 0 && question.Acc_required == "1" ? ' class="' + Validate(question.Acc_required, "length,1,N") : '') + '>' + val + '\
+                                <input type="checkbox" style="width: auto;" name="' + qusName + '" value="' + val + '"' + (index == 0 && question.Acc_required == "1" ? ' class="' + Validate(question.Acc_required, "length,1,N") : '') + '>' + val + '\
                             </label>\
                          </div>';
             })
@@ -346,7 +371,7 @@
             var qusName = questionList[seq].Input_name = "qus_ddl_" + seq;
             var code = '<div id="' + qusId + '" class="form-group">\
                             <label class="col-sm-2 control-label">' + question.Acc_title + RequiredMark(question.Acc_required) + '</label>\
-                            <div class="col-sm-10">\
+                            <div class="col-sm-10 col-lg-5">\
                                 <select name="' + qusName + '" class="form-control' + Validate(question.Acc_required, question.Acc_validation) + '>\
                                     <option value=""></option>';
             //反序列化
@@ -380,7 +405,7 @@
                 case 'email': code += ' email"'; break;
                 case 'idNumber': code += ' TWIDCheck"'; break;
                 case 'cellPhone': code += ' mobileTW"'; break;
-                case 'date': code += ' date"'; break;
+                case 'date': code += ' date datetimepicker"'; break;
                 case 'url': code += ' url"'; break;
                 case 'int': code += ' number"' + (validation[1] != 'N' ? ' min="' + validation[1] + '"' : '') + (validation[2] != 'N' ? ' max="' + validation[2] + '"' : ''); break;
                 case 'length': code += '"' + (validation[1] != 'N' ? ' minlength="' + validation[1] + '"' : '') + (validation[2] != 'N' ? ' maxlength="' + validation[2] + '"' : ''); break;
@@ -473,9 +498,9 @@
                     if (msg.split(":")[0] == "Error") {
                         alert(msg.split(":")[1]);
                         res = false;
-                        window.location.replace("index.aspx");
+                        window.location.replace("Sign_Search_Context.aspx");
                         window.event.returnValue = false;
-                    }                    
+                    }
                 },
                 //失敗時
                 error: function () {
@@ -488,9 +513,9 @@
         //#endregion
         /* 設定密碼 */
         //#region 驗證使用者是否註冊過
-        function isSignUp() {            
+        function isSignUp() {
             var res;
-            for(var i = 0; i < questionList.length; i++){
+            for (var i = 0; i < questionList.length; i++) {
                 if (questionList[i].Acc_title.indexOf("Email") != -1) {
                     email = questionList[i].Acc_val;
                     break;
@@ -505,7 +530,7 @@
                 data: JSON.stringify(data),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                async:false,
+                async: false,
                 //成功時
                 success: function (result) {
                     res = result.d;
@@ -569,13 +594,13 @@
                 //失敗時
                 error: function () {
                     alert("儲存密碼錯誤!");
-                    res =  false;
+                    res = false;
                 }
             });
             return res;
         }
         //#endregion
-        
+
         /* 報名完成 */
         //#region 新增報名完成提示
         function Add_Finish() {
@@ -585,17 +610,17 @@
         //#region 報名完成提示程式碼
         function Finish_Code() {
             var code = '<p>報名完成，請至電子信箱查看報名成功確認信！</p>\
-                        <p>如有需要可自行下載活動證明</p>';
+                        <p>如有需要可自行下載報名資訊</p>';
             return code;
         }
         //#endregion
-        
+
         //#region 設定麵包削尋覽列
         function setSessionBread() {
             //將滅包削內容清空
             $("#add_breach").children().remove();
             //添加首頁
-            $("#add_breach").append('<li><a href="index.aspx">首頁</a></li>');
+            $("#add_breach").append('<li><a href="Index.aspx">首頁</a></li>');
             var act_class = $.url().param("act_class");
             //判斷目前目錄並添加
             var act_class_title;
@@ -605,11 +630,13 @@
                     act_class_title = $("#add_sub > li > a")[count].innerHTML;
                 }
             }
-            $("#add_breach").append('<li><a href="activity_List.aspx?act_class=' + act_class + '">' + act_class_title + '</a></li>');
-            $("#add_breach").append('<li><a href="activity.aspx?act_class=' + $.url().param("act_class") + '&act_idn=' + $.url().param("act_idn") + '&act_title=' + $.url().param("act_title") + '">' + $.url().param("act_title") + '</a></li>');
+            $("#add_breach").append('<li><a href="Activity_List.aspx?act_class=' + act_class + '">' + act_class_title + '</a></li>');
+            $("#add_breach").append('<li><a href="Activity.aspx?act_class=' + $.url().param("act_class") + '&act_idn=' + $.url().param("act_idn") + '&act_title=' + $.url().param("act_title") + '">' + $.url().param("act_title") + '</a></li>');
             $("#add_breach").append('<li>報名</li>');
         }
         //#endregion
+
+
     </script>
 
 </asp:Content>

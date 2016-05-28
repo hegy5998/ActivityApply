@@ -95,14 +95,15 @@ namespace DataAccess
                                                AND act_isopen = 1 
                                                AND as_isopen = 1 
                                                AND CONVERT(DATETIME, as_apply_end, 121) >= CONVERT(VARCHAR(256), Getdate(), 121)
+                                        ORDER  BY as_date_start
                                         UNION ALL 
                                         SELECT TOP 1 * 
                                         FROM   activity_session 
                                         WHERE  as_act = act_idn 
                                                AND act_isopen = 1 
                                                AND as_isopen = 1 
-                                        ORDER  BY as_apply_end DESC) d 
-                                ORDER  BY as_apply_end DESC) AS ac_session 
+                                        ORDER  BY as_date_start) d 
+                                ORDER  BY as_apply_end ) AS ac_session 
                             cross apply 
                                     (select COUNT(*) as num
                                     FROM activity_session 

@@ -86,9 +86,9 @@ namespace DataAccess.S01
         }
 
         //新增Email資料
-        public List<Activity_apply_emailInfo> setPassword(string aae_email)
+        public List<Activity_apply_emailInfo> getEmail(string aae_email)
         {
-            return _emaildata.setPassword(aae_email);
+            return _emaildata.getEmail(aae_email);
         }
 
 

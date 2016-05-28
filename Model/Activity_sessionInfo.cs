@@ -59,6 +59,12 @@ namespace Model
         /// <summary>
         ///  
         /// </summary>
+        [Column("as_short_link")]
+        public String As_short_link { get; set; }
+
+        /// <summary>
+        ///  
+        /// </summary>
         [Column("as_gmap")]
         public String As_gmap { get; set; }
 
@@ -103,6 +109,12 @@ namespace Model
         /// </summary>
         [Column("as_title")]
         public String As_title { get; set; }
+
+        /// <summary>
+        ///  
+        /// </summary>
+        [Column("as_remark")]
+        public String As_remark { get; set; }
 
         /// <summary>
         ///  

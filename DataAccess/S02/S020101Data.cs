@@ -25,6 +25,8 @@ namespace DataAccess
         ActivityData _activityData = new ActivityData();
         Activity_apply_detailData _applyData = new Activity_apply_detailData();
 
+        //Sys_accountInfo loginUser = CommonHelper.GetLoginUser();
+
         #region 取得活動資料
         public List<ActivityInfo> getActivity(int act_idn)
         {
@@ -41,7 +43,7 @@ namespace DataAccess
         }
         #endregion
 
-        #region 取得活動資料
+        #region 取得場次資料
         public List<Activity_sessionInfo> getSession(int as_act)
         {
             string sql = @"SELECT   activity_session.*
@@ -63,7 +65,7 @@ namespace DataAccess
         }
         #endregion
 
-        #region 取得活動資料
+        #region 取得欄位資料
         public List<Activity_columnInfo> getColumn(int acc_act)
         {
             string sql = @"SELECT   activity_column.*
@@ -180,18 +182,46 @@ namespace DataAccess
         public DataTable GetAlreadyList()
         {
             StringBuilder sql_sb = new StringBuilder();
+            Sys_accountInfo loginUser = CommonHelper.GetLoginUser();
 
-            sql_sb.Append(@"
-                SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen
+            if (loginUser.Act_id == "S001")
+            {
+                sql_sb.Append(@"
+                SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
                 FROM activity, activity_session
                 LEFT JOIN activity_apply
                 ON aa_as = as_idn
                 WHERE as_act = act_idn AND
                       as_isopen = 1 AND
                       CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121)
-                GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen
-                ORDER BY act_title");
-
+                GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end,as_short_link, act_isopen, activity_session.createid");
+            }
+            else
+            {
+                sql_sb.Append(@"
+                    (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
+                    FROM activity, activity_session
+                    LEFT JOIN activity_apply
+                    ON aa_as = as_idn
+                    WHERE as_act = act_idn AND
+                            as_isopen = 1 AND
+                            CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121) AND
+                            activity_session.createid LIKE '" + loginUser.Act_id + @"'
+                    GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
+                    UNION
+                    (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
+                    FROM activity, account_copperate, activity_session
+                    LEFT JOIN activity_apply
+                    ON aa_as = as_idn
+                    WHERE as_act = act_idn AND
+                            as_isopen = 1 AND
+                            CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121) AND
+		                    cop_act = act_idn AND
+                            cop_id LIKE '" + loginUser.Act_id + @"'
+                    GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end,as_short_link, act_isopen, activity_session.createid)
+                    ORDER BY act_idn");
+            }
+            
             return Db.GetDataTable(sql_sb.ToString());
         }
         #endregion
@@ -200,17 +230,45 @@ namespace DataAccess
         public DataTable GetReadyList()
         {
             StringBuilder sql_sb = new StringBuilder();
+            Sys_accountInfo loginUser = CommonHelper.GetLoginUser();
 
-            sql_sb.Append(@"
-                SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen
+            if (loginUser.Act_id == "S001")
+            {
+                sql_sb.Append(@"
+                SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
                 FROM activity, activity_session
                 LEFT JOIN activity_apply
                 ON aa_as = as_idn
                 WHERE as_act = act_idn AND
                       as_isopen = 0 AND
-                      CONVERT(datetime, as_date_end, 111) >= CONVERT(varchar, GETDATE(), 111)
-                GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen
-                ORDER BY act_title");
+                      CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121)
+                GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid");
+            }
+            else
+            {
+                sql_sb.Append(@"
+                    (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
+                    FROM activity, activity_session
+                    LEFT JOIN activity_apply
+                    ON aa_as = as_idn
+                    WHERE as_act = act_idn AND
+                          as_isopen = 0 AND
+                          CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121) AND
+                          activity_session.createid LIKE '" + loginUser.Act_id + @"'
+                    GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_short_link,as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
+                    UNION
+                    (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_short_link,CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
+                    FROM activity, account_copperate, activity_session
+                    LEFT JOIN activity_apply
+                    ON aa_as = as_idn
+                    WHERE as_act = act_idn AND
+                          as_isopen = 0 AND
+                          CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121) AND
+		                  cop_act = act_idn AND
+                          cop_id LIKE '" + loginUser.Act_id + @"'
+                    GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
+                    ORDER BY act_idn");
+            }
 
             return Db.GetDataTable(sql_sb.ToString());
         }
@@ -220,8 +278,11 @@ namespace DataAccess
         public DataTable GetEndList()
         {
             StringBuilder sql_sb = new StringBuilder();
+            Sys_accountInfo loginUser = CommonHelper.GetLoginUser();
 
-            sql_sb.Append(@"
+            if (loginUser.Act_id == "S001")
+            {
+                sql_sb.Append(@"
                 SELECT as_idn, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_idn
                 FROM activity, activity_session
                 LEFT JOIN activity_apply
@@ -230,29 +291,43 @@ namespace DataAccess
 	                  CONVERT(datetime, as_date_end, 121) <= CONVERT(varchar, GETDATE(), 121)
                 GROUP BY as_idn, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_idn
                 ORDER BY act_title");
+            }
+            else
+            {
+                sql_sb.Append(@"
+                    SELECT as_idn, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_idn
+                    FROM activity, activity_session
+                    LEFT JOIN activity_apply
+                    ON aa_as = as_idn
+                    WHERE as_act = act_idn AND
+	                      CONVERT(datetime, as_date_end, 121) <= CONVERT(varchar, GETDATE(), 121) AND
+                          activity_session.createid LIKE '" + loginUser.Act_id + @"'
+                    GROUP BY as_idn, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_idn
+                    ORDER BY act_title");
+            }
 
             return Db.GetDataTable(sql_sb.ToString());
         }
         #endregion
 
         #region 取得修改活動資料
-        public DataTable GetEditData(int i)
-        {
-            StringBuilder sql_sb = new StringBuilder();
+//        public DataTable GetEditData(int i)
+//        {
+//            StringBuilder sql_sb = new StringBuilder();
 
-            sql_sb.Append(@"
-                SELECT act_idn, act_title, act_desc, act_unit, act_contact_name, act_contact_phone, act_relate_file, act_relate_link, as_idn, as_act, as_date_start, as_date_end, as_apply_start, as_apply_end, as_position, as_gmap, as_num_limit, as_seq, as_title, as_isopen
-                FROM activity, activity_session
-                WHERE as_act = act_idn AND
-	                  act_idn = @i");
+//            sql_sb.Append(@"
+//                SELECT act_idn, act_title, act_desc, act_unit, act_contact_name, act_contact_phone, act_relate_file, act_relate_link, as_idn, as_act, as_date_start, as_date_end, as_apply_start, as_apply_end, as_position, as_gmap, as_num_limit, as_seq, as_title, as_isopen
+//                FROM activity, activity_session
+//                WHERE as_act = act_idn AND
+//	                  act_idn = @i");
 
-            //修改資料的key
-            var param_lst = new List<IDataParameter>() {
-                Db.GetParam("@i", i),
-            };
+//            //修改資料的key
+//            var param_lst = new List<IDataParameter>() {
+//                Db.GetParam("@i", i),
+//            };
 
-            return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
-        }
+//            return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
+//        }
         #endregion
 
         #region 取得刪除資料(若此活動已沒有場次則連活動一起刪除)
@@ -301,7 +376,7 @@ namespace DataAccess
             StringBuilder sql_sb = new StringBuilder();
 
             sql_sb.Append(@"
-                SELECT act_idn, act_title, acc_idn, acc_title, as_idn, as_title, acc_type, acc_option
+                SELECT act_idn, act_title, acc_idn, acc_title, as_idn, as_title, acc_type, acc_option, acc_required
                 FROM activity, activity_column, activity_session
                 WHERE acc_act = act_idn AND
 	                  as_act = act_idn AND
@@ -440,21 +515,108 @@ namespace DataAccess
         public DataTable GetQueryClassData(string keyword, int tab, string cl)
         {
             StringBuilder sql_sb = new StringBuilder();
+            Sys_accountInfo loginUser = CommonHelper.GetLoginUser();
 
-            sql_sb.Append(@"
-                SELECT as_idn, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_idn, ac_title, as_isopen, act_isopen
-                FROM activity, activity_class, activity_session
-                LEFT JOIN activity_apply
-                ON aa_as = as_idn
-                WHERE as_act = act_idn AND
-                      ac_title LIKE '" + @cl + @"' AND
-		              (act_title LIKE '%" + @keyword + @"%' OR
-                      as_title LIKE '%" + @keyword + @"%') AND
-		              as_isopen = @tab AND
-                      act_class = ac_idn AND
-	                  CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121)
-                GROUP BY as_idn, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_idn, ac_title, as_isopen, act_isopen
-                ORDER BY act_title");
+            if (cl == "全部")
+            {
+                if (loginUser.Act_id == "S001")
+                {
+                    sql_sb.Append(@"
+                        SELECT as_idn, act_title, as_title, as_num_limit,as_short_link, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_idn, ac_title, as_isopen, act_isopen, activity_session.createid
+                        FROM activity, activity_class, activity_session
+                        LEFT JOIN activity_apply
+                        ON aa_as = as_idn
+                        WHERE as_act = act_idn AND
+		                      (act_title LIKE '%" + @keyword + @"%' OR
+                              as_title LIKE '%" + @keyword + @"%') AND
+		                      as_isopen = @tab AND
+                              act_class = ac_idn AND
+	                          CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121)
+                        GROUP BY as_idn, act_title, as_title, as_num_limit,as_short_link, as_date_start, as_date_end, as_apply_start, as_apply_end, act_idn, ac_title, as_isopen, act_isopen, activity_session.createid
+                        ORDER BY act_title");
+                }
+                else
+                {
+                    sql_sb.Append(@"
+                        (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
+                        FROM activity, activity_class, activity_session
+                        LEFT JOIN activity_apply
+                        ON aa_as = as_idn
+                        WHERE as_act = act_idn AND
+		                      (act_title LIKE '%" + @keyword + @"%' OR
+                              as_title LIKE '%" + @keyword + @"%') AND
+                              as_isopen = @tab AND
+                              act_class = ac_idn AND
+                              CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121) AND
+                        GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
+                        UNION
+                        (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
+                        FROM activity, account_copperate, activity_session
+                        LEFT JOIN activity_apply
+                        ON aa_as = as_idn
+                        WHERE as_act = act_idn AND
+                              (act_title LIKE '%" + @keyword + @"%' OR
+                              as_title LIKE '%" + @keyword + @"%') AND
+                              as_isopen = @tab AND
+                              CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121) AND
+		                      cop_act = act_idn AND
+                              cop_id LIKE '" + loginUser.Act_id + @"'
+                        GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
+                        ORDER BY act_idn");
+                }
+            }
+            else
+            {
+                if (loginUser.Act_id == "S001")
+                {
+                    sql_sb.Append(@"
+                        SELECT as_idn, act_title, as_title, as_num_limit,as_short_link, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_idn, ac_title, as_isopen, act_isopen, activity_session.createid
+                        FROM activity, activity_class, activity_session
+                        LEFT JOIN activity_apply
+                        ON aa_as = as_idn
+                        WHERE as_act = act_idn AND
+                              ac_title LIKE '" + @cl + @"' AND
+		                      (act_title LIKE '%" + @keyword + @"%' OR
+                              as_title LIKE '%" + @keyword + @"%') AND
+		                      as_isopen = @tab AND
+                              act_class = ac_idn AND
+	                          CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121)
+                        GROUP BY as_idn, act_title, as_title, as_num_limit,as_short_link, as_date_start, as_date_end, as_apply_start, as_apply_end, act_idn, ac_title, as_isopen, act_isopen, activity_session.createid
+                        ORDER BY act_title");
+                }
+                else
+                {
+                    sql_sb.Append(@"
+                        (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
+                        FROM activity, activity_class, activity_session
+                        LEFT JOIN activity_apply
+                        ON aa_as = as_idn
+                        WHERE as_act = act_idn AND
+                              ac_title LIKE '" + @cl + @"' AND
+		                      (act_title LIKE '%" + @keyword + @"%' OR
+                              as_title LIKE '%" + @keyword + @"%') AND
+                              as_isopen = @tab AND
+                              act_class = ac_idn AND
+                              CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121) AND
+                              activity_session.createid LIKE '" + loginUser.Act_id + @"'
+                        GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
+                        UNION
+                        (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
+                        FROM activity, account_copperate, activity_class, activity_session
+                        LEFT JOIN activity_apply
+                        ON aa_as = as_idn
+                        WHERE as_act = act_idn AND
+                              ac_title LIKE '" + @cl + @"' AND
+		                      (act_title LIKE '%" + @keyword + @"%' OR
+                              as_title LIKE '%" + @keyword + @"%') AND
+                              as_isopen = @tab AND
+                              CONVERT(datetime, as_date_end, 121) >= CONVERT(varchar, GETDATE(), 121) AND
+		                      cop_act = act_idn AND
+                              cop_id LIKE '" + loginUser.Act_id + @"'
+                        GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit,as_short_link, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
+                        ORDER BY act_idn");
+                }
+            }
 
             //關鍵字 & 頁籤
             var param_lst = new List<IDataParameter>() {
@@ -469,28 +631,100 @@ namespace DataAccess
 
         #region 取得已結束活動查詢資料
         //取得已結束活動查詢資料(依分類)
-        public DataTable GetQueryEndClassData(string keyword)
+        public DataTable GetQueryEndClassData(string keyword, string cl)
         {
             StringBuilder sql_sb = new StringBuilder();
+            Sys_accountInfo loginUser = CommonHelper.GetLoginUser();
 
-            sql_sb.Append(@"
-                SELECT as_idn, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_idn, ac_title, as_isopen, act_isopen
-                FROM activity, activity_class, activity_session
-                LEFT JOIN activity_apply
-                ON aa_as = as_idn
-                WHERE as_act = act_idn AND
-                      ac_title LIKE '" + @keyword + @"' AND
-		              (act_title LIKE '%" + @keyword + @"%' OR
-                      as_title LIKE '%" + @keyword + @"%') AND
-		              as_isopen = @tab AND
-                      act_class = ac_idn AND
-	                  CONVERT(datetime, as_date_end, 121) <= CONVERT(varchar, GETDATE(), 121)
-                GROUP BY as_idn, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_idn, ac_title, as_isopen, act_isopen
-                ORDER BY act_title");
+            if (cl == "全部")
+            {
+                if (loginUser.Act_id == "S001")
+                {
+                    sql_sb.Append(@"
+                        SELECT as_idn, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_idn, ac_title, as_isopen, act_isopen, activity_session.createid
+                        FROM activity, activity_class, activity_session
+                        LEFT JOIN activity_apply
+                        ON aa_as = as_idn
+                        WHERE as_act = act_idn AND
+		                      (act_title LIKE '%" + @keyword + @"%' OR
+                              as_title LIKE '%" + @keyword + @"%') AND
+                              act_class = ac_idn AND
+	                          CONVERT(datetime, as_date_end, 121) <= CONVERT(varchar, GETDATE(), 121)
+                        GROUP BY as_idn, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_idn, ac_title, as_isopen, act_isopen, activity_session.createid
+                        ORDER BY act_title");
+                }
+                else
+                {
+                    sql_sb.Append(@"
+                        (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
+                        FROM activity, activity_class, activity_session
+                        LEFT JOIN activity_apply
+                        ON aa_as = as_idn
+                        WHERE as_act = act_idn AND
+                              ac_title LIKE '" + @cl + @"' AND
+		                      (act_title LIKE '%" + @keyword + @"%' OR
+                              as_title LIKE '%" + @keyword + @"%') AND
+                              act_class = ac_idn AND
+                              CONVERT(datetime, as_date_end, 121) <= CONVERT(varchar, GETDATE(), 121) AND
+                              activity_session.createid LIKE '" + loginUser.Act_id + @"'
+                        GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
+                        UNION
+                        (SELECT act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_isopen, activity_session.createid
+                        FROM activity, account_copperate, activity_class, activity_session
+                        LEFT JOIN activity_apply
+                        ON aa_as = as_idn
+                        WHERE as_act = act_idn AND
+                              ac_title LIKE '" + @cl + @"' AND
+		                      (act_title LIKE '%" + @keyword + @"%' OR
+                              as_title LIKE '%" + @keyword + @"%') AND
+                              CONVERT(datetime, as_date_end, 121) <= CONVERT(varchar, GETDATE(), 121) AND
+		                      cop_act = act_idn AND
+                              cop_id LIKE '" + loginUser.Act_id + @"'
+                        GROUP BY act_idn, as_idn, as_isopen, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_isopen, activity_session.createid)
+                        ORDER BY act_idn");
+                }
+            }
+            else
+            {
+                if (loginUser.Act_id == "S001") 
+                {
+                    sql_sb.Append(@"
+                        SELECT as_idn, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_idn, ac_title, as_isopen, act_isopen, activity_session.createid
+                        FROM activity, activity_class, activity_session
+                        LEFT JOIN activity_apply
+                        ON aa_as = as_idn
+                        WHERE as_act = act_idn AND
+                              ac_title LIKE '" + @cl + @"' AND
+		                      (act_title LIKE '%" + @keyword + @"%' OR
+                              as_title LIKE '%" + @keyword + @"%') AND
+                              act_class = ac_idn AND
+	                          CONVERT(datetime, as_date_end, 121) <= CONVERT(varchar, GETDATE(), 121)
+                        GROUP BY as_idn, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_idn, ac_title, as_isopen, act_isopen, activity_session.createid
+                        ORDER BY act_title");
+                }
+                else
+                {
+                    sql_sb.Append(@"
+                        SELECT as_idn, act_title, as_title, as_num_limit, CONVERT(char(10), as_date_start, 111) as_date_start, SUBSTRING(CONVERT(char(8), as_date_start, 108), 0, 6) as_date_starttime, CONVERT(char(10), as_date_end, 111) as_date_end, SUBSTRING(CONVERT(char(8), as_date_end, 108), 0, 6) as_date_endtime, CONVERT(char(10), as_apply_start, 111) as_apply_start, SUBSTRING(CONVERT(char(8), as_apply_start, 108), 0, 6) as_apply_starttime, CONVERT(char(10), as_apply_end, 111) as_apply_end, SUBSTRING(CONVERT(char(8), as_apply_end, 108), 0, 6) as_apply_endtime, COUNT(aa_idn) as_num, act_idn
+                        FROM activity, activity_session
+                        LEFT JOIN activity_apply
+                        ON aa_as = as_idn
+                        WHERE as_act = act_idn AND
+                              ac_title LIKE '" + @cl + @"' AND
+		                      (act_title LIKE '%" + @keyword + @"%' OR
+                              as_title LIKE '%" + @keyword + @"%') AND
+                              act_class = ac_idn AND
+	                          CONVERT(datetime, as_date_end, 121) <= CONVERT(varchar, GETDATE(), 121) AND
+                              activity_session.createid LIKE '" + loginUser.Act_id + @"'
+                        GROUP BY as_idn, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_idn
+                        ORDER BY act_title");
+                }
+            }
 
             //關鍵字
             var param_lst = new List<IDataParameter>() {
                 Db.GetParam("@keyword", keyword),
+                Db.GetParam("@cl", cl),
             };
 
             return Db.GetDataTable(sql_sb.ToString(), param_lst.ToArray());
@@ -611,5 +845,29 @@ namespace DataAccess
 
             return Db.GetDataTable(sql_sb.ToString());
         }
+
+        #region 取得區塊列表
+        public List<Activity_sectionInfo> GetSectionList(int acs_act)
+        {
+            string sql = @" SELECT activity_section.*
+                            FROM activity_section
+                            WHERE acs_act = @acs_act 
+                            ORDER BY acs_seq";
+            IDataParameter[] param = { Db.GetParam("@acs_act", acs_act) };
+            return Db.GetEnumerable<Activity_sectionInfo>(sql, param).ToList();
+        }
+        #endregion
+
+        #region 取得問題列表
+        public List<Activity_columnInfo> GetQuestionList(int acc_act)
+        {
+            string sql = @" SELECT activity_column.*
+                            FROM activity_column
+                            WHERE acc_act = @acc_act 
+                            ORDER BY acc_asc, acc_seq;";
+            IDataParameter[] param = { Db.GetParam("@acc_act", acc_act) };
+            return Db.GetEnumerable<Activity_columnInfo>(sql, param).ToList();
+        }
+        #endregion
     }
 }

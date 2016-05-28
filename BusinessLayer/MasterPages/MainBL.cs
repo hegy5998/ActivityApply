@@ -100,7 +100,7 @@ namespace BusinessLayer.MasterPages
             foreach (var module_info in module_lst)
             {
                 html_sb.Append("<li>");
-                html_sb.Append("<a href=\"javascript: void(0)\"><div><i class=\"fa fa-folder\" style=\"margin-right:5px;\"></i>" + module_info.Sys_mname + "</div></a>");
+                html_sb.Append("<a href=\"javascript:void(0)\"><div><i class=\"fa fa-folder\" style=\"margin-right:5px;\"></i>" + module_info.Sys_mname + "</div></a>");
 
                 #region 建立作業項目
                 var process_lst = (

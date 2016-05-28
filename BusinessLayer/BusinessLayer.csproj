@@ -74,6 +74,7 @@
     <Compile Include="S02\S020103BL.cs" />
     <Compile Include="S02\S020101BL.cs" />
     <Compile Include="S02\S020102BL.cs" />
+    <Compile Include="S02\UCActivityStatementBL.cs" />
     <Compile Include="SystemMenuBL.cs" />
     <Compile Include="UserControls\UCSystemModuleBL.cs" />
     <Compile Include="Web\activityBL.cs" />

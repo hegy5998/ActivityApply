@@ -10,6 +10,6 @@
 namespace ActivityApply {
     
     
-    public partial class activity_List {
+    public partial class Activity_List {
     }
 }

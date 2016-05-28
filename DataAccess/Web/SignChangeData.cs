@@ -20,9 +20,9 @@ namespace DataAccess.Web
 
 
         #region 查詢
-        public List<Activity_sectionInfo> GetSectionList(int acs_act)
+        public List<Activity_sectionInfo> GetSectionList(int acs_act, int as_idn)
         {
-            return _sectionData.GetList(acs_act);
+            return _sectionData.GetList(acs_act,as_idn);
         }
 
         public List<Activity_columnInfo> GetQuestionList(int acc_act,int as_idn)

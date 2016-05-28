@@ -134,6 +134,7 @@
     <Content Include="Css\Images\bt_bg01.jpg" />
     <Content Include="Css\Images\bt_bg02.jpg" />
     <Content Include="Css\Images\ForgetPwdBg.jpg" />
+    <Content Include="Css\Images\Icons\add.gif" />
     <Content Include="Css\Images\Icons\add.png" />
     <Content Include="Css\Images\Icons\airliner.gif" />
     <Content Include="Css\Images\Icons\cancel.png" />
@@ -154,6 +155,7 @@
     <Content Include="Css\Images\Icons\user.png" />
     <Content Include="Css\Images\Icons\yes.png" />
     <Content Include="Css\Images\ic_menu_black_24dp.png" />
+    <Content Include="Css\Images\ic_menu_black_36dp.png" />
     <Content Include="Css\Images\JqueryUI\arrow_left.png" />
     <Content Include="Css\Images\JqueryUI\arrow_left_hover.png" />
     <Content Include="Css\Images\JqueryUI\glass.png" />
@@ -265,8 +267,11 @@
     <Content Include="S02\S02010105.aspx" />
     <Content Include="S02\S02010201.aspx" />
     <Content Include="S02\S02010202.aspx" />
+    <Content Include="S02\S02010501.aspx" />
     <Content Include="S02\S02010301.aspx" />
     <Content Include="S02\S02010401.aspx" />
+    <Content Include="S02\UCActivityStatement.ascx" />
+    <Content Include="S02\UCActivityStatementDialog.ascx" />
     <Content Include="S02\WebForm1.aspx" />
     <Content Include="Scripts\ITCFunctions.js" />
     <Content Include="Scripts\Lib\assets\css\style-responsive.css" />
@@ -275,6 +280,8 @@
     <Content Include="Scripts\Lib\assets\css\to-do.css" />
     <Content Include="Scripts\Lib\assets\css\zabuto_calendar.css" />
     <Content Include="Scripts\Lib\assets\font-awesome\css\font-awesome.css" />
+    <Content Include="Scripts\Lib\assets\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Scripts\Lib\assets\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="Scripts\Lib\assets\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Scripts\Lib\assets\img\12767525_955825364513665_1121294852_n.jpg" />
     <Content Include="Scripts\Lib\assets\img\blog-bg.jpg" />
@@ -798,90 +805,30 @@
     <Content Include="Scripts\Lib\ckeditor\skins\v2\skin.js" />
     <Content Include="Scripts\Lib\ckeditor\skins\v2\templates.css" />
     <Content Include="Scripts\Lib\ckeditor\themes\default\theme.js" />
-    <Content Include="Scripts\Lib\jQuery-datetimepicker\index.html" />
-    <Content Include="Scripts\Lib\jQuery-datetimepicker\jquery.datetimepicker.css" />
-    <Content Include="Scripts\Lib\jQuery-datetimepicker\jquery.datetimepicker.js" />
-    <Content Include="Scripts\Lib\jQuery-datetimepicker\jquery.js" />
-    <Content Include="Scripts\Lib\jQuery-datetimepicker\MIT-LICENSE.txt" />
-    <Content Include="Scripts\Lib\jQuery-datetimepicker\screen\1.png" />
-    <Content Include="Scripts\Lib\jQuery-datetimepicker\screen\2.png" />
-    <Content Include="Scripts\Lib\jQuery-datetimepicker\screen\3.1.png" />
-    <Content Include="Scripts\Lib\jQuery-datetimepicker\screen\3.png" />
-    <Content Include="Scripts\Lib\jQuery-datetimepicker\www.jq22.com.txt" />
+    <Content Include="Scripts\Lib\clipboard.js-master\demo\constructor-node.html" />
+    <Content Include="Scripts\Lib\clipboard.js-master\demo\constructor-nodelist.html" />
+    <Content Include="Scripts\Lib\clipboard.js-master\demo\constructor-selector.html" />
+    <Content Include="Scripts\Lib\clipboard.js-master\demo\function-target.html" />
+    <Content Include="Scripts\Lib\clipboard.js-master\demo\function-text.html" />
+    <Content Include="Scripts\Lib\clipboard.js-master\demo\target-div.html" />
+    <Content Include="Scripts\Lib\clipboard.js-master\demo\target-input.html" />
+    <Content Include="Scripts\Lib\clipboard.js-master\demo\target-textarea.html" />
+    <Content Include="Scripts\Lib\clipboard.js-master\dist\clipboard.js" />
+    <Content Include="Scripts\Lib\clipboard.js-master\dist\clipboard.min.js" />
+    <Content Include="Scripts\Lib\clipboard.js-master\karma.conf.js" />
+    <Content Include="Scripts\Lib\clipboard.js-master\package.js" />
+    <Content Include="Scripts\Lib\clipboard.js-master\src\clipboard-action.js" />
+    <Content Include="Scripts\Lib\clipboard.js-master\src\clipboard.js" />
+    <Content Include="Scripts\Lib\clipboard.js-master\test\clipboard-action.js" />
+    <Content Include="Scripts\Lib\clipboard.js-master\test\clipboard.js" />
+    <Content Include="Scripts\Lib\jQuery-datetimepicker\jquery.datetimepicker.full.min.js" />
+    <Content Include="Scripts\Lib\jQuery-datetimepicker\jquery.datetimepicker.min.css" />
     <Content Include="Scripts\Lib\jquery-sortable-0.9.13.js" />
     <Content Include="Scripts\Lib\angular-1.0.7.min.js" />
     <Content Include="Scripts\Lib\angular-1.2.1.min.js" />
     <Content Include="Scripts\Lib\bootstrap.js" />
     <Content Include="App_Themes\default\default.skin" />
     <Content Include="MasterPages\Main.master" />
-    <Content Include="Scripts\Lib\jquery.pagepiling.js" />
-    <Content Include="Scripts\Lib\jquery.pagepiling.min.js" />
-    <Content Include="Scripts\Lib\validation\additional-methods.js" />
-    <Content Include="Scripts\Lib\validation\jquery.metadata.js" />
-    <Content Include="Scripts\Lib\validation\jquery.validate.js" />
-    <Content Include="Scripts\Lib\validation\messages_zh_TW.js" />
-    <Content Include="Uploads\13\Img\2016-01-19 20_52_17-localhost_49917_WebForm1.png" />
-    <Content Include="WebForm1.aspx" />
-    <None Include="bin\Web.dll.config" />
-    <Content Include="Scripts\Lib\ckeditor\.htaccess" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\dev\locations.json" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\readme.md" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\gecko\editor_gecko.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\ie7\dialog_ie7.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\ie7\editor_ie7.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\ie8\dialog_ie8.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\ie8\editor_ie8.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\iequirks\dialog_iequirks.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\iequirks\editor_iequirks.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\ie\dialog_ie.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\ie\editor_ie.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\opera\dialog_opera.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\editor.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_colorpanel.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_elementspath.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_mainui.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_menu.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_panel.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_presets.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_reset.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_richcombo.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_toolbar.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\config\_colors.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\config\_config.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\config\_defaults.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\dialog\dialog.scss" />
-    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\readme.md" />
-    <Content Include="Scripts\Lib\ckeditor\skins\moono\readme.md" />
-    <Content Include="Scripts\Lib\assets\.DS_Store" />
-    <Content Include="Scripts\Lib\assets\css\.DS_Store" />
-    <Content Include="Scripts\Lib\assets\font-awesome\.DS_Store" />
-    <Content Include="Scripts\Lib\assets\fonts\.DS_Store" />
-    <Content Include="Scripts\Lib\assets\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Scripts\Lib\assets\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Scripts\Lib\assets\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Scripts\Lib\assets\img\.DS_Store" />
-    <Content Include="Scripts\Lib\assets\img\friends\.DS_Store" />
-    <Content Include="Scripts\Lib\assets\img\portfolio\.DS_Store" />
-    <Content Include="Scripts\Lib\assets\js\.DS_Store" />
-    <Content Include="Scripts\Lib\assets\js\bootstrap-inputmask\.DS_Store" />
-    <Content Include="Scripts\Lib\assets\js\chart-master\.DS_Store" />
-    <Content Include="Scripts\Lib\assets\js\fullcalendar\.DS_Store" />
-    <Content Include="Scripts\Lib\assets\js\gritter\.DS_Store" />
-    <Content Include="Scripts\Lib\assets\js\gritter\css\.DS_Store" />
-    <Content Include="Scripts\Lib\assets\js\gritter\images\.DS_Store" />
-    <Content Include="Scripts\Lib\assets\js\gritter\js\.DS_Store" />
-    <Content Include="Scripts\Lib\assets\js\jquery-easy-pie-chart\.DS_Store" />
-    <Content Include="Scripts\Lib\assets\lineicons\.DS_Store" />
-    <Content Include="Scripts\Lib\assets\lineicons\fonts\.DS_Store" />
-    <Content Include="Scripts\Lib\assets\lineicons\fonts\linecons.eot" />
-    <Content Include="Scripts\Lib\assets\lineicons\fonts\linecons.ttf" />
-    <Content Include="Scripts\Lib\assets\lineicons\fonts\linecons.woff" />
-    <Content Include="Css\Lib\_titatoggle.less" />
-    <Content Include="packages.config" />
-    <None Include="Properties\PublishProfiles\Web.pubxml" />
-    <None Include="Scripts\Lib\jquery-1.9.1.min.intellisense.js" />
-    <Content Include="Scripts\Lib\jquery-1.9.1.min.js" />
-    <Content Include="Scripts\Lib\jquery-migrate-1.2.1.min.js" />
     <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-addon-i18n.js" />
     <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-addon-i18n.min.js" />
     <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\dist\i18n\jquery-ui-timepicker-af.js" />
@@ -993,6 +940,124 @@
     <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\src\jquery-ui-timepicker-addon.js" />
     <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\test\jquery-ui-timepicker-addon_spec.js" />
     <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\test\SpecRunner.html" />
+    <Content Include="Scripts\Lib\jquery.pagepiling.js" />
+    <Content Include="Scripts\Lib\jquery.pagepiling.min.js" />
+    <Content Include="Scripts\Lib\validation\additional-methods.js" />
+    <Content Include="Scripts\Lib\validation\jquery.metadata.js" />
+    <Content Include="Scripts\Lib\validation\jquery.validate.js" />
+    <Content Include="Scripts\Lib\validation\messages_zh_TW.js" />
+    <Content Include="Scripts\Lib\zclip.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\dist\ZeroClipboard.Core.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\dist\ZeroClipboard.Core.min.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\dist\ZeroClipboard.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\dist\ZeroClipboard.min.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\dist\ZeroClipboard.swf" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\Gruntfile.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\index.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\src\js\client\api.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\src\js\client\private.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\src\js\client\state.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\src\js\core\api.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\src\js\core\private.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\src\js\core\state.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\src\js\end.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\src\js\shared\private.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\src\js\shared\state.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\src\js\start.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\test\built\ZeroClipboard.Core.tests.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\test\built\ZeroClipboard.Core.tests.js.html" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\test\built\ZeroClipboard.tests.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\test\built\ZeroClipboard.tests.js.html" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\test\client\api.tests.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\test\client\api.tests.js.html" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\test\client\private.tests.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\test\client\private.tests.js.html" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\test\core\api.tests.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\test\core\api.tests.js.html" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\test\core\private.tests.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\test\core\private.tests.js.html" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\test\index.html" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\test\shared\private.tests.js" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\test\shared\private.tests.js.html" />
+    <None Include="bin\Web.dll.config" />
+    <Content Include="Scripts\Lib\ckeditor\.htaccess" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\dev\locations.json" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\readme.md" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\gecko\editor_gecko.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\ie7\dialog_ie7.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\ie7\editor_ie7.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\ie8\dialog_ie8.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\ie8\editor_ie8.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\iequirks\dialog_iequirks.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\iequirks\editor_iequirks.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\ie\dialog_ie.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\ie\editor_ie.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\browser-specific\opera\dialog_opera.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\editor.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_colorpanel.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_elementspath.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_mainui.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_menu.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_panel.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_presets.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_reset.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_richcombo.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\components\_toolbar.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\config\_colors.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\config\_config.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\config\_defaults.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\scss\dialog\dialog.scss" />
+    <Content Include="Scripts\Lib\ckeditor\skins\minimalist\readme.md" />
+    <Content Include="Scripts\Lib\ckeditor\skins\moono\readme.md" />
+    <Content Include="Scripts\Lib\assets\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\css\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\font-awesome\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\font-awesome\css\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\font-awesome\fonts\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Scripts\Lib\assets\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Scripts\Lib\assets\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Scripts\Lib\assets\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="Scripts\Lib\assets\fonts\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Scripts\Lib\assets\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Scripts\Lib\assets\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Scripts\Lib\assets\img\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\img\friends\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\img\portfolio\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\js\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\js\bootstrap-inputmask\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\js\chart-master\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\js\fullcalendar\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\js\gritter\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\js\gritter\css\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\js\gritter\images\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\js\gritter\js\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\js\jquery-easy-pie-chart\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\lineicons\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\lineicons\fonts\.DS_Store" />
+    <Content Include="Scripts\Lib\assets\lineicons\fonts\linecons.eot" />
+    <Content Include="Scripts\Lib\assets\lineicons\fonts\linecons.ttf" />
+    <Content Include="Scripts\Lib\assets\lineicons\fonts\linecons.woff" />
+    <Content Include="Css\Lib\_titatoggle.less" />
+    <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\Web.pubxml" />
+    <Content Include="Scripts\Lib\assets\font-awesome\css\font-awesome.css.map" />
+    <Content Include="Scripts\Lib\assets\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Scripts\Lib\clipboard.js-master\.babelrc" />
+    <Content Include="Scripts\Lib\clipboard.js-master\.banner" />
+    <Content Include="Scripts\Lib\clipboard.js-master\.editorconfig" />
+    <Content Include="Scripts\Lib\clipboard.js-master\.github\issue_template.md" />
+    <Content Include="Scripts\Lib\clipboard.js-master\.gitignore" />
+    <Content Include="Scripts\Lib\clipboard.js-master\.npmignore" />
+    <Content Include="Scripts\Lib\clipboard.js-master\.travis.yml" />
+    <Content Include="Scripts\Lib\clipboard.js-master\bower.json" />
+    <Content Include="Scripts\Lib\clipboard.js-master\contributing.md" />
+    <Content Include="Scripts\Lib\clipboard.js-master\package.json" />
+    <Content Include="Scripts\Lib\clipboard.js-master\readme.md" />
+    <None Include="Scripts\Lib\jquery-1.9.1.min.intellisense.js" />
+    <Content Include="Scripts\Lib\jquery-1.9.1.min.js" />
+    <Content Include="Scripts\Lib\jquery-migrate-1.2.1.min.js" />
     <Content Include="Scripts\Lib\jquery-ui-1.10.3.min.js" />
     <Content Include="Scripts\Lib\jquery.blockUI.js" />
     <Content Include="Scripts\Lib\jquery.center.js" />
@@ -1000,11 +1065,6 @@
     <Content Include="Scripts\Lib\jquery.jgrowl.min.js" />
     <Content Include="Scripts\Lib\jquery.placeholder.js" />
     <Content Include="Scripts\Lib\jquery.ui.datepicker-zh-TW.js" />
-    <Content Include="Scripts\Lib\jQuery-datetimepicker\bower.json" />
-    <Content Include="Scripts\Lib\jQuery-datetimepicker\datetimepicker.jquery.json" />
-    <Content Include="Scripts\Lib\jQuery-datetimepicker\doc.tpl" />
-    <Content Include="Scripts\Lib\jQuery-datetimepicker\jquery插件库.url" />
-    <Content Include="Scripts\Lib\jQuery-datetimepicker\README.md" />
     <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\.gitignore" />
     <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\.jshintrc" />
     <Content Include="Scripts\Lib\jQuery-Timepicker-Addon-master\bower.json" />
@@ -1278,6 +1338,13 @@
     <Compile Include="S02\S02010202.aspx.designer.cs">
       <DependentUpon>S02010202.aspx</DependentUpon>
     </Compile>
+    <Compile Include="S02\S02010501.aspx.cs">
+      <DependentUpon>S02010501.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S02\S02010501.aspx.designer.cs">
+      <DependentUpon>S02010501.aspx</DependentUpon>
+    </Compile>
     <Compile Include="S02\S02010301.aspx.cs">
       <DependentUpon>S02010301.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1291,6 +1358,20 @@
     </Compile>
     <Compile Include="S02\S02010401.aspx.designer.cs">
       <DependentUpon>S02010401.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="S02\UCActivityStatement.ascx.cs">
+      <DependentUpon>UCActivityStatement.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S02\UCActivityStatement.ascx.designer.cs">
+      <DependentUpon>UCActivityStatement.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="S02\UCActivityStatementDialog.ascx.cs">
+      <DependentUpon>UCActivityStatementDialog.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S02\UCActivityStatementDialog.ascx.designer.cs">
+      <DependentUpon>UCActivityStatementDialog.ascx</DependentUpon>
     </Compile>
     <Compile Include="S02\WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
@@ -1348,19 +1429,39 @@
     <Compile Include="UserControls\UCUnitDDL.ascx.designer.cs">
       <DependentUpon>UCUnitDDL.ascx</DependentUpon>
     </Compile>
-    <Compile Include="WebForm1.aspx.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="WebForm1.aspx.designer.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="MasterPages\Base.Master" />
     <Content Include="Scripts\Lib\jquery-1.9.1.min.map" />
     <Content Include="Scripts\Lib\jquery.jgrowl.map" />
-    <Content Include="Uploads\13\relateFile\S23060101.pdf" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\.gitignore" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\.jshintrc" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\.npmignore" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\.spmignore" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\.travis.yml" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\bower.json" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\composer.json" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\CONTRIBUTING.md" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\dist\.jshintrc" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\dist\ZeroClipboard.Core.min.map" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\dist\ZeroClipboard.min.map" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\docs\api\ZeroClipboard.Core.md" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\docs\api\ZeroClipboard.md" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\docs\instructions.md" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\docs\roadmap.md" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\docs\security.md" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\LICENSE" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\package.json" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\README.md" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\src\flash\ClipboardInjector.as" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\src\flash\JsProxy.as" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\src\flash\XssUtils.as" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\src\flash\ZeroClipboard.as" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\src\meta\bower.json.tmpl" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\src\meta\composer.json.tmpl" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\src\meta\LICENSE.tmpl" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\src\meta\source-banner.tmpl" />
+    <Content Include="Scripts\Lib\zeroclipboard-2.1.6\test\.jshintrc" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1387,7 +1488,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Scripts\Lib\assets\font-awesome\fonts\" />
     <Folder Include="Template\" />
   </ItemGroup>
   <PropertyGroup>

@@ -33,12 +33,18 @@ namespace BusinessLayer.S01
         #endregion
 
         #region 取得信箱
-        public List<Activity_apply_emailInfo> setPassword(string aae_email)
+        public List<Activity_apply_emailInfo> getEmail(string aae_email)
         {
-            return _data.setPassword(aae_email);
+            return _data.getEmail(aae_email);
         }
         #endregion
 
+        #region 更改密碼
+        public CommonResult UpdateData(Dictionary<string, object> olddict, Dictionary<string, object> newdict)
+        {
+            return _emaildata.UpdateData(olddict, newdict);
+        }
+        #endregion
 
     }
 }

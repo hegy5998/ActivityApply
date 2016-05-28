@@ -12,16 +12,22 @@
 #mainHeader
 {
     height: 60px;
-    background: #ECECE4 no-repeat left;
-    border-bottom: 1px solid #c9aa5f;
+    background: #ffda8e no-repeat left;
+    border-bottom: 1px solid #FFC54F;
     text-indent: -999px;
-    margin-bottom: 0px;
+    margin-bottom: 0px;    
+    margin-top: -5px;
 }
 #mainHeaderSysName
 {
-    font-size: 24.5px;
+    font-family: '微軟正黑體',sans-serif;
+    font-size: x-large;
     font-weight: bold;
-	display: none;
+    text-indent: initial;
+    float: left;
+    margin-top: 17px;
+    margin-left:60px;
+    color: white;
 }
 
 /* ---------- SubWrapper ---------- */

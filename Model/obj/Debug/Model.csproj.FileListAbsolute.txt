@@ -36,9 +36,14 @@ D:\Kris\ActivityApply\Model\bin\Debug\Model.dll
 D:\Kris\ActivityApply\Model\bin\Debug\Model.pdb
 D:\Kris\ActivityApply\Model\obj\Debug\Model.dll
 D:\Kris\ActivityApply\Model\obj\Debug\Model.pdb
+C:\Users\Saki\Desktop\ActivityApply\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache
+C:\Users\Saki\Desktop\報名系統UI更改\ActivityApply\Model\bin\Debug\Model.dll
+C:\Users\Saki\Desktop\報名系統UI更改\ActivityApply\Model\bin\Debug\Model.pdb
+C:\Users\Saki\Desktop\報名系統UI更改\ActivityApply\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache
+C:\Users\Saki\Desktop\報名系統UI更改\ActivityApply\Model\obj\Debug\Model.dll
+C:\Users\Saki\Desktop\報名系統UI更改\ActivityApply\Model\obj\Debug\Model.pdb
 G:\School\Oit\ActivityApply\Model\bin\Debug\Model.dll
 G:\School\Oit\ActivityApply\Model\bin\Debug\Model.pdb
-G:\School\Oit\ActivityApply\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache
 G:\School\Oit\ActivityApply\Model\obj\Debug\Model.dll
 G:\School\Oit\ActivityApply\Model\obj\Debug\Model.pdb
-C:\Users\Saki\Desktop\ActivityApply\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache
+G:\School\Oit\ActivityApply\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache

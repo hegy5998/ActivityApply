@@ -11,7 +11,10 @@
         //var act_class = $("#act_class").val();
         var act_class = $.url().param("act_class");
         //產生所有活動
-        searchActivityAllList(search_title, act_class);
+        var local = location.href.split("/")[location.href.split("/").length - 1].split("?")[0];
+        if (local != "Info.aspx")
+            searchActivityAllList(search_title, act_class);
+        //pageselectCallback($.cookie('page_index'));
     })
     //#endregion
 
@@ -19,54 +22,80 @@
     $("#search_btn").click(function () {
         //抓取要搜尋的分類
         var act_class = $("#act_class").val();
-        setbread("",act_class);
-        //抓取要搜尋的字串
-        var searct_txt = $("#search_txt").val();
-        //以空白切割字串
-        var act_title = searct_txt.split(" ");
-        search_title = "";
-        //迴圈把切割完的字串在串接起來，資料庫使用LIKE搜尋
-        for (var temp = 0 ; temp < act_title.length; temp++) {
-            if (act_title[temp] != " ")
-                search_title += "%" + act_title[temp];
-        }
-        search_title += '%';
-        //清空分頁內容
-        $("#hiddenresult").html("");
-        $("#Searchresult").html("");
-        searchActivityAllList(search_title, act_class);
+        if (act_class != -1) {
+            if ($("#act_class option:selected").text() != "")
+                $("#class_text").text($("#act_class option:selected").text());
 
-
-        //設定有幾個分頁，要除以你一個分頁要顯示幾筆資料
-        var num_entries = $("#hiddenresult div.result").length / 8;
-        // 創建分頁
-        $("#Pagination").pagination(num_entries, {
-            items_per_page: 1, //每頁顯示幾項
-            num_edge_entries: 1, //邊緣頁數
-            num_display_entries: 50, //主體頁數
-            callback: pageselectCallback,
-            prev_text: "前一頁",
-            next_text: "下一頁"
-        });
-
-        function pageselectCallback(page_index, jq) {
-            //var new_content = $("#hiddenresult div.result:eq(" + page_index + ")").clone();
-            //$("#Searchresult").empty().append(new_content); //装载对应分页的内容
-            //設定一個分頁要顯示幾筆資料
-            var items_per_page = 8;
-            var max_elem = Math.min((page_index + 1) * items_per_page, $("#hiddenresult div.result").length);
-            $("#Searchresult").html("");
-            //判斷現在在第幾個分頁並顯示其內容
-            for (var i = page_index * items_per_page; i < max_elem; i++) {
-                $("#Searchresult").append($("#hiddenresult div.result:eq(" + i + ")").clone());
+            setbread("", act_class);
+            //抓取要搜尋的字串
+            var searct_txt = $("#search_txt").val();
+            //以空白切割字串
+            var act_title = searct_txt.split(" ");
+            search_title = "";
+            //迴圈把切割完的字串在串接起來，資料庫使用LIKE搜尋
+            for (var temp = 0 ; temp < act_title.length; temp++) {
+                if (act_title[temp] != " ")
+                    search_title += "%" + act_title[temp];
             }
-            return false;
+            search_title += '%';
+            //清空分頁內容
+            $("#hiddenresult").html("");
+            //$("#Searchresult").html("");
+            $("#r1").html("");
+            $("#r2").html("");
+            $("#r3").html("");
+            searchActivityAllList(search_title, act_class);
+
+
+            //設定有幾個分頁，要除以你一個分頁要顯示幾筆資料
+            var num_entries = $("#hiddenresult div.result").length / 9;
+            // 創建分頁
+            $("#Pagination").pagination(num_entries, {
+                items_per_page: 1, //每頁顯示幾項
+                num_edge_entries: 1, //邊緣頁數
+                num_display_entries: 10, //主體頁數
+                callback: pageselectCallback,
+                prev_text: "前一頁",
+                next_text: "下一頁"
+            });
+
+            function pageselectCallback(page_index, jq) {
+                //var new_content = $("#hiddenresult div.result:eq(" + page_index + ")").clone();
+                //$("#Searchresult").empty().append(new_content); //装载对应分页的内容
+                //$.cookie("page_index", page_index, { expires: 1 });
+                //設定一個分頁要顯示幾筆資料
+                var items_per_page = 9;
+                var max_elem = Math.min((page_index + 1) * items_per_page, $("#hiddenresult div.result").length);
+                //$("#Searchresult").html("");
+                $("#r1").html("");
+                $("#r2").html("");
+                $("#r3").html("");
+                //判斷現在在第幾個分頁並顯示其內容
+                for (var i = page_index * items_per_page; i < max_elem; i++) {
+                    //$("#Searchresult").append($("#hiddenresult div.result:eq(" + i + ")").clone());
+                    var r = i % 9;
+                    if (r < 3)
+                        $("#r1").append($("#hiddenresult div.result:eq(" + i + ")").clone());
+                    else if (3 <= r && r < 6)
+                        $("#r2").append($("#hiddenresult div.result:eq(" + i + ")").clone());
+                    else if (6 <= r && r < 9)
+                        $("#r3").append($("#hiddenresult div.result:eq(" + i + ")").clone());
+                }
+                return false;
+            }
         }
     })
     //#endregion
 
     //#region 搜尋活動事件
     function searchActivityAllList(act_title, act_class) {
+        var local = location.href.split("/")[location.href.split("/").length - 1].split("?")[0];
+        if (local == "Info.aspx"){
+            $("#add_activity_list").remove();
+            var url = 'Info.aspx/getActivityAllList';
+        }
+        else
+            var url = 'activity_List.aspx/getActivityAllList';
         //傳JSON字串到後台去抓資料
         var jsondata = { "act_title": act_title, "act_class": act_class }
         $.ajax({
@@ -74,7 +103,7 @@
             traditional: true,
             data: JSON.stringify(jsondata),
             //傳送資料到後台為getActivityAllList的function
-            url: 'activity_List.aspx/getActivityAllList',
+            url: url,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             async: false,
@@ -97,17 +126,23 @@
         var ActivityInfo = JSON.parse(ActivityInfo);
         //產生活動列表
         for (var count = 0 ; count < ActivityInfo.length ; count++) {
-            $("#hiddenresult").append('<div class="result">\
-                                            <div class="row">\
-                                                <div class="content-panel">\
-                                                    <h3><a target="_self" href="activity.aspx?act_class=' + ActivityInfo[count].act_class + '&act_idn=' + ActivityInfo[count].act_idn + '&act_title=' + ActivityInfo[count].act_title + '">' + ActivityInfo[count].act_title + '(' + ActivityInfo[count].num + ')</a></h3>\
-                                                    <label>活動日期：' + dateReviver(ActivityInfo[count].as_date_start) + ' ~ ' + dateReviver(ActivityInfo[count].as_date_end) + '</label>\
-                                                    <br />\
-                                                    <label>報名日期：' + dateReviver(ActivityInfo[count].as_apply_start) + ' ~ ' + dateReviver(ActivityInfo[count].as_apply_end) + '</label>\
+            $("#hiddenresult").append('<div class="col-lg-4 result">\
+                                            <div class="panel panel-info">\
+                                                <div class="panel-heading"><a target="_self" href="Activity.aspx?act_class=' + ActivityInfo[count].act_class + '&act_idn=' + ActivityInfo[count].act_idn + '&act_title=' + ActivityInfo[count].act_title + '" title="' + ActivityInfo[count].act_title + ' 場次數:' + ActivityInfo[count].num + '"><h4>' + ActivityInfo[count].act_title + '<a title="場次數" style="cursor: help;">  <spna class="badge bg-info" style="background-color: #35BCFF;font-size: 15px;margin-bottom: 3px;">' + ActivityInfo[count].num + '</span></a></h4></a></div>\
+                                                    <div class="panel-body">\
+                                                    <p>活動日期：<br>' + dateReviver(ActivityInfo[count].as_date_start) + ' ~ ' + dateReviver(ActivityInfo[count].as_date_end) + '</p>\
+                                                    <p>報名日期：<br>' + dateReviver(ActivityInfo[count].as_apply_start) + ' ~ ' + dateReviver(ActivityInfo[count].as_apply_end) + '</p>\
+                                                    </div>\
+                                                    <div class="panel-footer"><a target="_self" href="Activity.aspx?act_class=' + ActivityInfo[count].act_class + '&act_idn=' + ActivityInfo[count].act_idn + '&act_title=' + ActivityInfo[count].act_title + '">查看活動</a></div>\
                                                 </div>\
                                             </div>\
                                         </div>');
         }
+        if (ActivityInfo.length == 0) {
+            $.jGrowl('無活動!', { position: 'center', theme: 'error', sticky: false, life: 1000, beforeOpen: function (e, m) { $('div.jGrowl').find('div.jGrowl-notification').children().parent().remove(); } });
+        }
+
+
         //後臺轉換DateTime格式時會把他轉成字串，使用JSON.parse會把它當成子串解析，需要在做轉換與切割成我們要的格式
         function dateReviver(datavalue) {
             if (datavalue != null) {

@@ -11,14 +11,13 @@ $(function () {
         $activeItem.addClass("active");
         $activeItem.closest(".mainMenuModule ul").show();
     }
-    else
-        $('.mainMenuModule ul:first').show();
+
     $('.mainMenuModule li a').each(function () {
         $(this).click(function () {
             var checkElement = $(this).next();
             if ((checkElement.is('ul'))) {
+                $('.mainMenuModule ul:visible').parent().find('a:first').removeClass("active");
                 $('.mainMenuModule ul:visible').slideUp(300);
-                $('a').removeClass('active');
                 $('a').children().children().removeClass('fa-folder-open');
                 $('a').children().children().addClass('fa-folder');
                 if (!checkElement.is(':visible')) {

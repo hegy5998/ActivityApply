@@ -16,9 +16,9 @@ namespace BusinessLayer.Web
         #region  --查詢--
 
         #region 取得區塊列表
-        public List<Activity_sectionInfo> GetSectionList(int acs_act)
+        public List<Activity_sectionInfo> GetSectionList(int acs_act, int as_idn)
         {
-            return _data.GetSectionList(acs_act);
+            return _data.GetSectionList(acs_act, as_idn);
         }
         #endregion
 
@@ -57,6 +57,7 @@ namespace BusinessLayer.Web
             return asList.Count > 0 ? true : false;
         }
         #endregion
+
         #region 判斷場次是否開放
         public bool isOpen(int as_idn)
         {
@@ -64,6 +65,7 @@ namespace BusinessLayer.Web
             return asList.Count > 0 ? true : false;
         }
         #endregion
+
         #region 判斷報名人數是否額滿
         public bool isFull(int aa_as)
         {
@@ -71,10 +73,19 @@ namespace BusinessLayer.Web
             return asList.Count > 0 ? false : true;
         }
         #endregion
+
         #region 判斷是否重複報名
         public bool isRepeatApply(int aa_as, string aa_email, string aa_name)
         {
             List<Activity_applyInfo> aaList = _data.isRepeatApply(aa_as, aa_email, aa_name);
+            return aaList.Count > 0 ? true : false;
+        }
+        #endregion
+
+        #region 判斷是否超過報名限制
+        public bool isOverApplyLimit(int act_idn, string aa_email, string aa_name)
+        {
+            List<Activity_applyInfo> aaList = _data.isOverApplyLimit(act_idn, aa_email, aa_name);
             return aaList.Count > 0 ? true : false;
         }
         #endregion

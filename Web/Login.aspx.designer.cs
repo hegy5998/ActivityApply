@@ -40,13 +40,13 @@ namespace Web {
         protected global::System.Web.UI.WebControls.Label loginErrorMsg_lbl;
         
         /// <summary>
-        /// act_id_txt 控制項。
+        /// act_id_hf 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox act_id_txt;
+        protected global::System.Web.UI.WebControls.HiddenField act_id_hf;
         
         /// <summary>
         /// act_pwd_hf 控制項。
@@ -58,13 +58,13 @@ namespace Web {
         protected global::System.Web.UI.WebControls.HiddenField act_pwd_hf;
         
         /// <summary>
-        /// confirm_txt 控制項。
+        /// confirm_txt_pf 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox confirm_txt;
+        protected global::System.Web.UI.WebControls.HiddenField confirm_txt_pf;
         
         /// <summary>
         /// broseWebTime_hf 控制項。

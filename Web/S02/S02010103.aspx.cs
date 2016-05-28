@@ -21,6 +21,10 @@ namespace Web.S02
     public partial class S02010103 : CommonPages.BasePage
     {
         private static int act_idn;
+        //檔案上傳路徑
+        string upload_path = CommonHelper.GetSysConfig().UPLOAD_PATH;
+        //檔案預覽路徑
+        string upload_path_view = CommonHelper.GetSysConfig().UPLOAD_PATH_VIEW;
         protected void Page_Load(object sender, EventArgs e)
         {
             //取得活動ID
@@ -187,6 +191,7 @@ namespace Web.S02
         public static string save_Activity(List<ActivityInfo> activity_List, List<Activity_sessionInfo> activity_Session_List,string del_as_idn,string if_delete_file,string if_img_file)
         {
             SystemConfigInfo sysConfig = CommonHelper.GetSysConfig();
+            string upload_path = CommonHelper.GetSysConfig().UPLOAD_PATH;
             string shorterURL = Util.CustomHelper.URLshortener(sysConfig.SOLUTION_HTTPADDR + "activity.aspx?act_class=" + activity_List[0].Act_class + "&act_idn=" + act_idn + "&act_title=" + HttpUtility.UrlEncode(activity_List[0].Act_title), sysConfig.URL_SHORTENER_API_KEY);
 
             S020101BL _bl = new S020101BL();
@@ -200,6 +205,7 @@ namespace Web.S02
             new_Activity_Information["act_contact_name"] = activity_List[0].Act_contact_name;
             new_Activity_Information["act_contact_phone"] = activity_List[0].Act_contact_phone;
             new_Activity_Information["act_class"] = activity_List[0].Act_class;
+            new_Activity_Information["act_num_limit"] = activity_List[0].Act_num_limit;
             new_Activity_Information["act_relate_link"] = activity_List[0].Act_relate_link;
             new_Activity_Information["act_short_link"] = shorterURL;
             //new_Activity_Information["act_isopen"] = 0;
@@ -207,8 +213,8 @@ namespace Web.S02
 
             if(if_delete_file == "true")
             {
-                String fi = (@"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + act_idn + "/relateFile");
-                //String fi = (@"C:/inetpub/wwwroot/Uploads/" + act_idn + "/relateFile");
+                //String fi = (@"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + act_idn + "/relateFile");
+                String fi = (@upload_path + act_idn + "/relateFile");
                 DirectoryInfo delete_fi = new DirectoryInfo(fi);
                 //判斷目錄是否存在，存在才刪除
                 if (delete_fi.Exists)
@@ -231,8 +237,8 @@ namespace Web.S02
 
             if (if_img_file == "true")
             {
-                String fi = (@"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + act_idn + "/img");
-                //String fi = (@"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + act_idn + "/Img");
+                //String fi = (@"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + act_idn + "/img");
+                String fi = (@upload_path + act_idn + "/Img");
                 DirectoryInfo delete_fi = new DirectoryInfo(fi);
                 //判斷目錄是否存在，存在才刪除
                 if (delete_fi.Exists)
@@ -284,6 +290,7 @@ namespace Web.S02
                     new_Session_Information["as_apply_end"] = activity_Session_List[count].As_apply_end;
                     new_Session_Information["as_position"] = activity_Session_List[count].As_position;
                     new_Session_Information["as_num_limit"] = activity_Session_List[count].As_num_limit;
+                    new_Session_Information["as_remark"] = activity_Session_List[count].As_remark;
                     _bl.Update_Session_Data(old_Session_Information, new_Session_Information);
                 }
                 //新增場次資料
@@ -298,11 +305,19 @@ namespace Web.S02
                     save_Session_Information["as_apply_end"] = activity_Session_List[count].As_apply_end;
                     save_Session_Information["as_position"] = activity_Session_List[count].As_position;
                     save_Session_Information["as_num_limit"] = activity_Session_List[count].As_num_limit;
+                    save_Session_Information["as_remark"] = activity_Session_List[count].As_remark;
                     save_Session_Information["as_isopen"] = 0;
-                    _bl.InsertData_session(save_Session_Information);
+                    CommonResult session_res = _bl.InsertData_session(save_Session_Information);
+                    string as_shorterURL = Util.CustomHelper.URLshortener(sysConfig.SOLUTION_HTTPADDR + "Sign_Up.aspx?as_idn=" + Int32.Parse(session_res.Message) + "&act_class=" + activity_List[0].Act_class + "&act_idn=" + act_idn + "&act_title=" + HttpUtility.UrlEncode(activity_List[0].Act_title) + "&short=1", sysConfig.URL_SHORTENER_API_KEY);
+                    Dictionary<string, Object> as_old_shorlink = new Dictionary<string, Object>();
+                    as_old_shorlink["as_idn"] = Int32.Parse(session_res.Message);
+                    as_old_shorlink["as_act"] = act_idn;
+                    Dictionary<string, Object> as_new_shorlink = new Dictionary<string, Object>();
+                    as_new_shorlink["as_short_link"] = as_shorterURL;
+                    _bl.Update_Session_Data(as_old_shorlink, as_new_shorlink);
                 }
             }
-            return "成功";
+            return "true";
         }
         #endregion
 
@@ -352,8 +367,8 @@ namespace Web.S02
             }
 
             // 檢查 Server 上該資料夾是否存在，不存在就自動建立
-            string serverDirRelate = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/relateFile";
-            //string serverDirRelate = @"C:/inetpub/wwwroot/Uploads/" + as_act + "/relateFile";
+            //string serverDirRelate = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/relateFile";
+            string serverDirRelate = @upload_path + as_act + "/relateFile";
             string act_relate_file = serverDirRelate + "/" + filename;
             if (Directory.Exists(serverDirRelate) == false) Directory.CreateDirectory(serverDirRelate);
 
@@ -384,8 +399,8 @@ namespace Web.S02
                 Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
                 old_Activity_dict["act_idn"] = act_idn;
                 Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
-                new_Activity_dict["act_relate_file"] = @"../Uploads/" + as_act + "/relateFile" + "/" + filename;
-                //new_Activity_dict["act_relate_file"] = @"http:///140.134.23.127/Uploads/" + as_act + "/relateFile" + "/" + filename;
+                //new_Activity_dict["act_relate_file"] = @"../Uploads/" + as_act + "/relateFile" + "/" + filename;
+                new_Activity_dict["act_relate_file"] = @upload_path_view + as_act + "/relateFile" + "/" + filename;
                 CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
                 Response.Redirect("S02010101.aspx?sys_id=S01&sys_pid=S02010101");
             }
@@ -406,8 +421,8 @@ namespace Web.S02
         {
             int as_act = 0;
             as_act = act_idn;
-            String fi = (@"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/relateFile");
-            //String fi = (@"C:/inetpub/wwwroot/Uploads/" + as_act + "/relateFile");
+            //String fi = (@"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/relateFile");
+            String fi = (@upload_path + as_act + "/relateFile");
             DirectoryInfo delete_fi = new DirectoryInfo(fi);
             //判斷目錄是否存在，存在才刪除
             if (delete_fi.Exists)
@@ -458,8 +473,8 @@ namespace Web.S02
             }
 
             // 檢查 Server 上該資料夾是否存在，不存在就自動建立
-            string serverDirImg = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/Img";
-            //string serverDirImg = @"C:/inetpub/wwwroot/Uploads/" + as_act + "/Img";
+            //string serverDirImg = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/Img";
+            string serverDirImg = @upload_path + as_act + "/Img";
             string act_image = serverDirImg + "/" + filename;
             if (Directory.Exists(serverDirImg) == false) Directory.CreateDirectory(serverDirImg);
 
@@ -490,8 +505,8 @@ namespace Web.S02
                 Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
                 old_Activity_dict["act_idn"] = act_idn;
                 Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
-                new_Activity_dict["act_image"] = @"../Uploads/" + as_act + "/img" + "/" + filename;
-                //new_Activity_dict["act_image"] = @"http:///140.134.23.127/Uploads/" + as_act + "/img" + "/" + filename;
+                //new_Activity_dict["act_image"] = @"../Uploads/" + as_act + "/img" + "/" + filename;
+                new_Activity_dict["act_image"] = @upload_path_view + as_act + "/img" + "/" + filename;
                 CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
             }
             catch (Exception ex)
@@ -511,8 +526,8 @@ namespace Web.S02
         {
             int as_act = 0;
             as_act = act_idn; 
-            String fi = (@"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/Img");
-            //String fi = (@"C:/inetpub/wwwroot/Uploads/" + as_act + "/Img");
+            //String fi = (@"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/Img");
+            String fi = (@upload_path + as_act + "/Img");
             DirectoryInfo delete_img = new DirectoryInfo(fi);
             //判斷目錄是否存在，存在才刪除
             if (delete_img.Exists)

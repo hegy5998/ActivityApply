@@ -88,6 +88,12 @@ namespace Model
         /// <summary>
         ///  
         /// </summary>
+        [Column("act_num_limit")]
+        public Int32? Act_num_limit { get; set; }
+
+        /// <summary>
+        ///  
+        /// </summary>
         [Column("act_isopen")]
         public Byte? Act_isopen { get; set; }
 
