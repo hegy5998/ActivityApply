@@ -845,5 +845,29 @@ namespace DataAccess
 
             return Db.GetDataTable(sql_sb.ToString());
         }
+
+        #region 取得區塊列表
+        public List<Activity_sectionInfo> GetSectionList(int acs_act)
+        {
+            string sql = @" SELECT activity_section.*
+                            FROM activity_section
+                            WHERE acs_act = @acs_act 
+                            ORDER BY acs_seq";
+            IDataParameter[] param = { Db.GetParam("@acs_act", acs_act) };
+            return Db.GetEnumerable<Activity_sectionInfo>(sql, param).ToList();
+        }
+        #endregion
+
+        #region 取得問題列表
+        public List<Activity_columnInfo> GetQuestionList(int acc_act)
+        {
+            string sql = @" SELECT activity_column.*
+                            FROM activity_column
+                            WHERE acc_act = @acc_act 
+                            ORDER BY acc_asc, acc_seq;";
+            IDataParameter[] param = { Db.GetParam("@acc_act", acc_act) };
+            return Db.GetEnumerable<Activity_columnInfo>(sql, param).ToList();
+        }
+        #endregion
     }
 }

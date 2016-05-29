@@ -21,7 +21,10 @@ namespace ActivityApply
             activityBL _bl = new activityBL();
             List<ActivityInfo> AvtivityList = _bl.GetActivityList(ACTIVITY);
             if (AvtivityList.Count > 0)
+            {
                 Act_desc_lbl.Text = HttpUtility.UrlDecode(AvtivityList[0].Act_desc);
+                person_data.Text = HttpUtility.UrlDecode(_bl.GetStateMent(ACTIVITY).Rows[0]["ast_content"].ToString());
+            }
             else
                 Response.Redirect("index.aspx");
         }

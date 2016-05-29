@@ -70,7 +70,7 @@
         <div class="col-lg-9">
             <!-- 活動資訊 -->
             <div class="panel panel-default">
-                <div class="panel-heading">活動簡介</div>
+                <div class="panel-heading">活動內容</div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div id="add_activity_desc"></div>
@@ -105,16 +105,17 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title">個資聲明</h4>
                 </div>
-                <div class="modal-body">
-                    <label id="person_data">
-                        逢甲大學為XXXX之目的，本XXXX所蒐集之個人資訊，將僅作為XXXXXXXXXXX之用，(請依實際情形載明利用個資的期間、地區、對象及方式)。
-                        您得以下列聯絡方式行使查閱、更正等個人資料保護法第3條的當事人權利。如您提供的資料不完整或不確實，將可能無法完成本次申請 / 享有本次服務。
-                        聯絡方式：台中市西屯區文華路100號, 電話(04)24517250 分機XXXX, Email: XXXX@fcu.edu.tw。
-                    </label>
+                <div id="statement_div" class="modal-body" style="width: auto; height: 300px; overflow-x: auto; overflow-y: auto; background-color: white;">
+                    <asp:Label id="person_data" runat="server" ></asp:Label>
                 </div>
                 <div class="modal-footer">
-                    <a class="btn btn-default" onclick="personal_cnacle()">取消</a>
-                    <a href="#" id="personal_ok_btn" class="btn btn-info" onclick="personal_ok()">確定</a>
+<%--                    <div class="row" style="float:left;margin-top: 5px;">
+                        <input type="checkbox" id="agree_statement"/>
+                        <label>我已閱讀並同意。</label>
+                    </div>
+                    --%>
+                    <a class="btn btn-default" onclick="personal_cnacle()">不同意</a>
+                    <a href="#" id="personal_ok_btn" class="btn btn-info" style="">同意</a>
                 </div>
             </div>
         </div>
@@ -131,8 +132,17 @@
             //等資活動訊載入完才一次顯示資料
             //判斷活動簡介內容高度超過300px變成卷軸式
             var obheight = 300;//超過容器高度自動捲軸
-            var mc = $("#desc_div").height();
-            if (mc > obheight) $("#desc_div").height(obheight + 'px');
+            var desc_div = $("#desc_div").height();
+            var statement_div = $("#statement_div").height();
+            if (desc_div > obheight) $("#desc_div").height(obheight + 'px');
+            if (statement_div > obheight) $("#statement_div").height(obheight + 'px');
+        })
+
+        $("#agree_statement").click(function () {
+            if ($(this).prop("checked"))
+                $("#personal_ok_btn").css({ 'display': '' });
+            else
+                $("#personal_ok_btn").css({ 'display': 'none' });
         })
 
         //#region 設定麵包削尋覽列
@@ -296,7 +306,7 @@
                     as_remark_vis = "display:none;";
                 var url = new String('Sign_Up.aspx?act_idn=' + SessionInfo[count].as_act + '&as_idn=' + SessionInfo[count].as_idn + '&act_class=' + $.url().param("act_class") + '&act_title=' + $.url().param("act_title"));
                 $("#add_Session_div").append('<div class="panel panel-default">\
-                                                <div class="panel-heading">活動場次</div>\
+                                                <div class="panel-heading">第 ' + (count + 1) + ' 場  /  共 ' + SessionInfo.length + ' 場</div>\
                                                     <div class="panel-body">\
                                                         <h3 style="color:#069;margin-top: 0px;">' + SessionInfo[count].as_title + '</h3>\
                                                         <div class="tooltip-demo">活動地點：' + SessionInfo[count].as_position + '\
@@ -355,6 +365,7 @@
             $("#person_data_Modal").modal('hide');
         }
 
+        
     </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="pageUnitEnd" runat="server">

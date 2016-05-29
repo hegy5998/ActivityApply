@@ -44,7 +44,7 @@
     <section class="content-wrapper main-content clear-fix">
         <section id="container">
             <section id="main-content" style="margin-left: 0px;">
-                <div style="background-color: white; width: 100%; height: 100%;">
+                <div style="background-color: white; width: 100%;">
                 <section class="wrapper" style="margin-top: 10px;padding: 29px 53px 33px 53px;">
                     
                     <div class="row"></div>

@@ -152,6 +152,21 @@ a, a:hover, a:focus {
   border-color: #da4453;
 }
 
+.btn-theme05 {
+  color: #fff;
+  background-color: #9055A2;
+  border-color: #814694;
+}
+.btn-theme05:hover,
+.btn-theme05:focus,
+.btn-theme05:active,
+.btn-theme05.active,
+.open .dropdown-toggle.btn-theme05 {
+  color: #fff;
+  background-color: #814694;
+  border-color: #814694;
+}
+
 .btn-clear-g {
 	color: #48bcb4;
 	background: transparent;

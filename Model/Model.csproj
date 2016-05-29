@@ -54,6 +54,7 @@
     <Compile Include="Activity_columnInfo.cs" />
     <Compile Include="Activity_applyInfo.cs" />
     <Compile Include="Activity_sessionInfo.cs" />
+    <Compile Include="Activity_statementInfo.cs" />
     <Compile Include="Common\SystemConfigInfo.cs" />
     <Compile Include="Common\Sys_accountInfoExt.cs" />
     <Compile Include="Common\Sys_login_logInfoExt.cs" />

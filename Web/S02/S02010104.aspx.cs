@@ -22,7 +22,10 @@ namespace Web.S02
             S020104BL _S020104Bl = new S020104BL();
             List<ActivityInfo> AvtivityList = _S020104Bl.GetActivityList(ACTIVITY);
             if (AvtivityList.Count > 0)
+            {
                 Act_desc_lbl.Text = HttpUtility.UrlDecode(AvtivityList[0].Act_desc);
+                person_data.Text = HttpUtility.UrlDecode(_bl.GetStateMent(ACTIVITY).Rows[0]["ast_content"].ToString());
+            }
             else
                 Response.Redirect("../DefaultSystemIndex.aspx");
         }

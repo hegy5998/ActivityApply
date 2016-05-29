@@ -179,7 +179,13 @@
                                                     <%-- 報名資料 --%>
                                                     <asp:TemplateField HeaderText="報名資料">
                                                         <ItemTemplate>
-                                                            <input id="checkApply" type="button" class="btn-link" value="查看" onclick="GoTo(<%# Eval("as_idn") %>);" />/<asp:Button ID="download_btn" runat="server" CommandName="download" class="btn-link" Text="下載" ToolTip="下載" UseSubmitBehavior="False" CommandArgument='<%# Eval("as_idn") %>' />
+                                                            <span style="position: relative;">
+                                                                <i class="fa fa-download btn btn-success btn-xs" aria-hidden="true"></i>
+                                                                <asp:Button ID="download_btn" runat="server" CommandName="download" CssClass="movedown" Text="下載" ToolTip="下載" UseSubmitBehavior="False" CommandArgument='<%# Eval("as_idn") %>' />
+                                                            </span>
+                                                            <span style="position: relative;">
+                                                                <button id="checkApply" type="button" class="fa fa-search btn btn-info btn-xs" value="查看" title="查看" onclick="GoTo(<%# Eval("as_idn") %>);" />
+                                                            </span>
                                                             <asp:UpdatePanel runat="server" ID="download_upd">
                                                                 <Triggers>
                                                                     <asp:PostBackTrigger ControlID="download_btn" />
@@ -194,9 +200,25 @@
                                                     <%-- 基本功能 --%>
                                                     <asp:TemplateField HeaderText="基本功能">
                                                         <ItemTemplate>
-
-                                                            <asp:Button ID="editActivity_btn" runat="server" CommandName="EditActivity" class="btn-link" Text="修改" ToolTip="修改" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" CommandArgument='<%# Eval("act_idn") %>' />/<asp:Button ID="delete_btn" runat="server" CommandName="Delete" class="btn-link" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" CommandArgument='<%# Eval("act_idn") %>' />/<asp:Button ID="edit_btn" runat="server" CommandName="Edit" class="btn-link" OnClientClick="if (!confirm(&quot;確定要關閉嗎?&quot;)) return false" Text="關閉" ToolTip="關閉" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" CommandArgument='<%# Eval("act_idn") %>' />/<asp:Button ID="set_btn" runat="server" CommandName="Set" class="btn-link" Text="協作者" ToolTip="協作者" UseSubmitBehavior="False" CommandArgument='<%# Eval("act_idn") %>' OnPreRender="ManageControlAuth" />
-                                                            /<button class="btn btn-link" data-clipboard-text="<%# Eval("as_short_link") %>" onclick="return false;" style="padding: 2px 8px 2px 8px;">短網址</button>
+                                                            <span id="editActivity_span" runat="server" style="position: relative;">
+                                                                <i class="fa fa-pencil btn btn-primary btn-xs" aria-hidden="true"></i>
+                                                                <asp:Button ID="editActivity_btn" runat="server" CommandName="EditActivity" CssClass="movedown" Text="修改" ToolTip="修改" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" CommandArgument='<%# Eval("act_idn") %>' />
+                                                            </span>
+                                                            <span id="delete_span" runat="server" style="position: relative;">
+                                                                <i class="fa fa-trash-o btn btn-danger btn-xs" aria-hidden="true"></i>
+                                                                <asp:Button ID="delete_btn" runat="server" CommandName="Delete" CssClass="movedown" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" CommandArgument='<%# Eval("act_idn") %>' />
+                                                            </span>
+                                                            <span id="set_span" runat="server" style="position: relative;">
+                                                                <i class="fa fa-user-plus btn btn-theme05 btn-xs" aria-hidden="true"></i>
+                                                                <asp:Button ID="set_btn" runat="server" CommandName="Set" CssClass="movedown" Text="協作者" ToolTip="協作者" UseSubmitBehavior="False" CommandArgument='<%# Eval("act_idn") %>' OnPreRender="ManageControlAuth" />
+                                                            </span>
+                                                            <span style="position: relative;">
+                                                                <button class="fa fa-share-alt btn btn-warning btn-xs" data-clipboard-text="<%# Eval("as_short_link") %>" title="短網址" onclick="return false;"></button>
+                                                            </span>
+                                                            <span id="edit_span" runat="server" style="position: relative;">
+                                                                <i class="fa fa-times btn btn-default btn-xs" aria-hidden="true" style="color:red"></i>
+                                                                <asp:Button ID="edit_btn" runat="server" CommandName="Edit" CssClass="movedown" OnClientClick="if (!confirm(&quot;確定要關閉嗎?&quot;)) return false" Text="關閉" ToolTip="關閉" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" CommandArgument='<%# Eval("act_idn") %>' />
+                                                            </span>
                                                             <asp:HiddenField ID="createid_hf" runat="server" Value='<%# Eval("createid") %>' />
                                                         </ItemTemplate>
 
@@ -453,7 +475,13 @@
                                                     <%-- 報名資料 --%>
                                                     <asp:TemplateField HeaderText="報名資料">
                                                         <ItemTemplate>
-                                                            <input id="checkApply" type="button" class="btn-link" value="查看" onclick="GoTo(<%# Eval("as_idn") %>);" />/<asp:Button ID="download_btn" runat="server" CommandName="download" class="btn-link" Text="下載" ToolTip="下載" UseSubmitBehavior="False" CommandArgument='<%# Eval("as_idn") %>' />
+                                                            <span style="position: relative;">
+                                                                <i class="fa fa-download btn btn-success btn-xs" aria-hidden="true"></i>
+                                                                <asp:Button ID="download_btn" runat="server" CommandName="download" CssClass="movedown" Text="下載" ToolTip="下載" UseSubmitBehavior="False" CommandArgument='<%# Eval("as_idn") %>' />
+                                                            </span>
+                                                            <span style="position: relative;">
+                                                                <button id="checkApply" type="button" class="fa fa-search btn btn-info btn-xs" value="查看" title="查看" onclick="GoTo(<%# Eval("as_idn") %>);" />
+                                                            </span>
                                                         </ItemTemplate>
 
                                                         <HeaderStyle Width="110px" />
@@ -463,8 +491,25 @@
                                                     <%-- 基本功能 --%>
                                                     <asp:TemplateField HeaderText="基本功能">
                                                         <ItemTemplate>
-                                                            <asp:Button ID="editActivity_btn" runat="server" CommandName="EditActivity" class="btn-link" Text="修改" ToolTip="修改" UseSubmitBehavior="False" CommandArgument='<%# Eval("act_idn") %>' OnPreRender="ManageControlAuth" />/<asp:Button ID="delete_btn" runat="server" CommandName="Delete" class="btn-link" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" CommandArgument='<%# Eval("act_idn") %>' OnPreRender="ManageControlAuth" />/<asp:Button ID="edit_btn" runat="server" CommandName="Edit" class="btn-link" OnClientClick="if (!confirm(&quot;確定要發佈嗎?&quot;)) return false" Text="發佈" ToolTip="發佈" UseSubmitBehavior="False" CommandArgument='<%# Eval("act_idn") %>' OnPreRender="ManageControlAuth" />/<asp:Button ID="set_btn" runat="server" CommandName="Set_ready" class="btn-link" Text="協作者" ToolTip="協作者" UseSubmitBehavior="False" CommandArgument='<%# Eval("act_idn") %>' OnPreRender="ManageControlAuth" />
-                                                            /<button class="btn btn-link" data-clipboard-text="<%# Eval("as_short_link") %>" onclick="return false;" style="padding: 2px 8px 2px 8px;">短網址</button>
+                                                            <span id="editActivity_span" runat="server" style="position: relative;">
+                                                                <i class="fa fa-pencil btn btn-primary btn-xs" aria-hidden="true"></i>
+                                                                <asp:Button ID="editActivity_btn" runat="server" CommandName="EditActivity" CssClass="movedown" Text="修改" ToolTip="修改" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" CommandArgument='<%# Eval("act_idn") %>' />
+                                                            </span>
+                                                            <span id="delete_span" runat="server" style="position: relative;">
+                                                                <i class="fa fa-trash-o btn btn-danger btn-xs" aria-hidden="true"></i>
+                                                                <asp:Button ID="delete_btn" runat="server" CommandName="Delete" CssClass="movedown" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" CommandArgument='<%# Eval("act_idn") %>' />
+                                                            </span>
+                                                            <span id="set_span" runat="server" style="position: relative;">
+                                                                <i class="fa fa-user-plus btn btn-theme05 btn-xs" aria-hidden="true"></i>
+                                                                <asp:Button ID="set_btn" runat="server" CommandName="Set_ready" CssClass="movedown" Text="協作者" ToolTip="協作者" UseSubmitBehavior="False" CommandArgument='<%# Eval("act_idn") %>' OnPreRender="ManageControlAuth" />
+                                                            </span>
+                                                            <span style="position: relative;">
+                                                                <button class="fa fa-share-alt btn btn-warning btn-xs" data-clipboard-text="<%# Eval("as_short_link") %>" title="短網址" onclick="return false;"></button>
+                                                            </span>
+                                                            <span id="edit_span" runat="server" style="position: relative;">
+                                                                <i class="fa fa-check btn btn-default btn-xs" aria-hidden="true" style="color:green"></i>
+                                                                <asp:Button ID="edit_btn" runat="server" CommandName="Edit" CssClass="movedown" OnClientClick="if (!confirm(&quot;確定要發佈嗎?&quot;)) return false" Text="發佈" ToolTip="發佈" UseSubmitBehavior="False" CommandArgument='<%# Eval("act_idn") %>' OnPreRender="ManageControlAuth" />
+                                                            </span>
                                                         </ItemTemplate>
 
                                                         <HeaderStyle Width="230px" />
@@ -718,7 +763,13 @@
                                                     <%-- 報名資料 --%>
                                                     <asp:TemplateField HeaderText="報名資料">
                                                         <ItemTemplate>
-                                                            <input id="checkApply" type="button" class="btn-link" value="查看" onclick="GoTo(<%# Eval("as_idn") %>);" />/<asp:Button ID="download_btn" runat="server" CommandName="download" class="btn-link" Text="下載" ToolTip="下載" UseSubmitBehavior="False" CommandArgument='<%# Eval("as_idn") %>' />
+                                                            <span style="position: relative;">
+                                                                <i class="fa fa-download btn btn-success btn-xs" aria-hidden="true"></i>
+                                                                <asp:Button ID="download_btn" runat="server" CommandName="download" CssClass="movedown" Text="下載" ToolTip="下載" UseSubmitBehavior="False" CommandArgument='<%# Eval("as_idn") %>' />
+                                                            </span>
+                                                            <span style="position: relative;">
+                                                                <button id="checkApply" type="button" class="fa fa-search btn btn-info btn-xs" value="查看" title="查看" onclick="GoTo(<%# Eval("as_idn") %>);" />
+                                                            </span>
                                                         </ItemTemplate>
 
                                                         <HeaderStyle Width="110px" />
@@ -754,11 +805,27 @@
             var clipboard = new Clipboard('.btn');
 
             clipboard.on('success', function(e) {
-                alert("短網址已複製至剪貼簿!!");
+                $.jGrowl('短網址已複製至剪貼簿!!', {
+                    theme: 'success',
+                    sticky: 'true',
+                    position: 'center',
+                    speed: 'fast',
+                    beforeOpen: function(e, m) {
+                        $('div.jGrowl').find('div.jGrowl-notification').children().parent().remove();
+                    }
+                })
             });
 
             clipboard.on('error', function(e) {
-                alert("短網址複製失敗，請重新複製!!");
+                $.jGrowl('短網址複製失敗，請重新複製!!', {
+                    theme: 'error',
+                    sticky: 'true',
+                    position: 'center',
+                    speed: 'fast',
+                    beforeOpen: function(e, m) {
+                        $('div.jGrowl').find('div.jGrowl-notification').children().parent().remove();
+                    }
+                })
             });
         })
 

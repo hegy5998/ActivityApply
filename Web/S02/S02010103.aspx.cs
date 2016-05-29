@@ -39,7 +39,7 @@ namespace Web.S02
         }
         #endregion
 
-        #region 抓取活動資料、場次資料、區塊資料、問題資料、分類資料
+        #region 抓取活動資料、場次資料、區塊資料、問題資料、分類資料、個資聲明
         [System.Web.Services.WebMethod]
         public static string getActivity()
         {
@@ -78,6 +78,14 @@ namespace Web.S02
             S020102BL _bl = new S020102BL();
             List<Activity_classInfo> ClassList = _bl.GetClassList();
             string json_data = JsonConvert.SerializeObject(ClassList);
+            return json_data;
+        }
+        [System.Web.Services.WebMethod]
+        public static string getStatement()
+        {
+            S020102BL _bl = new S020102BL();
+            List<Activity_statementInfo> StatementList = _bl.getStatement();
+            string json_data = JsonConvert.SerializeObject(StatementList);
             return json_data;
         }
         #endregion
@@ -206,6 +214,7 @@ namespace Web.S02
             new_Activity_Information["act_contact_phone"] = activity_List[0].Act_contact_phone;
             new_Activity_Information["act_class"] = activity_List[0].Act_class;
             new_Activity_Information["act_num_limit"] = activity_List[0].Act_num_limit;
+            new_Activity_Information["act_as"] = activity_List[0].Act_as;
             new_Activity_Information["act_relate_link"] = activity_List[0].Act_relate_link;
             new_Activity_Information["act_short_link"] = shorterURL;
             //new_Activity_Information["act_isopen"] = 0;

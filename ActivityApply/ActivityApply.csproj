@@ -398,7 +398,6 @@
     <Content Include="MasterPages\Main.master" />
     <Content Include="Sign_Search_Context.aspx" />
     <Content Include="Sign_Change.aspx" />
-    <Content Include="WebForm1.aspx" />
     <Content Include="assets\lineicons\font-awesome\css\font-awesome.css.map" />
     <Content Include="assets\lineicons\font-awesome\fonts\fontawesome-webfont.eot" />
     <Content Include="assets\lineicons\font-awesome\fonts\fontawesome-webfont.ttf" />
@@ -618,7 +617,6 @@
     <Content Include="assets\bootstrap\nuget\MyGet.ps1" />
     <Content Include="assets\bootstrap\package.json" />
     <Content Include="assets\bootstrap\README.md" />
-    <Content Include="WebForm2.aspx" />
     <Content Include="assets\font-awesome\.DS_Store" />
     <Content Include="assets\font-awesome\css\.DS_Store" />
     <Content Include="assets\font-awesome\css\font-awesome.css.map" />
@@ -727,20 +725,6 @@
     </Compile>
     <Compile Include="Sign_Up.aspx.designer.cs">
       <DependentUpon>Sign_Up.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="WebForm1.aspx.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="WebForm1.aspx.designer.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="WebForm2.aspx.cs">
-      <DependentUpon>WebForm2.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="WebForm2.aspx.designer.cs">
-      <DependentUpon>WebForm2.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

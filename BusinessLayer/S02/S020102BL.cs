@@ -24,6 +24,7 @@ namespace BusinessLayer.S02
         Activity_columnData _columnData = new Activity_columnData();
         Activity_sectionData _sectionData = new Activity_sectionData();
         Activity_classData _classData = new Activity_classData();
+        Activity_statementData _stateData = new Activity_statementData();
 
         #region 更新
         /// <summary>
@@ -156,6 +157,13 @@ namespace BusinessLayer.S02
         public List<Activity_classInfo> GetClassList()
         {
             return _classData.GetClassList();
+        }
+        #endregion
+
+        #region 取得個資聲明
+        public List<Activity_statementInfo> getStatement()
+        {
+            return _stateData.getStatement();
         }
         #endregion
     }

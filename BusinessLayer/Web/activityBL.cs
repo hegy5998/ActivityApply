@@ -24,5 +24,12 @@ namespace BusinessLayer.Web
             return _data.GetSessionList(as_act);
         }
         #endregion
+
+        #region 取得個資聲名
+        public DataTable GetStateMent(int act_idn)
+        {
+            return _data.GetStateMent(act_idn);
+        }
+        #endregion
     }
 }

@@ -94,6 +94,12 @@ namespace Model
         /// <summary>
         ///  
         /// </summary>
+        [Column("act_as")]
+        public Int32? Act_as { get; set; }
+
+        /// <summary>
+        ///  
+        /// </summary>
         [Column("act_isopen")]
         public Byte? Act_isopen { get; set; }
 

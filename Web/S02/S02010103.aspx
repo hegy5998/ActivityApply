@@ -9,8 +9,18 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
         table {
             box-shadow: none;
+        }
+
+        label {
+            font-size: 18px;
+        }
+
+        .form-horizontal.style-form .form-group {
+            padding-bottom: 5px;
+            margin-bottom: 5px;
         }
     </style>
     <script type="text/javascript">
@@ -53,7 +63,7 @@
     <!-- 統一公告事項 END -->
     <div id="Tabs" role="tabpanel">
         <!-- 建立活動標籤_START-->
-        <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+        <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist" style="font-size: 20px;">
             <li class="tab-pane active">
                 <a data-toggle="tab" href="#activityMenu" onclick="activityMenu()" style="background-color: white;">活動頁面</a>
             </li>
@@ -102,11 +112,14 @@
                         <!-- 增加活動區塊地方_START -->
                         <div class="row" id="add_Session_div">
                             <!-- 活動場次區塊_START -->
+                            <!-- 活動分類 -->
                             <h3><i class="fa fa-angle-right"></i>活動分類<b class="red">*</b></h3>
-
                             <select class="select" id="select_class" style="width: 100%; height: 30px; border-radius: 4px; margin-bottom: 15px;">
                             </select>
-
+                            <!-- 個資聲明 -->
+                            <h3><i class="fa fa-angle-right"></i>個資聲明<b class="red">*</b><i class="fa fa-eye" aria-hidden="true" onclick="statementopen()" style="color: #428BCA;"></i></h3>
+                            <select class="select" id="statement" style="width: 100%; height: 30px; border-radius: 4px; margin-bottom: 15px;">
+                            </select>
                             <!-- 活動名稱 -->
                             <h3><i class="fa fa-angle-right"></i>活動名稱<b class="red">*</b></h3>
                             <input type="text" class="form-control" placeholder="活動名稱" id="activity_Name_txt" maxlength="60" /><br />
@@ -219,12 +232,14 @@
                             <input name="check_usually_Column" type="checkbox" value="生日" />
                             生日
                        
+                       
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
                             <input name="check_usually_Column" type="checkbox" value="身份證字號" />
                             身份證字號
+                       
                        
                         </label>
                     </div>
@@ -233,12 +248,14 @@
                             <input name="check_usually_Column" type="checkbox" value="聯絡電話" />
                             聯絡電話
                        
+                       
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
                             <input name="check_usually_Column" type="checkbox" value="聯絡地址" />
                             聯絡地址
+                       
                        
                         </label>
                     </div>
@@ -247,12 +264,14 @@
                             <input name="check_usually_Column" type="checkbox" value="公司電話" />
                             公司電話
                        
+                       
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
                             <input name="check_usually_Column" type="checkbox" value="服務單位" />
                             服務單位
+                       
                        
                         </label>
                     </div>
@@ -261,12 +280,14 @@
                             <input name="check_usually_Column" type="checkbox" value="職稱" />
                             職稱
                        
+                       
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
                             <input name="check_usually_Column" type="checkbox" value="傳真" />
                             傳真
+                       
                        
                         </label>
                     </div>
@@ -275,12 +296,14 @@
                             <input name="check_usually_Column" type="checkbox" value="用餐" />
                             用餐
                        
+                       
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
                             <input name="check_usually_Column" type="checkbox" value="備註" />
                             備註
+                       
                        
                         </label>
                     </div>
@@ -306,6 +329,31 @@
         </div>
     </div>
     <!-- loading -->
+
+    <!-- 個資聲明_Modal -->
+    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="person_data_Modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">個資聲明</h4>
+                </div>
+                <div id="statement_div" class="modal-body" style="width: auto; height: 300px; overflow-x: auto; overflow-y: auto; background-color: white;">
+                    <label id="person_data" style="width: 100%; height: 100%; border-color: transparent;"></label>
+                </div>
+                <div class="modal-footer">
+                    <%--                    <div class="row" style="float:left;margin-top: 5px;">
+                        <input type="checkbox" id="agree_statement"/>
+                        <label>我已閱讀並同意。</label>
+                    </div>
+                    --%>
+                    <a class="btn btn-default" onclick="personal_cnacle()">不同意</a>
+                    <a id="personal_ok_btn" class="btn btn-info" onclick="personal_cnacle()">同意</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal -->
 
     <!-- 隱藏欄位儲存報名表JSON字串-->
     <input type="hidden" id="save_Activity_Column_Json" />
@@ -356,6 +404,8 @@
         $(document).ready(function () {
             //設定分類下拉選單資料
             getClass();
+            //設定個資聲明下拉選單資料
+            getStatement();
             //抓取活動資訊
             getActivity();
             //抓取場次資訊
@@ -374,6 +424,21 @@
                 else {
                     $(this).css({ "box-shadow": "" });
                     $("#activity_Name_txt_error").remove();
+                }
+            })
+            //報名次數限制是否為數字
+            $("#act_num_limit_txt").blur(function () {
+                var if_int = /^[0-9]*[1-9][0-9]*$/;
+                if (if_int.test($("#act_num_limit_txt").val()) || $.trim($("#act_num_limit_txt").val()) == "") {
+                    $("#act_num_limit_txt").css({ "box-shadow": "" });
+                    $("#act_num_limit_txt_error").remove();
+                }
+                else if (!if_int.test($("#act_num_limit_txt").val()) && $.trim($("#act_num_limit_txt").val()) != "") {
+                    $("#act_num_limit_txt").css({ "box-shadow": "0px 0px 9px red" });
+                    if ($("#act_num_limit_txt_error").length == 0) {
+                        $("#act_num_limit_txt").after('<em id="act_num_limit_txt_error" class="error help-block red"">只能填入數字</em>');
+                    }
+                    check_Activity_Data = false;
                 }
             })
         });
@@ -431,6 +496,72 @@
             for (var count = 0 ; count < act_classInfo.length ; count++) {
                 $("#select_class").append('<option value="' + act_classInfo[count].Ac_idn + '">' + act_classInfo[count].Ac_title + '</option>');
             }
+        }
+        //#endregion
+
+        //#region 獲取個資聲明
+        function getStatement() {
+            $.ajax({
+                type: 'post',
+                traditional: true,
+                //傳送資料到後台為getActivityAllList的function
+                url: 'S02010103.aspx/getStatement',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                //成功時
+                success: function (result) {
+                    //設定搜尋下拉選單內容
+                    setStatement(result.d);
+                },
+                //失敗時
+                error: function () {
+                    return false;
+                }
+            });
+        }
+        //#endregion
+
+        //#region 設定個資聲明下拉選單內容
+        function setStatement(ast_StatementInfo) {
+            var ast_StatementInfo = statement_List = JSON.parse(ast_StatementInfo);
+            $("#statement").children().remove();
+            for (var count = 0 ; count < ast_StatementInfo.length ; count++) {
+                $("#statement").append('<option value="' + ast_StatementInfo[count].Ast_id + '">' + ast_StatementInfo[count].Ast_title + '(' + ast_StatementInfo[count].Ast_desc + ')</option>');
+            }
+            $("#statement").val('0');
+
+            //判斷分類必選
+            $("#statement").blur(function () {
+                if ($(this).val() == 0) {
+                    $("#statement").css({ "box-shadow": "0px 0px 9px red" });
+                    if ($("#statement_txt_error").length == 0)
+                        $("#statement").after('<em id="statement_txt_error" class="error help-block red" style="margin-top: -10px;">必須選擇</em>');
+                    check_Activity_Data = false;
+                }
+                else {
+                    $("#statement").css({ "box-shadow": "" });
+                    $("#statement_txt_error").remove();
+                }
+
+            })
+        }
+        //#endregion
+
+        //#region 預覽個資聲明
+        function statementopen() {
+            var content;
+            for (var ct = 0 ; ct < statement_List.length ; ct++) {
+                if (statement_List[ct].Ast_id == $("#statement").val())
+                    content = statement_List[ct].Ast_content;
+            }
+            var a = $("#person_data").text();
+            $("#person_data").html(content.replace('<br>', '<br />'))
+            $("#person_data_Modal").modal('show');
+        }
+
+        function personal_cnacle() {
+            $("#person_data_Modal").modal('hide');
         }
         //#endregion
 
@@ -551,6 +682,7 @@
         function setActivity(activity) {
             activityInfo = JSON.parse(activity);
             $("#select_class").val(activityInfo[0].Act_class);
+            $("#statement").val(activityInfo[0].Act_as);
             $("#activity_Name_txt").val(activityInfo[0].Act_title);
             CKEDITOR.instances.editor1.setData(activityInfo[0].Act_desc);
             $("#unit_txt").val(activityInfo[0].Act_unit);
@@ -1724,8 +1856,8 @@
             }
             else {
                         $("#activity_Limit_Num_txt_" +temp).css({ "box-shadow": "" });
-                        $("#activity_Limit_Num_txt_error_" + temp).remove();
-                    }
+                        $("#activity_Limit_Num_txt_error_" +temp).remove();
+            }
                     //判斷活動開始日期不能為空
                     if (!session_Json_Data.As_date_start) {
                         $("#datetimepicker_Activity_Start_txt_" + temp).css({ "box-shadow": "0px 0px 9px red" });
@@ -1801,11 +1933,25 @@
             activity_Json_Data.Act_relate_link = $("#relate_Link").val();
             //儲存活動分類
             activity_Json_Data.Act_class = $("#select_class").val();
+            //儲存個資聲明
+            activity_Json_Data.Act_as = $("#statement").val();
             //儲存報名場次次數限制
+            var if_int = /^[0-9]*[1-9][0-9]*$/;
+
             if ($.trim($("#act_num_limit_txt").val()) == "")
                 activity_Json_Data.Act_num_limit = 0;
-            else
+            if (if_int.test($("#act_num_limit_txt").val()) && $.trim($("#act_num_limit_txt").val()) != "") {
+                $("#act_num_limit_txt").css({ "box-shadow": "" });
+                $("#act_num_limit_txt_error").remove();
                 activity_Json_Data.Act_num_limit = $.trim($("#act_num_limit_txt").val());
+            }
+            else if (!if_int.test($("#act_num_limit_txt").val()) && $.trim($("#act_num_limit_txt").val()) != "") {
+                $("#act_num_limit_txt").css({ "box-shadow": "0px 0px 9px red" });
+                if ($("#act_num_limit_txt_error").length == 0) {
+                    $("#act_num_limit_txt").after('<em id="act_num_limit_txt_error" class="error help-block red"">只能填入數字</em>');
+                }
+                check_Activity_Data = false;
+            }
 
             //判斷活動名稱不能為空
             if (!activity_Json_Data.Act_title) {
@@ -1961,9 +2107,9 @@
                             if ($("#" +$qus_sortable[qus_count]).find("#required_checkbox_" +chooseId).is(":checked") === false)
                                 //沒有必填存0
                                 activity_Column_Json_Data.Acc_required = 0;
-                            else if ($("#" + $qus_sortable[qus_count]).find("#required_checkbox_" + chooseId).is(":checked") === true)
-                                //必填存1
-                                activity_Column_Json_Data.Acc_required = 1;
+            else if ($("#" +$qus_sortable[qus_count]).find("#required_checkbox_" +chooseId).is(":checked") === true)
+                //必填存1
+                activity_Column_Json_Data.Acc_required = 1;
                             //儲存問題模式
                             //activity_Column_Json_Data.Acc_type = $("#" + $qus_sortable[qus_count]).find("#select_" + chooseId).val();
                             activity_Column_Json_Data.Acc_type = $("#select_" + chooseId).val();

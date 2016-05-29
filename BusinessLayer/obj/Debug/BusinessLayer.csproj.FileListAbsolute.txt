@@ -134,23 +134,6 @@ D:\Kris\ActivityApply\BusinessLayer\bin\Debug\UtilBase.xml
 D:\Kris\ActivityApply\BusinessLayer\obj\Debug\BusinessLayer.csprojResolveAssemblyReference.cache
 D:\Kris\ActivityApply\BusinessLayer\obj\Debug\BusinessLayer.dll
 D:\Kris\ActivityApply\BusinessLayer\obj\Debug\BusinessLayer.pdb
-G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\BusinessLayer.dll
-G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\BusinessLayer.pdb
-G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\BusinessLayerBase.dll
-G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\DataAccess.dll
-G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\DataAccessBase.dll
-G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\Model.dll
-G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\Util.dll
-G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\UtilBase.dll
-G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\DataAccess.pdb
-G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\Model.pdb
-G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\Util.pdb
-G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\BusinessLayerBase.xml
-G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\DataAccessBase.xml
-G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\UtilBase.xml
-G:\School\Oit\ActivityApply\BusinessLayer\obj\Debug\BusinessLayer.csprojResolveAssemblyReference.cache
-G:\School\Oit\ActivityApply\BusinessLayer\obj\Debug\BusinessLayer.dll
-G:\School\Oit\ActivityApply\BusinessLayer\obj\Debug\BusinessLayer.pdb
 F:\Desktop\報名系統UI更改\ActivityApply\BusinessLayer\bin\Debug\BusinessLayer.dll
 F:\Desktop\報名系統UI更改\ActivityApply\BusinessLayer\bin\Debug\BusinessLayer.pdb
 F:\Desktop\報名系統UI更改\ActivityApply\BusinessLayer\bin\Debug\BusinessLayerBase.dll
@@ -202,3 +185,20 @@ F:\Desktop\新增資料夾 (2)\ActivityApply\BusinessLayer\bin\Debug\UtilBase.xm
 F:\Desktop\新增資料夾 (2)\ActivityApply\BusinessLayer\obj\Debug\BusinessLayer.csprojResolveAssemblyReference.cache
 F:\Desktop\新增資料夾 (2)\ActivityApply\BusinessLayer\obj\Debug\BusinessLayer.dll
 F:\Desktop\新增資料夾 (2)\ActivityApply\BusinessLayer\obj\Debug\BusinessLayer.pdb
+G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\BusinessLayer.dll
+G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\BusinessLayer.pdb
+G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\BusinessLayerBase.dll
+G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\DataAccess.dll
+G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\DataAccessBase.dll
+G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\Model.dll
+G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\Util.dll
+G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\UtilBase.dll
+G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\DataAccess.pdb
+G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\Model.pdb
+G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\Util.pdb
+G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\BusinessLayerBase.xml
+G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\DataAccessBase.xml
+G:\School\Oit\ActivityApply\BusinessLayer\bin\Debug\UtilBase.xml
+G:\School\Oit\ActivityApply\BusinessLayer\obj\Debug\BusinessLayer.csprojResolveAssemblyReference.cache
+G:\School\Oit\ActivityApply\BusinessLayer\obj\Debug\BusinessLayer.dll
+G:\School\Oit\ActivityApply\BusinessLayer\obj\Debug\BusinessLayer.pdb

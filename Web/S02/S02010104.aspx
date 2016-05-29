@@ -31,7 +31,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="baseContent_cph" runat="server">
-    <div style="background-color: white; width: 100%; height: 100%;">
+    <div style="background-color: white; width: 100%;">
         <div class="row">
             <div class="col-lg-12">
                 <h1 id="title_txt" class="page-header text-info"></h1>
@@ -91,6 +91,31 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <img id="act_image_modal" class="img-responsive" src="assets/img/fcu.jpg" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal -->
+
+    <!-- 個資聲明_Modal -->
+    <div aria-hidden="true" aria-labelledby="myModalLabel" data-backdrop="static" role="dialog" tabindex="-1" id="person_data_Modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">個資聲明</h4>
+                </div>
+                <div id="statement_div" class="modal-body" style="width: auto; height: 300px; overflow-x: auto; overflow-y: auto; background-color: white;">
+                    <asp:Label ID="person_data" runat="server"></asp:Label>
+                </div>
+                <div class="modal-footer">
+                    <%--                    <div class="row" style="float:left;margin-top: 5px;">
+                        <input type="checkbox" id="agree_statement"/>
+                        <label>我已閱讀並同意。</label>
+                    </div>
+                    --%>
+                    <a class="btn btn-default" onclick="personal_cnacle()">不同意</a>
+                    <a href="#" id="personal_ok_btn" class="btn btn-info" style="">同意</a>
                 </div>
             </div>
         </div>
@@ -251,8 +276,9 @@
                     apply_num = SessionInfo[count].as_num_limit - SessionInfo[count].apply_num;
                 if (SessionInfo[count].as_remark == "")
                     as_remark_vis = "display:none;";
+                var url = new String('S02010105.aspx?sys_id=S02&sys_pid=S02010105&act_idn=' + SessionInfo[count].as_act + '&as_idn=' + SessionInfo[count].as_idn);
                 $("#add_Session_div").append('<div class="panel panel-default">\
-                                                <div class="panel-heading">活動場次</div>\
+                                                <div class="panel-heading">第 ' + (count + 1) + ' 場  /  共 ' + SessionInfo.length + ' 場</div>\
                                                     <div class="panel-body">\
                                                         <h3 style="color:#069;">'+ SessionInfo[count].as_title + '</h3>\
                                                         <div class="tooltip-demo">活動地點：' + SessionInfo[count].as_position + '\
@@ -261,7 +287,7 @@
                                                             <br>報名/限制人數：' + SessionInfo[count].apply_num + '/' + SessionInfo[count].as_num_limit + '人\
                                                             <br><p style="' + as_remark_vis + ' margin:0px;">備註：' + SessionInfo[count].as_remark + '</p>\
                                                             <br>\
-                                                            <a id="apply_btn_' + count + '" href="S02010105.aspx?sys_id=S02&sys_pid=S02010105&act_idn=' + SessionInfo[count].as_act + '&as_idn=' + SessionInfo[count].as_idn + '" class="btn btn-info" data-toggle="tooltip" data-placement="right" style="color: white;">我要報名</a>\
+                                                            <a id="apply_btn_' + count + '" onclick=openss("' + url + '") class="btn btn-info" data-toggle="tooltip" data-placement="right" style="color: white;">我要報名</a>\
                                                         </div>');
 
                 if (apply_num <= 0) {
@@ -305,7 +331,16 @@
             }
             else
                 return "";
-        };
+        }
+
+        function openss(url) {
+            $("#personal_ok_btn").attr('href', url);
+            $("#person_data_Modal").modal('show');
+        }
+
+        function personal_cnacle() {
+            $("#person_data_Modal").modal('hide');
+        }
 
     </script>
 </asp:Content>

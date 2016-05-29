@@ -139,6 +139,7 @@ namespace Web.S02
             save_Activity_Information["act_contact_name"] = activity_List[0].Act_contact_name;
             save_Activity_Information["act_contact_phone"] = activity_List[0].Act_contact_phone;
             save_Activity_Information["act_class"] = activity_List[0].Act_class;
+            save_Activity_Information["act_as"] = activity_List[0].Act_as;
             save_Activity_Information["act_relate_link"] = activity_List[0].Act_relate_link;
             save_Activity_Information["act_num_limit"] = activity_List[0].Act_num_limit;
             save_Activity_Information["act_relate_file"] = "";
@@ -223,6 +224,17 @@ namespace Web.S02
             S020102BL _bl = new S020102BL();
             List<Activity_classInfo> ClassList = _bl.GetClassList();
             string json_data = JsonConvert.SerializeObject(ClassList);
+            return json_data;
+        }
+        #endregion
+
+        #region 取得個資聲明
+        [System.Web.Services.WebMethod]
+        public static string getStatement()
+        {
+            S020102BL _bl = new S020102BL();
+            List<Activity_statementInfo> StatementList = _bl.getStatement();
+            string json_data = JsonConvert.SerializeObject(StatementList);
             return json_data;
         }
         #endregion

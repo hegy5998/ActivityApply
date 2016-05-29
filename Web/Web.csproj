@@ -267,8 +267,11 @@
     <Content Include="S02\S02010105.aspx" />
     <Content Include="S02\S02010201.aspx" />
     <Content Include="S02\S02010202.aspx" />
+    <Content Include="S02\S02010501.aspx" />
     <Content Include="S02\S02010301.aspx" />
     <Content Include="S02\S02010401.aspx" />
+    <Content Include="S02\UCActivityStatement.ascx" />
+    <Content Include="S02\UCActivityStatementDialog.ascx" />
     <Content Include="S02\WebForm1.aspx" />
     <Content Include="Scripts\ITCFunctions.js" />
     <Content Include="Scripts\Lib\assets\css\style-responsive.css" />
@@ -976,7 +979,6 @@
     <Content Include="Scripts\Lib\zeroclipboard-2.1.6\test\index.html" />
     <Content Include="Scripts\Lib\zeroclipboard-2.1.6\test\shared\private.tests.js" />
     <Content Include="Scripts\Lib\zeroclipboard-2.1.6\test\shared\private.tests.js.html" />
-    <Content Include="WebForm1.aspx" />
     <None Include="bin\Web.dll.config" />
     <Content Include="Scripts\Lib\ckeditor\.htaccess" />
     <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\dev\locations.json" />
@@ -1336,6 +1338,13 @@
     <Compile Include="S02\S02010202.aspx.designer.cs">
       <DependentUpon>S02010202.aspx</DependentUpon>
     </Compile>
+    <Compile Include="S02\S02010501.aspx.cs">
+      <DependentUpon>S02010501.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S02\S02010501.aspx.designer.cs">
+      <DependentUpon>S02010501.aspx</DependentUpon>
+    </Compile>
     <Compile Include="S02\S02010301.aspx.cs">
       <DependentUpon>S02010301.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1349,6 +1358,20 @@
     </Compile>
     <Compile Include="S02\S02010401.aspx.designer.cs">
       <DependentUpon>S02010401.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="S02\UCActivityStatement.ascx.cs">
+      <DependentUpon>UCActivityStatement.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S02\UCActivityStatement.ascx.designer.cs">
+      <DependentUpon>UCActivityStatement.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="S02\UCActivityStatementDialog.ascx.cs">
+      <DependentUpon>UCActivityStatementDialog.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="S02\UCActivityStatementDialog.ascx.designer.cs">
+      <DependentUpon>UCActivityStatementDialog.ascx</DependentUpon>
     </Compile>
     <Compile Include="S02\WebForm1.aspx.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
@@ -1405,13 +1428,6 @@
     </Compile>
     <Compile Include="UserControls\UCUnitDDL.ascx.designer.cs">
       <DependentUpon>UCUnitDDL.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="WebForm1.aspx.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="WebForm1.aspx.designer.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

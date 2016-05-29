@@ -13,6 +13,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.IO.Compression;
 using BusinessLayer;
+using System.Web.UI.HtmlControls;
 
 namespace Web.CommonPages
 {
@@ -229,7 +230,7 @@ namespace Web.CommonPages
         protected void ManageControlCopperate(object sender)
         {
             Control ctrl = sender as Control;
-            Button button = sender as Button;
+            Button button = sender as Button;            
 
             if (button != null)
             {
@@ -249,17 +250,25 @@ namespace Web.CommonPages
                                 //判斷協作者的權限
                                 if (_copperate[i].Cop_authority == "閱讀")
                                 {
+                                    HtmlGenericControl editActivity_span = (HtmlGenericControl)ctrl.FindControl("editActivity_span");
+                                    HtmlGenericControl delete_span = (HtmlGenericControl)ctrl.FindControl("delete_span");
+                                    HtmlGenericControl edit_span = (HtmlGenericControl)ctrl.FindControl("edit_span");
                                     button.Enabled = false;
-                                    button.CssClass = "btn-link";
-                                    button.Style["color"] = "gray";
+                                    button.CssClass = "movedown";
+                                    editActivity_span.Visible = false;
+                                    delete_span.Visible = false;
+                                    edit_span.Visible = false;
+                                    button.Style["display"] = "none";
                                 }
 
                                 //協作者不能編輯協作者
                                 if (_processControl[j].Sys_cid == "set_btn")
                                 {
+                                    HtmlGenericControl set_span = (HtmlGenericControl)ctrl.FindControl("set_span");
                                     button.Enabled = false;
-                                    button.CssClass = "btn-link";
-                                    button.Style["color"] = "gray";
+                                    button.CssClass = "movedown";
+                                    set_span.Visible = false;
+                                    button.Style["display"] = "none";
                                 }
                             }
                         }
