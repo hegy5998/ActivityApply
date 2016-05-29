@@ -18,16 +18,7 @@ namespace DataAccess.S02
         #region 查詢
         public List<Activity_statementInfo> GetList(string act_id)
         {
-            string sql = @" SELECT ast_id
-                                  ,ast_title
-                                  ,ast_desc
-                                  ,convert(char, ast_term, 111) AS ast_term
-                                  ,ast_public
-                                  ,createid
-                                  ,createtime
-                                  ,updid
-                                  ,uptime
-                                  ,ast_content
+            string sql = @" SELECT *
                             FROM activity_statement
                             WHERE createid = @act_id
                             ORDER BY ast_id;";

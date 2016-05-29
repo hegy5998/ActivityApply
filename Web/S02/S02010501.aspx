@@ -61,11 +61,18 @@
                 <HeaderStyle Width="300px" />
                 <ItemStyle CssClass="rowTrigger" />
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="有效期限" SortExpression="Ast_term">                
+            <asp:TemplateField HeaderText="保存年" SortExpression="Ast_year">                
                 <ItemTemplate>
-                    <%# Item.Ast_term %>
+                    <%# Item.Ast_year %>
                 </ItemTemplate>
-                <HeaderStyle Width="200px" />
+                <HeaderStyle Width="40px" />
+                <ItemStyle CssClass="rowTrigger center" />
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="保存月" SortExpression="Ast_month">                
+                <ItemTemplate>
+                    <%# Item.Ast_month %>
+                </ItemTemplate>
+                <HeaderStyle Width="40px" />
                 <ItemStyle CssClass="rowTrigger center" />
             </asp:TemplateField>
             <asp:TemplateField HeaderText="共用" SortExpression="Ast_public">

@@ -138,18 +138,9 @@ namespace DataAccess
         #region 查詢
         public Activity_statementInfo GetInfo(int ast_id)
         {
-            string sql = @" SELECT ast_id
-                                  ,ast_title
-                                  ,ast_desc
-                                  ,convert(char, ast_term, 111) AS ast_term
-                                  ,ast_public
-                                  ,createid
-                                  ,createtime
-                                  ,updid
-                                  ,uptime
-                                  ,ast_content
+            string sql = @" SELECT *
                             FROM activity_statement
-                            WHERE ast_id=@ast_id  and ast_term > getdate()";
+                            WHERE ast_id=@ast_id";
             IDataParameter[] param = { Db.GetParam("@ast_id", ast_id) };
             return Db.GetEnumerable<Activity_statementInfo>(sql, param).ToList()[0];
         }

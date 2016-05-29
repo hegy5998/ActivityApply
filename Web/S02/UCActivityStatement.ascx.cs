@@ -18,9 +18,6 @@ namespace Web.S02
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack) {
-                ToolkitScriptManager.RegisterClientScriptBlock(this, this.GetType(), "myFunc", "init()", true);
-            }
         }
 
         #region 新增聲明
@@ -42,7 +39,8 @@ namespace Web.S02
                 dict["ast_title"] = e.Values["Ast_title"].ToString().Trim();
                 dict["ast_desc"] = e.Values["Ast_desc"].ToString().Trim();
                 dict["ast_content"] = e.Values["Ast_content"].ToString().Trim();
-                dict["ast_term"] = e.Values["Ast_term"].ToString().Trim();
+                dict["ast_year"] = CommonConvert.GetIntOrZero(e.Values["Ast_year"]).ToString();
+                dict["ast_month"] = CommonConvert.GetIntOrZero(e.Values["Ast_month"]).ToString();
                 dict["ast_public"] = e.Values["Ast_public"].ToString().Trim();
                 res = _bl.InsertData(dict);
             }
@@ -89,7 +87,8 @@ namespace Web.S02
                 new_dict["ast_title"] = e.NewValues["Ast_title"];
                 new_dict["ast_desc"] = e.NewValues["Ast_desc"];
                 new_dict["ast_content"] = e.NewValues["Ast_content"];
-                new_dict["ast_term"] = e.NewValues["Ast_term"];
+                new_dict["ast_year"] = e.NewValues["Ast_year"];
+                new_dict["ast_month"] = e.NewValues["Ast_month"];
                 new_dict["ast_public"] = e.NewValues["Ast_public"];
                 res = _bl.UpdateData(old_dict, new_dict);
             }

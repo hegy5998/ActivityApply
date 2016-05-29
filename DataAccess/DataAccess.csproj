@@ -76,7 +76,6 @@
     <Compile Include="S02\S020104Data.cs" />
     <Compile Include="S02\S020103Data.cs" />
     <Compile Include="S02\S020101Data.cs" />
-    <Compile Include="S02\UCActivityStatementData.cs" />
     <Compile Include="Sys_accountData.cs" />
     <Compile Include="Sys_account_roleData.cs" />
     <Compile Include="Sys_announceData.cs" />

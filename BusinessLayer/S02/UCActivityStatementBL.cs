@@ -11,7 +11,7 @@ namespace BusinessLayer.S02
 {
     public class UCActivityStatementBL : BaseBL
     {
-        DataAccess.S02.UCActivityStatementData _da = new DataAccess.S02.UCActivityStatementData();
+        Activity_statementData activityStatement_data = new Activity_statementData();
 
         #region 新增
         /// <summary>
@@ -22,7 +22,6 @@ namespace BusinessLayer.S02
         public CommonResult InsertData(Dictionary<string, object> dict)
         {
             var res = CommonHelper.ValidateModel<Activity_statementInfo>(dict);
-            var activityStatement_data = new Activity_statementData();
             if (res.IsSuccess)
             {
                 res = activityStatement_data.InsertData(dict);
@@ -39,7 +38,7 @@ namespace BusinessLayer.S02
         /// <returns></returns>
         public Activity_statementInfo GetData(int ast_id)
         {
-            return new Activity_statementData().GetInfo(ast_id); ;
+            return activityStatement_data.GetInfo(ast_id); ;
         }
         #endregion
 
@@ -53,8 +52,7 @@ namespace BusinessLayer.S02
         public CommonResult UpdateData(Dictionary<string, object> old_dict, Dictionary<string, object> new_dict)
         {
             var res = CommonHelper.ValidateModel<Activity_statementInfo>(new_dict);
-
-            var activityStatement_data = new Activity_statementData();
+            
             if (res.IsSuccess)
             {
                 res = activityStatement_data.UpdateData(old_dict, new_dict);

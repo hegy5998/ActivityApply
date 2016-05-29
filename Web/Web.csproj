@@ -272,7 +272,6 @@
     <Content Include="S02\S02010401.aspx" />
     <Content Include="S02\UCActivityStatement.ascx" />
     <Content Include="S02\UCActivityStatementDialog.ascx" />
-    <Content Include="S02\WebForm1.aspx" />
     <Content Include="Scripts\ITCFunctions.js" />
     <Content Include="Scripts\Lib\assets\css\style-responsive.css" />
     <Content Include="Scripts\Lib\assets\css\style.css" />
@@ -1372,13 +1371,6 @@
     </Compile>
     <Compile Include="S02\UCActivityStatementDialog.ascx.designer.cs">
       <DependentUpon>UCActivityStatementDialog.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="S02\WebForm1.aspx.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="S02\WebForm1.aspx.designer.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
     <Compile Include="UserControls\UCGridViewPager.ascx.cs">
       <DependentUpon>UCGridViewPager.ascx</DependentUpon>

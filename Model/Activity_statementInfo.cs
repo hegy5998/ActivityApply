@@ -24,6 +24,7 @@ namespace Model
         ///  
         /// </summary>
         [Column("ast_title")]
+        [Required(ErrorMessage = "[標題]不可為空白!")]
         public String Ast_title { get; set; }
 
         /// <summary>
@@ -35,8 +36,14 @@ namespace Model
         /// <summary>
         ///  
         /// </summary>
-        [Column("ast_term")]
-        public String Ast_term { get; set; }
+        [Column("ast_year")]
+        public Int32 Ast_year { get; set; }
+
+        /// <summary>
+        ///  
+        /// </summary>
+        [Column("ast_month")]
+        public Int32 Ast_month { get; set; }
 
         /// <summary>
         ///  

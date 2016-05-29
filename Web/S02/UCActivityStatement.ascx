@@ -7,6 +7,9 @@
     .xdsoft_datetimepicker {
         z-index: 200000;
     }
+    textarea {
+        resize:none;
+    }
 </style>
 <asp:FormView ID="main_fv" runat="server" CssClass="fv"
     ItemType="Model.Activity_statementInfo"
@@ -30,13 +33,14 @@
             <tr>
                 <th>內  文</th>
                 <td>
-                    <asp:TextBox ID="ast_content" runat="server" Text='<%# BindItem.Ast_content %>' TextMode="MultiLine" Width="100%" Height="300px"></asp:TextBox>
+                    <asp:TextBox ID="ast_content" runat="server" Text='<%# BindItem.Ast_content %>' TextMode="MultiLine" Width="100%" Height="300px" Wrap="false" ></asp:TextBox>
                 </td>
             </tr>
             <tr>
-                <th>有效期限</th>
+                <th>保存年月</th>
                 <td>
-                    <asp:TextBox ID="ast_term_txt" runat="server" Text='<%# BindItem.Ast_term %>' CssClass="datetimepicker"></asp:TextBox>                
+                    <asp:TextBox ID="ast_year_txt" runat="server" Text='<%# BindItem.Ast_year %>' Width="40px"></asp:TextBox>年
+                    <asp:TextBox ID="ast_month_txt" runat="server" Text='<%# BindItem.Ast_month %>' Width="40px"></asp:TextBox>月                
                 </td>
             </tr>
             <tr>
@@ -74,13 +78,14 @@
             <tr>
                 <th>內  文</th>
                 <td>
-                    <asp:TextBox ID="ast_content" runat="server" Text='<%# BindItem.Ast_content %>' TextMode="MultiLine" Width="100%" Height="300px"></asp:TextBox>
+                    <asp:TextBox ID="ast_content" runat="server" Text='<%# BindItem.Ast_content %>' TextMode="MultiLine" Width="100%" Height="300px" Wrap="false" ></asp:TextBox>
                 </td>
             </tr>
             <tr>
-                <th>有效期限</th>
+                <th>保存年月</th>
                 <td>
-                    <asp:TextBox ID="ast_term_txt" runat="server" Text='<%# BindItem.Ast_term %>' CssClass="datetimepicker"></asp:TextBox>           
+                    <asp:TextBox ID="ast_year_txt" runat="server" Text='<%# BindItem.Ast_year %>' Width="40px"></asp:TextBox>年
+                    <asp:TextBox ID="ast_month_txt" runat="server" Text='<%# BindItem.Ast_month %>' Width="40px"></asp:TextBox>月                
                 </td>
             </tr>
             <tr>
@@ -102,12 +107,3 @@
         </table>
     </EditItemTemplate>
 </asp:FormView>
-<script type="text/javascript">
-    function init() {
-        $.datetimepicker.setLocale('zh-TW');
-        $('.datetimepicker').datetimepicker({
-            timepicker: false,
-            format:'Y/m/d'
-        });
-    }
-</script>
