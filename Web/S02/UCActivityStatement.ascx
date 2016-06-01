@@ -33,7 +33,7 @@
             <tr>
                 <th>內  文</th>
                 <td>
-                    <asp:TextBox ID="ast_content" runat="server" Text='<%# BindItem.Ast_content %>' TextMode="MultiLine" Width="100%" Height="300px" Wrap="true" style="padding: 1px 2px;"></asp:TextBox>
+                    <asp:TextBox ID="ast_content" runat="server" Text='<%# BindItem.Ast_content %>' TextMode="MultiLine" Width="100%" Height="300px" Wrap="true" style="padding: 1px 2px;background-color: #FEFEFE;"></asp:TextBox>
                 </td>
             </tr>
             <tr>
@@ -78,7 +78,7 @@
             <tr>
                 <th>內  文</th>
                 <td>
-                    <asp:TextBox ID="ast_content" runat="server" Text='<%# BindItem.Ast_content %>' TextMode="MultiLine" Width="100%" Height="300px" Wrap="true" style="padding: 1px 2px;"></asp:TextBox>
+                    <asp:TextBox ID="ast_content" runat="server" Text='<%# BindItem.Ast_content %>' TextMode="MultiLine" Width="100%" Height="300px" Wrap="true" style="padding: 1px 2px;background-color: #FEFEFE;"></asp:TextBox>
                 </td>
             </tr>
             <tr>

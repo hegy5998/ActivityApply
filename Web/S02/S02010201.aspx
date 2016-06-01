@@ -71,6 +71,8 @@
     <asp:Button runat="server" ID="Back_btn" Text="返回列表" OnClick="Back_btn_Click" CssClass="Distancebtn" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="mainContent_cph" runat="server">
+    <!-- 載入空網頁定時重整避免被timeout -->
+    <div style="display:none;"><iframe src="WebFormRefresh.aspx" id="refresh"></iframe></div>
     <!-- 如果沒有開啟JavaScript則會請她凱起才能使用本網頁的功能 -->
     <noscript>
         <h1 class="red blink">您沒有開啟JavaScript的功能，請您開啟才能使用本網站的功能!!</h1>
@@ -541,6 +543,8 @@
 
         //#region 頁面載入時自動產生問題
         $(document).ready(function () {
+            //設定每15分鐘重整隱藏頁面，避免被timeout
+            setInterval("protectTimeOut()", 54000);
             //設定分類下拉選單資料
             getClass();
             //#region 設定個資聲明下拉選單內容
@@ -614,6 +618,12 @@
                 }
             })
         });
+        //#endregion
+
+        //#region 重整隱藏頁面
+        function protectTimeOut() {
+            document.getElementById('refresh').contentDocument.location.reload(true);
+        }
         //#endregion
 
         //#region 只能輸入數字判斷

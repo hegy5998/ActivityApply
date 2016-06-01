@@ -23,11 +23,11 @@ namespace Web.S02
             string password_rd = getRandStringEx(6);
 
             string password = password_rd;
-            string salt = _bl.getEmail(email_txt.Text)[0].Aae_salt.Trim();
+            List<Activity_apply_emailInfo> salt = _bl.getEmail(email_txt.Text);
 
-            if (salt != null)
+            if (salt.Count > 0 )
             {
-                byte[] passwordAndSaltBytes = System.Text.Encoding.UTF8.GetBytes(password + salt);
+                byte[] passwordAndSaltBytes = System.Text.Encoding.UTF8.GetBytes(password + salt[0].Aae_salt.Trim());
                 byte[] hashBytes = new System.Security.Cryptography.SHA256Managed().ComputeHash(passwordAndSaltBytes);
 
                 string hashString = Convert.ToBase64String(hashBytes);

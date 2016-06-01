@@ -140,7 +140,7 @@ namespace DataAccess
         {
             string sql = @" SELECT activity_section.*,activity_session.as_title
                             FROM activity_section,activity_session
-                            WHERE acs_act = @acs_act AND as_idn = @as_idn AND CONVERT(DATETIME, as_apply_end, 121) >= CONVERT(VARCHAR(256), Getdate(), 121) 
+                            WHERE acs_act = @acs_act AND as_idn = @as_idn AND CONVERT(DATETIME, as_apply_end, 121) >= CONVERT(VARCHAR(256), Getdate(), 121) AND as_isopen = 1
                             ORDER BY acs_seq";
             IDataParameter[] param = { Db.GetParam("@acs_act", acs_act) ,Db.GetParam("@as_idn", as_idn) };
             return Db.GetEnumerable<Activity_sectionInfo>(sql, param).ToList();
