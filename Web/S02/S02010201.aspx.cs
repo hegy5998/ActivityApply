@@ -143,7 +143,7 @@ namespace Web.S02
             save_Activity_Information["act_relate_link"] = activity_List[0].Act_relate_link;
             save_Activity_Information["act_num_limit"] = activity_List[0].Act_num_limit;
             save_Activity_Information["act_relate_file"] = "";
-            save_Activity_Information["act_image"] = "";
+            save_Activity_Information["act_image"] = sysConfig.PRESET_PICTURE;
 
             save_Activity_Information["act_isopen"] = 0;
             CommonResult res = _bl.InsertData(save_Activity_Information);

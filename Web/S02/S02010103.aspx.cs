@@ -258,7 +258,7 @@ namespace Web.S02
                         Dictionary<string, object> old_Activity_dict = new Dictionary<string, object>();
                         old_Activity_dict["act_idn"] = act_idn;
                         Dictionary<string, object> new_Activity_dict = new Dictionary<string, object>();
-                        new_Activity_dict["act_image"] = "";
+                        new_Activity_dict["act_image"] = sysConfig.PRESET_PICTURE;
                         CommonResult upres = _bl.UpdateData(old_Activity_dict, new_Activity_dict);
                     }
                     catch (System.IO.IOException e)

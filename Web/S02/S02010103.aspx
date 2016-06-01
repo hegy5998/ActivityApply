@@ -21,6 +21,19 @@
         .form-horizontal.style-form .form-group {
             padding-bottom: 5px;
             margin-bottom: 5px;
+            border-bottom: 1px solid #DCDCDC;
+            box-shadow: 0px 0px 0px transparent;
+            border-radius: 0px;
+        }
+
+        .form-horizontal.style-form .noline {
+            border-bottom: 0px;
+            border-radius: 0px;
+        }
+
+        .btn-theme {
+            background-color: #428BCA;
+            border-color: #428BCA;
         }
     </style>
     <script type="text/javascript">
@@ -83,7 +96,7 @@
                             <div class="project">
                                 <div class="photo-wrapper">
                                     <div class="photo">
-                                        <img id="act_image" class="img-responsive" src="#" alt="" onclick="upload_img()" />
+                                        <img id="act_image" class="img-responsive" src="#" alt="" onclick="upload_img()" style="min-width: 100%;min-height: 100%;"/>
                                     </div>
                                     <div class="overlay"></div>
                                 </div>
@@ -97,7 +110,7 @@
                                     <asp:PostBackTrigger ControlID="imageUpload_btn"></asp:PostBackTrigger>
                                 </Triggers>
                             </asp:UpdatePanel>
-                            <label id="imgpath_lab" class="over_hide">選擇圖片</label>
+                            <label id="imgpath_lab" class="over_hide"></label>
                             <br />
                             <input id="delete_img_btn" type="button" class="btn btn-theme" onclick="delete_img_btn_click()" value="刪除已上傳圖片" style="display: none" />
                             <br />
@@ -117,7 +130,7 @@
                             <select class="select" id="select_class" style="width: 100%; height: 30px; border-radius: 4px; margin-bottom: 15px;">
                             </select>
                             <!-- 個資聲明 -->
-                            <h3><i class="fa fa-angle-right"></i>個資聲明<b class="red">*</b><i class="fa fa-eye" aria-hidden="true" onclick="statementopen()" style="color: #428BCA;"></i></h3>
+                            <h3><i class="fa fa-angle-right"></i>個資聲明<b class="red">*</b><i class="fa fa-eye" aria-hidden="true" onclick="statementopen()" style="color: #428BCA;cursor:pointer;"></i></h3>
                             <select class="select" id="statement" style="width: 100%; height: 30px; border-radius: 4px; margin-bottom: 15px;">
                             </select>
                             <!-- 活動名稱 -->
@@ -136,7 +149,7 @@
                             <div class="showback">
                                 <div class="form-horizontal style-form">
                                     <!-- 活動簡介 -->
-                                    <div class="form-group">
+                                    <div class="form-group noline">
                                         <label class="col-sm-2 col-sm-2 control-label">活動簡介</label>
                                         <div class="col-sm-10" style="width: 100%; margin-top: 15px;">
                                             <!-- 活動簡介，使用CKeditor -->
@@ -150,34 +163,34 @@
                                         </div>
                                     </div>
                                     <!-- 主辦單位 -->
-                                    <div class="form-group">
+                                    <div class="form-group noline">
                                         <label class="col-sm-2 col-sm-2 control-label">主辦單位</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="unit_txt" maxlength="20" />
                                         </div>
                                     </div>
                                     <!-- 聯絡人 -->
-                                    <div class="form-group">
+                                    <div class="form-group noline">
                                         <label class="col-sm-2 col-sm-2 control-label">聯絡人</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="contact_Person_txt" maxlength="30" />
                                         </div>
                                     </div>
                                     <!-- 聯絡人電話 -->
-                                    <div class="form-group">
+                                    <div class="form-group noline">
                                         <label class="col-sm-2 col-sm-2 control-label">聯絡人電話</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="contact_Person_Phone_txt" maxlength="30" />
                                         </div>
                                     </div>
                                     <!-- 附加檔案 -->
-                                    <div class="form-group">
-                                        <label class="col-sm-2 col-sm-2 control-label">附加檔案</label>
+                                    <div class="form-group noline">
+                                        <label class="col-sm-2 col-sm-2 control-label">附加檔案<a title="限制上傳jpg、png、jpeg、gif、doc、docx、txt、ppt、pptx、xls、xlsx、pdf、rar、zip、7z" style="cursor: help;"><i class="fa fa-question-circle" aria-hidden="true"></i></a></label>
                                         <div class="col-sm-10">
                                             <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
                                                 <ContentTemplate>
                                                     <input type="button" onclick="upload_file_btn()" class="btn btn-theme" value="選擇檔案" />
-                                                    <label id="filepath_lab">選擇檔案</label><br />
+                                                    <label id="filepath_lab"></label><br />
                                                     <input id="delete_file_btn" type="button" class="btn btn-theme" onclick="delete_file_btn_click()" value="刪除已上傳檔案" style="display: none; margin-top: 5px;" />
                                                     <asp:FileUpload ID="FileUpload" runat="server" onchange="upload_file(this.value)" Style="display: none" />
                                                     <asp:Button ID="btnUpload" runat="server" OnClick="btnUpload_Click1" Style="display: none" />
@@ -186,13 +199,11 @@
                                                     <asp:PostBackTrigger ControlID="btnUpload"></asp:PostBackTrigger>
                                                 </Triggers>
                                             </asp:UpdatePanel>
-                                            <label class="red">僅限制上傳jpg、png、jpeg、gif、doc、docx、txt、ppt、pptx、xls、xlsx、pdf、rar、zip、7z類型檔案</label>
-                                            <br />
                                             <label class="red">大小限制為4MB</label>
                                         </div>
                                     </div>
                                     <!-- 相關連結 -->
-                                    <div class="form-group">
+                                    <div class="form-group noline">
                                         <label class="col-sm-2 col-sm-2 control-label">相關連結</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" placeholder="https://" id="relate_Link" maxlength="255" />
@@ -804,7 +815,7 @@
             if (qus_Title == "姓名" || qus_Title == "電子信箱Email") {
                 //禁止更改題目類型
                 $("#select_" + qusId).attr('disabled', 'disabled');
-                $("#select_" + qusId).css({ 'background': '#EEEEEE' });
+                $("#select_" + qusId).css({ 'background': '#EEEEEE', 'color': 'black', 'border-color': '' });
                 //禁止更改資料驗證
                 $("#select_Validation_" + qusId).attr('disabled', 'disabled');
                 $("#select_Validation_" + qusId).css({ 'background': '#EEEEEE' });
@@ -890,17 +901,17 @@
                 var acc_idn_lb = '<label id="new_acc_idn_lb_' + qusId + '" style="display:none">' + qusId + '</label>';
 
             //新增問題至最後一個區塊內(預設文字問題)
-            $('#add_Qus_div_' + chooseId).append('<div id="qus_div_' + qusId + '" class="form-group portlet showback" style="border: 0px; background: #ffffff;padding: 15px;margin-bottom: 15px;box-shadow: 0px 0px 2px #272727;border-radius: 20px;margin: 20px 0px 0px 1px;">' +
-                                        '<div class="col-sm-1 portlet-header center" style="background-color: #F1F2F7;height:100px; width:35px;cursor: move;">' +
+            $('#add_Qus_div_' + chooseId).append('<div id="qus_div_' + qusId + '" class="form-group portlet showback" style="background: #ffffff;margin-bottom: 15px;margin: 20px 0px 0px 1px;">' +
+                                        '<div class="col-sm-1 portlet-header center" style="background-color: #F1F2F7;height:75px; width:35px;cursor: move;">' +
                                             '<img src="../Images/drag_pic.jpg" alt="拖移" height="24px" style="transform: translateY(-50%);top: 50%;position: relative;"/> ' +
                                         '</div>' +
                                         '<div class="row">' + acc_idn_lb +
                                             //添加題目問題以及題目描述的地方
-                                            '<div class="col-sm-10" id="change_Qus_Way_div_' + qusId + '">' +
+                                            '<div class="col-sm-10" id="change_Qus_Way_div_' + qusId + '" style="width: 87%; padding-right: 0px;">' +
                                             '</div>' +
-                                            '<div class="col-sm-1"  style="padding: inherit;">' +
+                                            '<div class="col-sm-1"  style="float: right; padding: 0px;">' +
                                                 //題目模式下拉式選單
-                                                '<select class="select" id="select_' + qusId + '" style="width: 56px; height: 34px; border-radius: 4px;float: right;">' +
+                                                '<select class="select btn btn-theme" id="select_' + qusId + '" style="width: 56px; height: 34px; border-radius: 4px;float: right;padding: 0px;">' +
                                                     '<option value="singleSelect">單選</option>' +
                                                     '<option value="multiSelect">多選</option>' +
                                                     '<option selected="selected" value="text">文字</option>' +
@@ -908,7 +919,7 @@
                                                 '</select>' +
                                             '</div>' +
                                         '</div>' +
-                                        '<div class="row">' +
+                                        '<div class="row" style="margin-top: 6px;">' +
                                             //如果是單選、多選、選單則在此處添加選項
                                             '<div class="col-sm-6"  id="change_Qus_Content_div_' + qusId + '">' +
                                             '</div>' +
@@ -929,7 +940,7 @@
                                                               '<option value="date">日期</option>' +
                                                               '<option value="length">字數</option>' +
                                                             '</select>' +
-                                                        '<a id="del_qus_btn_' + qusId + '" onclick="del_Qus_click(' + qusId + ')" type="submit" class="btn btn-theme" style="margin-left: 5px;">刪除</a>' +
+                                                        '<a id="del_qus_btn_' + qusId + '" onclick="del_Qus_click(' + qusId + ')" type="submit" class="btn btn-theme" style="margin-left: 5px;margin-bottom: 5px;">刪除</a>' +
                                                     '</div>' +
                                                     //添加資料驗證數字最大最小值的地方
                                                     '<div id="add_Validation_div_' + qusId + '" style="margin-right: 52px;float: right;">' +
@@ -950,21 +961,21 @@
                     $("#add_Validation_div_" + chooseId).children().remove();
                 switch (qus_Way) {
                     case "int":
-                        $("#add_Validation_div_" + chooseId).append('<label class="col-sm-1 control-label" style="width: auto;margin-top: 6px;">最小值</label>' +
+                        $("#add_Validation_div_" + chooseId).append('<label class="col-sm-1 control-label" style="width: auto;margin-top: 6px;padding: 7px 15px 0px 15px;">最小值</label>' +
                                                                     '<div class="col-sm-1" style="width: auto;margin-top: 6px;">' +
                                                                         '<input type="text" id="min_Num_' + chooseId + '" class="form-control" style="width: 85px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填" maxlength="9" onkeyup="return ValidateNumber($(this),value)"/>' +
                                                                     '</div>' +
-                                                                    '<label class="col-sm-1 control-label" style="width: auto;margin-top: 6px;">最大值</label>' +
+                                                                    '<label class="col-sm-1 control-label" style="width: auto;margin-top: 6px;padding: 7px 15px 0px 15px;">最大值</label>' +
                                                                     '<div class="col-sm-1" style="width: auto;margin-top: 6px;">' +
                                                                         '<input type="text" id="max_Num_' + chooseId + '" class="form-control" style="width: 85px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填" maxlength="9" onkeyup="return ValidateNumber($(this),value)"/>' +
                                                                     '</div>');
                         break;
                     case "length":
-                        $("#add_Validation_div_" + chooseId).append('<label class="col-sm-1 control-label" style="width: auto;margin-top: 6px;">最小值</label>' +
+                        $("#add_Validation_div_" + chooseId).append('<label class="col-sm-1 control-label" style="width: auto;margin-top: 6px;padding: 7px 15px 0px 15px;">最小值</label>' +
                                                                     '<div class="col-sm-1" style="width: auto;margin-top: 6px;">' +
                                                                         '<input type="text" id="min_Num_' + chooseId + '" class="form-control" style="width: 85px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填" maxlength="9" onkeyup="return ValidateNumber($(this),value)"/>' +
                                                                     '</div>' +
-                                                                    '<label class="col-sm-1 control-label" style="width: auto;margin-top: 6px;">最大值</label>' +
+                                                                    '<label class="col-sm-1 control-label" style="width: auto;margin-top: 6px;padding: 7px 15px 0px 15px;">最大值</label>' +
                                                                     '<div class="col-sm-1" style="width: auto;margin-top: 6px;">' +
                                                                         '<input type="text" id="max_Num_' + chooseId + '" class="form-control" style="width: 85px;margin-bottom: 8px;margin-left: -15px" placeholder="可不填" maxlength="9" onkeyup="return ValidateNumber($(this),value)"/>' +
                                                                     '</div>');
@@ -1255,8 +1266,8 @@
 
             //新增區塊至預設好的div
             $('#add_Block_div').append('<div class="col-lg-11 col-md-11 col-sm-11 col-xs-12 dexc showback" id="block_div_' + blockId + '">' + acs_idn_lb +
-                                            '<div class="col-sm-1" style="left: 95%;height: 40px;">' +
-                                                '<a class="btn" style="color: #768094;padding-left: 3px;' + display + '" onclick="del_block_click(' + blockId + ')">X</a>' +
+                                            '<div class="col-sm-12" style="height: 40px;">' +
+                                                '<a class="btn" style="float:right;color: #768094;padding-left: 3px;' + display + '" onclick="del_block_click(' + blockId + ')">X</a>' +
                                             '</div>' +
                                                 '<h3><input type="text" id ="block_title_txt_' + blockId + '" class="form-control" placeholder="區塊名稱" maxlength="60"/></h3>' +
                                                 '<input type="text" id="block_Description_txt_' + blockId + '" class="form-control" placeholder="區塊描述"/>' +
@@ -1357,10 +1368,9 @@
                 var acc_idn_lb = '<label id="new_as_idn_lb_' + sessionId + '" style="display:none">' + sessionId + '</label>';
 
             //講場次新增至預設好的div裡面
-            $('#add_Session_div').append('<div class="showback" id="delete_Session_div_' + sessionId + '">' +
+            $('#add_Session_div').append('<div class="showback" id="delete_Session_div_' + sessionId + '" style="padding-bottom: 3px;">' +
                         '<div class="form-horizontal style-form">' + acc_idn_lb +
-
-                            '<div class="form-group">' +
+                            '<div class="form-group noline">' +
                             '<div class="col-sm-3">' +
                             '<h4 class="red">*為必填</h4>' +
                             '</div>' +
@@ -1368,13 +1378,13 @@
                                     '<a class="btn" style="color: #768094;" onclick="del_Session_click(' + sessionId + ')">X</a>' +
                                 '</div>' +
                             '</div>' +
-                            '<div class="form-group">' +
+                            '<div class="form-group noline">' +
                                 '<label class="col-sm-2 control-label">場次名稱<b class="red">*</b></label>' +
                                 '<div class="col-sm-10">' +
                                     '<input type="text" class="form-control" id="session_Name_txt_' + sessionId + '" maxlength="60" />' +
                                 '</div>' +
                             '</div>' +
-                            '<div class="form-group">' +
+                            '<div class="form-group noline">' +
                                 '<label class="col-sm-2 control-label">報名開始日期<b class="red">*</b></label>' +
                                 '<div class="col-sm-4">' +
                                     '<input class="form-control datetimepicker" type="text" id="datetimepicker_Activity_Sign_Start_txt_' + sessionId + '" style="background-color: white;cursor: auto;"/>' +
@@ -1384,7 +1394,7 @@
                                     '<input class="form-control datetimepicker" type="text" id="datetimepicker_Activity_Sign_End_txt_' + sessionId + '" style="background-color: white;cursor: auto;"/>' +
                                 '</div>' +
                             '</div>' +
-                            '<div class="form-group">' +
+                            '<div class="form-group noline">' +
                                 '<label class="col-sm-2 control-label">活動開始日期<b class="red">*</b></label>' +
                                 '<div class="col-sm-4">' +
                                     '<input class="form-control datetimepicker" type="text" id="datetimepicker_Activity_Start_txt_' + sessionId + '" style="background-color: white;cursor: auto;"/>' +
@@ -1394,26 +1404,26 @@
                                     '<input class="form-control datetimepicker" type="text" id="datetimepicker_Activity_End_txt_' + sessionId + '" style="background-color: white;cursor: auto;"/>' +
                                 '</div>' +
                             '</div>' +
-                            '<div class="form-group">' +
+                            '<div class="form-group noline">' +
                                 '<label class="col-sm-2 control-label">活動地點<b class="red">*</b></label>' +
                                 '<div class="col-sm-10">' +
                                     '<input type="text" class="form-control" id="activity_Location_txt_' + sessionId + '" maxlength="30">' +
                                 '</div>' +
                             '</div>' +
-                            '<div class="form-group">' +
+                            '<div class="form-group noline">' +
                                 '<label class="col-sm-2 control-label">人數限制<b class="red">*</b></label>' +
                                 '<div class="col-sm-10">' +
                                     '<input type="text" class="form-control" placeholder="請填寫數字" id="activity_Limit_Num_txt_' + sessionId + '" onkeyup="return ValidateNumber($(this),value)">' +
                                 '</div>' +
                             '</div>' +
-                            '<div class="form-group">' +
+                            '<div class="form-group noline">' +
                                 '<label class="col-sm-2 control-label">備註 <a title="顯示於報名者下載活動資訊的備註欄內" style="cursor: help;"><i class="fa fa-question-circle fa-lg" aria-hidden="true"></i></a></label>' +
                                 '<div class="col-sm-10">' +
                                     '<input type="text" class="form-control" id="activity_remark_txt_' + sessionId + '" maxlength="100">' +
                                 '</div>' +
                             '</div>' +
-                            '<div class="form-group" style="padding-right: 10px;">' +
-                                '<a style="float: right;" class="btn btn-theme" onclick="add_Session_click(0)">增加場次</a>' +
+                            '<div class="form-group noline" style="padding-right: 10px;">' +
+                                '<a style="float: right;font-size: 17px;" class="btn btn-theme" onclick="add_Session_click(0)">增加場次</a>' +
                             '</div>' +
                         '</div>' +
                     '</div>');
@@ -2246,7 +2256,7 @@
             else if (activityInfo[0].Act_image.split('/')[activityInfo[0].Act_image.split('/').length - 1] != "")
                 $('#imgpath_lab').text(activityInfo[0].Act_image.split('/')[activityInfo[0].Act_image.split('/').length - 1]);
             else
-                $('#imgpath_lab').text("選擇圖片");
+                $('#imgpath_lab').text("");
         }
         //判斷使用者所選的檔案格式        
         function upload_file_btn() {
@@ -2269,7 +2279,7 @@
             else if (activityInfo[0].Act_relate_file.split('/')[activityInfo[0].Act_relate_file.split('/').length - 1] != "")
                 $("#filepath_lab").text(activityInfo[0].Act_relate_file.split('/')[activityInfo[0].Act_relate_file.split('/').length - 1]);
             else
-                $("#filepath_lab").text("選擇檔案");
+                $("#filepath_lab").text("");
         }
         //#endregion
 
@@ -2281,7 +2291,7 @@
                 $("#<%=imgUpload.ClientID %>").val("");
                 if_img_file = "true";
                 $("#act_image").attr("src", '../Scripts/Lib/assets/img/fcu.jpg');
-                $("#imgpath_lab").text("選擇檔案");
+                $("#imgpath_lab").text("");
                 $("#delete_img_btn").css({ 'display': 'none' });
             }
         }
@@ -2294,7 +2304,7 @@
                 activityInfo[0].Act_relate_file = "";
                 $("#<%=FileUpload.ClientID %>").val("");
                 if_delete_file = "true";
-                $("#filepath_lab").text("選擇檔案");
+                $("#filepath_lab").text("");
                 $("#delete_file_btn").css({ 'display': 'none' });
             }
         }

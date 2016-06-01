@@ -43,7 +43,7 @@
                     <div class="photo-wrapper">
                         <div class="photo">
                             <a data-toggle="modal" href="#myModal">
-                                <img id="act_image" class="img-responsive" src="#" />
+                                <img id="act_image" class="img-responsive" src="#" style="min-width: 100%;min-height: 100%;"/>
                             </a>
                         </div>
                         <div class="overlay" style="height: 20px;"></div>
@@ -70,7 +70,7 @@
         <div class="col-lg-9">
             <!-- 活動資訊 -->
             <div class="panel panel-default">
-                <div class="panel-heading">活動內容</div>
+                <div class="panel-heading">活動詳情</div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div id="add_activity_desc"></div>
@@ -255,6 +255,7 @@
                         '<br />' +
                         '<a id="relate_File" href="' + ActivityInfo[0].Act_relate_file + '" target="_blank">下載</a>');
             }
+            //設定活動簡介
             if (ActivityInfo[0].Act_desc != "") {
                 $("#desc_div").css({ "display": "" });
                 $("#add_activity_desc").append('<hr />');
@@ -282,10 +283,7 @@
                 $("#act_image").attr("src", ActivityInfo[0].Act_image);
                 $("#act_image_modal").attr("src", ActivityInfo[0].Act_image);
             }
-            else {
-                $("#act_image").attr("src", "assets/img/fcu.jpg");
-                $("#act_image_modal").attr("src", "assets/img/fcu.jpg");
-            }
+
         }
         //#endregion
 

@@ -10,6 +10,20 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+                .divcss5 {
+            margin: 0px;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .divcss5 img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            min-height: 100%;
+            min-width: 100%;
+            position: relative;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="sideCon" runat="server">
@@ -68,7 +82,7 @@
         </div>
     </div>
     <!-- 分頁_START -->
-
+    <div id="back" style="background-color:white;position:absolute;z-index:1;">   </div>
     <div class="row">
         <div id="Searchresult">
             <div id="r1" class="row"></div>
@@ -103,7 +117,16 @@
             });
 
             $("#class_text").text($("#act_class option:selected").text());
-
+            var img_count = 0;
+            $(".img").each(function () {
+                $(this).imagesLoaded(function () {
+                    zmnImgCenter($("#img_" + img_count));
+                    img_count++;
+                });
+            });
+            $("#img_" + img_count).imagesLoaded(function () {
+                $("#back").fadeOut();
+            })
         })
         //#endregion
 
@@ -215,6 +238,8 @@
                 $("#r1").html("");
                 $("#r2").html("");
                 $("#r3").html("");
+                $("#back").css({ "width": $("#page-wrapper").width(), "height": $("#page-wrapper").height() })
+                $("#back").css({ 'background': 'white', 'display': '', 'opacity': '1' });
                 //判斷現在在第幾個分頁並顯示其內容
                 for (var i = page_index * items_per_page; i < max_elem; i++) {
                     //$("#Searchresult").append($("#hiddenresult div.result:eq(" + i + ")").clone());
@@ -226,6 +251,16 @@
                     else if (6 <= r && r < 9)
                         $("#r3").append($("#hiddenresult div.result:eq(" + i + ")").clone());
                 }
+                var img_count = 0;
+                $(".img").each(function () {
+                    $(this).imagesLoaded(function () {
+                        zmnImgCenter($("#img_" + img_count));
+                        img_count++;
+                    });
+                });
+                $("#img_" + img_count).imagesLoaded(function () {
+                    $("#back").fadeOut();
+                })
                 return false;
             }
             //載入index.html  load( url, [data], [callback] )
@@ -233,6 +268,45 @@
         });
         //#endregion
 
+        //图片居中
+        function zmnImgCenter(obj) {
+            //obj.each(function () {
+            var $this = obj;
+            var objHeight = $this.height();//图片高度
+            var objWidth = $this.width();//图片宽度
+            var parentHeight = $this.parent().height();//图片父容器高度
+            var parentWidth = $this.parent().width();//图片父容器宽度
+            var ratio = objHeight / objWidth;
+            //alert(objHeight +" "+ parentHeight);
+            $this.css('top', (parentHeight - objHeight) / 2);
+            //if (objHeight > parentHeight && objWidth > parentWidth) {//当图片宽高都大于父容器宽高
+            //    if (objHeight > objWidth) {//赋值宽高
+            //        $this.width(parentWidth);
+            //        $this.height(parentWidth * ratio);
+            //    }
+            //    else {
+            //        $this.height(parentHeight);
+            //        $this.width(parentHeight / ratio);
+            //    }
+            //    objHeight = $this.height();//重新获取宽高
+            //    objWidth = $this.width();
+            //    if (objHeight > objWidth) {
+            //        $(this).css("top", (parentHeight - objHeight) / 2);
+            //        //定义top属性
+            //    }
+            //    else {
+            //        //定义left属性
+            //        $(this).css("left", (parentWidth - objWidth) / 2);
+            //    }
+            //}
+            //else {//当图片宽高小于父容器宽高
+            //    if (objWidth > parentWidth) {//当图片宽大于容器宽，小于时利用css text-align属性居中
+            //        $(this).css("left", (parentWidth - objWidth) / 2);
+            //    }
+            //    $(this).css("top", (parentHeight - objHeight) / 2);
+            //}
+            //})
+        }
     </script>
     <!--引用jquery分頁-->
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery.pagination.js") %>"></script>

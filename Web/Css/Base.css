@@ -59,7 +59,7 @@ a:hover {
   text-decoration: underline;
 }
 
-select, label, input[type="radio"], input[type="checkbox"]
+select, input[type="radio"], input[type="checkbox"]
 {
 	cursor: pointer;
     font-family: '微軟正黑體',sans-serif;

@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 /* CSS Document */
 
 body{
@@ -51,6 +51,7 @@ footer {
 	  position: absolute;
 	  bottom: 0;
 	  width: 100%;
+      z-index: 2;
 	  /* Set the fixed height of the footer here */
 	  height: 40px;
 	  background-color:#333;

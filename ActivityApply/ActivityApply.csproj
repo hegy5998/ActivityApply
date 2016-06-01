@@ -130,6 +130,7 @@
     <Content Include="assets\jGrowl-master\jquery.jgrowl.js" />
     <Content Include="assets\jGrowl-master\jquery.jgrowl.min.css" />
     <Content Include="assets\jGrowl-master\jquery.jgrowl.min.js" />
+    <Content Include="assets\js\imagesloaded.pkgd.min.js" />
     <Content Include="assets\js\strength.js" />
     <Content Include="assets\lineicons\font-awesome\css\font-awesome.css" />
     <Content Include="assets\lineicons\font-awesome\css\font-awesome.min.css" />

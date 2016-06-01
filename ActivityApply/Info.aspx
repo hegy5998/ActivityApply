@@ -18,10 +18,33 @@
             animation-timing-function: ease-in-out;
         }
 
+        .title_img {
+            height: auto;
+            width: auto;
+            float: left;
+            max-height: 50px;
+            max-width: 50px;
+        }
+
         .activity_title {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+
+        .divcss5 {
+            margin: 0px;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .divcss5 img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            min-height: 100%;
+            min-width: 100%;
+            position: relative;
         }
 
         @keyframes blink {
@@ -84,13 +107,13 @@
             </div>
         </div>
     </div>
-
-    <div id="add_activity_list" class="advanced-form row">
-        <div id="a1" class="row"></div>
-        <div id="a2" class="row"></div>
-        <div id="a3" class="row"></div>
-    </div>
-
+    <div id="back" style="background-color:white;position:absolute;z-index:1;">   </div>
+        <div id="add_activity_list" class="advanced-form row">
+            <div id="a1" class="row"></div>
+            <div id="a2" class="row"></div>
+            <div id="a3" class="row"></div>
+        </div>
+     
     <div class="row">
         <div id="Searchresult">
             <div id="r1" class="row"></div>
@@ -112,7 +135,7 @@
 
         //#region 初始化
         $(document).ready(function () {
-
+            $("#back").css({ "width": $("#page-wrapper").width(), "height": $("#page-wrapper").height() })
             getClass();
             //判斷搜尋列輸入完後如果按ENTER則要執行搜尋功能
             $("#search_txt").keypress(function (event) {
@@ -124,8 +147,21 @@
             searchActivityAllList();
             if ($("#act_class option:selected").text() != "請選擇")
                 $("#class_text").text($("#act_class option:selected").text());
+            var img_count = 0;
+            $(".img").each(function () {
+                $(this).imagesLoaded(function () {
+                    zmnImgCenter($("#img_" + img_count));
+                    img_count++;
+                });
+            });
+            $("#img_" + img_count).imagesLoaded(function () {
+                $("#back").fadeOut();
+            })
+
         })
         //#endregion
+
+
 
         //#region 分頁事件
         $(function () {
@@ -237,6 +273,7 @@
             var ActivityInfo = JSON.parse(ActivityInfo);
             //產生活動列表
             for (var count = 0 ; count < ActivityInfo.length ; count++) {
+                var src;
                 var r = count % 9;
                 if (r < 3)
                     r = 1;
@@ -244,26 +281,34 @@
                     r = 2;
                 else if (6 <= r && r < 9)
                     r = 3;
+                if (ActivityInfo[count].act_image != "") src = ActivityInfo[count].act_image;
                 $("#a" + r).append('<div class="col-lg-4 result">\
                                             <div class="panel panel-info">\
-                                                <div class="panel-heading"><a target="_self" href="Activity.aspx?act_class=' + ActivityInfo[count].act_class + '&act_idn=' + ActivityInfo[count].act_idn + '&act_title=' + ActivityInfo[count].act_title + '" title="' + ActivityInfo[count].act_title + ' 場次數:' + ActivityInfo[count].num + '"><h4>' + ActivityInfo[count].act_title + '<a title="場次數" style="cursor: help;">  <spna class="badge bg-info" style="background-color: #35BCFF;font-size: 15px;margin-bottom: 3px;">' + ActivityInfo[count].num + '</span></a></h4></a></div>\
+                                                <div class="panel-heading" style="padding:0px;height: 200px;">\
+                                                <div class="divcss5"><img id="img_'+ count + '" class="img" src="' + src + '" alt="logo" /></div>\
+                                                    </div>\
                                                     <div class="panel-body">\
-                                                    <p>活動日期：<br>' + dateReviver(ActivityInfo[count].as_date_start) + ' ~ ' + dateReviver(ActivityInfo[count].as_date_end) + '</p>\
-                                                    <p>報名日期：<br>' + dateReviver(ActivityInfo[count].as_apply_start) + ' ~ ' + dateReviver(ActivityInfo[count].as_apply_end) + '</p>\
+                                                    <a target="_self" href="Activity.aspx?act_class=' + ActivityInfo[count].act_class + '&act_idn=' + ActivityInfo[count].act_idn + '&act_title=' + ActivityInfo[count].act_title + '" title="' + ActivityInfo[count].act_title + ' 場次數:' + ActivityInfo[count].num + '">\
+                                                        <h4>' + ActivityInfo[count].act_title + '<a title="場次數" style="cursor: help;">  <spna class="badge bg-info" style="background-color: #35BCFF;font-size: 15px;margin-bottom: 3px;">' + ActivityInfo[count].num + '</span></a></h4></a>\
+                                                    <p>活動日期：' + dateReviver(ActivityInfo[count].as_date_start) + ' - ' + dateReviver(ActivityInfo[count].as_date_end) + '</p>\
+                                                    <p>報名日期：' + dateReviver(ActivityInfo[count].as_apply_start) + ' - ' + dateReviver(ActivityInfo[count].as_apply_end) + '</p>\
                                                     </div>\
                                                     <div class="panel-footer"><a target="_self" href="Activity.aspx?act_class=' + ActivityInfo[count].act_class + '&act_idn=' + ActivityInfo[count].act_idn + '&act_title=' + ActivityInfo[count].act_title + '">查看活動</a></div>\
                                                 </div>\
                                             </div>\
                                         </div>');
+
             }
             $("#add_activity_list").append('<div class="row"></div>');
             $("#add_activity_list").append('<a class="center" href="activity_List.aspx?act_class=0" style="font-size: large;">查看更多活動</a>');
             $("#Pagination").children().remove();
+            //zmnImgCenter($(".img"));
+            //$($(".img")[0]).css('top', ($($(".img")[0]).parent().height() - $($(".img")[0]).height()) / 2)
             //後臺轉換DateTime格式時會把他轉成字串，使用JSON.parse會把它當成子串解析，需要在做轉換與切割成我們要的格式
             function dateReviver(datavalue) {
                 if (datavalue != null) {
                     var datavalue = datavalue.split("T");
-                    return datavalue[0] + " " + datavalue[1].substring(0, 5);
+                    return datavalue[0].replace(/-/g, '/');
                 }
                 else
                     return "";
@@ -315,6 +360,47 @@
             $("#act_class").val(act_class);
         }
         //#endregion
+
+        //图片居中
+        function zmnImgCenter(obj) {
+            //obj.each(function () {
+            var $this = obj;
+            var objHeight = $this.height();//图片高度
+            var objWidth = $this.width();//图片宽度
+            var parentHeight = $this.parent().height();//图片父容器高度
+            var parentWidth = $this.parent().width();//图片父容器宽度
+            var ratio = objHeight / objWidth;
+            //alert(objHeight +" "+ parentHeight);
+            $this.css('top', (parentHeight - objHeight) / 2);
+            //if (objHeight > parentHeight && objWidth > parentWidth) {//当图片宽高都大于父容器宽高
+            //    if (objHeight > objWidth) {//赋值宽高
+            //        $this.width(parentWidth);
+            //        $this.height(parentWidth * ratio);
+            //    }
+            //    else {
+            //        $this.height(parentHeight);
+            //        $this.width(parentHeight / ratio);
+            //    }
+            //    objHeight = $this.height();//重新获取宽高
+            //    objWidth = $this.width();
+            //    if (objHeight > objWidth) {
+            //        $(this).css("top", (parentHeight - objHeight) / 2);
+            //        //定义top属性
+            //    }
+            //    else {
+            //        //定义left属性
+            //        $(this).css("left", (parentWidth - objWidth) / 2);
+            //    }
+            //}
+            //else {//当图片宽高小于父容器宽高
+            //    if (objWidth > parentWidth) {//当图片宽大于容器宽，小于时利用css text-align属性居中
+            //        $(this).css("left", (parentWidth - objWidth) / 2);
+            //    }
+            //    $(this).css("top", (parentHeight - objHeight) / 2);
+            //}
+            //})
+        }
+
 
     </script>
     <!--引用jquery分頁-->

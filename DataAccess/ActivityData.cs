@@ -82,7 +82,7 @@ namespace DataAccess
             }
             else
                 actclass = "";
-            string sql = @"SELECT activity.act_idn,activity.act_title,activity.act_isopen, act_class,
+            string sql = @"SELECT activity.act_idn,activity.act_title,activity.act_isopen, act_class,act_image,
                             ac_session.as_date_start,
                             ac_session.as_date_end, 
                             ac_session.as_apply_start, 

@@ -70,6 +70,9 @@
                 $("#r1").html("");
                 $("#r2").html("");
                 $("#r3").html("");
+                $("#back").css({ "width": $("#page-wrapper").width(), "height": $("#page-wrapper").height() })
+                $("#back").css({ 'background': 'white', 'display': '', 'opacity': '1' });
+                //$("#back").css('display', '');
                 //判斷現在在第幾個分頁並顯示其內容
                 for (var i = page_index * items_per_page; i < max_elem; i++) {
                     //$("#Searchresult").append($("#hiddenresult div.result:eq(" + i + ")").clone());
@@ -81,6 +84,16 @@
                     else if (6 <= r && r < 9)
                         $("#r3").append($("#hiddenresult div.result:eq(" + i + ")").clone());
                 }
+                var img_count = 0;
+                $(".img").each(function () {
+                    $(this).imagesLoaded(function () {
+                        zmnImgCenter($("#img_" + img_count));
+                        img_count++;
+                    });
+                });
+                $("#img_" + img_count).imagesLoaded(function () {
+                    $("#back").fadeOut();
+                })
                 return false;
             }
         }
@@ -126,12 +139,18 @@
         var ActivityInfo = JSON.parse(ActivityInfo);
         //產生活動列表
         for (var count = 0 ; count < ActivityInfo.length ; count++) {
+            var src;
+            if (ActivityInfo[count].act_image != "") src = ActivityInfo[count].act_image;
             $("#hiddenresult").append('<div class="col-lg-4 result">\
                                             <div class="panel panel-info">\
-                                                <div class="panel-heading"><a target="_self" href="Activity.aspx?act_class=' + ActivityInfo[count].act_class + '&act_idn=' + ActivityInfo[count].act_idn + '&act_title=' + ActivityInfo[count].act_title + '" title="' + ActivityInfo[count].act_title + ' 場次數:' + ActivityInfo[count].num + '"><h4>' + ActivityInfo[count].act_title + '<a title="場次數" style="cursor: help;">  <spna class="badge bg-info" style="background-color: #35BCFF;font-size: 15px;margin-bottom: 3px;">' + ActivityInfo[count].num + '</span></a></h4></a></div>\
+                                                <div class="panel-heading" style="padding:0px;height: 200px;">\
+                                                <div class="divcss5"><img id="img_'+ count + '" class="img" src="' + src + '" alt="logo" /></div>\
+                                                    </div>\
                                                     <div class="panel-body">\
-                                                    <p>活動日期：<br>' + dateReviver(ActivityInfo[count].as_date_start) + ' ~ ' + dateReviver(ActivityInfo[count].as_date_end) + '</p>\
-                                                    <p>報名日期：<br>' + dateReviver(ActivityInfo[count].as_apply_start) + ' ~ ' + dateReviver(ActivityInfo[count].as_apply_end) + '</p>\
+                                                    <a target="_self" href="Activity.aspx?act_class=' + ActivityInfo[count].act_class + '&act_idn=' + ActivityInfo[count].act_idn + '&act_title=' + ActivityInfo[count].act_title + '" title="' + ActivityInfo[count].act_title + ' 場次數:' + ActivityInfo[count].num + '">\
+                                                        <h4>' + ActivityInfo[count].act_title + '<a title="場次數" style="cursor: help;">  <spna class="badge bg-info" style="background-color: #35BCFF;font-size: 15px;margin-bottom: 3px;">' + ActivityInfo[count].num + '</span></a></h4></a>\
+                                                    <p>活動日期：' + dateReviver(ActivityInfo[count].as_date_start) + ' - ' + dateReviver(ActivityInfo[count].as_date_end) + '</p>\
+                                                    <p>報名日期：' + dateReviver(ActivityInfo[count].as_apply_start) + ' - ' + dateReviver(ActivityInfo[count].as_apply_end) + '</p>\
                                                     </div>\
                                                     <div class="panel-footer"><a target="_self" href="Activity.aspx?act_class=' + ActivityInfo[count].act_class + '&act_idn=' + ActivityInfo[count].act_idn + '&act_title=' + ActivityInfo[count].act_title + '">查看活動</a></div>\
                                                 </div>\
@@ -147,11 +166,13 @@
         function dateReviver(datavalue) {
             if (datavalue != null) {
                 var datavalue = datavalue.split("T");
-                return datavalue[0] + " " + datavalue[1].substring(0, 5);
+                return datavalue[0].replace(/-/g,'/');
             }
             else
                 return "";
         };
     }
     //#endregion
+
+    
 </script>

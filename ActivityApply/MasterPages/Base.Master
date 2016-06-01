@@ -60,11 +60,11 @@
     <!-- dateptimeicker -->
     <link rel="stylesheet" type="text/css" href="<%=ResolveUrl("~/assets/jQuery-datetimepicker/jquery.datetimepicker.min.css") %>" />
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/jQuery-datetimepicker/jquery.datetimepicker.full.min.js") %>"></script>
-
+    <!-- 提醒視窗 -->
     <link rel="stylesheet" type="text/css" href="<%=ResolveUrl("~/assets/jGrowl-master/jquery.jgrowl.min.css") %>" />
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/jGrowl-master/jquery.jgrowl.min.js") %>"></script>
-
-
+    <!-- 圖片裁切 -->
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/imagesloaded.pkgd.min.js") %>"></script>
     <style type="text/css">
         .jGrowl.center {
             top: 0;

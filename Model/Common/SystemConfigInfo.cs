@@ -112,5 +112,9 @@ namespace Model.Common
         /// 檔案預覽路徑 
         /// </summary> 
         public String UPLOAD_PATH_VIEW { get; set; }
+        /// <summary> 
+        /// 預設圖片 
+        /// </summary> 
+        public String PRESET_PICTURE { get; set; }
     }
 }
