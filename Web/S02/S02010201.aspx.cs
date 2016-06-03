@@ -24,8 +24,6 @@ namespace Web.S02
 {
     public partial class S02010201 : BasePage
     {
-        //private static string act_relate_file = "";
-        //private static string act_image  = "";
         private static int act_idn = 0;
         //活動如果儲存成功才上傳檔案
         private static Boolean if_upload = true;
@@ -40,12 +38,9 @@ namespace Web.S02
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            //act_relate_file = "";
-            //act_image = "";
             if (!IsPostBack)
                 act_idn = 0;
         }
-
 
         #region Control權限管理
         protected void ManageControlAuth(object sender, EventArgs e)
@@ -62,7 +57,6 @@ namespace Web.S02
             {
                 int as_act = 0;
                 as_act = act_idn;
-                //int[] sectioncount;
                 S020102BL _bl = new S020102BL();
                 Boolean sectionSuccess = true;
                 Dictionary<String, Object> save_Activity_Section = new Dictionary<string, object>();
@@ -173,6 +167,7 @@ namespace Web.S02
                     save_Session_Information["as_apply_end"] = activity_Session_List[count].As_apply_end;
                     save_Session_Information["as_position"] = activity_Session_List[count].As_position;
                     save_Session_Information["as_num_limit"] = activity_Session_List[count].As_num_limit;
+                    save_Session_Information["as_relate_link"] = activity_Session_List[count].As_relate_link;
                     save_Session_Information["as_remark"] = activity_Session_List[count].As_remark;
                     save_Session_Information["as_isopen"] = 0;
                     CommonResult session_res = _bl.InsertData_session(save_Session_Information);
@@ -287,7 +282,6 @@ namespace Web.S02
                 }
 
                 // 檢查 Server 上該資料夾是否存在，不存在就自動建立
-                //string serverDirRelate = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/relateFile";
                 string serverDirRelate = upload_path+ + as_act + "/relateFile";
                 string act_relate_file = serverDirRelate + "/" + filename;
                 if (Directory.Exists(serverDirRelate) == false) Directory.CreateDirectory(serverDirRelate);
@@ -369,7 +363,6 @@ namespace Web.S02
             }
 
             // 檢查 Server 上該資料夾是否存在，不存在就自動建立
-            //string serverDirImg = @"C:/Users/Saki/Desktop/ActivityApply/Web/Uploads/" + as_act + "/Img";
             string serverDirImg = @upload_path + as_act + "/Img";
             string act_image = serverDirImg + "/" + filename;
             if (Directory.Exists(serverDirImg) == false) Directory.CreateDirectory(serverDirImg);
@@ -416,9 +409,5 @@ namespace Web.S02
         }
         #endregion
 
-        protected void Button1_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

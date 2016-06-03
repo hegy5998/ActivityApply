@@ -288,7 +288,8 @@ namespace DataAccess
                 LEFT JOIN activity_apply
                 ON aa_as = as_idn
                 WHERE as_act = act_idn AND
-	                  CONVERT(datetime, as_date_end, 121) <= CONVERT(varchar, GETDATE(), 121)
+	                  CONVERT(datetime, as_date_end, 121) <= CONVERT(varchar, GETDATE(), 121) AND
+                      CONVERT(datetime, as_date_end, 121) >= DATEADD(DAY, -30, GETDATE())
                 GROUP BY as_idn, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_idn
                 ORDER BY act_title");
             }
@@ -301,6 +302,7 @@ namespace DataAccess
                     ON aa_as = as_idn
                     WHERE as_act = act_idn AND
 	                      CONVERT(datetime, as_date_end, 121) <= CONVERT(varchar, GETDATE(), 121) AND
+                          CONVERT(datetime, as_date_end, 121) >= DATEADD(DAY, -30, GETDATE()) AND
                           activity_session.createid LIKE '" + loginUser.Act_id + @"'
                     GROUP BY as_idn, act_title, as_title, as_num_limit, as_date_start, as_date_end, as_apply_start, as_apply_end, act_idn
                     ORDER BY act_title");

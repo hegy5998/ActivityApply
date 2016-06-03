@@ -482,6 +482,12 @@
                                                             <span style="position: relative;">
                                                                 <button id="checkApply" type="button" class="fa fa-search btn btn-info btn-xs" value="查看" title="查看" onclick="GoTo(<%# Eval("as_idn") %>);" />
                                                             </span>
+
+                                                            <asp:UpdatePanel runat="server" ID="download_upd">
+                                                                <Triggers>
+                                                                    <asp:PostBackTrigger ControlID="download_btn" />
+                                                                </Triggers>
+                                                            </asp:UpdatePanel>
                                                         </ItemTemplate>
 
                                                         <HeaderStyle Width="110px" />
@@ -767,9 +773,16 @@
                                                                 <i class="fa fa-download btn btn-success btn-xs" aria-hidden="true"></i>
                                                                 <asp:Button ID="download_btn" runat="server" CommandName="download" CssClass="movedown" Text="下載" ToolTip="下載" UseSubmitBehavior="False" CommandArgument='<%# Eval("as_idn") %>' />
                                                             </span>
+
                                                             <span style="position: relative;">
                                                                 <button id="checkApply" type="button" class="fa fa-search btn btn-info btn-xs" value="查看" title="查看" onclick="GoTo(<%# Eval("as_idn") %>);" />
                                                             </span>
+
+                                                            <asp:UpdatePanel runat="server" ID="download_upd">
+                                                                <Triggers>
+                                                                    <asp:PostBackTrigger ControlID="download_btn" />
+                                                                </Triggers>
+                                                            </asp:UpdatePanel>
                                                         </ItemTemplate>
 
                                                         <HeaderStyle Width="110px" />

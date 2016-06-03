@@ -18,7 +18,6 @@ namespace DataAccess.Web
         Activity_applyData _applyData = new Activity_applyData();
         Activity_apply_detailData _apply_detailData = new Activity_apply_detailData();
 
-
         #region 查詢
         public List<Activity_sectionInfo> GetSectionList(int acs_act, int as_idn)
         {

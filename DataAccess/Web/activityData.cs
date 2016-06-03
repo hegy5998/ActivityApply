@@ -34,9 +34,5 @@ namespace DataAccess.Web
             return Db.GetDataTable(sql, param);
         }
         #endregion
-
-
-
-
     }
 }

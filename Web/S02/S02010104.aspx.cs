@@ -12,8 +12,7 @@ namespace Web.S02
 {
     public partial class S02010104 : System.Web.UI.Page
     {
-        //static int ACTIVITY = 2037;
-        //static int ACTIVITY = 2085;
+        //活動ID
         static int ACTIVITY ;
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -30,6 +29,7 @@ namespace Web.S02
                 Response.Redirect("../DefaultSystemIndex.aspx");
         }
 
+        #region 抓取活動資訊
         [System.Web.Services.WebMethod]
         public static string getActivityList()
         {
@@ -39,7 +39,9 @@ namespace Web.S02
             string json_data = JsonConvert.SerializeObject(ActivityList);
             return json_data;
         }
+        #endregion
 
+        #region 抓取場次資訊
         [System.Web.Services.WebMethod]
         public static string getSessionList()
         {
@@ -48,5 +50,6 @@ namespace Web.S02
             string json_data = JsonConvert.SerializeObject(sessionList);
             return json_data;
         }
+        #endregion
     }
 }

@@ -44,7 +44,7 @@
                 text-align: center;
                 padding: 8px;
             }
-        /*GridView分頁顏色*/
+        /*GridView分頁顏色 START*/
         .PagerCss TD A:hover {
             WIDTH: 20px;
             COLOR: black;
@@ -72,12 +72,13 @@
             COLOR: #6196FF;
             text-decoration: underline;
         }
-
+        /*GridView分頁顏色 END*/
+        /*GridView Table樣式*/
         table {
             border-spacing: 0;
             border-collapse: collapse;
         }
-
+        /*GridView Table首列樣式*/
         .div_table-cell {
             display: table-cell;
             text-align: center;
@@ -101,9 +102,8 @@
         </div>
     </div>
     <div class="row">
-
-
         <div class="col-lg-12">
+            <!-- 查詢報名資料、修改密碼、忘記密碼 START -->
             <div class="panel panel-default">
                 <div class="panel-heading">信箱E-MAIL</div>
                 <div class="panel-body">
@@ -115,20 +115,16 @@
                     <a data-toggle="modal" href="SignSearchContext.aspx#myModal" class="btn btn-default" runat="server" id="change_password_btn" visible="false">修改密碼</a>                    <a data-toggle="modal" href="SignSearchContext.aspx#myModal2" class="btn btn-default" runat="server" id="forget_password_btn" visible="false">忘記密碼</a>
                     <div class="row">
                         <div class="col-lg-6"></div>
-                        <!-- /.col-lg-6 (nested) -->
-                        <!-- /.col-lg-6 (nested) -->
                     </div>
-                    <!-- /.row (nested) -->
                 </div>
-                <!-- /.panel-body -->
             </div>
-            <!-- /.panel -->
+            <!-- 查詢報名資料、修改密碼、忘記密碼 END -->
 
-            <!-- 報名資料GridView -->
+            <!-- 報名資料GridView START -->
             <div class="table-responsive dataTable_wrapper" style="margin-bottom: 70px;">
                 <asp:UpdatePanel ID="lup" runat="server" ChildrenAsTriggers="False" UpdateMode="Conditional">
                     <ContentTemplate>
-                        <asp:GridView ID="main_gv" class="table table-striped table-bordered table-hover" CssClass="grid" runat="server" AutoGenerateColumns="False" ViewStateMode="Enabled" PageSize="10" OnRowCommand="main_gv_RowCommand" OnRowDeleting="main_gv_RowDeleting" OnRowDataBound="main_gv_RowDataBound" CellPadding="4" ForeColor="#333333" GridLines="None" AllowPaging="True" OnPageIndexChanging="main_gv_PageIndexChanging">
+                        <asp:GridView ID="main_gv" class="table table-striped table-bordered table-hover" CssClass="grid" runat="server" AutoGenerateColumns="False" ViewStateMode="Enabled" PageSize="10" OnRowCommand="main_gv_RowCommand" OnRowDataBound="main_gv_RowDataBound" CellPadding="4" ForeColor="#333333" GridLines="None" AllowPaging="True" OnPageIndexChanging="main_gv_PageIndexChanging">
                             <AlternatingRowStyle BackColor="White" />
                             <Columns>
                                 <asp:TemplateField HeaderText="活動名稱" ItemStyle-HorizontalAlign="Center">
@@ -219,14 +215,13 @@
                     </Triggers>
                 </asp:UpdatePanel>
             </div>
+            <!-- 報名資料GridView END -->
         </div>
-        <!-- /.col-lg-12 -->
     </div>
 
-    <asp:Button ID="download" runat="server" Text="Button" Style="display: none" OnClick="download_Click" />
-    <!-- ModalPopupExtender設定按鈕 -->
+    <!-- 輸入密碼顯示的Panel START -->
+    <!-- ModalPopupExtender所指定的空按鈕 -->
     <asp:Button ID="Button1" runat="server" Text="Button" Style="display: none" />
-    <!-- ModalPopupExtender顯示的Panel -->
     <asp:Panel ID="password_pl" runat="server" Style="display: none">
         <div class="modal-dialog" style="width: 353px;">
             <div class="modal-content">
@@ -239,7 +234,7 @@
                             <p class="p">密碼</p>
                         </div>
                         <div class="col-xs-10" style="padding-left: 27px;">
-                            <asp:TextBox CssClass="form-control placeholder-no-fix" ID="password_txt" runat="server" TextMode="Password" minlength="4" MaxLength="20" placeholder="密碼"></asp:TextBox>
+                            <asp:TextBox CssClass="form-control placeholder-no-fix" ID="password_txt" runat="server" TextMode="Password" placeholder="密碼"></asp:TextBox>
                         </div>
                     </div>
                     <div class="row" style="margin-top: 10px;">
@@ -265,7 +260,7 @@
         </div>
     </asp:Panel>
     <asp:ModalPopupExtender ID="password_pop" runat="server" PopupControlID="password_pl" TargetControlID="Button1" CancelControlID="password_cancle_btn"></asp:ModalPopupExtender>
-
+    <!-- 輸入密碼顯示的Panel END -->
 
     <!-- 更改密碼_Modal -->
     <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
@@ -279,20 +274,20 @@
                     <p class="p">舊密碼</p>
                     <div class="row">
                         <div class="col-xs-12">
-                            <asp:TextBox ID="old_password_txt" runat="server" CssClass="form-control placeholder-no-fix" TextMode="Password" minlength="4" MaxLength="20"></asp:TextBox>
+                            <asp:TextBox ID="old_password_txt" runat="server" CssClass="form-control placeholder-no-fix" TextMode="Password"></asp:TextBox>
                         </div>
                     </div>
                     <p class="p">新密碼</p>
                     <div class="row" style="height: 34px;">
                         <div class="col-xs-12">
-                            <asp:TextBox ID="new_password_txt" runat="server" CssClass="form-control placeholder-no-fix" TextMode="Password" minlength="4" MaxLength="20"></asp:TextBox>
+                            <asp:TextBox ID="new_password_txt" runat="server" CssClass="form-control placeholder-no-fix" TextMode="Password" minlength="6" MaxLength="20"></asp:TextBox>
                         </div>
                     </div>
 
                     <p class="p">再次確認密碼</p>
                     <div class="row">
                         <div class="col-xs-12">
-                            <asp:TextBox ID="new_password_check_txt" runat="server" CssClass="form-control placeholder-no-fix" TextMode="Password" minlength="4" MaxLength="20"></asp:TextBox>
+                            <asp:TextBox ID="new_password_check_txt" runat="server" CssClass="form-control placeholder-no-fix" TextMode="Password" minlength="6" MaxLength="20"></asp:TextBox>
                         </div>
                     </div>
                     <p class="p">驗證碼</p>
@@ -338,15 +333,12 @@
     </div>
     <!-- modal -->
 
-
-
     <asp:HiddenField ID="confirm_txt_pf" runat="server" />
     <script type="text/javascript">
+        //#region 初始化
         $(document).ready(function () {
-            //$.jGrowl('無此信箱', {position: 'center',theme: 'success',sticky: true})
-            //$.jGrowl('123', {position: 'center',theme: 'error',sticky: false,life:1000,beforeOpen: function(e, m) {$('div.jGrowl').find('div.jGrowl-notification').children().parent().remove()})
             //判斷更改密碼內新密碼確是否相同
-            $("#<%=new_password_txt.ClientID %>").rules("add", { required: true, minlength: 4 });
+            $("#<%=new_password_txt.ClientID %>").rules("add", { required: true, minlength: 6 });
             $("#<%=new_password_txt.ClientID %>").css({'z-index': '2','position': 'relative', 'background': 'transparent'});
             $("#<%=new_password_check_txt.ClientID %>").rules("add", { required: true, equalTo: $("#<%=new_password_txt.ClientID %>") });
             $("#<%=new_password_txt.ClientID %>").strength({
@@ -358,7 +350,6 @@
             });
             //設定麵包削尋覽
             setSessionBread();
-            
             //打完Email按下Enter會去按查詢按鈕
             $("#<%=aa_email_txt.ClientID %>").keypress(function (event) {
                 if (event.keyCode == 13) {
@@ -411,9 +402,10 @@
                     return false;
                 }
             });
-            $("#container").height($("#main-content").height());
         })
+        //#endregion
 
+        //#region 判斷忘記密碼是否有輸入新鄉
         function check(){
             if($.trim($("#<%= email_txt.ClientID %>").val()) == ""){
                 $.jGrowl('請輸入信箱', {position: 'center',theme: 'error',sticky: false,life:1000,beforeOpen: function(e, m) {$('div.jGrowl').find('div.jGrowl-notification').children().parent().remove();}});
@@ -423,6 +415,17 @@
             else
                 return true;
         }
+        //#endregion
+
+        //#region 輸入密碼確認事件 
+        function encryptPwd() {
+            $("#<%=confirm_txt_pf.ClientID%>").val($("#confirm_txt").val());
+        }
+        function encryptPwd1() {
+            $("#<%=confirm_txt_pf.ClientID%>").val($("#confirm_txt1").val());
+        }
+        //#endregion
+
         //#region 設定麵包削尋覽列
         function setSessionBread() {
             //將滅包削內容清空
@@ -443,28 +446,14 @@
             else
                 $.jGrowl('活動已結束', {position: 'center',theme: 'warning',sticky: false,life:1000,beforeOpen: function(e, m) {$('div.jGrowl').find('div.jGrowl-notification').children().parent().remove();}});
         } 
-        //#endregion 
+        //#endregion    
 
-        //#rehion 下載報名資訊
-        function download(){
-            $("#<%=download.ClientID%>").click();
+        //#region 更改密碼視窗開啟
+        function modal1_open(){
+            $("#myModal").modal('show')
         }
         //#endregion
 
-        //#region 輸入密碼確認事件 
-        function encryptPwd() {
-            $("#<%=confirm_txt_pf.ClientID%>").val($("#confirm_txt").val());
-        }
-        function encryptPwd1() {
-            $("#<%=confirm_txt_pf.ClientID%>").val($("#confirm_txt1").val());
-    }
-    //#endregion
-
-    //#region 更改密碼視窗開啟
-    function modal1_open(){
-        $("#myModal").modal('show')
-    }
-        //#endregion
     </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="pageUnitEnd" runat="server">

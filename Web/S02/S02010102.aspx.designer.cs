@@ -202,6 +202,15 @@ namespace Web.S02 {
         protected global::System.Web.UI.WebControls.HiddenField email_hf;
         
         /// <summary>
+        /// gv_idn_hf 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField gv_idn_hf;
+        
+        /// <summary>
         /// password_lbl 控制項。
         /// </summary>
         /// <remarks>

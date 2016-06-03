@@ -15,9 +15,7 @@ namespace Web.S02
         public static string get(string ID)
         {
             List<Activity_columnInfo> activity_Form = new List<Activity_columnInfo>();
-
             Activity_columnInfo a = new Activity_columnInfo();
-
             activity_Form.Add(a);
             return activity_Form.ToString();
         }

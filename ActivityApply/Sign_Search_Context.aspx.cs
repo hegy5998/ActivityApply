@@ -21,8 +21,6 @@ namespace ActivityApply
         private SignSearchContextBL _bl;
         private SignSearchContextBL BL { get { if (_bl == null) _bl = new SignSearchContextBL(); return _bl; } }
         private string _dataCacheKey;
-        //儲存使用者密碼
-        //private static string user_password;
         //活動序號
         private static string act_idn;
         //場次序號
@@ -47,11 +45,13 @@ namespace ActivityApply
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            //移除活動ID、場次ID、報名序號ID的Session
             Session.Remove("aa_idn");
             Session.Remove("act_idn");
             Session.Remove("as_idn");
             if (!IsPostBack)
             {
+                //Bind GridView資料
                 BindGridView(GetData(true));
             }
         }
@@ -110,14 +110,15 @@ namespace ActivityApply
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
+                //判斷滑鼠目前在哪一列則整列變色
                 e.Row.Attributes.Add("OnMouseover", "c=this.style.backgroundColor;this.style.backgroundColor='#C0C3C9'");
                 e.Row.Attributes.Add("OnMouseout", "this.style.background=c");
-
                 e.Row.Cells[2].Style.Add("word-break", "break-all");
                 GridViewRow gvr = e.Row;
+                //抓取改列場次報名結束時間
                 HiddenField As_apply_end = gvr.FindControl("As_apply_end_hf") as HiddenField;
+                //抓取目前時間
                 DateTime dt = Convert.ToDateTime(As_apply_end.Value);
-
                 DateTime currentTime = new DateTime();
                 currentTime = DateTime.Now;
                 //判斷如果報名日期已結束則不修改報名資料以及取消報名
@@ -145,7 +146,6 @@ namespace ActivityApply
             GridViewRow gvr = sender as GridViewRow;
             //取得選擇的row的Index
             int rowIndex = Convert.ToInt32(e.CommandArgument) % 10;
-
             //抓取活動序號隱藏欄位
             HiddenField Act_idn_hf = main_gv.Rows[rowIndex].FindControl("Act_idn_hf") as HiddenField;
             //抓取場次序號隱藏欄位
@@ -158,12 +158,12 @@ namespace ActivityApply
             HiddenField Aa_name_hf = main_gv.Rows[rowIndex].FindControl("Aa_name_hf") as HiddenField;
             //抓取活動標題隱藏欄位
             HiddenField Act_title_hf = main_gv.Rows[rowIndex].FindControl("Act_title_hf") as HiddenField;
-
+            //抓取場次名稱隱藏欄位
             HiddenField As_title_hf = main_gv.Rows[rowIndex].FindControl("As_title_hf") as HiddenField;
             switch (e.CommandName)
             {
-                case "Custom_Edit"://修改報名資料
-
+                //修改報名資料
+                case "Custom_Edit":
                     //設定資料
                     act_idn = Act_idn_hf.Value;
                     as_idn = As_idn_hf.Value;
@@ -172,8 +172,7 @@ namespace ActivityApply
                     aa_idn = Aa_idn_hf.Value;
                     //設定使用者選擇了修改
                     gridview_event = "edit";
-
-                    //ModalPopupExtender顯示
+                    //輸入密碼的panel是否顯示
                     if (Session["user_password"] == null)
                     {
                         password_pop.Show();
@@ -182,8 +181,8 @@ namespace ActivityApply
                     else
                         password_ok_btn_Click(sender, e);
                     break;
+                //刪除報名資料
                 case "Custom_Delete":
-
                     //設定資料
                     act_idn = Act_idn_hf.Value;
                     as_idn = As_idn_hf.Value;
@@ -193,8 +192,7 @@ namespace ActivityApply
                     name = Aa_name_hf.Value;
                     //設定使用者選擇了刪除
                     gridview_event = "delete";
-
-                    //ModalPopupExtender顯示
+                    //輸入密碼的panel是否顯示
                     if (Session["user_password"] == null)
                     {
                         password_pop.Show();
@@ -203,24 +201,15 @@ namespace ActivityApply
                     else
                         password_ok_btn_Click(sender, e);
                     break;
+                //下載報名資料
                 case "Custom_dowload":
                     aa_idn = Aa_idn_hf.Value;
                     act_title = Act_title_hf.Value;
                     as_title = As_title_hf.Value;
                     gridview_event = "Custom_dowload";
-
-                    //if (Session["user_password"] == null)
-                    //{
-                    //    password_pop.Show();
-                    //    password_txt.Focus();
-                    //}
-                    //else
-                    //    password_ok_btn_Click(sender, e);
-
                     Sign_UpBL _bl = new Sign_UpBL();
                     DataTable dd = _bl.GetApplyProve(Int32.Parse(aa_idn));
-                    //ReportDocument rd = new ReportDocument();
-
+                    //下載報名資訊PDF
                     using (ReportDocument rd = new ReportDocument())
                     {
                         //載入該報表
@@ -250,22 +239,12 @@ namespace ActivityApply
         }
         #endregion
 
-        #region 刪除
-        /// <summary>
-        /// 刪除
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void main_gv_RowDeleting(object sender, GridViewDeleteEventArgs e)
-        {
-        }
-        #endregion
-
         #region 搜尋按鈕事件
         protected void search_btn_Click(object sender, EventArgs e)
         {
             //抓取使用者輸入Email值
             aa_email_hf.Value = aa_email_txt.Text.Trim();
+            //判斷是否有輸入信箱
             if(aa_email_hf.Value != "")
             {
                 //抓取報名資料
@@ -277,18 +256,11 @@ namespace ActivityApply
                     //顯示忘記密碼按鈕、更改密碼按鈕
                     forget_password_btn.Visible = true;
                     change_password_btn.Visible = true;
-                    ////抓取使用者密碼
-
-                    //DataTable dt_password = BL.GetEmailData(aa_email_hf.Value);
-                    ////儲存使用者密碼
-                    //if (dt_password.Rows.Count != 0)
-                    //    user_password = dt_password.Rows[0]["aae_password"].ToString();
                 }
                 else
                 {
                     string msg = "無報名資料!";
                     ShowPopupMessage(msg);
-
                     forget_password_btn.Visible = false;
                     change_password_btn.Visible = false;
                 }
@@ -298,12 +270,9 @@ namespace ActivityApply
             {
                 string msg = "請輸入信箱!";
                 ShowPopupMessage(msg);
-
                 forget_password_btn.Visible = false;
                 change_password_btn.Visible = false;
             }
-
-            
         }
         #endregion
 
@@ -315,13 +284,14 @@ namespace ActivityApply
             if (ValidPassword(aa_email_hf.Value, old_password_txt.Text) && new_password_txt.Text == new_password_check_txt.Text && !captcha.IsNullOrWhiteSpace() && confirm_txt_pf.Value.Trim().EqualsIgnoreCase(captcha.ToUpper()))
             {
                 string password = new_password_txt.Text;
+                //取得資料庫的鹽
                 string salt = BL.GetEmailData(aa_email_hf.Value).Rows[0]["aae_salt"].ToString().Trim();
-
+                //將密碼加鹽
                 byte[] passwordAndSaltBytes = System.Text.Encoding.UTF8.GetBytes(password + salt);
+                //將密碼加密
                 byte[] hashBytes = new System.Security.Cryptography.SHA256Managed().ComputeHash(passwordAndSaltBytes);
-
                 string hashString = Convert.ToBase64String(hashBytes);
-
+                //更新密碼
                 Dictionary<string, object> oldpassworddict = new Dictionary<string, object>();
                 oldpassworddict["aae_email"] = aa_email_hf.Value;
                 Dictionary<string, object> newpassworddict = new Dictionary<string, object>();
@@ -332,6 +302,7 @@ namespace ActivityApply
                     string msg = "成功更改密碼!";
                     ShowPopupMessage(msg);
                 }
+                //寄信通知更改密碼
                 string email = aa_email_hf.Value;
                 SystemConfigInfo config_info = CommonHelper.GetSysConfig();
                 CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubjectChange(email), getMailContnetChange());
@@ -361,20 +332,14 @@ namespace ActivityApply
         protected void get_password_ok_btn_Click(object sender, EventArgs e)
         {
             string email = email_txt.Text;
-            Random rd = new Random();//亂數種子
-            //int password_rd = rd.Next(0, 1000000);//回傳0-999999的亂數
+            //產生亂數密碼
             string password_rd = getRandStringEx(6);
-            //寄信
-            SystemConfigInfo config_info = CommonHelper.GetSysConfig();
-
+            //密碼加密
             string password = password_rd;
             string salt = BL.GetEmailData(aa_email_hf.Value).Rows[0]["aae_salt"].ToString().Trim();
-
             byte[] passwordAndSaltBytes = System.Text.Encoding.UTF8.GetBytes(password + salt);
             byte[] hashBytes = new System.Security.Cryptography.SHA256Managed().ComputeHash(passwordAndSaltBytes);
-
             string hashString = Convert.ToBase64String(hashBytes);
-
             Dictionary<string, object> old_dt = new Dictionary<string, object>();
             old_dt["aae_email"] = email;
             Dictionary<string, object> new_dt = new Dictionary<string, object>();
@@ -382,6 +347,8 @@ namespace ActivityApply
             CommonResult res = BL.UpdateData(old_dt, new_dt);
             if (res.IsSuccess)
             {
+                //寄信
+                SystemConfigInfo config_info = CommonHelper.GetSysConfig();
                 CustomHelper.SendMail(config_info.SMTP_FROM_MAIL, config_info.SMTP_FROM_NAME, email, getMailSubject(email), getMailContnet(password_rd));
                 string msg = "已寄送Email到 : " + email;
                 ShowPopupMessage(msg);
@@ -397,6 +364,10 @@ namespace ActivityApply
         #endregion
 
         #region 信件內容
+        /// <summary> 
+        /// 忘記密碼信件內容 
+        /// </summary> 
+        /// <param name="password_rd">新密碼</param> 
         public static string getMailContnet(string password_rd)
         {
             string content = "<p> 您好：</p>" +
@@ -407,6 +378,11 @@ namespace ActivityApply
                                 "<p>※這是由系統自動發出的通知信，請勿回覆，感謝您的配合。</p>";
             return content;
         }
+        /// <summary> 
+        /// 修改報名資料信件內容 
+        /// </summary> 
+        /// <param name="dt_email">活動資訊</param> 
+        /// <param name="name">報名人</param> 
         public static string getMailContnetDelete(DataTable dt_email, string name)
         {
             string act_title = dt_email.Rows[0]["act_title"].ToString();                  // 活動名稱
@@ -433,6 +409,9 @@ namespace ActivityApply
                                 "<p>※這是由系統自動發出的通知信，請勿回覆。如果您對此活動有任何疑問，請直接與主辦單位聯繫，感謝您的配合。</p>";
             return content;
         }
+        /// <summary> 
+        /// 更改密碼信件內容 
+        /// </summary> 
         public static string getMailContnetChange()
         {
             string content = "<p> 您好：</p>" +
@@ -443,14 +422,25 @@ namespace ActivityApply
                                 "<p>※這是由系統自動發出的通知信，請勿回覆，感謝您的配合。</p>";
             return content;
         }
+        /// <summary> 
+        /// 忘記密碼信件標題
+        /// </summary> 
+        /// <param name="email">信箱</param> 
         public static string getMailSubject(string email)
         {
             return "忘記密碼【" + email + "】";
         }
+        /// <summary> 
+        /// 取消報名信件標題
+        /// </summary> 
         public static string getMailSubjectDelete()
         {
             return "取消報名【" + act_title + "】";
         }
+        /// <summary> 
+        /// 更改密碼信件標題
+        /// </summary> 
+        /// <param name="email">信箱</param> 
         public static string getMailSubjectChange(string email)
         {
             return "更改密碼【" + email + "】";
@@ -503,6 +493,7 @@ namespace ActivityApply
                             ShowPopupMessage(msg);
                         }
                         DataTable dt = GetData(true);
+                        //判斷是否有報名資料，如果沒有則隱藏修改密碼以及忘記密碼按鈕
                         if (dt.Rows.Count == 0)
                         {
                             forget_password_btn.Visible = false;
@@ -513,8 +504,6 @@ namespace ActivityApply
                 }
                 else 
                 {
-                    //password_pop.Show();
-                    //password_txt.Focus();
                     Session["user_password"] = null;
                     string msg = "密碼錯誤!";
                     ShowPopupMessage(msg);
@@ -522,9 +511,6 @@ namespace ActivityApply
             }
             else if (!confirm_txt_pf.Value.Trim().EqualsIgnoreCase(captcha.ToUpper()))
             {
-                ClientScriptManager cs = Page.ClientScript;
-                //password_pop.Show();
-                //password_txt.Focus();
                 Session["user_password"] = null;
                 string msg = "驗證碼錯誤!";
                 ShowPopupMessage(msg);
@@ -577,6 +563,7 @@ namespace ActivityApply
         }
         #endregion
 
+        #region 驗證使用者密碼 
         /// <summary> 
         /// 驗證使用者密碼 
         /// </summary> 
@@ -601,5 +588,6 @@ namespace ActivityApply
                 return false;
             }
         }
+        #endregion
     }
 }

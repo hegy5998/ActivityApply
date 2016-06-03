@@ -1683,6 +1683,8 @@ PANELS CONFIGURATIONS
     position: relative;
     overflow: hidden;
     /*background-color: #68dff0;*/
+    background-position: center;
+    background-repeat: no-repeat;
     -webkit-transition: background-color 0.4s;
     -moz-transition: background-color 0.4s;
     -o-transition: background-color 0.4s;

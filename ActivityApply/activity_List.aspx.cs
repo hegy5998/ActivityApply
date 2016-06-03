@@ -4,10 +4,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace ActivityApply
 {
@@ -18,7 +14,7 @@ namespace ActivityApply
 
         }
 
-        //接從前台傳過來想要搜尋活動的資料，並回傳JSON字串
+        #region 接從前台傳過來想要搜尋活動的資料，並回傳JSON字串
         [System.Web.Services.WebMethod]
         public static string getActivityAllList(string act_title,string act_class)
         {
@@ -27,7 +23,9 @@ namespace ActivityApply
             string json_data = JsonConvert.SerializeObject(ActivityAllList);
             return json_data;
         }
+        #endregion
 
+        #region 抓取分類資料，並回傳JSON字串
         [System.Web.Services.WebMethod]
         public static string getClassList()
         {
@@ -36,5 +34,6 @@ namespace ActivityApply
             string json_data = JsonConvert.SerializeObject(ClassList);
             return json_data;
         }
+        #endregion
     }
 }

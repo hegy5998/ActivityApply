@@ -9,7 +9,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-
+        /*日期選擇器Table去陰影*/
         table {
             box-shadow: none;
         }
@@ -25,16 +25,28 @@
             box-shadow: 0px 0px 0px transparent;
             border-radius: 0px;
         }
-
+        /*去底線*/
         .form-horizontal.style-form .noline {
             border-bottom: 0px;
             border-radius: 0px;
         }
-
+        /*按鈕樣式*/
         .btn-theme {
             background-color: #428BCA;
             border-color: #428BCA;
         }
+        /*刪除按鈕樣式*/
+        .btn-theme-delete {
+            background-color: #676767;
+            border-color: #676767;
+            color: white;
+        }
+
+            .btn-theme-delete:hover {
+                background-color: #8E8E8E;
+                border-color: #8E8E8E;
+                color: white;
+            }
     </style>
     <script type="text/javascript">
         $(function () {
@@ -59,7 +71,9 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="mainContent_cph" runat="server">
     <!-- 載入空網頁定時重整避免被timeout -->
-    <div style="display:none;"><iframe src="WebFormRefresh.aspx" id="refresh"></iframe></div>
+    <div style="display: none;">
+        <iframe src="WebFormRefresh.aspx" id="refresh"></iframe>
+    </div>
     <!-- 如果沒有開啟JavaScript則會請她凱起才能使用本網頁的功能 -->
     <noscript>
         <h1 class="red blink">您沒有開啟JavaScript的功能，請您開啟才能使用本網站的功能!!</h1>
@@ -98,7 +112,7 @@
                             <div class="project">
                                 <div class="photo-wrapper">
                                     <div class="photo">
-                                        <img id="act_image" class="img-responsive" src="#" alt="" onclick="upload_img()" style="min-width: 100%;min-height: 100%;"/>
+                                        <img id="act_image" class="img-responsive" src="#" alt="" onclick="upload_img()" style="min-width: 100%; min-height: 100%;" />
                                     </div>
                                     <div class="overlay"></div>
                                 </div>
@@ -132,7 +146,7 @@
                             <select class="select" id="select_class" style="width: 100%; height: 30px; border-radius: 4px; margin-bottom: 15px;">
                             </select>
                             <!-- 個資聲明 -->
-                            <h3><i class="fa fa-angle-right"></i>個資聲明<b class="red">*</b><i class="fa fa-eye" aria-hidden="true" onclick="statementopen()" style="color: #428BCA;cursor:pointer;"></i></h3>
+                            <h3><i class="fa fa-angle-right"></i>個資聲明<b class="red">*</b><i class="fa fa-eye" aria-hidden="true" onclick="statementopen()" style="color: #428BCA; cursor: pointer;"></i></h3>
                             <select class="select" id="statement" style="width: 100%; height: 30px; border-radius: 4px; margin-bottom: 15px;">
                             </select>
                             <!-- 活動名稱 -->
@@ -192,7 +206,8 @@
                                             <asp:UpdatePanel ChildrenAsTriggers="false" runat="server" UpdateMode="Conditional" ViewStateMode="Enabled">
                                                 <ContentTemplate>
                                                     <input type="button" onclick="upload_file_btn()" class="btn btn-theme" value="選擇檔案" />
-                                                    <label id="filepath_lab"></label><br />
+                                                    <label id="filepath_lab"></label>
+                                                    <br />
                                                     <input id="delete_file_btn" type="button" class="btn btn-theme" onclick="delete_file_btn_click()" value="刪除已上傳檔案" style="display: none; margin-top: 5px;" />
                                                     <asp:FileUpload ID="FileUpload" runat="server" onchange="upload_file(this.value)" Style="display: none" />
                                                     <asp:Button ID="btnUpload" runat="server" OnClick="btnUpload_Click1" Style="display: none" />
@@ -242,83 +257,43 @@
                 <div class="modal-body">
                     <div class="checkbox">
                         <label>
-                            <input name="check_usually_Column" type="checkbox" value="生日" />
-                            生日
-                       
-                       
-                        </label>
+                            <input name="check_usually_Column" type="checkbox" value="生日" />生日</label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input name="check_usually_Column" type="checkbox" value="身份證字號" />
-                            身份證字號
-                       
-                       
-                        </label>
+                            <input name="check_usually_Column" type="checkbox" value="身份證字號" />身份證字號</label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input name="check_usually_Column" type="checkbox" value="聯絡電話" />
-                            聯絡電話
-                       
-                       
-                        </label>
+                            <input name="check_usually_Column" type="checkbox" value="聯絡電話" />聯絡電話</label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input name="check_usually_Column" type="checkbox" value="聯絡地址" />
-                            聯絡地址
-                       
-                       
-                        </label>
+                            <input name="check_usually_Column" type="checkbox" value="聯絡地址" />聯絡地址</label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input name="check_usually_Column" type="checkbox" value="公司電話" />
-                            公司電話
-                       
-                       
-                        </label>
+                            <input name="check_usually_Column" type="checkbox" value="公司電話" />公司電話</label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input name="check_usually_Column" type="checkbox" value="服務單位" />
-                            服務單位
-                       
-                       
-                        </label>
+                            <input name="check_usually_Column" type="checkbox" value="服務單位" />服務單位</label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input name="check_usually_Column" type="checkbox" value="職稱" />
-                            職稱
-                       
-                       
-                        </label>
+                            <input name="check_usually_Column" type="checkbox" value="職稱" />職稱</label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input name="check_usually_Column" type="checkbox" value="傳真" />
-                            傳真
-                       
-                       
-                        </label>
+                            <input name="check_usually_Column" type="checkbox" value="傳真" />傳真</label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input name="check_usually_Column" type="checkbox" value="用餐" />
-                            用餐
-                       
-                       
-                        </label>
+                            <input name="check_usually_Column" type="checkbox" value="用餐" />用餐</label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input name="check_usually_Column" type="checkbox" value="備註" />
-                            備註
-                       
-                       
-                        </label>
+                            <input name="check_usually_Column" type="checkbox" value="備註" />備註</label>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -330,7 +305,7 @@
     </div>
     <!-- 常用欄位_Modal_END-->
 
-    <!-- loading -->
+    <!-- loading_modal -->
     <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" style="margin: 2% 30%; padding: 0px 0px; border-radius: 6px; text-align: center; height: 92%;">
             <div style="transform: translateY(-50%); top: 50%; position: relative;">
@@ -341,7 +316,7 @@
             </div>
         </div>
     </div>
-    <!-- loading -->
+    <!-- loading_modal -->
 
     <!-- 個資聲明_Modal -->
     <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="person_data_Modal" class="modal fade">
@@ -355,11 +330,10 @@
                     <label id="person_data" style="width: 100%; height: 100%; border-color: transparent;"></label>
                 </div>
                 <div class="modal-footer">
-                    <%--                    <div class="row" style="float:left;margin-top: 5px;">
-                        <input type="checkbox" id="agree_statement"/>
+                    <%--<div class="row" style="float: left; margin-top: 5px;">
+                        <input type="checkbox" id="agree_statement" />
                         <label>我已閱讀並同意。</label>
-                    </div>
-                    --%>
+                    </div>--%>
                     <a class="btn btn-default" onclick="personal_cnacle()">不同意</a>
                     <a id="personal_ok_btn" class="btn btn-info" onclick="personal_cnacle()">同意</a>
                 </div>
@@ -393,6 +367,8 @@
         var check_Activity_Data = false;
         //判斷報名表資料是否正確
         var check_Activity_Column_Data = false;
+        //判斷題目名稱是否有重覆
+        var check_Activity_Column_title = false;
         //判斷活動報名結束日期是否在活動開始日期之後
         var checkDataSignEnd = false;
         //儲存活動
@@ -551,7 +527,6 @@
                 $("#statement").append('<option value="' + ast_StatementInfo[count].Ast_id + '">' + ast_StatementInfo[count].Ast_title + '(' + ast_StatementInfo[count].Ast_desc + ')</option>');
             }
             $("#statement").val('0');
-
             //判斷分類必選
             $("#statement").blur(function () {
                 if ($(this).val() == 0) {
@@ -580,7 +555,6 @@
             $("#person_data").html(content.replace('<br>', '<br />'))
             $("#person_data_Modal").modal('show');
         }
-
         function personal_cnacle() {
             $("#person_data_Modal").modal('hide');
         }
@@ -688,6 +662,7 @@
                                     value += val + ',';
                             })
                         }
+                        //加入問題
                         add_Preset_Qus_Click(columnInfo[count].Acc_idn, columnInfo[count].Acc_title, columnInfo[count].Acc_desc, columnInfo[count].Acc_asc, columnInfo[count].Acc_type, columnInfo[count].Acc_validation, value.split(','), required);
                     }
                 },
@@ -716,14 +691,13 @@
                 $("#filepath_lab").text(activityInfo[0].Act_relate_file.split('/')[activityInfo[0].Act_relate_file.split('/').length - 1]);
                 $("#delete_file_btn").css({ 'display': '' });
             }
-            if (activityInfo[0].Act_image != "" && activityInfo[0].Act_image != null) {
+            if (activityInfo[0].Act_image.split('/')[activityInfo[0].Act_image.split('/').length - 1].split('.')[0] != "preset") {
                 $("#imgpath_lab").text(activityInfo[0].Act_image.split('/')[activityInfo[0].Act_image.split('/').length - 1]);
                 $("#act_image").attr("src", activityInfo[0].Act_image);
                 $("#delete_img_btn").css({ 'display': '' });
             }
-            else {
-                $("#act_image").attr("src", '../Scripts/Lib/assets/img/fcu.jpg');
-            }
+            else
+                $("#act_image").attr("src", activityInfo[0].Act_image);
         }
         function setSession(sessionInfo) {
             for (var count = 1 ; count < sessionInfo.length + 1 ; count++) {
@@ -734,6 +708,7 @@
                 $("#datetimepicker_Activity_Sign_End_txt_" + count).val(dateReviver(sessionInfo[count - 1].As_apply_end));
                 $("#activity_Location_txt_" + count).val(sessionInfo[count - 1].As_position);
                 $("#activity_Limit_Num_txt_" + count).val(sessionInfo[count - 1].As_num_limit);
+                $("#activity_relate_link_txt_" + count).val(sessionInfo[count - 1].As_relate_link);
                 $("#activity_remark_txt_" + count).val(sessionInfo[count - 1].As_remark);
             }
         }
@@ -787,6 +762,7 @@
                             add_Preset_Qus_Click('', "備註", "若您有其他的問題,可以在此說明 ", null, "text", "", [], false);
                             break;
                     }
+                    //取消勾選
                     $(this).prop("checked", false);
                 }
             });
@@ -842,8 +818,6 @@
                 $("#max_Num_" + qusId).attr('disabled', 'disabled');
                 $("#max_Num_" + qusId).css({ 'background': '#EEEEEE' });
             }
-
-
             //將預設文字加入選項中
             if (preset_Qus_Way != "text") {
                 var qus_Option_length = qus_Option.length;
@@ -851,9 +825,9 @@
                     add_Qus_Options_Click(qusId, qus_Option[count]);
                 }
             }
-            //$('#qus_txt_' + qusId).focus();
             //產生完問題之後問題ID加一
             qusId++;
+            //問題拖拉
             $(".column").sortable({
                 connectWith: ".column",
                 handle: ".portlet-header",
@@ -875,8 +849,6 @@
                 .addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all")
                 .find(".portlet-header")
                 .addClass("ui-widget-header ui-corner-all");
-            //.prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
-
             $(".portlet-toggle").click(function () {
                 var icon = $(this);
                 icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
@@ -950,7 +922,7 @@
                                                               '<option value="date">日期</option>' +
                                                               '<option value="length">字數</option>' +
                                                             '</select>' +
-                                                        '<a id="del_qus_btn_' + qusId + '" onclick="del_Qus_click(' + qusId + ')" type="submit" class="btn btn-theme" style="margin-left: 5px;margin-bottom: 5px;">刪除</a>' +
+                                                        '<a id="del_qus_btn_' + qusId + '" onclick="del_Qus_click(' + qusId + ')" type="submit" class="btn btn-theme-delete" style="margin-left: 5px;margin-bottom: 5px;">刪除</a>' +
                                                     '</div>' +
                                                     //添加資料驗證數字最大最小值的地方
                                                     '<div id="add_Validation_div_' + qusId + '" style="margin-right: 52px;float: right;">' +
@@ -994,7 +966,7 @@
                         break;
                 }
                 var if_int = /^[0-9]*[1-9][0-9]*$/;
-
+                //最大值focus事件
                 $("#max_Num_" + chooseId).blur(function () {
                     if (isNaN($.trim($(this).val()))) {
                         $(this).css({ "box-shadow": "0px 0px 9px red" });
@@ -1024,6 +996,7 @@
                     }
 
                 })
+                //最小值focus事件
                 $("#min_Num_" + chooseId).blur(function () {
                     if (isNaN($.trim($(this).val()))) {
                         $(this).css({ "box-shadow": "0px 0px 9px red" });
@@ -1096,7 +1069,6 @@
                         acc_idn = $(this).text()
                     })
                     del_acc_idn += acc_idn + ',';
-                    //alert(del_acc_idn);
                     $('#qus_div_' + chooseId).remove();
                 }
             }
@@ -1146,7 +1118,6 @@
                 $('#select_Validation_' + chooseId).attr('disabled', false);
                 $("#select_Validation_" + chooseId).css({ "background-color": "" });
             }
-
             //移除選擇問題類型區塊內容
             temp_change_Qus_Way_div.children().remove();
             //移除問題內容
@@ -1310,7 +1281,6 @@
                 cancel: ".portlet-state-disabled",
                 axis: "y",
                 cursor: 'move',
-                //containment: '#add_Block_div',
                 opacity: 0.6,//拖動時透明度  
                 //revert: true,
                 start: function (event, ui) {
@@ -1323,8 +1293,6 @@
                 .addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all")
                 .find(".portlet-header")
                 .addClass("ui-widget-header ui-corner-all");
-            //.prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
-
             $(".portlet-toggle").click(function () {
                 var icon = $(this);
                 icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
@@ -1333,20 +1301,20 @@
         };
         //刪除區塊
         function del_block_click(chooseId) {
+            //抓到要刪除區塊的ID
             if ($("#block_div_" + chooseId).find("[id^=old_acs_idn_]").length) {
                 var if_del_block = confirm("確定刪除區塊?區塊內的問題及報名資料都將被刪除!!");
                 if (if_del_block == true) {
                     var Acs_idn;
+                    //刪除區塊
                     $("#block_div_" + chooseId).find("[id^=old_acs_idn_]").each(function () {
                         Acs_idn = $(this).text()
                     })
                     del_acs_idn += Acs_idn + ',';
-                    //alert(del_acs_idn);
-
+                    //刪除區塊內問題
                     $("#add_Qus_div_" + chooseId).find("[id^=old_acc_idn_lb_]").each(function () {
                         del_acc_idn += $(this).text() + ',';
                     })
-                    //alert(del_acc_idn);
                     $('#block_div_' + chooseId).remove();
                 }
             }
@@ -1376,7 +1344,6 @@
                 var acc_idn_lb = '<label id="old_as_idn_lb_' + As_idn + '" style="display:none">' + As_idn + '</label>';
             else
                 var acc_idn_lb = '<label id="new_as_idn_lb_' + sessionId + '" style="display:none">' + sessionId + '</label>';
-
             //講場次新增至預設好的div裡面
             $('#add_Session_div').append('<div class="showback" id="delete_Session_div_' + sessionId + '" style="padding-bottom: 3px;">' +
                         '<div class="form-horizontal style-form">' + acc_idn_lb +
@@ -1427,6 +1394,12 @@
                                 '</div>' +
                             '</div>' +
                             '<div class="form-group noline">' +
+                                '<label class="col-sm-2 control-label">相關連結</label>' +
+                                '<div class="col-sm-10">' +
+                                    '<input type="text" class="form-control" id="activity_relate_link_txt_' + sessionId + '" maxlength="255">' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="form-group noline">' +
                                 '<label class="col-sm-2 control-label">備註 <a title="顯示於報名者下載活動資訊的備註欄內" style="cursor: help;"><i class="fa fa-question-circle fa-lg" aria-hidden="true"></i></a></label>' +
                                 '<div class="col-sm-10">' +
                                     '<input type="text" class="form-control" id="activity_remark_txt_' + sessionId + '" maxlength="100">' +
@@ -1438,14 +1411,44 @@
                         '</div>' +
                     '</div>');
             //呼叫日期時間選擇器
-            $(function () {
-                $.datetimepicker.setLocale('zh-TW');
-                $("input[id*=Start]").datetimepicker({
-                    defaultTime: '00:00:00'
-                });
-                $("input[id*=End]").datetimepicker({
-                    defaultTime: '23:59:59'
-                });
+            $.datetimepicker.setLocale('zh-TW');
+            $("#datetimepicker_Activity_Sign_Start_txt_" + sessionId).datetimepicker({
+                defaultTime: '00:00:00',
+                onShow: function (ct, $i) {
+                    var i = $i.attr("id").split("_")[$i.attr("id").split("_").length - 1];
+                    this.setOptions({
+                        maxDate: $("#datetimepicker_Activity_Sign_End_txt_" + i).val() ? $("#datetimepicker_Activity_Sign_End_txt_" + i).val() : false
+                    })
+                }
+            });
+            $("#datetimepicker_Activity_Sign_End_txt_" + sessionId).datetimepicker({
+                defaultTime: '23:59:59',
+                onShow: function (ct, $i) {
+                    var i = $i.attr("id").split("_")[$i.attr("id").split("_").length - 1];
+                    this.setOptions({
+                        minDate: $("#datetimepicker_Activity_Sign_Start_txt_" + i).val() ? $("#datetimepicker_Activity_Sign_Start_txt_" + i).val() : false,
+                        maxDate: $("#datetimepicker_Activity_End_txt_" + i).val() ? $("#datetimepicker_Activity_End_txt_" + i).val() : false
+                    })
+                }
+            });
+            $("#datetimepicker_Activity_Start_txt_" + sessionId).datetimepicker({
+                defaultTime: '00:00:00',
+                onShow: function (ct, $i) {
+                    var i = $i.attr("id").split("_")[$i.attr("id").split("_").length - 1];
+                    this.setOptions({
+                        minDate: $("#datetimepicker_Activity_Sign_Start_txt_" + i).val() ? $("#datetimepicker_Activity_Sign_Start_txt_" + i).val() : false,
+                        maxDate: $("#datetimepicker_Activity_End_txt_" + i).val() ? $("#datetimepicker_Activity_End_txt_" + i).val() : false
+                    })
+                }
+            });
+            $("#datetimepicker_Activity_End_txt_" + sessionId).datetimepicker({
+                defaultTime: '23:59:59',
+                onShow: function (ct, $i) {
+                    var i = $i.attr("id").split("_")[$i.attr("id").split("_").length - 1];
+                    this.setOptions({
+                        minDate: $("#datetimepicker_Activity_Start_txt_" + i).val() ? $("#datetimepicker_Activity_Start_txt_" + i).val() : false
+                    })
+                }
             });
             //場次名稱是否填寫的判斷
             $("#session_Name_txt_" + sessionId).blur(function () {
@@ -1641,7 +1644,6 @@
         };
         //移除場次
         function del_Session_click(chooseId) {
-
             if ($("#delete_Session_div_" + chooseId).find("[id^=old_as_idn_]").length) {
                 var if_del_session = confirm("確定刪除場次?所以場次內的報名資料會刪除!");
                 if (if_del_session == true) {
@@ -1650,7 +1652,6 @@
                         As_idn = $(this).text()
                     })
                     del_as_idn += As_idn + ',';
-                    //alert(del_as_idn);
                     $('#delete_Session_div_' + chooseId).remove();
                 }
             }
@@ -1682,8 +1683,6 @@
                 .addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all")
                 .find(".portlet-header")
                 .addClass("ui-widget-header ui-corner-all");
-            //.prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
-
             $(".portlet-toggle").click(function () {
                 var icon = $(this);
                 icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
@@ -1797,7 +1796,10 @@
                 alert("活動頁面資料有誤");
             }
             else if (check_Activity_Column_Data === false) {
-                alert("報名表資料有誤");
+                if (check_Activity_Column_title == false)
+                    alert("報名表內題目名稱不可重覆!");
+                else
+                    alert("報名表資料有誤");
             }
         }
         //#endregion
@@ -1839,7 +1841,9 @@
                     //存入場次活動地點
                     session_Json_Data.As_position = $("#activity_Location_txt_" +temp).val();
                     //存入場次活動人數限制
-                    session_Json_Data.As_num_limit = $("#activity_Limit_Num_txt_" +temp).val();
+                    session_Json_Data.As_num_limit = $("#activity_Limit_Num_txt_" + temp).val();
+                    //存入場次相關連結
+                    session_Json_Data.As_relate_link = $("#activity_relate_link_txt_" + temp).val();
                     //存入場次備註
                     session_Json_Data.As_remark = $("#activity_remark_txt_" +temp).val();
                     //判斷場次名不為空
@@ -1880,8 +1884,8 @@
             }
                     //判斷活動開始日期不能為空
                     if (!session_Json_Data.As_date_start) {
-                        $("#datetimepicker_Activity_Start_txt_" + temp).css({ "box-shadow": "0px 0px 9px red" });
-                        if ($("#datetimepicker_Activity_Start_txt_error_" + temp).length == 0)
+                        $("#datetimepicker_Activity_Start_txt_" +temp).css({ "box-shadow": "0px 0px 9px red" });
+                        if ($("#datetimepicker_Activity_Start_txt_error_" +temp).length == 0)
                             $("#datetimepicker_Activity_Start_txt_" + temp).after('<em id="datetimepicker_Activity_Start_txt_error_' + temp + '" class="error help-block red">必需填寫</em>');
                         check_Activity_Data = false;
                     }
@@ -1957,7 +1961,6 @@
             activity_Json_Data.Act_as = $("#statement").val();
             //儲存報名場次次數限制
             var if_int = /^[0-9]*[1-9][0-9]*$/;
-
             if ($.trim($("#act_num_limit_txt").val()) == "")
                 activity_Json_Data.Act_num_limit = 0;
             if (if_int.test($("#act_num_limit_txt").val()) && $.trim($("#act_num_limit_txt").val()) != "") {
@@ -1972,7 +1975,6 @@
                 }
                 check_Activity_Data = false;
             }
-
             //判斷活動名稱不能為空
             if (!activity_Json_Data.Act_title) {
                 $("#activity_Name_txt").css({ "box-shadow": "0px 0px 9px red" });
@@ -2004,8 +2006,6 @@
 
         //#region 儲存報名表
         function Save_Activity_btn_Click(jsondata_column) {
-            //var checkData = true;
-            //var jsondata = Save_Activity_Column_Json();
             //使用ajax傳送
             if (check_Activity_Column_Data == true && check_Activity_Data == true) {
                 $.ajax({
@@ -2039,6 +2039,7 @@
         //#region 儲存報名表成JSON
         function Save_Activity_Column_Json() {
             check_Activity_Column_Data = true;
+            check_Activity_Column_title = true;
             var jsondata = { activity_Form: [], activity_Section: [], del_acc_idn, del_acs_idn};
             jsondata.del_acc_idn = del_acc_idn;
             jsondata.del_acs_idn = del_acs_idn;
@@ -2207,10 +2208,18 @@
                         if ($("#block_div_error_" + choose_blockId).length == 0)
                             $("#block_div_" + choose_blockId).prepend('<em id="block_div_error_' + choose_blockId + '" class="error help-block red"><h3>內無問題，請刪除或是新增問題</h3></em>');
                         check_Activity_Column_Data = false;
-                        //alert("您有空白區塊，請新增問題或是刪除區塊!!");
                     }
                     //區塊順序加一
                     block_asc++;
+                }
+            }
+            //判斷是否有題目名稱重覆
+            for (var cc = 0 ; cc < jsondata['activity_Form'].length ; cc++) {
+                for (var c = cc + 1 ; c < jsondata['activity_Form'].length ; c++) {
+                    if (jsondata['activity_Form'][cc]['Acc_title'] == jsondata['activity_Form'][c]['Acc_title'] && cc != c) {
+                        check_Activity_Column_title = false;
+                        check_Activity_Column_Data = false;
+                    }
                 }
             }
             return jsondata;
@@ -2231,8 +2240,12 @@
                 $("#save_Activity_Column_Json").val(json_Column);
                 window.open("S02010202.aspx?sys_id=S01&sys_pid=S02010202");
             }
-            else
-                alert("報名表尚有資料未填寫或有錯誤");
+            else {
+                if (check_Activity_Column_title == false)
+                    alert("報名表內題目名稱不可重覆!");
+                else
+                    alert("報名表尚有資料未填寫或有錯誤");
+            }
         }
         // #endregion
 
@@ -2268,15 +2281,16 @@
             else
                 $('#imgpath_lab').text("");
         }
-        //判斷使用者所選的檔案格式        
+        //上傳檔案
         function upload_file_btn() {
             document.getElementById("<%=this.FileUpload.ClientID %>").click();
         }
+        //判斷使用者所選的檔案格式        
         function upload_file(path) {
             if (path != "") {
                 var path = path.split("\\")[path.split("\\").length - 1];
                 var FileName = path.split(".")[path.split(".").length - 1];
-                //如果資料正確，使用jQuery ajax傳送資料
+                //判斷上傳檔案格式是否正確
                 if (FileName != "jpg" && FileName != "jpeg" && FileName != "png" && FileName != "gif" && FileName != "doc" && FileName != "docx" && FileName != "txt" && FileName != "ppt" && FileName != "pptx" && FileName != "xls" && FileName != "xlsx" && FileName != "pdf" && FileName != "rar" && FileName != "zip" && FileName != "7z" && FileName) {
                     alert("附加檔案只能上傳jpg、png、jpeg、gif、doc、docx、txt、ppt、pptx、xls、xlsx、pdf、rar、zip、7z格式");
                     check_Activity_Data = false;
@@ -2318,6 +2332,7 @@
                 $("#delete_file_btn").css({ 'display': 'none' });
             }
         }
+        //#endregion
     </script>
     <!-- JavaScript_END-->
 </asp:Content>

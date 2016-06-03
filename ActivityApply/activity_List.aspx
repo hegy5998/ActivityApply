@@ -40,7 +40,7 @@
         <div class="col-xs-12">
             <div class="push-down-30">
                 <div class="banners-big">
-                    <!--活動查詢：活動名稱包含 <strong></strong> 。-->
+                    <!--活動查詢 START-->
                     <div class="row">
                         <div class="sidebar-search">
                             <div class="input-group custom-search-form">
@@ -57,32 +57,17 @@
                                 </span>
                                 <input id="search_txt" type="text" class="form-control" placeholder="搜尋活動..." />
                             </div>
-                            <!-- /input-group -->
                         </div>
-
-                        <!-- 搜尋按鈕 -->
-                        <%--<div class="col-sm-1 col-sx-1" style="padding: 0px; width: 66px; float: left;">
-                            <span class="input-group-btn">
-                                <button id="search_btn" type="button" class="btn btn-theme03" style="border-radius: 4px; height: 34px; margin-bottom: 0;"><span class="glyphicon glyphicon-search" aria-hidden="true" style="padding-bottom: 6px;">查詢</span></button>
-                            </span>
-                        </div>--%>
-                        <!-- 下拉是選單選擇分類 -->
-                        <%--<div class="col-sm-1 col-sx-1" style="padding: 0px; width: 76px; float: left;">
-                            <select class="select" id="act_class" style="height: 34px; border-radius: 4px; width: 76px;">
-                                <option selected="selected" value="0">全部</option>
-                            </select>
-                        </div>--%>
-                        <!-- 輸入框 -->
-                        <%--<div class="col-sm-9" style="padding: 0px; width: 50%; float: left;">
-                            <input id="search_txt" type="text" name="search" class="form-control" placeholder="請輸入活動名稱" />
-                        </div>--%>
                     </div>
+                    <!--活動查詢 END-->
                 </div>
             </div>
         </div>
     </div>
-    <!-- 分頁_START -->
-    <div id="back" style="background-color:white;position:absolute;z-index:1;">   </div>
+    <!--遮罩，等圖片載入完成才隱藏-->
+    <div id="back" style="background-color: white; position: absolute; z-index: 1;"></div>
+
+    <!--顯示活動 START-->
     <div class="row">
         <div id="Searchresult">
             <div id="r1" class="row"></div>
@@ -90,22 +75,26 @@
             <div id="r3" class="row"></div>
         </div>
     </div>
+    <!--顯示活動 END-->
 
+    <!--未被顯示活動放置區 START-->
     <div id="hiddenresult" style="display: none;">
-        <!-- 列表元素 -->
+        <!-- 未被顯示活動 -->
     </div>
+    <!--未被顯示活動放置區 END-->
+
     <div class="row" style="text-align: center;">
         <div id="Pagination" class="pagination" style="margin-bottom: 14px;">
             <!-- 顯示分頁的地方 -->
         </div>
     </div>
 
-    <!-- 分頁_END -->
-
     <script type="text/javascript">
 
         //#region 初始化
         $(document).ready(function () {
+            //設定遮罩長寬
+            $("#back").css({ "width": $("#page-wrapper").width(), "height": $("#page-wrapper").height() })
             //設定分類
             getClass();
             //判斷搜尋列輸入完後如果按ENTER則要執行搜尋功能
@@ -115,8 +104,7 @@
                     return false;
                 }
             });
-
-            $("#class_text").text($("#act_class option:selected").text());
+            //圖片致中
             var img_count = 0;
             $(".img").each(function () {
                 $(this).imagesLoaded(function () {
@@ -124,6 +112,7 @@
                     img_count++;
                 });
             });
+            //判斷最後一張圖片載入完成後才淡入顯示所有活動
             $("#img_" + img_count).imagesLoaded(function () {
                 $("#back").fadeOut();
             })
@@ -268,45 +257,16 @@
         });
         //#endregion
 
-        //图片居中
+        //#region 圖片垂直置中
         function zmnImgCenter(obj) {
-            //obj.each(function () {
             var $this = obj;
-            var objHeight = $this.height();//图片高度
-            var objWidth = $this.width();//图片宽度
-            var parentHeight = $this.parent().height();//图片父容器高度
-            var parentWidth = $this.parent().width();//图片父容器宽度
-            var ratio = objHeight / objWidth;
-            //alert(objHeight +" "+ parentHeight);
-            $this.css('top', (parentHeight - objHeight) / 2);
-            //if (objHeight > parentHeight && objWidth > parentWidth) {//当图片宽高都大于父容器宽高
-            //    if (objHeight > objWidth) {//赋值宽高
-            //        $this.width(parentWidth);
-            //        $this.height(parentWidth * ratio);
-            //    }
-            //    else {
-            //        $this.height(parentHeight);
-            //        $this.width(parentHeight / ratio);
-            //    }
-            //    objHeight = $this.height();//重新获取宽高
-            //    objWidth = $this.width();
-            //    if (objHeight > objWidth) {
-            //        $(this).css("top", (parentHeight - objHeight) / 2);
-            //        //定义top属性
-            //    }
-            //    else {
-            //        //定义left属性
-            //        $(this).css("left", (parentWidth - objWidth) / 2);
-            //    }
-            //}
-            //else {//当图片宽高小于父容器宽高
-            //    if (objWidth > parentWidth) {//当图片宽大于容器宽，小于时利用css text-align属性居中
-            //        $(this).css("left", (parentWidth - objWidth) / 2);
-            //    }
-            //    $(this).css("top", (parentHeight - objHeight) / 2);
-            //}
-            //})
+            var objHeight = $this.height();//圖片高度
+            var objWidth = $this.width();//圖片寬度
+            var parentHeight = $this.parent().height();//圖片覆容器高度
+            var parentWidth = $this.parent().width();//圖片覆容器寬度
+            $this.css('top', (parentHeight - objHeight) / 2);//圖片垂直置中
         }
+        //#endregion
     </script>
     <!--引用jquery分頁-->
     <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery.pagination.js") %>"></script>

@@ -37,10 +37,10 @@
                 </td>
             </tr>
             <tr>
-                <th>保存年月</th>
+                <th>保存年月數</th>
                 <td>
                     <asp:TextBox ID="ast_year_txt" runat="server" Text='<%# BindItem.Ast_year %>' Width="40px"></asp:TextBox>年
-                    <asp:TextBox ID="ast_month_txt" runat="server" Text='<%# BindItem.Ast_month %>' Width="40px"></asp:TextBox>月                
+                    <asp:TextBox ID="ast_month_txt" runat="server" Text='<%# BindItem.Ast_month %>' Width="40px"></asp:TextBox>個月
                 </td>
             </tr>
             <tr>
@@ -82,10 +82,10 @@
                 </td>
             </tr>
             <tr>
-                <th>保存年月</th>
+                <th>保存年月數</th>
                 <td>
                     <asp:TextBox ID="ast_year_txt" runat="server" Text='<%# BindItem.Ast_year %>' Width="40px"></asp:TextBox>年
-                    <asp:TextBox ID="ast_month_txt" runat="server" Text='<%# BindItem.Ast_month %>' Width="40px"></asp:TextBox>月                
+                    <asp:TextBox ID="ast_month_txt" runat="server" Text='<%# BindItem.Ast_month %>' Width="40px"></asp:TextBox>個月                
                 </td>
             </tr>
             <tr>

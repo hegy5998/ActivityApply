@@ -11,11 +11,13 @@ namespace Web.S02
 {
     public partial class S02010105 : System.Web.UI.Page
     {
+        //活動ID
         public static int ACT_IDN;
         protected void Page_Load(object sender, EventArgs e)
         {
             ACT_IDN = Int32.Parse(Request["act_idn"]);
         }
+        #region 抓取區塊資料
         [System.Web.Services.WebMethod]
         public static string getSectionList()
         {
@@ -24,7 +26,9 @@ namespace Web.S02
             string json_data = JsonConvert.SerializeObject(sectionList);
             return json_data;
         }
+        #endregion
 
+        #region 抓取題目資料
         [System.Web.Services.WebMethod]
         public static string getQuestionList()
         {
@@ -33,6 +37,7 @@ namespace Web.S02
             string json_data = JsonConvert.SerializeObject(questionList);
             return json_data;
         }
+        #endregion
 
     }
 

@@ -11,12 +11,13 @@
         label {
             font-size: 18px;
         }
+
         .over_hide {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        
+
 
         .form-horizontal .control-label {
             padding: 0px;
@@ -31,14 +32,28 @@
             box-shadow: 0px 0px 0px transparent;
             border-radius: 0px;
         }
+
         .form-horizontal.style-form .noline {
             border-bottom: 0px;
             border-radius: 0px;
         }
+
         .btn-theme {
             background-color: #428BCA;
             border-color: #428BCA;
         }
+
+        .btn-theme-delete {
+            background-color: #676767;
+            border-color: #676767;
+            color: white;
+        }
+
+            .btn-theme-delete:hover {
+                background-color: #8E8E8E;
+                border-color: #8E8E8E;
+                color: white;
+            }
     </style>
     <script type="text/javascript">
         $(function () {
@@ -72,7 +87,9 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="mainContent_cph" runat="server">
     <!-- 載入空網頁定時重整避免被timeout -->
-    <div style="display:none;"><iframe src="WebFormRefresh.aspx" id="refresh"></iframe></div>
+    <div style="display: none;">
+        <iframe src="WebFormRefresh.aspx" id="refresh"></iframe>
+    </div>
     <!-- 如果沒有開啟JavaScript則會請她凱起才能使用本網頁的功能 -->
     <noscript>
         <h1 class="red blink">您沒有開啟JavaScript的功能，請您開啟才能使用本網站的功能!!</h1>
@@ -111,7 +128,7 @@
                             <div class="project">
                                 <div class="photo-wrapper">
                                     <div class="photo">
-                                        <img class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" alt="" onclick="upload_img()" style="min-width: 100%;min-height: 100%;"/>
+                                        <img class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" alt="" onclick="upload_img()" style="min-width: 100%; min-height: 100%;" />
                                     </div>
                                     <div class="overlay"></div>
                                 </div>
@@ -143,7 +160,7 @@
                             <select class="select" id="select_class" style="width: 100%; height: 30px; border-radius: 4px; margin-bottom: 15px;">
                             </select>
                             <!-- 個資聲明 -->
-                            <h3><i class="fa fa-angle-right"></i>個資聲明<b class="red">*</b><i class="fa fa-eye" aria-hidden="true" onclick="statementopen()" style="color: #428BCA;cursor:pointer;"></i></h3>
+                            <h3><i class="fa fa-angle-right"></i>個資聲明<b class="red">*</b><i class="fa fa-eye" aria-hidden="true" onclick="statementopen()" style="color: #428BCA; cursor: pointer;"></i></h3>
                             <select class="select" id="statement" style="width: 100%; height: 30px; border-radius: 4px; margin-bottom: 15px;">
                             </select>
                             <!-- 活動名稱 -->
@@ -168,10 +185,7 @@
                                             <!-- 活動簡介，使用CKeditor -->
                                             <textarea cols="80" id="editor1" name="editor1" rows="10"></textarea>
                                             <script type="text/javascript">
-                                                CKEDITOR.replace('editor1',
-                                                    {
-
-                                                    });
+                                                CKEDITOR.replace('editor1', {});
                                             </script>
                                         </div>
                                     </div>
@@ -332,26 +346,6 @@
                     </div>
                     <!-- 預設區塊一_END -->
 
-                    <%--<!-- 功能列_START -->
-                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="padding: 0px">
-                        <div class="nav nav-tabs nav-stacked" id="suspension_div" data-spy="affix">
-                            <div class="btn-group-vertical" role="group" aria-label="...">
-                                <!-- 新增問題 -->
-                                <a class="btn btn-theme " onclick="add_Preset_Qus_Click(null , null , null , 'text' , '' , false)" style="border-radius: 8px;">新增問題</a>
-                                <br />
-                                <!-- 新增區塊 -->
-                                <a class="btn btn-theme " onclick="add_Block_Click()" style="border-radius: 8px;">新增區塊</a>
-                                <br />
-                                <!-- 常用欄位 -->
-                                <a data-toggle="modal" data-target="#myModal" data-backdrop="static" role="group" class="btn btn-theme" style="border-radius: 8px;">常用欄位</a>
-                                <br />
-                                <!-- 載入範本 -->
-                                <a type="submit" class="btn btn-theme " onclick="getText()">載入範本</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 功能列_END -->--%>
-
                     <!-- 預設區塊二_START -->
                     <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 dexc showback" id="block_div_2">
                         <div class="col-sm-12" style="height: 40px;">
@@ -380,12 +374,6 @@
                     <h4 class="modal-title" id="myModalLabel">常用欄位</h4>
                 </div>
                 <div class="modal-body">
-                    <%--                    <div class="checkbox">
-                        <label>
-                            <input name="check_usually_Column" type="checkbox" value="姓名" />
-                            姓名
-                        </label>
-                    </div>--%>
                     <div class="checkbox">
                         <label>
                             <input name="check_usually_Column" type="checkbox" value="生日" />
@@ -395,72 +383,39 @@
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input name="check_usually_Column" type="checkbox" value="身份證字號" />
-                            身份證字號
-                       
-                        </label>
-                    </div>
-                    <%--                    <div class="checkbox">
-                        <label>
-                            <input name="check_usually_Column" type="checkbox" value="信箱Email" />
-                            信箱Email
-                        </label>
-                    </div>--%>
-                    <div class="checkbox">
-                        <label>
-                            <input name="check_usually_Column" type="checkbox" value="聯絡電話" />
-                            聯絡電話
-                       
-                        </label>
+                            <input name="check_usually_Column" type="checkbox" value="身份證字號" />身份證字號</label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input name="check_usually_Column" type="checkbox" value="聯絡地址" />
-                            聯絡地址
-                       
-                        </label>
+                            <input name="check_usually_Column" type="checkbox" value="聯絡電話" />聯絡電話</label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input name="check_usually_Column" type="checkbox" value="公司電話" />
-                            公司電話
-                       
-                        </label>
+                            <input name="check_usually_Column" type="checkbox" value="聯絡地址" />聯絡地址</label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input name="check_usually_Column" type="checkbox" value="服務單位" />
-                            服務單位
-                       
-                        </label>
+                            <input name="check_usually_Column" type="checkbox" value="公司電話" />公司電話</label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input name="check_usually_Column" type="checkbox" value="職稱" />
-                            職稱
-                       
-                        </label>
+                            <input name="check_usually_Column" type="checkbox" value="服務單位" />服務單位</label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input name="check_usually_Column" type="checkbox" value="傳真" />
-                            傳真
-                       
-                        </label>
+                            <input name="check_usually_Column" type="checkbox" value="職稱" />職稱</label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input name="check_usually_Column" type="checkbox" value="用餐" />
-                            用餐
-                       
-                        </label>
+                            <input name="check_usually_Column" type="checkbox" value="傳真" />傳真</label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input name="check_usually_Column" type="checkbox" value="備註" />
-                            備註
-                       
-                        </label>
+                            <input name="check_usually_Column" type="checkbox" value="用餐" />用餐</label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input name="check_usually_Column" type="checkbox" value="備註" />備註</label>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -472,7 +427,7 @@
     </div>
     <!-- 常用欄位_Modal_END-->
 
-    <!-- loading -->
+    <!-- loading_Modal -->
     <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" style="margin: 2% 30%; padding: 0px 0px; border-radius: 6px; text-align: center; height: 92%;">
             <div style="transform: translateY(-50%); top: 50%; position: relative;">
@@ -483,7 +438,7 @@
             </div>
         </div>
     </div>
-    <!-- loading -->
+    <!-- loading_Modal -->
 
     <!-- 個資聲明_Modal -->
     <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="person_data_Modal" class="modal fade">
@@ -497,11 +452,10 @@
                     <label id="person_data" style="width: 100%; height: 100%; border-color: transparent;"></label>
                 </div>
                 <div class="modal-footer">
-                    <%--                    <div class="row" style="float:left;margin-top: 5px;">
-                        <input type="checkbox" id="agree_statement"/>
+                    <%--<div class="row" style="float: left; margin-top: 5px;">
+                        <input type="checkbox" id="agree_statement" />
                         <label>我已閱讀並同意。</label>
-                    </div>
-                    --%>
+                    </div>--%>
                     <a class="btn btn-default" onclick="personal_cnacle()">不同意</a>
                     <a id="personal_ok_btn" class="btn btn-info" onclick="personal_cnacle()">同意</a>
                 </div>
@@ -538,6 +492,8 @@
         var check_Activity_Data = false;
         //判斷報名表資料是否正確
         var check_Activity_Column_Data = false;
+        //判斷題目名稱是否有重覆
+        var check_Activity_Column_title = false;
         //判斷活動報名結束日期是否在活動開始日期之後
         var checkDataSignEnd = false;
 
@@ -807,7 +763,6 @@
                             add_Preset_Qus_Click("備註", "若您有其他的問題,可以在此說明 ", null, "text", "", [], false);
                             break;
                     }
-                    //alert($(this).val());
                     $(this).prop("checked", false);
                 }
             });
@@ -829,7 +784,6 @@
                     add_Qus_Options_Click(qusId, qus_Option[count]);
                 }
             }
-            //$('#qus_txt_' + qusId).focus();
             //產生完問題之後問題ID加一
             qusId++;
             $(".column").sortable({
@@ -841,7 +795,6 @@
                 axis: "y",
                 cursor: 'move',
                 opacity: 0.6,//拖動時透明度 
-                //revert: true,
                 start: function (event, ui) {
                     var start_pos = ui.item.index();
                     ui.item.data('start_pos', start_pos);
@@ -853,8 +806,6 @@
                 .addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all")
                 .find(".portlet-header")
                 .addClass("ui-widget-header ui-corner-all");
-            //.prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
-
             $(".portlet-toggle").click(function () {
                 var icon = $(this);
                 icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
@@ -922,7 +873,7 @@
                                                               '<option value="date">日期</option>' +
                                                               '<option value="length">字數</option>' +
                                                             '</select>' +
-                                                        '<a onclick="del_Qus_click(' + qusId + ')" type="submit" class="btn btn-theme" style="margin-left: 5px;margin-bottom: 5px;">刪除</a>' +
+                                                        '<a onclick="del_Qus_click(' + qusId + ')" type="submit" class="btn btn-theme-delete" style="margin-left: 5px;margin-bottom: 5px;">刪除</a>' +
                                                     '</div>' +
                                                     //添加資料驗證數字最大最小值的地方
                                                     '<div  id="add_Validation_div_' + qusId + '" style="margin-right: 52px;float: right;">' +
@@ -966,7 +917,7 @@
                         break;
                 }
                 var if_int = /^[0-9]*[1-9][0-9]*$/;
-
+                //最大值focus事件
                 $("#max_Num_" + chooseId).blur(function () {
                     if (isNaN($.trim($(this).val()))) {
                         $(this).css({ "box-shadow": "0px 0px 9px red" });
@@ -996,6 +947,7 @@
                     }
 
                 })
+                //最小值focus事件
                 $("#min_Num_" + chooseId).blur(function () {
                     if (isNaN($.trim($(this).val()))) {
                         $(this).css({ "box-shadow": "0px 0px 9px red" });
@@ -1024,8 +976,6 @@
                     }
                 })
             });
-
-
             //題目模式選單
             $('#select_' + qusId).change(function () {
                 //抓取現在要更改問題模式的ID
@@ -1042,15 +992,15 @@
                     case "singleSelect":
                         change_Qus_Way("singleSelect", chooseId, temp_change_Qus_Way_div, temp_change_Qus_Content_div, $("#qus_txt_" + chooseId).val(), $("#qus_context_txt_" + chooseId).val(), null);
                         break;
-                        //多選問題
+                    //多選問題
                     case "multiSelect":
                         change_Qus_Way("multiSelect", chooseId, temp_change_Qus_Way_div, temp_change_Qus_Content_div, $("#qus_txt_" + chooseId).val(), $("#qus_context_txt_" + chooseId).val(), null);
                         break;
-                        //文字
+                    //文字
                     case "text":
                         change_Qus_Way("text", chooseId, temp_change_Qus_Way_div, temp_change_Qus_Content_div, $("#qus_txt_" + chooseId).val(), $("#qus_context_txt_" + chooseId).val(), null);
                         break;
-                        //選單
+                    //選單
                     case "dropDownList":
                         change_Qus_Way("dropDownList", chooseId, temp_change_Qus_Way_div, temp_change_Qus_Content_div, $("#qus_txt_" + chooseId).val(), $("#qus_context_txt_" + chooseId).val(), null);
                         break;
@@ -1261,21 +1211,17 @@
                 cancel: ".portlet-state-disabled",
                 axis: "y",
                 cursor: 'move',
-                //containment: '#add_Block_div',
                 opacity: 0.6,//拖動時透明度  
                 //revert: true,
                 start: function (event, ui) {
                     var start_pos = ui.item.index();
                     ui.item.data('start_pos', start_pos);
                 },
-
             });
             $(".portlet")
                 .addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all")
                 .find(".portlet-header")
                 .addClass("ui-widget-header ui-corner-all");
-            //.prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
-
             $(".portlet-toggle").click(function () {
                 var icon = $(this);
                 icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
@@ -1299,9 +1245,6 @@
                         '<div class="form-horizontal style-form">' +
 
                             '<div class="form-group noline">' +
-                            //'<div class="col-sm-3">' +
-                            //'<h4 class="red">*為必填</h4>' +
-                            //'</div>' +
                                 '<div class="col-sm-1" style="float: right;height: 40px;' + display + ';" >' +
                                     '<a class="btn" style="color: #768094;float: right;" onclick="del_Session_click(' + sessionId + ')">X</a>' +
                                 '</div>' +
@@ -1342,6 +1285,12 @@
                                 '<label class="col-sm-2 control-label">人數限制<b class="red">*</b></label>' +
                                 '<div class="col-sm-10">' +
                                     '<input type="text" class="form-control" placeholder="請填寫數字" id="activity_Limit_Num_txt_' + sessionId + '" onkeyup="return ValidateNumber($(this),value)">' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="form-group noline">' +
+                                '<label class="col-sm-2 control-label">相關連結</label>' +
+                                '<div class="col-sm-10">' +
+                                    '<input type="text" class="form-control" id="activity_relate_link_txt_' + sessionId + '" maxlength="255">' +
                                 '</div>' +
                             '</div>' +
                             '<div class="form-group noline">' +
@@ -1616,8 +1565,6 @@
                 .addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all")
                 .find(".portlet-header")
                 .addClass("ui-widget-header ui-corner-all");
-            //.prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
-
             $(".portlet-toggle").click(function () {
                 var icon = $(this);
                 icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
@@ -1743,7 +1690,10 @@
                 alert("活動頁面資料有誤");
             }
             else if (check_Activity_Column_Data === false) {
-                alert("報名表資料有誤");
+                if (check_Activity_Column_title == false)
+                    alert("報名表內題目名稱不可重覆!");
+                else
+                    alert("報名表資料有誤");
             }
         }
         //#endregion
@@ -1775,6 +1725,8 @@
                     session_Json_Data.As_position = $("#activity_Location_txt_" + temp).val();
                     //存入場次活動人數限制
                     session_Json_Data.As_num_limit = $("#activity_Limit_Num_txt_" + temp).val();
+                    //存入場次相關連結
+                    session_Json_Data.As_relate_link = $("#activity_relate_link_txt_" + temp).val();
                     //存入場次備註
                     session_Json_Data.As_remark = $("#activity_remark_txt_" + temp).val();
                     //判斷場次名不為空
@@ -1963,8 +1915,6 @@
 
         //#region 儲存報名表
         function Save_Activity_btn_Click(jsondata_column) {
-            //var checkData = true;
-            //var jsondata = Save_Activity_Column_Json();
             //使用ajax傳送
             if (check_Activity_Column_Data == true && check_Activity_Data == true) {
                 $.ajax({
@@ -2004,6 +1954,7 @@
         //#region 儲存報名表成JSON
         function Save_Activity_Column_Json() {
             check_Activity_Column_Data = true;
+            check_Activity_Column_title = true;
             var jsondata = { activity_Form: [], activity_Section: [] };
             //區塊順序初始化
             var block_asc = 1;
@@ -2037,7 +1988,6 @@
                         else {
                             $("#block_title_txt_" + choose_blockId).css({ "box-shadow": "" });
                             $("#block_title_txt_error_" + choose_blockId).remove();
-                            //if (checkData != 0) checkData = 1;
                         }
                         //儲存block名稱
                         activity_Section_Json_Data.Acs_title = $("#block_div_" + choose_blockId).find("#block_title_txt_" + choose_blockId).val();
@@ -2114,7 +2064,6 @@
                                 //判斷是否每個選項都有填寫
                                 $option_div.find($('[name="qus_Options"]')).each(function () {
                                     if ($.trim($(this).val()) == "") {
-                                        //this.focus();
                                         $(this).css({ "box-shadow": "0px 0px 9px red" });
                                         check_Activity_Column_Data = false;
                                     }
@@ -2124,7 +2073,6 @@
 
                                 });
                                 //將上面抓到的div裡面所有的input轉成序列儲存
-                                //var $option = $option_div.find($('[name="qus_Options"]')).serialize();
                                 var $merge = "qus_Options=";
                                 var $option = $option_div.find($('[name="qus_Options"]'));
                                 for (var cc = 0 ; cc < $option.length ; cc++) {
@@ -2133,9 +2081,6 @@
                                     if (cc != $option.length - 1)
                                         $merge += "&qus_Options=";
                                 }
-                                //var $option = $.map($option_div.find($('[name="qus_Options"]')), function ($op) {
-                                //    return $($op).val();
-                                //})
                                 //儲存選項序列
                                 activity_Column_Json_Data.Acc_option = $merge;
 
@@ -2154,12 +2099,22 @@
                         if ($("#block_div_error_" + choose_blockId).length == 0)
                             $("#block_div_" + choose_blockId).prepend('<em id="block_div_error_' + choose_blockId + '" class="error help-block red"><h3>內無問題，請刪除或是新增問題</h3></em>');
                         check_Activity_Column_Data = false;
-                        //alert("您有空白區塊，請新增問題或是刪除區塊!!");
                     }
                     //區塊順序加一
                     block_asc++;
                 }
             }
+            //判斷是否有題目名稱重覆
+            for (var cc = 0 ; cc < jsondata['activity_Form'].length ; cc++) {
+                for (var c = cc + 1 ; c < jsondata['activity_Form'].length ; c++) {
+                    if (jsondata['activity_Form'][cc]['Acc_title'] == jsondata['activity_Form'][c]['Acc_title'] && cc != c) {
+                        check_Activity_Column_title = false;
+                        check_Activity_Column_Data = false;
+                    }
+                }
+            }
+
+
             return jsondata;
         }
         //#endregion
@@ -2178,8 +2133,12 @@
                 $("#save_Activity_Column_Json").val(json_Column);
                 window.open("S02010202.aspx?sys_id=S01&sys_pid=S02010202");
             }
-            else
-                alert("報名表尚有資料未填寫或有錯誤");
+            else {
+                if (check_Activity_Column_title == false)
+                    alert("報名表內題目名稱不可重覆!");
+                else
+                    alert("報名表尚有資料未填寫或有錯誤");
+            }
         }
         // #endregion
 
@@ -2216,6 +2175,7 @@
         function upload_file_btn() {
             document.getElementById("<%=this.FileUpload.ClientID %>").click();
         }
+        //判斷使用者所選的檔案格式  
         function upload_file(path) {
             if (path != "") {
                 var path = path.split("\\")[path.split("\\").length - 1];
@@ -2233,7 +2193,6 @@
             else
                 $("#filepath_lab").text("");
         }
-
     </script>
     <!-- JavaScript_END-->
 </asp:Content>

@@ -40,21 +40,22 @@ namespace BusinessLayer.Web
         }
         #endregion
 
+        #region 更新報名資料
         public CommonResult UpdateApplyData(Dictionary<string, object> olddict, Dictionary<string, object> newdict)
         {
             
             return _data.UpdateApplyData(olddict, newdict);
 
         }
-
         public CommonResult UpdateApplyDetailData(Dictionary<string, object> olddict, Dictionary<string, object> newdict)
         {
 
             return _data.UpdateApplyDetailData(olddict, newdict);
 
         }
+        #endregion
 
-
+        #region 新增報名資料
         public CommonResult InsertData_Activity_apply_detail(Dictionary<string, object> dict)
         {
             var res = CommonHelper.ValidateModel<Model.Activity_apply_detailInfo>(dict);
@@ -65,5 +66,6 @@ namespace BusinessLayer.Web
             }
             return res;
         }
+        #endregion
     }
 }

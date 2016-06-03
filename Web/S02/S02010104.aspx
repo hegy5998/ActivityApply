@@ -27,25 +27,32 @@
             border-radius: 4px;
             font-family: '微軟正黑體',sans-serif;
         }
+
+        form {
+            font-family: '微軟正黑體',sans-serif;
+        }
+
+        p {
+            margin: 0 0 2px;
+        }
     </style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="baseContent_cph" runat="server">
-    <div style="background-color: white; width: 100%;">
-        <div class="row">
+    <div id="back" style="background-color: white; width: 100%;height:100%">
+        <div id="title_hi" class="row">
             <div class="col-lg-12">
                 <h1 id="title_txt" class="page-header text-info"></h1>
             </div>
         </div>
         <div class="row mt" id="dispaly_div" style="display: none; margin-top: 20px;">
-
             <div class="col-lg-3">
                 <div class="project-wrapper">
                     <div class="project">
                         <div class="photo-wrapper" style="background-image: url(../Scripts/Lib/assets/img/zoom.png);">
                             <div class="photo">
                                 <a data-toggle="modal" href="#myModal">
-                                    <img id="act_image" class="img-responsive" src="#" style="min-width: 100%;min-height: 100%;"/>
+                                    <img id="act_image" class="img-responsive" src="#" style="min-width: 100%; min-height: 100%;" />
                                 </a>
                             </div>
                             <div class="overlay" style="height: 20px;"></div>
@@ -90,7 +97,7 @@
         <div class="modal-dialog" style="display: inline-block; width: auto;">
             <div class="modal-content">
                 <div class="modal-body">
-                    <img id="act_image_modal" class="img-responsive" src="assets/img/fcu.jpg" />
+                    <img id="act_image_modal" class="img-responsive" src="#" />
                 </div>
             </div>
         </div>
@@ -131,11 +138,15 @@
             //產生場次
             getSessionList();
 
-
+            
             //判斷活動簡介內容高度超過300px變成卷軸式
             var obheight = 300;//超過容器高度自動捲軸
             var mc = $("#desc_div").height();
             if (mc > obheight) $("#desc_div").height(obheight + 'px');
+            if($("#form1").height() < ($("#dispaly_div").height() + $("#title_hi").height()))
+                $("#back").height(($("#dispaly_div").height() + $("#title_hi").height()) + 'px');
+            else
+                $("#back").height($("#form1").height() + 'px');
         })
 
         // #region 產生活動資訊
@@ -270,23 +281,26 @@
             for (var count = 0 ; count < SessionInfo.length ; count++) {
                 var apply_num;
                 var as_remark_vis = "";
+                var as_relate_link_vis = "";
                 if ((SessionInfo[count].as_num_limit - SessionInfo[count].apply_num) < 0)
                     apply_num = 0;
                 else
                     apply_num = SessionInfo[count].as_num_limit - SessionInfo[count].apply_num;
                 if (SessionInfo[count].as_remark == "")
                     as_remark_vis = "display:none;";
+                if (SessionInfo[count].as_relate_link == "")
+                    as_relate_link_vis = "display:none;";
                 var url = new String('S02010105.aspx?sys_id=S02&sys_pid=S02010105&act_idn=' + SessionInfo[count].as_act + '&as_idn=' + SessionInfo[count].as_idn);
                 $("#add_Session_div").append('<div class="panel panel-default">\
                                                 <div class="panel-heading">第 ' + (count + 1) + ' 場  /  共 ' + SessionInfo.length + ' 場</div>\
                                                     <div class="panel-body">\
                                                         <h3 style="color:#069;">'+ SessionInfo[count].as_title + '</h3>\
-                                                        <div class="tooltip-demo">活動地點：' + SessionInfo[count].as_position + '\
-                                                            <br>活動日期：' + dateReviver(SessionInfo[count].as_date_start) + ' ~ ' + dateReviver(SessionInfo[count].as_date_end) + '\
-                                                            <br>報名日期：' + dateReviver(SessionInfo[count].as_apply_start) + ' ~ ' + dateReviver(SessionInfo[count].as_apply_end) + '\
-                                                            <br>報名/限制人數：' + SessionInfo[count].apply_num + '/' + SessionInfo[count].as_num_limit + '人\
-                                                            <br><p style="' + as_remark_vis + ' margin:0px;">備註：' + SessionInfo[count].as_remark + '</p>\
-                                                            <br>\
+                                                        <div class="tooltip-demo"><p>活動地點：' + SessionInfo[count].as_position + '</p>\
+                                                            <p>活動日期：' + dateReviver(SessionInfo[count].as_date_start) + ' ~ ' + dateReviver(SessionInfo[count].as_date_end) + '</p>\
+                                                            <p>報名日期：' + dateReviver(SessionInfo[count].as_apply_start) + ' ~ ' + dateReviver(SessionInfo[count].as_apply_end) + '</p>\
+                                                            <p>報名/限制人數：' + SessionInfo[count].apply_num + '/' + SessionInfo[count].as_num_limit + '人</p>\
+                                                            <p style="' + as_remark_vis + ' margin:0px;">備註：' + SessionInfo[count].as_remark + '</p>\
+                                                            <p style="' + as_relate_link_vis + '">相關連結：<a  href="' + SessionInfo[count].as_relate_link + '" target="_blank">場次資訊</a></p>\
                                                             <a id="apply_btn_' + count + '" onclick=openss("' + url + '") class="btn btn-info" data-toggle="tooltip" data-placement="right" style="color: white;">我要報名</a>\
                                                         </div>');
 

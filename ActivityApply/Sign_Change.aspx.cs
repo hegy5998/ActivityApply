@@ -16,18 +16,13 @@ namespace ActivityApply
 {
     public partial class Sign_Change : System.Web.UI.Page
     {
+        //活動ID、場次ID、報名序號ID
         static int ACT_IDN;
         static int AS_IDN;
         static int AA_IDN;
         protected void Page_Load(object sender, EventArgs e)
         {
-            
-            //ACT_IDN = Int32.Parse(Request["act_idn"]);
-            //AS_IDN = Int32.Parse(Request["as_idn"]);
-            //AA_IDN = Int32.Parse(Request["aa_idn"]);
-            //AA_IDN  = Session["aa_idn"];
-            //if (!IsPostBack)
-            //{
+            //判斷是否有報名序號是否已過期
             if (Session["aa_idn"] != null)
             {
                 ACT_IDN = Int32.Parse(Session["act_idn"].ToString());
@@ -40,8 +35,6 @@ namespace ActivityApply
                 Response.Write("<script language='javascript'>alert('" + error_msg + "');</script>");
                 Response.Redirect("SignSearchContext.aspx");
             }
-            //}
-
         }
 
         #region 取得場次資料
@@ -191,19 +184,7 @@ namespace ActivityApply
         }
         #endregion
 
-        protected void print_ApplyProve(object sender, EventArgs e)
-        {
-            Sign_UpBL _bl = new Sign_UpBL();
-            DataTable dt = _bl.GetApplyProve(AA_IDN);
-            ReportDocument rd = new ReportDocument();
-            //載入該報表
-            rd.Load(Server.MapPath("~/applyProve.rpt"));
-            //設定資料
-            rd.SetDataSource(dt);
-            rd.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, true, "applyProve");
-            //rd.ExportToDisk(ExportFormatType.PortableDocFormat, "applyProve.pdf");
-        }
-
+        #region 自訂Date
         [Table("UserData")]
         public class UserData {
             [Column("aad_apply_id")]
@@ -217,5 +198,6 @@ namespace ActivityApply
             [Column("ifnewqus")]
             public Int32 ifnewqus { get; set; }
         }
+        #endregion
     }
 }

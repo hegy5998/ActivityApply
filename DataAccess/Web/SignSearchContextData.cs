@@ -15,7 +15,6 @@ namespace DataAccess.Web
         private Type _modelType = typeof(Activity_apply_emailInfo);
         CommonDbHelper Db = DAH.Db;
 
-
         #region 查詢報名資訊(檢視報名資料)
         public DataTable GetActivityData(string aa_email)
         {
@@ -51,7 +50,6 @@ namespace DataAccess.Web
             return Db.GetDataTable(sql, param);
         }
         #endregion
-
 
         #region 查詢報名欄位序號
         public DataTable GetColumnData(string acc_act)
@@ -94,8 +92,6 @@ namespace DataAccess.Web
             return res;
         }
         #endregion
-
-
 
     }
 }
