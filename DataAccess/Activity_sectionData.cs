@@ -55,15 +55,14 @@ namespace DataAccess
                 string sql = @"
                     insert into [" + _modelType.GetTableName() + @"] 
                         (" + Db.GetSqlInsertField(_modelType, data_dict) + @", [createid], [createtime], [updid], [updtime]) 
-                    values (" + Db.GetSqlInsertValue(data_dict) + ", '" + loginUser.Act_id + "'" + ", (" + Db.DbNowTimeSQL + ")" + ", '" + loginUser.Act_id + "'" + ", (" + Db.DbNowTimeSQL + ")" + ")";
-                res.AffectedRows = Db.ExecuteNonQuery(trans, sql, Db.GetParam(_modelType, data_dict));
-                if (res.AffectedRows <= 0) res.IsSuccess = false;
+                    values (" + Db.GetSqlInsertValue(data_dict) + ", '" + loginUser.Act_id + "'" + ", (" + Db.DbNowTimeSQL + ")" + ", '" + loginUser.Act_id + "'" + ", (" + Db.DbNowTimeSQL + ")" + ")select @@identity";
+                res.Message = Db.ExecuteScalar(trans, sql, Db.GetParam(_modelType, data_dict)).ToString();
+                if (res.Message.Equals("")) res.IsSuccess = false;
             }
             return res;
         }
         #endregion
-
-
+        
         #region 單筆更新
         /// <summary>
         /// 單筆更新
@@ -134,6 +133,18 @@ namespace DataAccess
             return res;
         }
         #endregion
+        #endregion
+
+        #region 查詢
+        public List<Activity_sectionInfo> GetList(int acs_act,int as_idn)
+        {
+            string sql = @" SELECT activity_section.*,activity_session.as_title
+                            FROM activity_section,activity_session
+                            WHERE acs_act = @acs_act AND as_idn = @as_idn AND CONVERT(DATETIME, as_apply_end, 121) >= CONVERT(VARCHAR(256), Getdate(), 121) AND as_isopen = 1
+                            ORDER BY acs_seq";
+            IDataParameter[] param = { Db.GetParam("@acs_act", acs_act) ,Db.GetParam("@as_idn", as_idn) };
+            return Db.GetEnumerable<Activity_sectionInfo>(sql, param).ToList();
+        }
         #endregion
     }
 }

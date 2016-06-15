@@ -7,11 +7,13 @@
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     line-height: 20px;
     color: #333;
+    
 }
 
 body
 {
-    background: url(Images/background.png);
+    
+    /*background: url(Images/background.png);*/
     margin: 0;
 }
 
@@ -35,6 +37,10 @@ table
 {
     border-spacing: 0;
     border-collapse: collapse;
+    background: #ffffff;
+    box-shadow: 0px 3px 2px #aab2bd;
+    padding-top: 15px;
+    padding-bottom: 5px;
 }
 
 .center { text-align: center; }
@@ -53,15 +59,21 @@ a:hover {
   text-decoration: underline;
 }
 
-select, label, input[type="radio"], input[type="checkbox"]
+select, input[type="radio"], input[type="checkbox"]
 {
 	cursor: pointer;
+    font-family: '微軟正黑體',sans-serif;
 }
 
 input[type="text"],
 input[type="password"]
 {
     padding: 1px 2px;
+    background-color: #FEFEFE;
+}
+
+i{
+    font-family: '微軟正黑體',sans-serif;
 }
 
 
@@ -69,31 +81,41 @@ input[type="password"]
 .grv
 {
     width: 100%;
+    font-family: '微軟正黑體',sans-serif;
+    background: #ffffff;
+	box-shadow: 1px 3px 2px #aab2bd;
+	padding-top: 15px;
+	padding-bottom: 5px;
 	/*margin-bottom: 8px;*/
 }
 .grvHeaderRow > th
 {
-    border: 1px solid #ccc;
+    background-color: white;
     padding: 2px 4px;   
     vertical-align: middle;
-    height: 25px;
+    height: 30px;
+}
+.grvHeaderRow > th > a:hover{
+    color: #68DFF0;
+}
+.grvHeaderRow > th > a{
+    color: #797979;
 }
 .grvFooterRow > td
 {
-    border: 1px solid #ccc;
     padding: 2px 4px;   
     vertical-align: middle;
     height: 25px;
 }
 .grvPageRow
 {
-    border: 1px solid #ccc;
     padding: 2px 4px;   
     vertical-align: middle;
-    height: 25px;
+    height: 30px;
 	line-height: 25px;
-    background-color: #CFDD7C;
-	margin-top: -3px;
+    background-color: white;
+    font-family: '微軟正黑體',sans-serif;
+    box-shadow: 1px 3px 2px #aab2bd;
 }
 .grvPageRow.empty
 {
@@ -115,7 +137,7 @@ input[type="password"]
 .grvPageRow .pageIndex.select
 {
 	font-weight: bold;
-	color: #151515;
+	color: #797979;
 }
 .grvPageRow .pageIndex
 {
@@ -123,7 +145,6 @@ input[type="password"]
 }
 .grvDataRow > td
 {
-    border: 1px solid #ccc;
     padding: 2px 4px;  
     vertical-align: middle;
     height: 25px;
@@ -132,21 +153,20 @@ input[type="password"]
 
 .grvHeaderRow
 {
-    text-align: center;
-    background-color: #CFDD7C;
+    background-color: #FFFFFF;
     color: #151515;
 }
 
 .grvFooterRow
 {
     text-align: center;
-    background-color: #CFDD7C;
-    color: #151515;
+    background-color: #68dff0;
+    color: #797979;
 }
 
 .grvDataRow
 {
-    color: #151515;
+    color: #797979;
 }
 
 .grvDataRow > th
@@ -162,7 +182,7 @@ input[type="password"]
 
 .grvDataRow.odd
 {
-    background-color: #f7fae2;
+    background-color: rgb(230, 253, 255);
 }
 
 .grvDataRow.even
@@ -187,13 +207,13 @@ input[type="password"]
 .grvDataRow.odd.select:hover,
 .grvDataRow.even.select:hover
 {
-	background-color: #f5e8dd;
+	background-color: #FFFEEF;
 	/*background-color: #f4faaf;*/
 }
 
 .grvEmptyRow
 {
-    background-color: #f7fae2;
+    background-color: #ffffff;
     border: 1px solid #ccc;
     padding: 2px 4px;  
     vertical-align: middle;
@@ -219,12 +239,12 @@ input[type="password"]
 /* ----- FormView ----- */
 .fv
 {
-    width: 100%;
-	margin-bottom: 8px;
+    box-shadow:none;
+    background-color:transparent;
 }
 .fvHeaderRow
 {
-    background-color: #CFDD7C;
+    background-color: #68dff0;
     border: 1px solid #999;
     height: 35px;
 	line-height: 35px;
@@ -238,7 +258,7 @@ input[type="password"]
     border: 1px solid #999;
     padding: 2px 4px;   
     vertical-align: middle;
-    background-color: #CFDD7C;
+    background-color: #68dff0;
 	width: 150px;
 }
 .fvRow > td
@@ -254,6 +274,23 @@ input[type="password"]
 }
 
 /* ----- 按鈕 ----- */
+.movedown
+{
+    position:absolute;
+    opacity:0;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}
+.btn-ms 
+{
+    height: 22px;
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
 .btnGrv
 {
     width: 16px;
@@ -277,7 +314,7 @@ input[type="password"]
 }
 .btnGrv.add
 {
-    background: url(Images/Icons/add.gif);
+    background: url(Images/Icons/add.png);
 }
 .btnGrv.delete
 {
@@ -334,20 +371,21 @@ input[type="password"]
 .popupWindow
 {
     width: 640px;
-    height: 480px;
     border: 1px solid #ccc;
     -webkit-box-shadow: rgb(68, 68, 17) 0px 3px 29px;
     -moz-box-shadow: rgb(68, 68, 17) 0px 3px 29px;
     box-shadow: rgb(68, 68, 17) 0px 3px 29px;
     overflow: hidden;
+    font-family: '微軟正黑體',sans-serif;
 }
 .popupWindowHeader
 {
     height: 29px;
     line-height: 29px;
     padding-left: 7px;
-    background-color: #CFDD7C;
+    background-color: #68dff0;
     border-bottom: 1px solid #CCC;
+    color: #FFFFFF;
 }
 .popupWindowHeader .open
 {
@@ -369,10 +407,9 @@ input[type="password"]
 }
 .popupWindowContent
 {
-    height: 450px;
 	padding: 10px 10px;
 	overflow: auto;
-    background-color: #fff;
+    background-color: #F2F2F2;
 }
 
 /* highlight文字 */

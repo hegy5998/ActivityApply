@@ -1,0 +1,241 @@
+﻿<%@ Master Language="C#" MasterPageFile="Base.Master" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="ActivityApply.MasterPages.Main" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <asp:ContentPlaceHolder ID="mainHead" runat="server"></asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:ScriptManager ID="tsm" runat="server" AsyncPostBackTimeout="300"></asp:ScriptManager>
+    <section id="container">
+        <!-- **********************************************************************************************************************************************************
+            TOP BAR CONTENT & NOTIFICATIONS
+            *********************************************************************************************************************************************************** -->
+        <!--header start-->
+        <%--        <header class="header black-bg">
+            <div class="sidebar-toggle-box" style="padding-right: 0px;">
+                <div data-placement="right" data-original-title="Toggle Navigation" style="width: 24px; height: 24px; margin-top: 8px;"><i class="fa fa-bars" aria-hidden="true"></i></div>
+            </div>
+            <!--logo start-->
+            <a href="index.aspx" class="logo">
+                <img src="assets/img/12767525_955825364513665_1121294852_n.jpg" /></a>
+            <!--logo end-->
+            <div class="row"></div>
+            <div>
+                <div class="breadcrumb">
+                    <ol id="add_breach" class="breadcrumb">
+                        <li><a href="index.aspx">首頁</a></li>
+                    </ol>
+                </div>
+            </div>
+
+        </header>--%>
+        <!--header end-->
+
+        <!-- **********************************************************************************************************************************************************
+            MAIN SIDEBAR MENU
+            *********************************************************************************************************************************************************** -->
+        <!--sidebar start-->
+        <%--        <aside>
+            <div id="sidebar" class="nav-collapse">
+                <!-- sidebar menu start-->
+                <ul class="sidebar-menu" id="nav-accordion">
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+                            <span>活動分類</span>
+                        </a>
+
+                        <ul id="add_sub" class="sub">
+                        </ul>
+                    </li>
+
+                    <li class="mt">
+                        <a href="Sign_Search_Context.aspx">
+                            <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+                            <span>報名查詢</span>
+                        </a>
+                    </li>
+
+                    <!-- CALENDAR-->
+                    <!--                    <li id="calendar">
+                        <div class="panel green-panel no-margin">
+                            <div class="panel-body">
+                                <div id="date-popover" class="popover top" style="cursor: pointer; disadding: block; margin-left: 33%; margin-top: -50px; width: 175px;">
+                                    <div class="arrow"></div>
+                                    <h3 class="popover-title" style="disadding: none;"></h3>
+                                    <div id="date-popover-content" class="popover-content"></div>
+                                </div>
+                                <div id="my-calendar"></div>
+                            </div>
+                        </div>
+                    </li>-->
+                </ul>
+                <!-- sidebar menu end-->
+                <!-- 側欄內容 -->
+                <asp:ContentPlaceHolder ID="sideCon" runat="server">
+                </asp:ContentPlaceHolder>
+
+            </div>
+
+        </aside>--%>
+        <!--sidebar end-->
+
+        <div id="body" style="margin-bottom: 40px;">
+            <div id="wrapper">
+                <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header" id="header" runat="server">
+                        <button id="navbt" type="button" class="navbar-toggle tooltips" data-toggle="collapse" data-target=".navbar-collapse" onclick="navclick()">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="Index.aspx">
+                            <img src="assets/img/logo.png" alt="logo" width="125" />
+                        </a>
+                        <div class="row"></div>
+                        <div>
+                            <div class="breadcrumb">
+                                <ol id="add_breach" class="breadcrumb">
+                                    <li><a href="Index.aspx">首頁</a></li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.navbar-header -->
+                    <ul class="nav navbar-top-links navbar-right" style="display: none;">
+                        <!-- /.dropdown -->
+                        <!-- /.dropdown -->
+                        <!-- /.dropdown -->
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                                <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li>
+                                    <a href="#"><i class="fa fa-user fa-fw"></i>User Profile</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-gear fa-fw"></i>Settings</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="javascript:;"><i class="fa fa-sign-out fa-fw"></i>Logout</a>
+                                </li>
+                            </ul>
+                            <!-- /.dropdown-user -->
+                        </li>
+                        <!-- /.dropdown -->
+                    </ul>
+                    <!-- /.navbar-top-links -->
+                    <div class="navbar-default sidebar" role="navigation">
+                        <div id="navbar" class="sidebar-nav navbar-collapse" style="display:none;">
+                            <ul class="nav" id="side-menu">
+                                <li>
+                                    <a href="Index.aspx"><i class="fa fa-fw fa-home fa-lg"></i>首　　頁</a>
+                                </li>
+                                <li id="menu">
+                                    <a href="#"><i class="-o fa fa-calendar-o fa-fw fa-lg"></i>活動分類<span class="arrow fa fa-fw fa-lg"></span></a>
+                                    <ul id="add_sub" class="nav nav-second-level text-muted">
+                                        <!-- 添加活動分類地方 -->
+                                    </ul>
+                                    <!-- /.nav-second-level -->
+                                </li>
+                                <li>
+                                    <a href="Sign_Search_Context.aspx"><i class="fa fa-search fa-fw fa-lg"></i>報名查詢</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /.navbar-static-side -->
+
+                </nav>
+                <asp:ContentPlaceHolder ID="sideCon" runat="server">
+                </asp:ContentPlaceHolder>
+                <div id="a">
+                    <div id="page-wrapper" style="min-height: 807px;">
+                        <!-- 主欄內容 -->
+                        <asp:ContentPlaceHolder ID="mainCon" runat="server">
+                        </asp:ContentPlaceHolder>
+                    </div>
+                </div>
+            </div>
+            <!-- /#wrapper -->
+            <footer class="footer ">
+                <div class="container">
+                    <asp:ContentPlaceHolder ID="pageUnitEnd" runat="server">
+                    </asp:ContentPlaceHolder>
+                    <p>2016 逢甲大學資訊處 - 資訊技術服務中心</p>
+                </div>
+            </footer>
+            <!-- jQuery -->
+        </div>
+    </section>
+
+        
+
+    <script>
+        //#region 初始化
+        $(document).ready(function () {
+            //設定分類內容
+            getSubClass();
+            //判斷這兩個URL參數都存在才執行，此時目錄在活動頁面
+            if ($.url().param("act_class") && $.url().param("act_idn") || $.url().param("act_idn") && $.url().param("as_idn")) {
+                setSessionBread();
+            }
+            if ($.url().param("short") == 1) {
+                $("#page-wrapper").css({ "margin": "0px" });
+                $("#navbt").css({ "display": "none" });
+            }
+            else
+            {
+                $("#navbar").css({ "display": "" });
+            }
+        })
+        //#endregion
+
+        //#region 取得分類內容資料
+        function getSubClass() {
+            $.ajax({
+                type: 'post',
+                traditional: true,
+                //傳送資料到後台為getActivityAllList的function
+                url: 'activity_List.aspx/getClassList',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                //成功時
+                success: function (result) {
+                    // 加入分類
+                    setSubClass(result.d);
+                },
+                //失敗時
+                error: function () {
+                    return false;
+                }
+            });
+        }
+        //#endregion
+
+        //#region 設定分類內容
+        function setSubClass(act_classInfo) {
+            var act_classInfo = JSON.parse(act_classInfo);
+            $("#add_sub").children().remove();
+            $("#add_sub").append('<li><a href="Activity_List.aspx?act_class=0">全部活動</a></li>')
+            for (var count = 0 ; count < act_classInfo.length ; count++) {
+                $("#add_sub").append('<li><a href="Activity_List.aspx?act_class=' + (act_classInfo[count].Ac_idn) + '">' + act_classInfo[count].Ac_title + '</a></li>')
+            }
+            var local = location.href.split("/")[location.href.split("/").length - 1].split("?")[0];
+            if (local == "Activity_List.aspx" || local == "Activity.aspx" || local == "Sign_Up.aspx") {
+                $("#add_sub").addClass("in");
+                $("#add_sub").show();
+                $("#menu").addClass("active");
+            }
+
+        }
+        //#endregion
+
+        function navclick() {
+            $("#navbar").css({ "display": "" });
+        }
+    </script>
+</asp:Content>

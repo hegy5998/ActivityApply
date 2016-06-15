@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="" />
     <meta name="author" content="Dashboard" />
-    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina" />
+    <meta name="keyword" content="Dashboard, Admin, Template, Theme, Responsive, Fluid, Retina" />
     <title></title>
     <link href="<%=ResolveUrl("~/Css/Lib/reset.css") %>" rel="stylesheet" />
     <link href="<%=ResolveUrl("~/Css/JqueryUI.css?") + DateTime.Now.ToString("yyMMdd") %>" rel="stylesheet" />
@@ -33,8 +33,8 @@
     <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/assets/js/gritter-conf.js") %>"></script>
 
     <%-- jquery_validation --%>
-    <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/jquery-validation/dist/jquery.validate.js") %>"></script>
-    <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/jquery-validation/dist/localization/messages_zh_TW.js")%>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/validation/jquery.validate.js") %>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/validation/messages_zh_TW.js")%>"></script>
     <script type="text/javascript">
         var sessionTimeOutMsg = "登入逾時，請重新登入!";
 
@@ -49,6 +49,8 @@
             }
         });
     </script>
+    <!-- 剪貼簿功能 -->
+    <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/clipboard.js-master/dist/clipboard.min.js") %>"></script>
     <!-- Bootstrap-->
     <link href="<%=ResolveUrl("~/Css/Lib/bootstrap.css") %>" rel="stylesheet" />
     <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/assets/js/bootstrap.min.js") %>"></script>
@@ -115,14 +117,13 @@
             }
     </style>
     <!-- dateptimeicker -->
-    <link rel="stylesheet" type="text/css" href="<%=ResolveUrl("~/Scripts/Lib/jQuery-datetimepicker/jquery.datetimepicker.css") %>" />
-    <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/jQuery-datetimepicker/jquery.datetimepicker.js") %>"></script>
+    <link rel="stylesheet" type="text/css" href="<%=ResolveUrl("~/Scripts/Lib/jQuery-datetimepicker/jquery.datetimepicker.min.css") %>" />
+    <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/jQuery-datetimepicker/jquery.datetimepicker.full.min.js") %>"></script>
     <!-- ckeditor -->
     <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/ckeditor/ckeditor.js") %>"></script>
     <!-- Custom styles for this template -->
     <link rel="stylesheet" type="text/css" href="<%=ResolveUrl("~/Scripts/Lib/assets/css/style.css") %>" />
     <link rel="stylesheet" type="text/css" href="<%=ResolveUrl("~/Scripts/Lib/assets/css/style-responsive.css") %>" />
-    <link rel="stylesheet" type="text/css" href="<%=ResolveUrl("~/Css/google.css") %>" />
 
     <link rel="stylesheet" type="text/css" href="<%=ResolveUrl("~/Css/Lib/titatoggle-dist.css") %>" />
 

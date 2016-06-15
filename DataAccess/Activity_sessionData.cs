@@ -24,6 +24,17 @@ namespace DataAccess
         /// </summary>
         public CommonDbHelper Db = DAH.Db;
 
+        public DataTable GetList(int as_act)
+        {
+            string sql = @"SELECT   activity_session.*,
+	                            (SELECT COUNT(*) FROM activity_apply WHERE  aa_act = as_act AND aa_as = as_idn) AS apply_num
+                           FROM activity_session
+                           WHERE  (as_act = @as_act) AND (as_isopen = 1) AND CONVERT(DATETIME , as_date_end, 121) >= CONVERT(varchar(256), GETDATE(), 121)
+                           ORDER BY   as_date_start";
+            IDataParameter[] param = { Db.GetParam("@as_act", as_act) };
+            return Db.GetDataTable(sql, param);
+        }
+
         #region 單筆資料維護
         #region 單筆新增
         /// <summary>
@@ -55,9 +66,9 @@ namespace DataAccess
                 string sql = @"
                     insert into [" + _modelType.GetTableName() + @"] 
                         (" + Db.GetSqlInsertField(_modelType, data_dict) + @", [createid], [createtime], [updid], [updtime]) 
-                    values (" + Db.GetSqlInsertValue(data_dict) + ", '" + loginUser.Act_id + "'" + ", (" + Db.DbNowTimeSQL + ")" + ", '" + loginUser.Act_id + "'" + ", (" + Db.DbNowTimeSQL + ")" + ")";
-                res.AffectedRows = Db.ExecuteNonQuery(trans, sql, Db.GetParam(_modelType, data_dict));
-                if (res.AffectedRows <= 0) res.IsSuccess = false;
+                    values (" + Db.GetSqlInsertValue(data_dict) + ", '" + loginUser.Act_id + "'" + ", (" + Db.DbNowTimeSQL + ")" + ", '" + loginUser.Act_id + "'" + ", (" + Db.DbNowTimeSQL + ")" + ")select @@identity";
+                res.Message = Db.ExecuteScalar(trans, sql, Db.GetParam(_modelType, data_dict)).ToString();
+                if (res.Message.Equals("")) res.IsSuccess = false;
             }
             return res;
         }

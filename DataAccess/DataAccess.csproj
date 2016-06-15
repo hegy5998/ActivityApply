@@ -47,11 +47,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activity_classData.cs" />
+    <Compile Include="Account_CopperateData.cs" />
     <Compile Include="ActivityData.cs" />
     <Compile Include="Activity_applyData.cs" />
+    <Compile Include="Activity_apply_emailData.cs" />
+    <Compile Include="Activity_apply_detailData.cs" />
     <Compile Include="Activity_sectionData.cs" />
     <Compile Include="Activity_columnData.cs" />
     <Compile Include="Activity_sessionData.cs" />
+    <Compile Include="Activity_statementData.cs" />
     <Compile Include="Common\CommonData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="S01\S010003Data.cs" />
@@ -67,6 +72,9 @@
     <Compile Include="S01\UCProcessSubFuncAuthManagerData.cs" />
     <Compile Include="S01\UCRoleUnitManagerData.cs" />
     <Compile Include="S01\UCRoleUnitManagerPositionData.cs" />
+    <Compile Include="S02\S020105Data.cs" />
+    <Compile Include="S02\S020104Data.cs" />
+    <Compile Include="S02\S020103Data.cs" />
     <Compile Include="S02\S020101Data.cs" />
     <Compile Include="Sys_accountData.cs" />
     <Compile Include="Sys_account_roleData.cs" />
@@ -85,6 +93,12 @@
     <Compile Include="Sys_role_unitData.cs" />
     <Compile Include="Sys_systemData.cs" />
     <Compile Include="Sys_unitData.cs" />
+    <Compile Include="Web\activityData.cs" />
+    <Compile Include="Web\activity_ListData.cs" />
+    <Compile Include="Web\indexData.cs" />
+    <Compile Include="Web\SignSearchContextData.cs" />
+    <Compile Include="Web\SignChangeData.cs" />
+    <Compile Include="Web\Sign_UpData.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">

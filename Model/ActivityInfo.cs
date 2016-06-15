@@ -64,6 +64,12 @@ namespace Model
         /// <summary>
         ///  
         /// </summary>
+        [Column("act_image")]
+        public String Act_image { get; set; }
+
+        /// <summary>
+        ///  
+        /// </summary>
         [Column("act_relate_link")]
         public String Act_relate_link { get; set; }
 
@@ -78,6 +84,24 @@ namespace Model
         /// </summary>
         [Column("act_class")]
         public Int32? Act_class { get; set; }
+
+        /// <summary>
+        ///  
+        /// </summary>
+        [Column("act_num_limit")]
+        public Int32? Act_num_limit { get; set; }
+
+        /// <summary>
+        ///  
+        /// </summary>
+        [Column("act_as")]
+        public Int32? Act_as { get; set; }
+
+        /// <summary>
+        ///  
+        /// </summary>
+        [Column("act_isopen")]
+        public Byte? Act_isopen { get; set; }
 
         /// <summary>
         ///  

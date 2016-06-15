@@ -45,16 +45,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account_CopperateInfo.cs" />
     <Compile Include="ActivityInfo.cs" />
+    <Compile Include="Activity_apply_emailInfo.cs" />
+    <Compile Include="Activity_classInfo.cs" />
+    <Compile Include="Activity_apply_detailInfo.cs" />
     <Compile Include="Activity_sectionInfo.cs" />
     <Compile Include="Activity_columnInfo.cs" />
     <Compile Include="Activity_applyInfo.cs" />
     <Compile Include="Activity_sessionInfo.cs" />
+    <Compile Include="Activity_statementInfo.cs" />
     <Compile Include="Common\SystemConfigInfo.cs" />
     <Compile Include="Common\Sys_accountInfoExt.cs" />
     <Compile Include="Common\Sys_login_logInfoExt.cs" />
     <Compile Include="Common\Sys_moduleInfoExt.cs" />
     <Compile Include="Common\Sys_processcontrol_roleInfoExt.cs" />
+    <Compile Include="Common\Activity_sectionInfoExt.cs" />
     <Compile Include="Common\Sys_processInfoExt.cs" />
     <Compile Include="Common\Sys_process_roleInfoExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

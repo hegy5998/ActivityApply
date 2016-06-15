@@ -7,7 +7,7 @@
     PopupControlID="popupWindow_pl" 
     TargetControlID="popupWindow_cancel_btn" 
     BackgroundCssClass="popupWindowOverlay"></asp:ModalPopupExtender>
-<asp:Panel ID="popupWindow_pl" style="display:none;overflow:visible;width:800px;height:500px" class="popupWindow" runat="server">
+<asp:Panel ID="popupWindow_pl" style="display:none;overflow:visible;width:800px;" class="popupWindow" runat="server">
     <div class="popupWindowHeader">
         <div class="title">
             <asp:Label ID="popupWindow_tilte_lbl" runat="server" Text=""></asp:Label>

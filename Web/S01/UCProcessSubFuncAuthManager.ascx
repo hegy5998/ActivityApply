@@ -14,55 +14,58 @@
     </div>
     <asp:MultiView ID="mv" runat="server">
         <asp:View ID="main_view" runat="server">
-            <asp:GridView ID="main_gv" runat="server" AutoGenerateColumns="False" style="min-width: 300px"
+            <asp:GridView ID="main_gv" runat="server" AutoGenerateColumns="False" Style="min-width: 300px"
                 ItemType="Model.S01.UCProcessSubFuncAuthManagerInfo.Main"
                 DataKeyNames="sys_pid,sys_cid"
-                OnRowDataBound="main_gv_RowDataBound" 
+                OnRowDataBound="main_gv_RowDataBound"
                 OnRowCommand="main_gv_RowCommand">
                 <Columns>
                     <asp:TemplateField HeaderText="操作">
                         <ItemTemplate>
-                            <asp:Button ID="edit_btn" runat="server" CommandName="Set" CssClass="btnGrv edit" Text="設定權限" ToolTip="設定權限" UseSubmitBehavior="False" />
+                            <span style="position: relative;">
+                                <i class="fa fa-pencil btn btn-primary btn-xs" aria-hidden="true"></i>
+                                <asp:Button ID="edit_btn" runat="server" CommandName="Set" CssClass="movedown" Text="設定權限" ToolTip="設定權限" UseSubmitBehavior="False" />
+                            </span>
                             <asp:HiddenField ID="rowDefaultTriggerControlID_hf" runat="server" EnableViewState="False" Value="edit_btn" />
                         </ItemTemplate>
                         <ItemStyle HorizontalAlign="Center" Wrap="False" />
                         <HeaderTemplate>
                             <asp:Label ID="Label4" runat="server" Text="操作"></asp:Label>
                         </HeaderTemplate>
-                        <HeaderStyle Width="40px"  Wrap="False" />
+                        <HeaderStyle Width="40px" Wrap="False" />
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="授權數">
                         <ItemTemplate>
                             <%# Item.Auth_count.GetValueOrDefault(0) %>
                         </ItemTemplate>
-                        <ItemStyle CssClass="rowTrigger center"  Wrap="False" />
-                        <HeaderStyle Width="40px"  Wrap="False" />
+                        <ItemStyle CssClass="rowTrigger center" Wrap="False" />
+                        <HeaderStyle Width="40px" Wrap="False" />
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="子功能代碼">
                         <ItemTemplate>
                             <%# Item.Sys_cid %>
                         </ItemTemplate>
-                        <ItemStyle CssClass="rowTrigger"  Wrap="False" />
+                        <ItemStyle CssClass="rowTrigger" Wrap="False" />
                         <HeaderStyle Width="40px" Wrap="False" />
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="子功能描述">
                         <ItemTemplate>
                             <asp:Label ID="sys_cnote_lbl" runat="server" Text="<%# Item.Sys_cnote %>"></asp:Label>
                         </ItemTemplate>
-                        <ItemStyle CssClass="rowTrigger"  />
+                        <ItemStyle CssClass="rowTrigger" />
                     </asp:TemplateField>
                 </Columns>
             </asp:GridView>
             <uc1:UCGridViewPager runat="server" ID="ucGridViewPager" />
         </asp:View>
         <asp:View ID="auth_view" runat="server">
-            <asp:Button ID="back_btn" runat="server" Text="返回" UseSubmitBehavior="false" OnClick="back_btn_Click" style="margin-right: 10px" />
-            子功能：<asp:Label ID="sys_cid_lbl" runat="server" CssClass="highlight" Text="" style="margin-right: 10px"></asp:Label>
+            <asp:Button ID="back_btn" runat="server" CssClass="btn btn-default" Text="返回" UseSubmitBehavior="false" OnClick="back_btn_Click" Style="margin-right: 10px" />
+            子功能：<asp:Label ID="sys_cid_lbl" runat="server" CssClass="highlight" Text="" Style="margin-right: 10px"></asp:Label>
             描述：<asp:Label ID="sys_cnote_lbl" runat="server" CssClass="highlight" Text=""></asp:Label>
             <div style="margin-top: 10px">
-                <uc1:UCProcessSubFuncAuthManagerAuthView runat="server" id="ucProcessSubFuncAuthManagerAuthView" />
+                <uc1:UCProcessSubFuncAuthManagerAuthView runat="server" ID="ucProcessSubFuncAuthManagerAuthView" />
             </div>
         </asp:View>
     </asp:MultiView>
-    
+
 </asp:Panel>

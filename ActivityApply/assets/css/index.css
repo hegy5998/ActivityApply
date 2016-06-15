@@ -1,0 +1,65 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+body{
+	font-family:"微軟正黑體";
+	margin-bottom: 40px;
+	
+	}
+	
+
+		/* Sticky footer styles
+-------------------------------------------------- */
+html {
+	  position: relative;
+	  min-height: 100%;
+}
+body {
+	  /* Margin bottom by footer height */
+	  
+}
+
+.btn-link{
+	font-size:15px;
+	
+	}
+
+.btn-link:hover {
+	text-decoration:none;
+	color:#999;
+	
+	}
+	
+.box{
+	width:100%;
+	
+	}
+	
+.box_inside{
+	width:900px;
+	margin-left:auto;
+	margin-right:auto;
+	
+	}
+
+.btn-info,.btn-default{
+	margin-right:5px;
+	}
+
+
+footer {
+	  position: absolute;
+	  bottom: 0;
+	  width: 100%;
+      z-index: 2;
+	  /* Set the fixed height of the footer here */
+	  height: 40px;
+	  background-color:#333;
+}
+
+footer p {
+	text-align:center;
+    padding-top:10px;
+	color:#FFF;
+	
+	}

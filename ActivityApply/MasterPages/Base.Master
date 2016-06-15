@@ -1,0 +1,118 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Base.master.cs" Inherits="ActivityApply.MasterPages.Base" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>逢甲大學活動報名系統</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="Dashboard" />
+    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina" />
+
+    <!-- Bootstrap core CSS -->
+    <link href="<%=ResolveUrl("~/assets/bootstrap/dist/css/bootstrap.css") %>" rel="stylesheet" />
+    <link href="<%=ResolveUrl("~/assets/css/sb-admin-2.css") %>" rel="stylesheet" />
+    <!--external css-->
+    <link href="<%=ResolveUrl("~/assets/font-awesome/css/font-awesome.css")%>" rel="stylesheet" type="text/css" />
+    <link href="<%=ResolveUrl("~/assets/css/zabuto_calendar.css")%>" rel="stylesheet" type="text/css" />
+    <link href="<%=ResolveUrl("~/assets/js/gritter/css/jquery.gritter.css")%>" rel="stylesheet" type="text/css" />
+    <link href="<%=ResolveUrl("~/assets/lineicons/style.css")%>" rel="stylesheet" type="text/css" />
+    <link href="<%=ResolveUrl("~/assets/css/jquery-ui.css")%>" rel="stylesheet" type="text/css" />
+
+    <!-- Custom styles for this template -->
+    <link href="<%=ResolveUrl("~/assets/css/style.css")%>" rel="stylesheet" type="text/css" />
+    <link href="<%=ResolveUrl("~/assets/css/style-responsive.css")%>" rel="stylesheet" type="text/css" />
+
+
+    <link href="<%=ResolveUrl("~/assets/css/index.css")%>" rel="stylesheet" type="text/css" />
+    <link href="<%=ResolveUrl("~/assets/metisMenu/dist/metisMenu.css")%>" rel="stylesheet" type="text/css" />
+    <!-- Timeline CSS -->
+    <link href="<%=ResolveUrl("~/assets/dist/css/timeline.css")%>" rel="stylesheet" type="text/css" />
+    <!-- Custom CSS -->
+    <link href="<%=ResolveUrl("~/assets/dist/css/sb-admin-2.css")%>" rel="stylesheet" type="text/css" />
+    <!-- Morris Charts CSS -->
+    <link href="<%=ResolveUrl("~/assets/morrisjs/morris.css")%>" rel="stylesheet" type="text/css" />
+
+
+    <!-- jQuery -->
+    <%--<script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery-2.2.3.min.js") %>"></script>--%>
+
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/jquery/dist/jquery.min.js") %>"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/bootstrap/dist/js/bootstrap.min.js") %>"></script>
+    <!-- Metis Menu Plugin JavaScript -->
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/metisMenu/dist/metisMenu.min.js") %>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/morrisjs/morris.min.js") %>"></script>
+    <!-- Morris Charts JavaScript -->
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/raphael/raphael-min.js") %>"></script>
+    <!-- Custom Theme JavaScript -->
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/dist/js/sb-admin-2.js") %>"></script>
+
+
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/jquery.cookie.js") %>"></script>
+
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/purl.js") %>"></script>
+
+    <!-- dateptimeicker -->
+    <link rel="stylesheet" type="text/css" href="<%=ResolveUrl("~/assets/jQuery-datetimepicker/jquery.datetimepicker.min.css") %>" />
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/jQuery-datetimepicker/jquery.datetimepicker.full.min.js") %>"></script>
+    <!-- 提醒視窗 -->
+    <link rel="stylesheet" type="text/css" href="<%=ResolveUrl("~/assets/jGrowl-master/jquery.jgrowl.min.css") %>" />
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/jGrowl-master/jquery.jgrowl.min.js") %>"></script>
+    <!-- 圖片裁切 -->
+    <script type="text/javascript" src="<%=ResolveUrl("~/assets/js/imagesloaded.pkgd.min.js") %>"></script>
+    <style type="text/css">
+        .jGrowl.center {
+            top: 0;
+            width: 100%;
+            left: 0%;
+        }
+
+        .jGrowl-close {
+            display: none;
+        }
+
+        .jGrowl-closer {
+            background-color: #5E5E5E;
+        }
+
+        div.jGrowl div.success {
+            background-color: #99f19e;
+            color: #6E6E6E;
+            border-color: #99f19e;
+            text-align: center;
+            font-size: large;
+        }
+
+        div.jGrowl div.error {
+            background-color: #f1404b;
+            color: #FFFFFF;
+            border-color: #f1404b;
+            text-align: center;
+            font-size: large;
+        }
+
+        div.jGrowl div.warning {
+            background-color: #feee7d;
+            color: #6E6E6E;
+            border-color: #feee7d;
+            text-align: center;
+            font-size: large;
+        }
+    </style>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </form>
+</body>
+</html>

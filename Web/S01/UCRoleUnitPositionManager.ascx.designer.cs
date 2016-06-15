@@ -2,8 +2,8 @@
 // <自動產生的>
 //     這段程式碼是由工具產生的。
 //
-//     對這個檔案所做的變更可能會造成錯誤的行為，而且如果重新產生程式碼，
-//     所做的變更將會遺失。 
+//     變更這個檔案可能會導致不正確的行為，而且如果已重新產生
+//     程式碼，則會遺失變更。
 // </自動產生的>
 //------------------------------------------------------------------------------
 
@@ -17,7 +17,7 @@ namespace Web.S01 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pl;
         
@@ -26,7 +26,7 @@ namespace Web.S01 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::AjaxControlToolkit.ModalPopupExtender popupWindow_mpe;
         
@@ -35,7 +35,7 @@ namespace Web.S01 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel popupWindow_pl;
         
@@ -44,7 +44,7 @@ namespace Web.S01 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label popupWindow_tilte_lbl;
         
@@ -53,7 +53,7 @@ namespace Web.S01 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button popupWindow_cancel_btn;
         
@@ -62,7 +62,7 @@ namespace Web.S01 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel popupWindow_content_upl;
         
@@ -71,7 +71,7 @@ namespace Web.S01 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater order_rt;
         
@@ -80,7 +80,7 @@ namespace Web.S01 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField orderList_hf;
         
@@ -89,7 +89,7 @@ namespace Web.S01 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button setOrderOK_btn;
         
@@ -98,7 +98,7 @@ namespace Web.S01 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button setOrderCancel_btn;
         
@@ -107,7 +107,7 @@ namespace Web.S01 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label sys_rid_lbl;
         
@@ -116,7 +116,7 @@ namespace Web.S01 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label sys_rname_lbl;
         
@@ -125,7 +125,7 @@ namespace Web.S01 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label sys_uid_lbl;
         
@@ -134,7 +134,7 @@ namespace Web.S01 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label sys_uname_lbl;
         
@@ -143,7 +143,7 @@ namespace Web.S01 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button setOrder_btn;
         
@@ -152,7 +152,7 @@ namespace Web.S01 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel updatePanel1;
         
@@ -161,7 +161,7 @@ namespace Web.S01 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView main_gv;
         
@@ -170,7 +170,7 @@ namespace Web.S01 {
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
-        /// 將移動欄位宣告從設計檔案修改為程式碼後置檔案。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::Web.UserControls.UCGridViewPager ucGridViewPager;
     }

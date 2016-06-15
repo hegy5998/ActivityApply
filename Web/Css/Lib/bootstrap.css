@@ -1,10 +1,10 @@
-/*!
+﻿/*
  * Bootstrap v3.2.0 (http://getbootstrap.com)
  * Copyright 2011-2014 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
-/*! normalize.css v3.0.1 | MIT License | git.io/normalize */
+/* normalize.css v3.0.1 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
   -webkit-text-size-adjust: 100%;
@@ -2059,7 +2059,7 @@ pre code {
   }
 }
 table {
-  background-color: transparent;
+  background-color: #FFFFFF;
 }
 th {
   text-align: center;
@@ -2077,7 +2077,7 @@ th {
 .table > tfoot > tr > td {
   padding: 8px;
   line-height: 1.42857143;
-  vertical-align: top;
+  vertical-align: middle;
   border-top: 1px solid #ddd;
 }
 .table > thead > tr > th {
@@ -2635,7 +2635,7 @@ select[multiple].input-lg {
 .help-block {
   display: block;
   margin-top: 5px;
-  margin-bottom: 10px;
+  /*margin-bottom: 10px;*/
   color: #737373;
 }
 @media (min-width: 768px) {
@@ -2739,7 +2739,8 @@ select[multiple].input-lg {
           user-select: none;
   background-image: none;
   border: 1px solid transparent;
-  border-radius: 4px;
+  border-radius: 4px;  
+  font-family: '微軟正黑體',sans-serif;
 }
 .btn:focus,
 .btn:active:focus,
@@ -2772,8 +2773,8 @@ fieldset[disabled] .btn {
 }
 .btn-default {
   color: #333;
-  background-color: #768094;
-  border-color: #768094;
+  background-color: #ffffff;
+  border-color: #d8d8d8;
 }
 .btn-default:hover,
 .btn-default:focus,
@@ -4611,7 +4612,6 @@ a.thumbnail.active {
   color: #333;
 }
 .alert {
-  padding: 15px;
   margin-bottom: 20px;
   border: 1px solid transparent;
   border-radius: 4px;
@@ -5003,7 +5003,7 @@ a.list-group-item-danger.active:focus {
           box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
 }
 .panel-body {
-  padding: 0px;
+  padding: 15px;
 }
 .panel-heading {
   padding: 10px 15px;
@@ -5173,7 +5173,7 @@ a.list-group-item-danger.active:focus {
   border: 0;
 }
 .panel-group {
-  margin-bottom: 20px;
+  margin-bottom: 7px;
 }
 .panel-group .panel {
   margin-bottom: 0;

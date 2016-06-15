@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true" CodeBehind="S01000501.aspx.cs" Inherits="Web.S01.S01000501" %>
+
 <%@ Import Namespace="Util" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 <%@ Register Src="~/UserControls/UCSystemModule.ascx" TagPrefix="uc1" TagName="UCSystemModule" %>
@@ -7,13 +8,13 @@
     <script type="text/javascript" src="<%=ResolveUrl("~/Scripts/Lib/jquery-sortable-0.9.13.js") %>"></script>
     <style type="text/css">
         body.dragging, body.dragging * {
-          cursor: pointer !important;
+            cursor: pointer !important;
         }
 
         .dragged {
-          position: absolute;
-          opacity: 0.5;
-          z-index: 2000;
+            position: absolute;
+            opacity: 0.5;
+            z-index: 2000;
         }
 
         ol#orderList {
@@ -21,16 +22,17 @@
             padding-left: 25px;
         }
 
-        ol#orderList li {
-            cursor: pointer;
-        }
+            ol#orderList li {
+                cursor: pointer;
+            }
 
-        ol#orderList li.placeholder {
-          position: relative;
-        }
-        ol#orderList li.placeholder:before {
-          position: absolute;
-        }
+                ol#orderList li.placeholder {
+                    position: relative;
+                }
+
+                    ol#orderList li.placeholder:before {
+                        position: absolute;
+                    }
     </style>
     <script type="text/javascript">
         function setOrderList() {
@@ -43,15 +45,16 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="mainContentSubFunction_cph" runat="server">
-    <asp:Button ID="setOrder_btn" runat="server" Text="設定順序" OnClick="setOrder_btn_Click" UseSubmitBehavior="false" />
+    <asp:Button ID="setOrder_btn" runat="server" CssClass="btn btn-default" Text="設定順序" OnClick="setOrder_btn_Click" UseSubmitBehavior="false" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="mainContent_cph" runat="server">
 
-    <asp:ModalPopupExtender ID="popupWindow_mpe" runat="server" 
-        PopupControlID="popupWindow_pl" 
-        TargetControlID="popupWindow_cancel_btn" 
-        BackgroundCssClass="popupWindowOverlay"></asp:ModalPopupExtender>
-    <asp:Panel ID="popupWindow_pl" style="display:none;overflow:visible;width:300px;" class="popupWindow" runat="server">
+    <asp:ModalPopupExtender ID="popupWindow_mpe" runat="server"
+        PopupControlID="popupWindow_pl"
+        TargetControlID="popupWindow_cancel_btn"
+        BackgroundCssClass="popupWindowOverlay">
+    </asp:ModalPopupExtender>
+    <asp:Panel ID="popupWindow_pl" Style="display: none; overflow: visible; width: 300px;" class="popupWindow" runat="server">
         <div class="popupWindowHeader">
             <div class="title">
                 <asp:Label ID="popupWindow_tilte_lbl" runat="server" Text="設定順序"></asp:Label>
@@ -59,7 +62,7 @@
             <asp:Button ID="popupWindow_cancel_btn" CssClass="close" runat="server" Text="關閉" ToolTip="關閉" UseSubmitBehavior="False" OnClick="popupWindow_cancel_btn_Click" />
         </div>
         <div class="popupWindowContent">
-            <asp:UpdatePanel runat="server" ID="popupWindow_content_upl" style="display: inline-block; min-width:100%">
+            <asp:UpdatePanel runat="server" ID="popupWindow_content_upl" style="display: inline-block; min-width: 100%">
                 <ContentTemplate>
                     <ol id="orderList">
                         <asp:Repeater ID="order_rt" runat="server">
@@ -70,8 +73,8 @@
                         </asp:Repeater>
                     </ol>
                     <asp:HiddenField ID="orderList_hf" runat="server" />
-                    <div class="center" style="margin-top:8px">
-                        <asp:Button ID="setOrderOK_btn" runat="server" Text="儲存" OnClick="setOrderOK_btn_Click" OnClientClick="setOrderList()" />&nbsp;<asp:Button ID="setOrderCancel_btn" runat="server" Text="取消"  OnClick="popupWindow_cancel_btn_Click" />
+                    <div class="center" style="margin-top: 8px">
+                        <asp:Button ID="setOrderOK_btn" runat="server" CssClass="btn btn-default" Text="儲存" OnClick="setOrderOK_btn_Click" OnClientClick="setOrderList()" />&nbsp;<asp:Button ID="setOrderCancel_btn" runat="server" CssClass="btn btn-default" Text="取消" OnClick="popupWindow_cancel_btn_Click" />
                     </div>
                 </ContentTemplate>
             </asp:UpdatePanel>
@@ -80,31 +83,56 @@
 
     <div class="opBox">
         <uc1:UCSystemModule runat="server" ID="ucSystemModule" EnableModule="True" EnableShowAllModule="True" EnableShowAllSystem="False" />
-    &nbsp;<span class="alert">※ [連結]空白的作業，不會顯示在Menu。</span></div>
+        &nbsp;<span class="alert">※ [連結]空白的作業，不會顯示在Menu。</span>
+    </div>
     <asp:GridView ID="main_gv" runat="server" AutoGenerateColumns="False" ShowHeaderWhenEmpty="True" OnRowCancelingEdit="main_gv_RowCancelingEdit" OnRowCommand="main_gv_RowCommand" OnRowEditing="main_gv_RowEditing" OnRowDataBound="main_gv_RowDataBound" OnRowUpdating="main_gv_RowUpdating" OnRowDeleting="main_gv_RowDeleting" OnSorting="main_gv_Sorting">
         <Columns>
             <asp:TemplateField ShowHeader="False" HeaderText="操作">
                 <EditItemTemplate>
-                    &nbsp;<asp:Button ID="save_btn" runat="server" CommandName="Update" CssClass="btnGrv update" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
-                    &nbsp;<asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="btnGrv cancel" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                    <span style="position: relative;">
+                        <i class="fa fa-floppy-o btn btn-success btn-xs" aria-hidden="true"></i>
+                        <asp:Button ID="save_btn" runat="server" CommandName="Update" CssClass="movedown" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
+                    </span>
+                    &nbsp;                   
+                    <span style="position: relative;">
+                        <i class="fa fa-undo btn btn-warning btn-xs" aria-hidden="true"></i>
+                        <asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="movedown" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                    </span>
                     <asp:HiddenField ID="old_sys_mid_hf" runat="server" Value='<%# Eval("Sys_mid") %>' />
                     <asp:HiddenField ID="old_sys_pid_hf" runat="server" Value='<%# Eval("Sys_pid") %>' />
                 </EditItemTemplate>
                 <FooterTemplate>
-                    <asp:Button ID="save_btn" runat="server" CommandName="AddSave" CssClass="btnGrv update" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
-                    &nbsp;<asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="btnGrv cancel" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                    <span style="position: relative;">
+                        <i class="fa fa-floppy-o btn btn-success btn-xs" aria-hidden="true"></i>
+                        <asp:Button ID="save_btn" runat="server" CommandName="AddSave" CssClass="movedown" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
+                    </span>
+                    &nbsp;                   
+                    <span style="position: relative;">
+                        <i class="fa fa-undo btn btn-warning btn-xs" aria-hidden="true"></i>
+                        <asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="movedown" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                    </span>
                 </FooterTemplate>
                 <HeaderTemplate>
-                    <asp:Button ID="add_btn" runat="server" CommandName="Add" CssClass="btnGrv add" Text="新增" ToolTip="新增" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                    <span style="position: relative;">
+                        <i class="fa fa-plus btn btn-info btn-xs" aria-hidden="true"></i>
+                        <asp:Button ID="add_btn" runat="server" CommandName="Add" CssClass="movedown" Text="新增" ToolTip="新增" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                    </span>
                 </HeaderTemplate>
                 <ItemTemplate>
-                    <asp:Button ID="edit_btn" runat="server" CommandName="Edit" CssClass="btnGrv edit" Text="編輯" ToolTip="編輯" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
-                    &nbsp;<asp:Button ID="delete_btn" runat="server" CommandName="Delete" CssClass="btnGrv delete" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                    <span style="position: relative;">
+                        <i class="fa fa-pencil btn btn-primary btn-xs" aria-hidden="true"></i>
+                        <asp:Button ID="edit_btn" runat="server" CommandName="Edit" CssClass="movedown" Text="編輯" ToolTip="編輯" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                    </span>
+                    &nbsp;
+                    <span style="position: relative;">
+                        <i class="fa fa-trash-o btn btn-danger btn-xs" aria-hidden="true"></i>
+                        <asp:Button ID="delete_btn" runat="server" CommandName="Delete" CssClass="movedown" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                    </span>
                     <asp:HiddenField ID="old_sys_pid_hf" runat="server" Value='<%# Eval("Sys_pid") %>' />
                     <asp:HiddenField ID="rowDefaultTriggerControlID_hf" runat="server" EnableViewState="False" Value="edit_btn" />
                 </ItemTemplate>
                 <FooterStyle HorizontalAlign="Center" />
-                <HeaderStyle Width="70px" />
+                <HeaderStyle Width="80px" />
                 <ItemStyle HorizontalAlign="Center" Wrap="False" />
             </asp:TemplateField>
             <asp:TemplateField HeaderText="系統&lt;br/&gt;代碼" SortExpression="Sys_id">
@@ -229,7 +257,7 @@
                     </asp:DropDownList>
                 </FooterTemplate>
                 <ItemTemplate>
-                    <asp:Label ID="Label11" runat="server" Text='<%# (Eval("Sys_show") ?? "").ToString().Equals("Y") ? "顯示":"<span style=\"color:blue\">隱藏</span>" %>' ></asp:Label>
+                    <asp:Label ID="Label11" runat="server" Text='<%# (Eval("Sys_show") ?? "").ToString().Equals("Y") ? "顯示":"<span style=\"color:blue\">隱藏</span>" %>'></asp:Label>
                 </ItemTemplate>
                 <FooterStyle HorizontalAlign="Center" />
                 <HeaderStyle Width="75px" />
@@ -238,11 +266,21 @@
             <asp:TemplateField HeaderText="子功能" ShowHeader="False" SortExpression="Sys_cid_count">
                 <EditItemTemplate>
                     <asp:Label ID="Label8" runat="server" Text='<%# CommonConvert.GetIntOrZero(Eval("Sys_cid_count")) > 0 ? "<span style=\"color:blue\">" + Eval("Sys_cid_count") +"</span>" : "0" %>'></asp:Label>
-                    &nbsp;<asp:Button ID="set_btn" runat="server" CommandName="Set" CssClass="btnGrv set" Text="設定" ToolTip="設定" UseSubmitBehavior="False" />
+                    &nbsp;
+                   
+                    <span style="position: relative;">
+                        <i class="fa fa-cog fa-lg" aria-hidden="true"></i>
+                        <asp:Button ID="set_btn" runat="server" CommandName="Set" CssClass="movedown" Text="設定" ToolTip="設定" UseSubmitBehavior="False" />
+                    </span>
                 </EditItemTemplate>
                 <ItemTemplate>
                     <asp:Label ID="Label8" runat="server" Text='<%# CommonConvert.GetIntOrZero(Eval("Sys_cid_count")) > 0 ? "<span style=\"color:blue\">" + Eval("Sys_cid_count") +"</span>" : "0" %>'></asp:Label>
-                    &nbsp;<asp:Button ID="set_btn" runat="server" CommandName="Set" CssClass="btnGrv set" Text="設定" ToolTip="設定" UseSubmitBehavior="False" />
+                    &nbsp;
+                   
+                    <span style="position: relative;">
+                        <i class="fa fa-cog fa-lg" aria-hidden="true"></i>
+                        <asp:Button ID="set_btn" runat="server" CommandName="Set" CssClass="movedown" Text="設定" ToolTip="設定" UseSubmitBehavior="False" />
+                    </span>
                 </ItemTemplate>
                 <HeaderStyle Width="60px" />
                 <ItemStyle HorizontalAlign="Center" />
@@ -261,7 +299,7 @@
                     </asp:DropDownList>
                 </FooterTemplate>
                 <ItemTemplate>
-                    <asp:Label ID="Label1" runat="server" Text='<%# (Eval("Sys_enable") ?? "").ToString().Equals("Y") ? "啟用":"<span style=\"color:red\">停用</span>" %>' ></asp:Label>
+                    <asp:Label ID="Label1" runat="server" Text='<%# (Eval("Sys_enable") ?? "").ToString().Equals("Y") ? "啟用":"<span style=\"color:red\">停用</span>" %>'></asp:Label>
                 </ItemTemplate>
                 <FooterStyle HorizontalAlign="Center" />
                 <HeaderStyle Width="65px" />
@@ -280,12 +318,12 @@
                 </asp:UpdatePanel>
             </div>
             <asp:Button ID="controlSet_cancel_btn" CssClass="close" runat="server" Text="關閉" ToolTip="關閉" OnClick="controlSet_cancel_btn_Click" UseSubmitBehavior="False" />
-            <asp:Button ID="controlSet_OK_btn" CssClass="open"  runat="server" Text="開啟" ToolTip="開啟" UseSubmitBehavior="False" />
+            <asp:Button ID="controlSet_OK_btn" CssClass="open" runat="server" Text="開啟" ToolTip="開啟" UseSubmitBehavior="False" />
         </div>
         <div class="popupWindowContent">
             <asp:UpdatePanel ID="controlSet_content_upl" runat="server">
                 <ContentTemplate>
-                    <div style="margin-bottom: 5px;"> 
+                    <div style="margin-bottom: 5px;">
                         <asp:Label ID="controlSet_sys_pid_lbl" runat="server"></asp:Label>
                         <asp:Label ID="controlSet_sys_pname_lbl" runat="server"></asp:Label>
                     </div>
@@ -293,26 +331,50 @@
                         <Columns>
                             <asp:TemplateField ShowHeader="False" HeaderText="操作">
                                 <EditItemTemplate>
-                                    &nbsp;<asp:Button ID="save_btn" runat="server" CommandName="Update" CssClass="btnGrv update" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
-                                    &nbsp;<asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="btnGrv cancel" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                                    <span style="position: relative;">
+                                        <i class="fa fa-floppy-o btn btn-success btn-xs" aria-hidden="true"></i>
+                                        <asp:Button ID="save_btn" runat="server" CommandName="Update" CssClass="movedown" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
+                                    </span>
+                                    &nbsp;                   
+                    <span style="position: relative;">
+                        <i class="fa fa-undo btn btn-warning btn-xs" aria-hidden="true"></i>
+                        <asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="movedown" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                    </span>
                                     <asp:HiddenField ID="old_sys_pid_hf" runat="server" Value='<%# Eval("Sys_pid") %>' />
                                     <asp:HiddenField ID="old_sys_cid_hf" runat="server" Value='<%# Eval("Sys_cid") %>' />
                                 </EditItemTemplate>
                                 <FooterTemplate>
-                                    <asp:Button ID="save_btn" runat="server" CommandName="AddSave" CssClass="btnGrv update" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
-                                    &nbsp;<asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="btnGrv cancel" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                                    <span style="position: relative;">
+                                        <i class="fa fa-floppy-o btn btn-success btn-xs" aria-hidden="true"></i>
+                                        <asp:Button ID="save_btn" runat="server" CommandName="AddSave" CssClass="movedown" Text="存檔" ToolTip="存檔" UseSubmitBehavior="False" />
+                                    </span>
+                                    &nbsp;                   
+                    <span style="position: relative;">
+                        <i class="fa fa-undo btn btn-warning btn-xs" aria-hidden="true"></i>
+                        <asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="movedown" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
+                    </span>
                                 </FooterTemplate>
                                 <HeaderTemplate>
-                                    <asp:Button ID="add_btn" runat="server" CommandName="Add" CssClass="btnGrv add" Text="新增" ToolTip="新增" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                                    <span style="position: relative;">
+                                        <i class="fa fa-plus btn btn-info btn-xs" aria-hidden="true"></i>
+                                        <asp:Button ID="add_btn" runat="server" CommandName="Add" CssClass="movedown" Text="新增" ToolTip="新增" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                                    </span>
                                 </HeaderTemplate>
                                 <ItemTemplate>
-                                    <asp:Button ID="edit_btn" runat="server" CommandName="Edit" CssClass="btnGrv edit" Text="編輯" ToolTip="編輯" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
-                                    &nbsp;<asp:Button ID="delete_btn" runat="server" CommandName="Delete" CssClass="btnGrv delete" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                                    <span style="position: relative;">
+                                        <i class="fa fa-pencil btn btn-primary btn-xs" aria-hidden="true"></i>
+                                        <asp:Button ID="edit_btn" runat="server" CommandName="Edit" CssClass="movedown" Text="編輯" ToolTip="編輯" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                                    </span>
+                                    &nbsp;
+                    <span style="position: relative;">
+                        <i class="fa fa-trash-o btn btn-danger btn-xs" aria-hidden="true"></i>
+                        <asp:Button ID="delete_btn" runat="server" CommandName="Delete" CssClass="movedown" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
+                    </span>
                                     <asp:HiddenField ID="rowDefaultTriggerControlID_hf" runat="server" EnableViewState="False" Value="edit_btn" />
                                     <asp:HiddenField ID="sys_pid_hf" runat="server" Value='<%# Eval("Sys_pid") %>' />
                                 </ItemTemplate>
                                 <FooterStyle HorizontalAlign="Center" />
-                                <HeaderStyle Width="70px" />
+                                <HeaderStyle Width="80px" />
                                 <ItemStyle HorizontalAlign="Center" Wrap="False" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="子功能名稱" SortExpression="Sys_cid">

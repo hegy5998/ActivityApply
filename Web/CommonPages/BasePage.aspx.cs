@@ -13,6 +13,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.IO.Compression;
 using BusinessLayer;
+using System.Web.UI.HtmlControls;
 
 namespace Web.CommonPages
 {
@@ -31,6 +32,10 @@ namespace Web.CommonPages
         /// 有使用權限的元件
         /// </summary>
         private List<Sys_processcontrolInfo> _processControlAuth = new List<Sys_processcontrolInfo>();
+        //協作者權限
+        private List<Account_copperateInfo> _copperate = new List<Account_copperateInfo>();
+        //協作者Data
+        private Account_copperateData _copperateData = new Account_copperateData();
         #endregion
 
         #region Property
@@ -218,6 +223,73 @@ namespace Web.CommonPages
             {
                 // 一般頁面元件
                 ctrl.Visible = false;
+            }
+        }
+
+        //活動列表(協作者)判斷權限
+        protected void ManageControlCopperate(object sender)
+        {
+            Control ctrl = sender as Control;
+            Button button = sender as Button;            
+
+            if (button != null)
+            {
+                _copperate = _copperateData.GetDataList(button.CommandArgument.ToString());
+
+                //若是有子功能
+                for (int j = 0; j < _processControl.Count; j++)
+                {
+                    // 子功能元件
+                    if (_processControl[j].Sys_cid == ctrl.ID)
+                    {
+                        for (int i = 0; i < _copperate.Count; i++)
+                        {
+                            //判斷是否為協作者
+                            if (_copperate[i].Cop_id == CommonHelper.GetLoginUser().Act_id)
+                            {
+                                //判斷協作者的權限
+                                if (_copperate[i].Cop_authority == "閱讀")
+                                {
+                                    HtmlGenericControl editActivity_span = (HtmlGenericControl)ctrl.FindControl("editActivity_span");
+                                    HtmlGenericControl delete_span = (HtmlGenericControl)ctrl.FindControl("delete_span");
+                                    HtmlGenericControl edit_span = (HtmlGenericControl)ctrl.FindControl("edit_span");
+                                    button.Enabled = false;
+                                    button.CssClass = "movedown";
+                                    editActivity_span.Visible = false;
+                                    delete_span.Visible = false;
+                                    edit_span.Visible = false;
+                                    button.Style["display"] = "none";
+                                }
+
+                                //協作者不能編輯協作者
+                                if (_processControl[j].Sys_cid == "set_btn")
+                                {
+                                    HtmlGenericControl set_span = (HtmlGenericControl)ctrl.FindControl("set_span");
+                                    button.Enabled = false;
+                                    button.CssClass = "movedown";
+                                    set_span.Visible = false;
+                                    button.Style["display"] = "none";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (_processControl.Where(s => s.Sys_cid == ctrl.ID).Count() > 0)
+                {
+                    // 子功能元件
+                    if (_processControlAuth.Where(s => s.Sys_cid == ctrl.ID).Count() == 0)
+                    {
+                        ctrl.Visible = false;
+                    }
+                }
+                else if (_processModifyAuth == false)
+                {
+                    // 一般頁面元件
+                    ctrl.Visible = false;
+                }
             }
         }
 

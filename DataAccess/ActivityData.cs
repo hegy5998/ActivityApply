@@ -54,6 +54,70 @@ namespace DataAccess
         }
         #endregion
 
+
+        public List<ActivityInfo> GetActivityList(int act_idn)
+        {
+            string sql = @" SELECT   activity.*
+                            FROM    activity
+                            cross apply 
+                                    (select COUNT(*) as num
+                                    from activity_session 
+                                    where   as_act = @act_idn 
+                                            AND act_isopen = 1 
+                                            AND as_isopen = 1
+				                            AND CONVERT(DATETIME, as_date_end, 121) >=  CONVERT(varchar(256), GETDATE(), 121)) as ac_session
+                            WHERE   (act_idn = @act_idn)  AND ac_session.num > 0";
+            IDataParameter[] param = { Db.GetParam("@act_idn", act_idn) };
+            return Db.GetEnumerable<ActivityInfo>(sql, param).ToList();
+        }
+
+
+
+        public DataTable GetActivityAllList(string act_title,string act_class)
+        {
+            string actclass = "";
+            if (act_class != "0")
+            {
+                actclass = "AND (activity.act_class = @act_class  OR 0 = @act_class)" + act_class;
+            }
+            else
+                actclass = "";
+            string sql = @"SELECT activity.act_idn,activity.act_title,activity.act_isopen, act_class,act_image,
+                            ac_session.as_date_start,
+                            ac_session.as_date_end, 
+                            ac_session.as_apply_start, 
+                            ac_session.as_apply_end,session_count.num
+                            FROM activity
+                            OUTER apply (SELECT TOP 1 * 
+                                FROM   (SELECT TOP 1 * 
+                                        FROM   activity_session 
+                                        WHERE  as_act = act_idn 
+                                               AND act_isopen = 1 
+                                               AND as_isopen = 1 
+                                               AND CONVERT(DATETIME, as_apply_end, 121) >= CONVERT(VARCHAR(256), Getdate(), 121)
+                                        ORDER  BY as_date_start
+                                        UNION ALL 
+                                        SELECT TOP 1 * 
+                                        FROM   activity_session 
+                                        WHERE  as_act = act_idn 
+                                               AND act_isopen = 1 
+                                               AND as_isopen = 1 
+                                        ORDER  BY as_date_start) d 
+                                ORDER  BY as_apply_end ) AS ac_session 
+                            cross apply 
+                                    (select COUNT(*) as num
+                                    FROM activity_session 
+								    WHERE as_act = act_idn 
+								    AND as_isopen = 1 
+								    AND CONVERT(DATETIME, as_date_end, 121) >= CONVERT(varchar(256), GETDATE(), 121) )  as session_count
+                            WHERE session_count.num > 0
+                                  AND act_title LIKE @act_title 
+                                  AND (act_class = @act_class  OR 0 = @act_class)
+                            ORDER BY   activity.updtime DESC";
+            IDataParameter[] param = { Db.GetParam("@act_title", act_title),Db.GetParam("@act_class", act_class) };
+            return Db.GetDataTable(sql,param); 
+        }
+
         #region 單筆資料維護
         #region 單筆新增
         /// <summary>
@@ -85,9 +149,8 @@ namespace DataAccess
                 string sql = @"
                     insert into [" + _modelType.GetTableName() + @"] 
                         (" + Db.GetSqlInsertField(_modelType, data_dict) + @", [createid], [createtime], [updid], [updtime]) 
-                    values (" + Db.GetSqlInsertValue(data_dict) + ", '" + loginUser.Act_id + "'"+ ", (" + Db.DbNowTimeSQL + ")"+ ", '" + loginUser.Act_id + "'"+ ", (" + Db.DbNowTimeSQL + ")" + ")";
-                res.AffectedRows = Db.ExecuteNonQuery(trans, sql, Db.GetParam(_modelType, data_dict));
-                if (res.AffectedRows <= 0) res.IsSuccess = false;
+                    values (" + Db.GetSqlInsertValue(data_dict) + ", '" + loginUser.Act_id + "'"+ ", (" + Db.DbNowTimeSQL + ")"+ ", '" + loginUser.Act_id + "'"+ ", (" + Db.DbNowTimeSQL + ")" + ") select @@identity";
+                res.Message = Db.ExecuteScalar(sql, Db.GetParam(_modelType, data_dict)).ToString();
             }
             return res;
         }

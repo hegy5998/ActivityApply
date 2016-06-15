@@ -12,17 +12,19 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 using System.Data;
+using DataAccess.S01;
 
 namespace BusinessLayer.S02
 {
     public class S020102BL : BaseBL
     {
         ActivityData _data = new ActivityData();
-        ActivityData _activitydata = new ActivityData();
         Activity_sessionData _sessiondata = new Activity_sessionData();
         Activity_applyData _applydata = new Activity_applyData();
         Activity_columnData _columnData = new Activity_columnData();
         Activity_sectionData _sectionData = new Activity_sectionData();
+        Activity_classData _classData = new Activity_classData();
+        Activity_statementData _stateData = new Activity_statementData();
 
         #region 更新
         /// <summary>
@@ -42,7 +44,20 @@ namespace BusinessLayer.S02
 
             return res;
         }
+        public CommonResult Session_UpdateData(Dictionary<string, object> oldData_dict, Dictionary<string, object> newData_dict)
+        {
+            var res = CommonHelper.ValidateModel<Model.Activity_sessionInfo>(newData_dict);
+
+            if (res.IsSuccess)
+            {
+                return _sessiondata.UpdateData(oldData_dict, newData_dict);
+            }
+
+            return res;
+        }
         #endregion
+
+
 
         #region 新增
         /// <summary>
@@ -112,9 +127,18 @@ namespace BusinessLayer.S02
         /// </summary>
         /// <param name="dict">資料</param>
         /// <returns></returns>
-        public CommonResult DeleteData(Dictionary<string, object> dict)
+        public CommonResult DeleteActivityData(Dictionary<string, object> dict)
         {
             return _data.DeleteData(dict);
+        }
+
+        public CommonResult DeleteSectionData(Dictionary<string, object> dict)
+        {
+            return _sectionData.DeleteData(dict);
+        }
+        public CommonResult DeleteSessionData(Dictionary<string, object> dict)
+        {
+            return _sessiondata.DeleteData(dict);
         }
         #endregion
 
@@ -126,6 +150,20 @@ namespace BusinessLayer.S02
         public DataTable GetData(Dictionary<string, object> Cond)
         {
             return _data.GetList(Cond);
+        }
+        #endregion
+
+        #region 取得活動列表
+        public List<Activity_classInfo> GetClassList()
+        {
+            return _classData.GetClassList();
+        }
+        #endregion
+
+        #region 取得個資聲明
+        public List<Activity_statementInfo> getStatement()
+        {
+            return _stateData.getStatement();
         }
         #endregion
     }

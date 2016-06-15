@@ -53,6 +53,10 @@ namespace Model.Common
         /// </summary>
         public String SMTP_FROM_NAME { get; set; }
         /// <summary>
+        /// SMTP 是否須帳密登入(Y:是 N:否)
+        /// </summary>
+        public String SMTP_AUTH { get; set; }
+        /// <summary>
         /// SMTP 主機位址
         /// </summary>
         public String SMTP_HOST { get; set; }
@@ -96,5 +100,21 @@ namespace Model.Common
         /// 方案名稱
         /// </summary>
         public String SOLUTION_NAME { get; set; }
+        /// <summary> 
+        /// Google短網址API金鑰 
+        /// </summary> 
+        public String URL_SHORTENER_API_KEY { get; set; }
+        /// <summary> 
+        /// 檔案上傳路徑 
+        /// </summary> 
+        public String UPLOAD_PATH { get; set; }
+        /// <summary> 
+        /// 檔案預覽路徑 
+        /// </summary> 
+        public String UPLOAD_PATH_VIEW { get; set; }
+        /// <summary> 
+        /// 預設圖片 
+        /// </summary> 
+        public String PRESET_PICTURE { get; set; }
     }
 }
