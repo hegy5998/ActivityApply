@@ -60,6 +60,10 @@
       <HintPath>..\packages\NPOI.2.1.3.1\lib\net40\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Ionic.Zip, Version=1.10.0.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.10.0\lib\net20\Ionic.Zip.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -109,19 +113,25 @@
     <Content Include="bin\BusinessLayer.dll" />
     <Content Include="bin\BusinessLayer.pdb" />
     <Content Include="bin\BusinessLayerBase.dll" />
-    <Content Include="bin\BusinessLayerBase.xml" />
     <Content Include="bin\CKEditor.NET.dll" />
-    <Content Include="bin\CKEditor.NET.pdb" />
     <Content Include="bin\DataAccess.dll" />
     <Content Include="bin\DataAccess.pdb" />
     <Content Include="bin\DataAccessBase.dll" />
-    <Content Include="bin\DataAccessBase.xml" />
+    <Content Include="bin\ICSharpCode.SharpZipLib.dll" />
     <Content Include="bin\Model.dll" />
     <Content Include="bin\Model.pdb" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Newtonsoft.Json.xml" />
+    <Content Include="bin\NPOI.dll" />
+    <Content Include="bin\NPOI.OOXML.dll" />
+    <Content Include="bin\NPOI.OOXML.xml" />
+    <Content Include="bin\NPOI.OpenXml4Net.dll" />
+    <Content Include="bin\NPOI.OpenXml4Net.xml" />
+    <Content Include="bin\NPOI.OpenXmlFormats.dll" />
+    <Content Include="bin\NPOI.xml" />
     <Content Include="bin\Util.dll" />
     <Content Include="bin\Util.pdb" />
     <Content Include="bin\UtilBase.dll" />
-    <Content Include="bin\UtilBase.xml" />
     <Content Include="bin\Web.dll" />
     <Content Include="bin\Web.pdb" />
     <Content Include="CommonPages\BasePage.aspx" />
@@ -979,7 +989,6 @@
     <Content Include="Scripts\Lib\zeroclipboard-2.1.6\test\index.html" />
     <Content Include="Scripts\Lib\zeroclipboard-2.1.6\test\shared\private.tests.js" />
     <Content Include="Scripts\Lib\zeroclipboard-2.1.6\test\shared\private.tests.js.html" />
-    <None Include="bin\Web.dll.config" />
     <Content Include="Scripts\Lib\ckeditor\.htaccess" />
     <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\dev\locations.json" />
     <Content Include="Scripts\Lib\ckeditor\skins\ExplaindioVideoFXReview\readme.md" />
@@ -1041,6 +1050,7 @@
     <Content Include="Scripts\Lib\assets\lineicons\fonts\linecons.woff" />
     <Content Include="Css\Lib\_titatoggle.less" />
     <Content Include="packages.config" />
+    <None Include="bin\Web.dll.config" />
     <None Include="Properties\PublishProfiles\Web.pubxml" />
     <Content Include="Scripts\Lib\assets\font-awesome\css\font-awesome.css.map" />
     <Content Include="Scripts\Lib\assets\font-awesome\fonts\fontawesome-webfont.woff2" />

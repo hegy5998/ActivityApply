@@ -7,3 +7,12 @@ C:\Users\Saki\Desktop\ActivityApply\Util\bin\Release\UtilBase.xml
 C:\Users\Saki\Desktop\ActivityApply\Util\obj\Release\Util.csprojResolveAssemblyReference.cache
 C:\Users\Saki\Desktop\ActivityApply\Util\obj\Release\Util.dll
 C:\Users\Saki\Desktop\ActivityApply\Util\obj\Release\Util.pdb
+D:\DeskTop\ActivityApply\Util\bin\Release\Util.dll
+D:\DeskTop\ActivityApply\Util\bin\Release\Util.pdb
+D:\DeskTop\ActivityApply\Util\bin\Release\Model.dll
+D:\DeskTop\ActivityApply\Util\bin\Release\UtilBase.dll
+D:\DeskTop\ActivityApply\Util\bin\Release\Model.pdb
+D:\DeskTop\ActivityApply\Util\bin\Release\UtilBase.xml
+D:\DeskTop\ActivityApply\Util\obj\Release\Util.csprojResolveAssemblyReference.cache
+D:\DeskTop\ActivityApply\Util\obj\Release\Util.dll
+D:\DeskTop\ActivityApply\Util\obj\Release\Util.pdb

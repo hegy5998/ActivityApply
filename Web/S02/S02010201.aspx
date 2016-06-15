@@ -63,13 +63,6 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="mainContentSubFunction_cph" runat="server">
-
-    <%--    <!-- 儲存活動頁面 -->
-    <input type="button" onclick="Save_btn_Click()" value="儲存活動頁面" />
-    <!-- 儲存報名表 -->
-    <input type="button" onclick="Save_Activity_btn_Click()" value="儲存報名表" />
-    <!-- 上傳檔案 -->
-    <input type="button" onclick="upload_File()" value="上傳檔案" />--%>
     <!-- 隱藏按鈕防止按下Enter返回列表 -->
     <asp:Button ID="Button1" runat="server" Text="Button" OnClientClick="return false;" Style="display: none;" />
     <!-- 儲存活動 -->
@@ -128,7 +121,7 @@
                             <div class="project">
                                 <div class="photo-wrapper">
                                     <div class="photo">
-                                        <img class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" alt="" onclick="upload_img()" style="min-width: 100%; min-height: 100%;" />
+                                        <img class="img-responsive" src="../Scripts/Lib/assets/img/fcu.jpg" alt="" onclick="upload_img()" />
                                     </div>
                                     <div class="overlay"></div>
                                 </div>

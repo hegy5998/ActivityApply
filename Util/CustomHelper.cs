@@ -11,6 +11,11 @@ using System.Net.Mail;
 using System.Net;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Data;
+using System.Collections.Specialized;
+using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
+using System.Collections;
 
 namespace Util
 {
@@ -142,5 +147,197 @@ namespace Util
         }
         #endregion
 
+        #region 匯出 Excel
+        public static string ExportExcelFromDataTable(String FileName, List<Dictionary<string, object>> excelList, String ExportPath = "~/")
+        {
+            HSSFWorkbook workbook = new HSSFWorkbook();
+
+            #region 設定格式
+            ICellStyle BasicStyle = workbook.CreateCellStyle();
+            BasicStyle.BorderRight = BasicStyle.BorderBottom = BasicStyle.BorderBottom = BasicStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
+            BasicStyle.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Black.Index;
+            //BasicStyle.WrapText = true;
+
+            ICellStyle StyleInteger = workbook.CreateCellStyle();
+            StyleInteger.CloneStyleFrom(BasicStyle);
+            StyleInteger.DataFormat = workbook.CreateDataFormat().GetFormat("#,##0");
+
+            ICellStyle StyleDecimal1 = workbook.CreateCellStyle();
+            StyleDecimal1.CloneStyleFrom(BasicStyle);
+            StyleDecimal1.DataFormat = workbook.CreateDataFormat().GetFormat("#,##0.0");
+
+            ICellStyle StyleDecimal2 = workbook.CreateCellStyle();
+            StyleDecimal2.CloneStyleFrom(BasicStyle);
+            StyleDecimal2.DataFormat = workbook.CreateDataFormat().GetFormat("#,##0.00");
+
+            ICellStyle StyleDecimal4 = workbook.CreateCellStyle();
+            StyleDecimal4.CloneStyleFrom(BasicStyle);
+            StyleDecimal4.DataFormat = workbook.CreateDataFormat().GetFormat("#,##0.0000");
+
+            ICellStyle StyleDecimal6 = workbook.CreateCellStyle();
+            StyleDecimal6.CloneStyleFrom(BasicStyle);
+            StyleDecimal6.DataFormat = workbook.CreateDataFormat().GetFormat("#,##0.000000");
+
+            ICellStyle StyleDateTime = workbook.CreateCellStyle();
+            StyleDateTime.CloneStyleFrom(BasicStyle);
+            StyleDateTime.DataFormat = workbook.CreateDataFormat().GetFormat("yyyy/mm/dd hh:mm");
+
+            ICellStyle StyleDate = workbook.CreateCellStyle();
+            StyleDate.CloneStyleFrom(BasicStyle);
+            StyleDate.DataFormat = workbook.CreateDataFormat().GetFormat("yyyy/mm/dd");
+            #endregion
+            
+            foreach(Dictionary<string, object> data in excelList)
+            {
+                var dt = data["dt"] as DataTable;
+                var ColumnNames = data["colname"] as OrderedDictionary;
+                var sheetname = data["sheetname"] as string;
+                var Format = data["format"] as Dictionary<string, ITCEnum.NPOIExcelFormat>;
+
+                ISheet sheet = workbook.CreateSheet(sheetname);
+
+                DataColumnCollection dcc = dt.Columns;
+                int RowCounter = 0, i = 0;
+
+                //若沒有表頭資料, 則從DataTable中取得表頭資料
+                if (ColumnNames == null)
+                {
+                    ColumnNames = new OrderedDictionary();
+                    foreach (DataColumn dc in dcc)
+                    {
+                        String ColName = dc.ColumnName.ToUpper().Substring(0, 1) + dc.ColumnName.Substring(1);
+                        ColumnNames[ColName] = ColName;
+                    }
+                }
+
+                IRow row = sheet.CreateRow(RowCounter);
+
+                //寫入表頭
+                foreach (DictionaryEntry item in ColumnNames)
+                {
+                    ICell cell = row.CreateCell(i);
+                    cell.SetCellValue(item.Value.ToString());
+                    cell.CellStyle = BasicStyle;
+                    i++;
+                }
+
+                //若有表頭則需要+1行, 可不要有表頭
+                if (ColumnNames.Count > 0)
+                    RowCounter++;
+
+                //若資料表不是空的
+                if (dt != null)
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        i = 0;
+
+                        row = sheet.CreateRow(RowCounter);
+                        foreach (DictionaryEntry item in ColumnNames)
+                        {
+                            ICell cell = row.CreateCell(i);
+                            cell.CellStyle = BasicStyle;
+                            string CurColName = item.Key.ToString();
+                            if (dcc.Contains(CurColName))
+                            {
+                                //若有指定格式
+                                if (Format != null && Format.ContainsKey(CurColName))
+                                {
+                                    switch (Format[CurColName])
+                                    {
+                                        case ITCEnum.NPOIExcelFormat.Integer:
+                                            cell.SetCellType(CellType.Numeric);
+                                            cell.CellStyle = StyleInteger;
+                                            break;
+                                        case ITCEnum.NPOIExcelFormat.Decimal1:
+                                            cell.SetCellType(CellType.Numeric);
+                                            cell.CellStyle = StyleDecimal1;
+                                            break;
+                                        case ITCEnum.NPOIExcelFormat.Decimal2:
+                                            cell.SetCellType(CellType.Numeric);
+                                            cell.CellStyle = StyleDecimal2;
+                                            break;
+                                        case ITCEnum.NPOIExcelFormat.Decimal4:
+                                            cell.SetCellType(CellType.Numeric);
+                                            cell.CellStyle = StyleDecimal4;
+                                            break;
+                                        case ITCEnum.NPOIExcelFormat.Decimal6:
+                                            cell.SetCellType(CellType.Numeric);
+                                            cell.CellStyle = StyleDecimal6;
+                                            break;
+                                        case ITCEnum.NPOIExcelFormat.DateTime:
+                                            cell.SetCellType(CellType.String);
+                                            cell.CellStyle = StyleDateTime;
+                                            break;
+                                        case ITCEnum.NPOIExcelFormat.Date:
+                                            cell.SetCellType(CellType.String);
+                                            cell.CellStyle = StyleDate;
+                                            break;
+                                        case ITCEnum.NPOIExcelFormat.Formula:
+                                            cell.SetCellType(CellType.Formula);
+                                            break;
+                                        case ITCEnum.NPOIExcelFormat.Other:
+                                            cell.SetCellType(CellType.String);
+                                            //ICellStyle newStyle = workbook.CreateCellStyle();
+                                            //newStyle.CloneStyleFrom(BasicStyle);
+                                            //newStyle.DataFormat = workbook.CreateDataFormat().GetFormat("yyyy/mm/dd");
+                                            break;
+                                    }
+
+                                    ITCEnum.NPOIExcelFormat[] IntArray = { ITCEnum.NPOIExcelFormat.Integer, ITCEnum.NPOIExcelFormat.Decimal2, ITCEnum.NPOIExcelFormat.Decimal4, ITCEnum.NPOIExcelFormat.Decimal6 };
+                                    if (IntArray.Contains(Format[CurColName]))
+                                        cell.SetCellValue((Double)CommonConvert.GetDecimalOrZero(dr[CurColName]));
+                                    else
+                                        cell.SetCellValue(dr[CurColName].ToString());
+                                }
+                                //若為數字
+                                else if (dcc[CurColName].DataType.FullName == "System.Decimal" || dcc[CurColName].DataType.FullName == "System.Integer" || dcc[CurColName].DataType.FullName == "System.Int32")
+                                {
+                                    cell.SetCellType(CellType.Numeric);
+                                    cell.SetCellValue((Double)CommonConvert.GetDecimalOrZero(dr[CurColName]));
+                                }
+                                //若為時間
+                                else if (dcc[CurColName].DataType.FullName == "System.DateTime")
+                                {
+                                    cell.CellStyle.DataFormat = workbook.CreateDataFormat().GetFormat("yyyy/MM/dd HH:mm:ss");
+                                    cell.SetCellValue((DateTime)dr[CurColName]);
+                                }
+                                else
+                                {
+                                    string str = dr[CurColName] == null ? "" : dr[CurColName].ToString();
+
+                                    //若字串第一個字是文字，則設定為公式
+                                    if (!string.IsNullOrWhiteSpace(str) && str.Length > 0 && str.Substring(0, 1) == "=")
+                                    {
+                                        cell.SetCellFormula(str);
+                                    }
+                                    else
+                                        cell.SetCellValue(str);
+                                }
+                            }
+
+                            i++;
+                        }
+                        RowCounter++;
+                    }
+
+                    //設定自動欄寬
+                    for (int j = 0; j < i; j++)
+                    {
+                        sheet.AutoSizeColumn(j);
+                    }
+                }
+            }
+
+            // 儲存檔案路徑
+            string saveFilePath = ExportPath + FileName + ".xls";
+            // 報表寫入資料流
+            FileStream file = new FileStream(HttpContext.Current.Server.MapPath(saveFilePath), FileMode.Create);
+            workbook.Write(file);
+            file.Close();
+            // 回傳產出檔案路徑
+            return saveFilePath;
+        }
+        #endregion
     }
 }

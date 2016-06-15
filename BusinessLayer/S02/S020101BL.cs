@@ -12,11 +12,13 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 using System.Data;
+using System.Collections.Specialized;
 
 namespace BusinessLayer.S02
 {
     public class S020101BL : BaseBL
     {
+        private static string MESSAGE_TITLE = "S020101BL";
         //活動
         ActivityData _activitydata = new ActivityData();
         //場次
@@ -693,6 +695,599 @@ namespace BusinessLayer.S02
         {
             return _data.GetQuestionList(acc_act);
         }
+        #endregion
+
+        #region 匯出Excel
+
+        #region 取得活動資訊
+        public BLResult<Dictionary<string, object>> GetActivityData(int act_idn)
+        {
+            var result = new BLResult<Dictionary<string, object>>("", MESSAGE_TITLE, ITCEnum.PopupMessageType.Success);
+
+            #region -- 執行查詢 --
+            if (result.PopupMessageType != ITCEnum.PopupMessageType.Error)
+            {
+                var dt = _data.getActivityData(act_idn);
+                var param = new Dictionary<string, object>();
+                param["title"] = dt.Rows[0]["act_title"].ToString();
+
+                result.Result = new Dictionary<string, object>();
+                result.Result["dt"] = dt;
+                result.Result["param"] = param;
+
+                if (dt.Rows.Count == 0)
+                {
+                    result.Message = "查無資料。";
+                    result.PopupMessageType = ITCEnum.PopupMessageType.Warning;
+                }
+            }
+            #endregion
+
+            return result;
+        }
+
+        public BLResult<Dictionary<string, object>> GetActivityExcelData(Dictionary<string, object> Data)
+        {
+            var result = new BLResult<Dictionary<string, object>>("", MESSAGE_TITLE, ITCEnum.PopupMessageType.Success);
+
+            #region -- 資料格式驗證 --
+            if (Data == null)
+            {
+                result.Message = "查無資料，無法匯出。";
+                result.PopupMessageType = ITCEnum.PopupMessageType.Error;
+            }
+            else if (Data["dt"] == null)
+            {
+                result.Message = "查無資料，無法匯出。";
+                result.PopupMessageType = ITCEnum.PopupMessageType.Error;
+            }
+            else if ((Data["dt"] as DataTable).Rows.Count == 0)
+            {
+                result.Message = "查無資料，無法匯出。";
+                result.PopupMessageType = ITCEnum.PopupMessageType.Error;
+            }
+            #endregion
+
+            #region -- 執行製檔 --
+            if (result.PopupMessageType != ITCEnum.PopupMessageType.Error)
+            {
+                var data = Data["dt"] as DataTable;
+                var param = Data["param"] as Dictionary<string, object>;
+
+                DataTable dt = new DataTable();
+                OrderedDictionary colname = new OrderedDictionary();
+                string filename = param["title"].ToString();
+                string sheetname = "活動";
+                Dictionary<string, ITCEnum.NPOIExcelFormat> format = new Dictionary<string, ITCEnum.NPOIExcelFormat>();
+
+                #region - 建立欄位 -
+                colname.Add("act_idn", "活動序號");
+                colname.Add("act_title", "活動標題");
+                colname.Add("act_desc", "活動描述");
+                colname.Add("act_unit", "主辦單位");
+                colname.Add("act_contact_name", "聯絡人");
+                colname.Add("act_contact_phone", "聯絡電話");
+                colname.Add("act_relate_file", "附加檔案");
+                colname.Add("act_relate_link", "相關連結");
+                colname.Add("act_short_link", "短網址");
+                colname.Add("act_num_limit", "場次報名次數限制");
+                colname.Add("act_as", "個資聲明");
+                colname.Add("act_isopen", "是否發佈");
+                colname.Add("act_class", "活動分類");
+                colname.Add("act_image", "活動圖片");
+                colname.Add("createtime", "建立時間");
+                colname.Add("createid", "建立者");
+                colname.Add("updid", "異動人");
+                colname.Add("updtime", "異動時間");
+
+                dt.Columns.Add("act_idn", typeof(int));
+                dt.Columns.Add("act_title", typeof(string));
+                dt.Columns.Add("act_desc", typeof(string));
+                dt.Columns.Add("act_unit", typeof(string));
+                dt.Columns.Add("act_contact_name", typeof(string));
+                dt.Columns.Add("act_relate_file", typeof(string));
+                dt.Columns.Add("act_relate_link", typeof(string));
+                dt.Columns.Add("act_short_link", typeof(string));
+                dt.Columns.Add("act_num_limit", typeof(int));
+                dt.Columns.Add("act_as", typeof(int));
+                dt.Columns.Add("act_isopen", typeof(int));
+                dt.Columns.Add("act_class", typeof(int));
+                dt.Columns.Add("act_image", typeof(string));
+                dt.Columns.Add("createtime", typeof(DateTime));
+                dt.Columns.Add("createid", typeof(string));
+                dt.Columns.Add("updid", typeof(string));
+                dt.Columns.Add("updtime", typeof(DateTime));
+
+                format.Add("act_idn", ITCEnum.NPOIExcelFormat.Integer);
+                format.Add("act_title", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("act_desc", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("act_unit", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("act_contact_name", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("act_relate_file", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("act_relate_link", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("act_short_link", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("act_num_limit", ITCEnum.NPOIExcelFormat.Integer);
+                format.Add("act_as", ITCEnum.NPOIExcelFormat.Integer);
+                format.Add("act_isopen", ITCEnum.NPOIExcelFormat.Integer);
+                format.Add("act_class", ITCEnum.NPOIExcelFormat.Integer);
+                format.Add("act_image", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("createtime", ITCEnum.NPOIExcelFormat.DateTime);
+                format.Add("createid", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("updid", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("updtime", ITCEnum.NPOIExcelFormat.DateTime);
+                #endregion
+
+                #region - 塞資料 -
+                for (int i = 0; i < data.Rows.Count; i++)
+                {
+                    var dr = dt.NewRow();
+
+                    dr["act_idn"] = data.Rows[i]["act_idn"];
+                    dr["act_title"] = data.Rows[i]["act_title"];
+                    dr["act_desc"] = data.Rows[i]["act_desc"];
+                    dr["act_unit"] = data.Rows[i]["act_unit"];
+                    dr["act_contact_name"] = data.Rows[i]["act_contact_name"];
+                    dr["act_relate_file"] = data.Rows[i]["act_relate_file"];
+                    dr["act_relate_link"] = data.Rows[i]["act_relate_link"];
+                    dr["act_short_link"] = data.Rows[i]["act_short_link"];
+                    dr["act_num_limit"] = data.Rows[i]["act_num_limit"];
+                    dr["act_as"] = data.Rows[i]["act_as"];
+                    dr["act_isopen"] = data.Rows[i]["act_isopen"];
+                    dr["act_class"] = data.Rows[i]["act_class"];
+                    dr["act_image"] = data.Rows[i]["act_image"];
+                    dr["createtime"] = data.Rows[i]["createtime"];
+                    dr["createid"] = data.Rows[i]["createid"];
+                    dr["updid"] = data.Rows[i]["updid"];
+                    dr["updtime"] = data.Rows[i]["updtime"];
+
+                    dt.Rows.Add(dr);
+                }
+                #endregion
+
+                result.Result = new Dictionary<string, object>();
+                result.Result.Add("dt", dt);
+                result.Result.Add("colname", colname);
+                result.Result.Add("filename", filename);
+                result.Result.Add("format", format);
+                result.Result.Add("sheetname", sheetname);
+            }
+            #endregion
+
+            return result;
+        }
+        #endregion
+
+        #region 取得場次資訊
+        public BLResult<Dictionary<string, object>> GetSessionData(int as_act)
+        {
+            var result = new BLResult<Dictionary<string, object>>("", MESSAGE_TITLE, ITCEnum.PopupMessageType.Success);
+
+            #region -- 執行查詢 --
+            if (result.PopupMessageType != ITCEnum.PopupMessageType.Error)
+            {
+                var dt = _data.getSessionData(as_act);
+                var param = new Dictionary<string, object>();
+                param["title"] = dt.Rows[0]["as_title"].ToString();
+
+                result.Result = new Dictionary<string, object>();
+                result.Result["dt"] = dt;
+                result.Result["param"] = param;
+
+                if (dt.Rows.Count == 0)
+                {
+                    result.Message = "查無資料。";
+                    result.PopupMessageType = ITCEnum.PopupMessageType.Warning;
+                }
+            }
+            #endregion
+
+            return result;
+        }
+
+        public BLResult<Dictionary<string, object>> GetSessionExcelData(Dictionary<string, object> Data)
+        {
+            var result = new BLResult<Dictionary<string, object>>("", MESSAGE_TITLE, ITCEnum.PopupMessageType.Success);
+
+            #region -- 資料格式驗證 --
+            if (Data == null)
+            {
+                result.Message = "查無資料，無法匯出。";
+                result.PopupMessageType = ITCEnum.PopupMessageType.Error;
+            }
+            else if (Data["dt"] == null)
+            {
+                result.Message = "查無資料，無法匯出。";
+                result.PopupMessageType = ITCEnum.PopupMessageType.Error;
+            }
+            else if ((Data["dt"] as DataTable).Rows.Count == 0)
+            {
+                result.Message = "查無資料，無法匯出。";
+                result.PopupMessageType = ITCEnum.PopupMessageType.Error;
+            }
+            #endregion
+
+            #region -- 執行製檔 --
+            if (result.PopupMessageType != ITCEnum.PopupMessageType.Error)
+            {
+                var data = Data["dt"] as DataTable;
+                var param = Data["param"] as Dictionary<string, object>;
+
+                DataTable dt = new DataTable();
+                OrderedDictionary colname = new OrderedDictionary();
+                string filename = param["title"].ToString();
+                string sheetname = "場次";
+                Dictionary<string, ITCEnum.NPOIExcelFormat> format = new Dictionary<string, ITCEnum.NPOIExcelFormat>();
+
+                #region - 建立欄位 -
+                colname.Add("as_idn", "場次序號");
+                colname.Add("as_act", "活動序號");
+                colname.Add("as_title", "場次名稱");
+                colname.Add("as_remark", "場次備註");
+                colname.Add("as_relate_link", "場次相關連結");
+                colname.Add("as_short_link", "場次短網址");
+                colname.Add("as_date_start", "活動開始日期");
+                colname.Add("as_date_end", "活動結束日期");
+                colname.Add("as_apply_start", "開始報名時間");
+                colname.Add("as_apply_end", "結束報名時間");
+                colname.Add("as_position", "活動地點");
+                colname.Add("as_gmap", "Google Map");
+                colname.Add("as_num_limit", "報名人數限制");
+                colname.Add("as_isopen", "場次是否發佈");
+                colname.Add("createid", "建立者");
+                colname.Add("createtime", "建立時間");
+                colname.Add("updid", "異動人");
+                colname.Add("updtime", "異動時間");
+
+                dt.Columns.Add("as_idn", typeof(int));
+                dt.Columns.Add("as_act", typeof(int));
+                dt.Columns.Add("as_title", typeof(string));
+                dt.Columns.Add("as_remark", typeof(string));
+                dt.Columns.Add("as_relate_link", typeof(string));
+                dt.Columns.Add("as_short_link", typeof(string));
+                dt.Columns.Add("as_date_start", typeof(DateTime));
+                dt.Columns.Add("as_date_end", typeof(DateTime));
+                dt.Columns.Add("as_apply_start", typeof(DateTime));
+                dt.Columns.Add("as_apply_end", typeof(DateTime));
+                dt.Columns.Add("as_position", typeof(string));
+                dt.Columns.Add("as_gmap", typeof(string));
+                dt.Columns.Add("as_num_limit", typeof(int));
+                dt.Columns.Add("as_isopen", typeof(int));
+                dt.Columns.Add("createid", typeof(string));
+                dt.Columns.Add("createtime", typeof(DateTime));
+                dt.Columns.Add("updid", typeof(string));
+                dt.Columns.Add("updtime", typeof(DateTime));
+
+                format.Add("as_idn", ITCEnum.NPOIExcelFormat.Integer);
+                format.Add("as_act", ITCEnum.NPOIExcelFormat.Integer);
+                format.Add("as_title", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("as_remark", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("as_relate_link", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("as_short_link", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("as_date_start", ITCEnum.NPOIExcelFormat.DateTime);
+                format.Add("as_date_end", ITCEnum.NPOIExcelFormat.DateTime);
+                format.Add("as_apply_start", ITCEnum.NPOIExcelFormat.DateTime);
+                format.Add("as_apply_end", ITCEnum.NPOIExcelFormat.DateTime);
+                format.Add("as_position", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("as_gmap", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("as_num_limit", ITCEnum.NPOIExcelFormat.Integer);
+                format.Add("as_isopen", ITCEnum.NPOIExcelFormat.Integer);
+                format.Add("createid", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("createtime", ITCEnum.NPOIExcelFormat.DateTime);
+                format.Add("updid", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("updtime", ITCEnum.NPOIExcelFormat.DateTime);
+                #endregion
+
+                #region - 塞資料 -
+                for (int i = 0; i < data.Rows.Count; i++)
+                {
+                    var dr = dt.NewRow();
+
+                    dr["as_idn"] = data.Rows[i]["as_idn"];
+                    dr["as_act"] = data.Rows[i]["as_act"];
+                    dr["as_title"] = data.Rows[i]["as_title"];
+                    dr["as_remark"] = data.Rows[i]["as_remark"];
+                    dr["as_relate_link"] = data.Rows[i]["as_relate_link"];
+                    dr["as_short_link"] = data.Rows[i]["as_short_link"];
+                    dr["as_date_start"] = data.Rows[i]["as_date_start"];
+                    dr["as_date_end"] = data.Rows[i]["as_date_end"];
+                    dr["as_apply_start"] = data.Rows[i]["as_apply_start"];
+                    dr["as_apply_end"] = data.Rows[i]["as_apply_end"];
+                    dr["as_position"] = data.Rows[i]["as_position"];
+                    dr["as_gmap"] = data.Rows[i]["as_gmap"];
+                    dr["as_num_limit"] = data.Rows[i]["as_num_limit"];
+                    dr["as_isopen"] = data.Rows[i]["as_isopen"];
+                    dr["createid"] = data.Rows[i]["createid"];
+                    dr["createtime"] = data.Rows[i]["createtime"];
+                    dr["updid"] = data.Rows[i]["updid"];
+                    dr["updtime"] = data.Rows[i]["updtime"];
+
+                    dt.Rows.Add(dr);
+                }
+                #endregion
+
+                result.Result = new Dictionary<string, object>();
+                result.Result.Add("dt", dt);
+                result.Result.Add("colname", colname);
+                result.Result.Add("filename", filename);
+                result.Result.Add("format", format);
+                result.Result.Add("sheetname", sheetname);
+            }
+            #endregion
+
+            return result;
+        }
+        #endregion
+
+        #region 取得活動報名區塊資訊
+        public BLResult<Dictionary<string, object>> GetSectionData(int acs_act)
+        {
+            var result = new BLResult<Dictionary<string, object>>("", MESSAGE_TITLE, ITCEnum.PopupMessageType.Success);
+
+            #region -- 執行查詢 --
+            if (result.PopupMessageType != ITCEnum.PopupMessageType.Error)
+            {
+                var dt = _data.getSectionData(acs_act);
+                var param = new Dictionary<string, object>();
+                param["title"] = dt.Rows[0]["acs_title"].ToString();
+
+                result.Result = new Dictionary<string, object>();
+                result.Result["dt"] = dt;
+                result.Result["param"] = param;
+
+                if (dt.Rows.Count == 0)
+                {
+                    result.Message = "查無資料。";
+                    result.PopupMessageType = ITCEnum.PopupMessageType.Warning;
+                }
+            }
+            #endregion
+
+            return result;
+        }
+
+        public BLResult<Dictionary<string, object>> GetSectionExcelData(Dictionary<string, object> Data)
+        {
+            var result = new BLResult<Dictionary<string, object>>("", MESSAGE_TITLE, ITCEnum.PopupMessageType.Success);
+
+            #region -- 資料格式驗證 --
+            if (Data == null)
+            {
+                result.Message = "查無資料，無法匯出。";
+                result.PopupMessageType = ITCEnum.PopupMessageType.Error;
+            }
+            else if (Data["dt"] == null)
+            {
+                result.Message = "查無資料，無法匯出。";
+                result.PopupMessageType = ITCEnum.PopupMessageType.Error;
+            }
+            else if ((Data["dt"] as DataTable).Rows.Count == 0)
+            {
+                result.Message = "查無資料，無法匯出。";
+                result.PopupMessageType = ITCEnum.PopupMessageType.Error;
+            }
+            #endregion
+
+            #region -- 執行製檔 --
+            if (result.PopupMessageType != ITCEnum.PopupMessageType.Error)
+            {
+                var data = Data["dt"] as DataTable;
+                var param = Data["param"] as Dictionary<string, object>;
+
+                DataTable dt = new DataTable();
+                OrderedDictionary colname = new OrderedDictionary();
+                string filename = param["title"].ToString();
+                string sheetname = "活動報名區塊";
+                Dictionary<string, ITCEnum.NPOIExcelFormat> format = new Dictionary<string, ITCEnum.NPOIExcelFormat>();
+
+                #region - 建立欄位 -
+                colname.Add("acs_idn", "區塊序號");
+                colname.Add("acs_act", "活動序號");
+                colname.Add("acs_title", "區塊標題");
+                colname.Add("acs_desc", "區塊描述");
+                colname.Add("acs_seq", "區塊排序");
+                colname.Add("createid", "建立者");
+                colname.Add("createtime", "建立時間");
+                colname.Add("updid", "異動人");
+                colname.Add("updtime", "異動時間");
+
+                dt.Columns.Add("acs_idn", typeof(int));
+                dt.Columns.Add("acs_act", typeof(int));
+                dt.Columns.Add("acs_title", typeof(string));
+                dt.Columns.Add("acs_desc", typeof(string));
+                dt.Columns.Add("acs_seq", typeof(int));
+                dt.Columns.Add("createid", typeof(string));
+                dt.Columns.Add("createtime", typeof(DateTime));
+                dt.Columns.Add("updid", typeof(string));
+                dt.Columns.Add("updtime", typeof(DateTime));
+
+                format.Add("acs_idn", ITCEnum.NPOIExcelFormat.Integer);
+                format.Add("acs_act", ITCEnum.NPOIExcelFormat.Integer);
+                format.Add("acs_title", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("acs_desc", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("acs_seq", ITCEnum.NPOIExcelFormat.Integer);
+                format.Add("createid", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("createtime", ITCEnum.NPOIExcelFormat.DateTime);
+                format.Add("updid", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("updtime", ITCEnum.NPOIExcelFormat.DateTime);
+                #endregion
+
+                #region - 塞資料 -
+                for (int i = 0; i < data.Rows.Count; i++)
+                {
+                    var dr = dt.NewRow();
+
+                    dr["acs_idn"] = data.Rows[i]["acs_idn"];
+                    dr["acs_act"] = data.Rows[i]["acs_act"];
+                    dr["acs_title"] = data.Rows[i]["acs_title"];
+                    dr["acs_desc"] = data.Rows[i]["acs_desc"];
+                    dr["acs_seq"] = data.Rows[i]["acs_seq"];
+                    dr["createid"] = data.Rows[i]["createid"];
+                    dr["createtime"] = data.Rows[i]["createtime"];
+                    dr["updid"] = data.Rows[i]["updid"];
+                    dr["updtime"] = data.Rows[i]["updtime"];
+
+                    dt.Rows.Add(dr);
+                }
+                #endregion
+
+                result.Result = new Dictionary<string, object>();
+                result.Result.Add("dt", dt);
+                result.Result.Add("colname", colname);
+                result.Result.Add("filename", filename);
+                result.Result.Add("format", format);
+                result.Result.Add("sheetname", sheetname);
+            }
+            #endregion
+
+            return result;
+        }
+        #endregion
+
+        #region 取得活動報名欄位資訊
+        public BLResult<Dictionary<string, object>> GetColumnData(int acc_act)
+        {
+            var result = new BLResult<Dictionary<string, object>>("", MESSAGE_TITLE, ITCEnum.PopupMessageType.Success);
+
+            #region -- 執行查詢 --
+            if (result.PopupMessageType != ITCEnum.PopupMessageType.Error)
+            {
+                var dt = _data.getColumnData(acc_act);
+                var param = new Dictionary<string, object>();
+                param["title"] = dt.Rows[0]["acc_title"].ToString();
+
+                result.Result = new Dictionary<string, object>();
+                result.Result["dt"] = dt;
+                result.Result["param"] = param;
+
+                if (dt.Rows.Count == 0)
+                {
+                    result.Message = "查無資料。";
+                    result.PopupMessageType = ITCEnum.PopupMessageType.Warning;
+                }
+            }
+            #endregion
+
+            return result;
+        }
+
+        public BLResult<Dictionary<string, object>> GetColumnExcelData(Dictionary<string, object> Data)
+        {
+            var result = new BLResult<Dictionary<string, object>>("", MESSAGE_TITLE, ITCEnum.PopupMessageType.Success);
+
+            #region -- 資料格式驗證 --
+            if (Data == null)
+            {
+                result.Message = "查無資料，無法匯出。";
+                result.PopupMessageType = ITCEnum.PopupMessageType.Error;
+            }
+            else if (Data["dt"] == null)
+            {
+                result.Message = "查無資料，無法匯出。";
+                result.PopupMessageType = ITCEnum.PopupMessageType.Error;
+            }
+            else if ((Data["dt"] as DataTable).Rows.Count == 0)
+            {
+                result.Message = "查無資料，無法匯出。";
+                result.PopupMessageType = ITCEnum.PopupMessageType.Error;
+            }
+            #endregion
+
+            #region -- 執行製檔 --
+            if (result.PopupMessageType != ITCEnum.PopupMessageType.Error)
+            {
+                var data = Data["dt"] as DataTable;
+                var param = Data["param"] as Dictionary<string, object>;
+
+                DataTable dt = new DataTable();
+                OrderedDictionary colname = new OrderedDictionary();
+                string filename = param["title"].ToString();
+                string sheetname = "活動報名欄位";
+                Dictionary<string, ITCEnum.NPOIExcelFormat> format = new Dictionary<string, ITCEnum.NPOIExcelFormat>();
+
+                #region - 建立欄位 -
+                colname.Add("acc_idn", "欄位序號");
+                colname.Add("acc_asc", "區塊序號");
+                colname.Add("acc_act", "活動序號");
+                colname.Add("acc_title", "欄位標題");
+                colname.Add("acc_desc", "欄位描述");
+                colname.Add("acc_seq", "欄位排序");
+                colname.Add("acc_type", "填寫方式");
+                colname.Add("acc_option", "選項");
+                colname.Add("acc_required", "是否必填");
+                colname.Add("acc_validation", "驗證方式");
+                colname.Add("createid", "建立者");
+                colname.Add("createtime", "建立時間");
+                colname.Add("updid", "異動人");
+                colname.Add("updtime", "異動時間");
+
+                dt.Columns.Add("acc_idn", typeof(int));
+                dt.Columns.Add("acc_asc", typeof(int));
+                dt.Columns.Add("acc_act", typeof(int));
+                dt.Columns.Add("acc_title", typeof(string));
+                dt.Columns.Add("acc_desc", typeof(string));
+                dt.Columns.Add("acc_seq", typeof(int));
+                dt.Columns.Add("acc_type", typeof(string));
+                dt.Columns.Add("acc_option", typeof(string));
+                dt.Columns.Add("acc_required", typeof(int));
+                dt.Columns.Add("acc_validation", typeof(string));
+                dt.Columns.Add("createid", typeof(string));
+                dt.Columns.Add("createtime", typeof(DateTime));
+                dt.Columns.Add("updid", typeof(string));
+                dt.Columns.Add("updtime", typeof(DateTime));
+
+                format.Add("acc_idn", ITCEnum.NPOIExcelFormat.Integer);
+                format.Add("acc_asc", ITCEnum.NPOIExcelFormat.Integer);
+                format.Add("acc_act", ITCEnum.NPOIExcelFormat.Integer);
+                format.Add("acc_title", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("acc_desc", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("acc_seq", ITCEnum.NPOIExcelFormat.Integer);
+                format.Add("acc_type", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("acc_option", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("acc_required", ITCEnum.NPOIExcelFormat.Integer);
+                format.Add("acc_validation", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("createid", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("createtime", ITCEnum.NPOIExcelFormat.DateTime);
+                format.Add("updid", ITCEnum.NPOIExcelFormat.Other);
+                format.Add("updtime", ITCEnum.NPOIExcelFormat.DateTime);
+                #endregion
+
+                #region - 塞資料 -
+                for (int i = 0; i < data.Rows.Count; i++)
+                {
+                    var dr = dt.NewRow();
+
+                    dr["acc_idn"] = data.Rows[i]["acc_idn"];
+                    dr["acc_asc"] = data.Rows[i]["acc_asc"];
+                    dr["acc_act"] = data.Rows[i]["acc_act"];
+                    dr["acc_title"] = data.Rows[i]["acc_title"];
+                    dr["acc_desc"] = data.Rows[i]["acc_desc"];
+                    dr["acc_seq"] = data.Rows[i]["acc_seq"];
+                    dr["acc_type"] = data.Rows[i]["acc_type"];
+                    dr["acc_option"] = data.Rows[i]["acc_option"];
+                    dr["acc_required"] = data.Rows[i]["acc_required"];
+                    dr["acc_validation"] = data.Rows[i]["acc_validation"];
+                    dr["createid"] = data.Rows[i]["createid"];
+                    dr["createtime"] = data.Rows[i]["createtime"];
+                    dr["updid"] = data.Rows[i]["updid"];
+                    dr["updtime"] = data.Rows[i]["updtime"];
+
+                    dt.Rows.Add(dr);
+                }
+                #endregion
+
+                result.Result = new Dictionary<string, object>();
+                result.Result.Add("dt", dt);
+                result.Result.Add("colname", colname);
+                result.Result.Add("filename", filename);
+                result.Result.Add("format", format);
+                result.Result.Add("sheetname", sheetname);
+            }
+            #endregion
+
+            return result;
+        }
+        #endregion
+
         #endregion
     }
 }

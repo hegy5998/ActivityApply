@@ -43,7 +43,7 @@
                     <div class="photo-wrapper">
                         <div class="photo">
                             <a data-toggle="modal" href="#myModal">
-                                <img id="act_image" class="img-responsive" src="#" style="min-width: 100%; min-height: 100%;" />
+                                <img id="act_image" class="img-responsive" src="#"/>
                             </a>
                         </div>
                         <div class="overlay" style="height: 20px;"></div>

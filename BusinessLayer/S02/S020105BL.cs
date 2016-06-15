@@ -7,6 +7,7 @@ using Util;
 using DataAccess;
 using DataAccess.S02;
 using Model;
+using System.Data;
 
 namespace BusinessLayer.S02
 {
@@ -30,6 +31,10 @@ namespace BusinessLayer.S02
         public CommonResult DeleteData(Dictionary<string, object> dict)
         {
             return ast_data.DeleteData(dict);
+        }
+        public DataTable GetCountData(string dict)
+        {
+            return ast_data.GetCountData(dict);
         }
     }
 }

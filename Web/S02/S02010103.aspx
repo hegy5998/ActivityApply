@@ -112,7 +112,7 @@
                             <div class="project">
                                 <div class="photo-wrapper">
                                     <div class="photo">
-                                        <img id="act_image" class="img-responsive" src="#" alt="" onclick="upload_img()" style="min-width: 100%; min-height: 100%;" />
+                                        <img id="act_image" class="img-responsive" src="#" alt="" onclick="upload_img()"/>
                                     </div>
                                     <div class="overlay"></div>
                                 </div>

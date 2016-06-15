@@ -31,5 +31,10 @@ namespace BusinessLayer
             return res;
         }
         #endregion
+
+        public void DeleteApplyData() {
+            Sys_login_logData _da = new Sys_login_logData();
+            _da.DeleteApplyData();
+        }
     }
 }

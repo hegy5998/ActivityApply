@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLResult.cs" />
     <Compile Include="CommonBL.cs" />
     <Compile Include="LoginBL.cs" />
     <Compile Include="MasterPages\MainBL.cs" />

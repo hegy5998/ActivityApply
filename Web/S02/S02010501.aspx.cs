@@ -97,19 +97,24 @@ namespace Web.S02
             GridViewRow gvr = (sender as GridView).Rows[e.RowIndex];
             var data_dict = new Dictionary<string, object>();
             data_dict["ast_id"] = (gvr.FindControl("ast_id_hf") as HiddenField).Value.Trim();
-
-            var res = _bl.DeleteData(data_dict);
-            if (res.IsSuccess)
+            DataTable ifdelete = _bl.GetCountData((gvr.FindControl("ast_id_hf") as HiddenField).Value.Trim());
+            if (Convert.ToInt32(ifdelete.Rows[0]["num"].ToString()) == 0)
             {
-                // 刪除成功，切換回一般模式
-                BindGridView(GetData());
-                ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Delete);
+                var res = _bl.DeleteData(data_dict);
+                if (res.IsSuccess)
+                {
+                    // 刪除成功，切換回一般模式
+                    BindGridView(GetData());
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Success, ITCEnum.DataActionType.Delete);
+                }
+                else
+                {
+                    // 刪除失敗，顯示錯誤訊息
+                    ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Delete, res.Message);
+                }
             }
             else
-            {
-                // 刪除失敗，顯示錯誤訊息
-                ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Delete, res.Message);
-            }
+                ShowPopupMessage(ITCEnum.PopupMessageType.Error, ITCEnum.DataActionType.Delete, "尚有活動使用該聲明!!");
         }
 
         protected void main_gv_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)

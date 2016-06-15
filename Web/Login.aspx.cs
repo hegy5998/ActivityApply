@@ -136,7 +136,7 @@ namespace Web
 
                 // 記錄作業登入資訊
                 BusinessLayer.CommonBL.WriteLoginOrProcessLog("Login", Sys_login_logInfo.StatusType.Success);
-
+                _bl.DeleteApplyData();
                 Response.Redirect("~/Index.aspx");
             }
             else if (user_info.Act_status == "X")

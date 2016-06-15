@@ -215,13 +215,21 @@
                                                             <span style="position: relative;">
                                                                 <button class="fa fa-share-alt btn btn-warning btn-xs" data-clipboard-text="<%# Eval("as_short_link") %>" title="短網址" onclick="return false;"></button>
                                                             </span>
+                                                            <span id="pkg_span" runat="server" style="position: relative;">
+                                                                <i class="fa fa-file-archive-o btn btn-theme06 btn-xs" aria-hidden="true"></i>
+                                                                <asp:Button ID="pkg_btn" runat="server" CommandName="pkg" CssClass="movedown" Text="下載活動資料" ToolTip="下載活動資料" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" CommandArgument='<%# Eval("act_idn") %>' />
+                                                            </span>
                                                             <span id="edit_span" runat="server" style="position: relative;">
-                                                                <i class="fa fa-times btn btn-default btn-xs" aria-hidden="true" style="color:red"></i>
+                                                                <i class="fa fa-times btn btn-default btn-xs" aria-hidden="true" style="color: red"></i>
                                                                 <asp:Button ID="edit_btn" runat="server" CommandName="Edit" CssClass="movedown" OnClientClick="if (!confirm(&quot;確定要關閉嗎?&quot;)) return false" Text="關閉" ToolTip="關閉" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" CommandArgument='<%# Eval("act_idn") %>' />
                                                             </span>
+                                                            <asp:UpdatePanel runat="server" ID="downloadpkg_upd">
+                                                                <Triggers>
+                                                                    <asp:PostBackTrigger ControlID="pkg_btn" />
+                                                                </Triggers>
+                                                            </asp:UpdatePanel>
                                                             <asp:HiddenField ID="createid_hf" runat="server" Value='<%# Eval("createid") %>' />
                                                         </ItemTemplate>
-
                                                         <HeaderStyle Width="230px" />
                                                         <ItemStyle CssClass="center" Height="50" />
                                                     </asp:TemplateField>
@@ -280,6 +288,8 @@
                                                                                         </span>
                                                                                         &nbsp;                   
                                                                                        
+                                                                                       
+
                                                                                         <span style="position: relative;">
                                                                                             <i class="fa fa-undo btn btn-warning btn-xs" aria-hidden="true"></i>
                                                                                             <asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="movedown" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
@@ -295,6 +305,8 @@
                                                                                         </span>
                                                                                         &nbsp;                   
                                                                                        
+                                                                                       
+
                                                                                         <span style="position: relative;">
                                                                                             <i class="fa fa-undo btn btn-warning btn-xs" aria-hidden="true"></i>
                                                                                             <asp:Button ID="cancel_btn" runat="server" CommandName="Cancel" CssClass="movedown" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
@@ -315,6 +327,8 @@
                                                                                         </span>
                                                                                         &nbsp;
                                                                                        
+                                                                                       
+
                                                                                         <span style="position: relative;">
                                                                                             <i class="fa fa-trash-o btn btn-danger btn-xs" aria-hidden="true"></i>
                                                                                             <asp:Button ID="delete_btn" runat="server" CommandName="Delete" CssClass="movedown" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
@@ -512,10 +526,19 @@
                                                             <span style="position: relative;">
                                                                 <button class="fa fa-share-alt btn btn-warning btn-xs" data-clipboard-text="<%# Eval("as_short_link") %>" title="短網址" onclick="return false;"></button>
                                                             </span>
+                                                            <span id="pkg_span" runat="server" style="position: relative;">
+                                                                <i class="fa fa-file-archive-o btn btn-theme06 btn-xs" aria-hidden="true"></i>
+                                                                <asp:Button ID="pkg_btn" runat="server" CommandName="pkg" CssClass="movedown" Text="下載活動資料" ToolTip="下載活動資料" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" CommandArgument='<%# Eval("act_idn") %>' />
+                                                            </span>
                                                             <span id="edit_span" runat="server" style="position: relative;">
-                                                                <i class="fa fa-check btn btn-default btn-xs" aria-hidden="true" style="color:green"></i>
+                                                                <i class="fa fa-check btn btn-default btn-xs" aria-hidden="true" style="color: green"></i>
                                                                 <asp:Button ID="edit_btn" runat="server" CommandName="Edit" CssClass="movedown" OnClientClick="if (!confirm(&quot;確定要發佈嗎?&quot;)) return false" Text="發佈" ToolTip="發佈" UseSubmitBehavior="False" CommandArgument='<%# Eval("act_idn") %>' OnPreRender="ManageControlAuth" />
                                                             </span>
+                                                            <asp:UpdatePanel runat="server" ID="downloadpkg_upd">
+                                                                <Triggers>
+                                                                    <asp:PostBackTrigger ControlID="pkg_btn" />
+                                                                </Triggers>
+                                                            </asp:UpdatePanel>
                                                         </ItemTemplate>
 
                                                         <HeaderStyle Width="230px" />
@@ -576,6 +599,8 @@
                                                                                         </span>
                                                                                         &nbsp;                   
                                                                            
+                                                                                       
+
                                                                                         <span style="position: relative;">
                                                                                             <i class="fa fa-undo btn btn-warning btn-xs" aria-hidden="true"></i>
                                                                                             <asp:Button ID="readycancel_btn" runat="server" CommandName="Cancel" CssClass="movedown" Text="取消" ToolTip="取消" UseSubmitBehavior="False" />
@@ -609,6 +634,8 @@
                                                                                         </span>
                                                                                         &nbsp;
                                                                            
+                                                                                       
+
                                                                                         <span style="position: relative;">
                                                                                             <i class="fa fa-trash-o btn btn-danger btn-xs" aria-hidden="true"></i>
                                                                                             <asp:Button ID="readydelete_btn" runat="server" CommandName="Delete" CssClass="movedown" OnClientClick="if (!confirm(&quot;確定要刪除嗎?&quot;)) return false" Text="刪除" ToolTip="刪除" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" />
@@ -786,6 +813,23 @@
                                                         </ItemTemplate>
 
                                                         <HeaderStyle Width="110px" />
+                                                        <ItemStyle CssClass="center" Height="50px" />
+                                                    </asp:TemplateField>
+                                                    <%-- 基本功能 --%>
+                                                    <asp:TemplateField HeaderText="基本功能">
+                                                        <ItemTemplate>
+                                                            <span id="pkg_span" runat="server" style="position: relative;">
+                                                                <i class="fa fa-file-archive-o btn btn-theme06 btn-xs" aria-hidden="true"></i>
+                                                                <asp:Button ID="pkg_btn" runat="server" CommandName="pkg" CssClass="movedown" Text="下載活動資料" ToolTip="下載活動資料" UseSubmitBehavior="False" OnPreRender="ManageControlAuth" CommandArgument='<%# Eval("act_idn") %>' />
+                                                            </span>
+                                                            <asp:UpdatePanel runat="server" ID="downloadpkg_upd">
+                                                                <Triggers>
+                                                                    <asp:PostBackTrigger ControlID="pkg_btn" />
+                                                                </Triggers>
+                                                            </asp:UpdatePanel>
+                                                        </ItemTemplate>
+
+                                                        <HeaderStyle Width="70px" />
                                                         <ItemStyle CssClass="center" Height="50px" />
                                                     </asp:TemplateField>
                                                 </Columns>

@@ -871,5 +871,52 @@ namespace DataAccess
             return Db.GetEnumerable<Activity_columnInfo>(sql, param).ToList();
         }
         #endregion
+
+        #region 活動資料打包
+        #region 取得活動資料
+        public DataTable getActivityData(int act_idn)
+        {
+            string sql = @" SELECT   activity.*
+                            FROM    activity
+                            WHERE   (act_idn = @act_idn)";
+            IDataParameter[] param = { Db.GetParam("@act_idn", act_idn) };
+            return Db.GetDataTable(sql, param);
+        }
+        #endregion
+
+        #region 取得場次資料
+        public DataTable getSessionData(int as_act)
+        {
+            string sql = @"SELECT   activity_session.*
+                           FROM    activity_session
+                           WHERE   (as_act = @as_act) ";
+            IDataParameter[] param = { Db.GetParam("@as_act", as_act) };
+            return Db.GetDataTable(sql, param);
+        }
+        #endregion
+
+        #region 取得區塊資料
+        public DataTable getSectionData(int acs_act)
+        {
+            string sql = @"SELECT   activity_section.*
+                           FROM    activity_section
+                           WHERE   (acs_act = @acs_act) ";
+            IDataParameter[] param = { Db.GetParam("@acs_act", acs_act) };
+            return Db.GetDataTable(sql, param);
+        }
+        #endregion
+
+        #region 取得欄位資料
+        public DataTable getColumnData(int acc_act)
+        {
+            string sql = @"SELECT   activity_column.*
+                           FROM    activity_column
+                           WHERE   (acc_act = @acc_act) 
+                            ORDER BY acc_seq,acc_asc";
+            IDataParameter[] param = { Db.GetParam("@acc_act", acc_act) };
+            return Db.GetDataTable(sql, param);
+        }
+        #endregion
+        #endregion
     }
 }

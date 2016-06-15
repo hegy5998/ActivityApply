@@ -9,6 +9,10 @@ using System.Data;
 using System.IO;
 using NPOI.XSSF.UserModel;
 using NPOI.SS.UserModel;
+using BusinessLayer;
+using Ionic.Zip;
+using System.Linq;
+using System.Text;
 
 namespace Web.S02
 {
@@ -18,7 +22,7 @@ namespace Web.S02
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+
             //已發佈活動
             ucGridViewPager.GridView = main_gv;
             ucGridViewPager.BindDataHandler += () => { BindGridView(GetAlreadyData(), GetReadyData(), GetEndData()); };
@@ -60,7 +64,7 @@ namespace Web.S02
 
         #region Control權限管理
         protected void ManageControlAuth(object sender, EventArgs e)
-        {            
+        {
             ManageControlCopperate(sender);
         }
         #endregion
@@ -242,7 +246,7 @@ namespace Web.S02
                     break;
 
                 // 編輯協作者
-                case "Set":                    
+                case "Set":
                     // 設定彈出視窗
                     InitControlSetPopupWindow(sender, e);
                     break;
@@ -257,7 +261,85 @@ namespace Web.S02
                 case "download":
                     downloadApply(CommonConvert.GetIntOrZero(e.CommandArgument));
                     break;
+                //打包活動
+                case "pkg":
+                    downloadpkg(CommonConvert.GetIntOrZero(e.CommandArgument));
+                    break;
             }
+        }
+
+        //下載活動資料
+        protected void downloadpkg(int act_idn)
+        {
+            Sys_accountInfo loginUser = CommonHelper.GetLoginUser();
+            var memoryStream = new MemoryStream();
+            string upload_path = CommonHelper.GetSysConfig().UPLOAD_PATH;
+
+            List<BLResult<Dictionary<string, object>>> resultList = new List<BLResult<Dictionary<string, object>>>();
+            var dt = _bl.GetActivityData(act_idn);
+            var excelResult = _bl.GetActivityExcelData(dt.Result);
+            var filename = excelResult.Result["filename"] as string;
+            DataTable act_dt = (DataTable)dt.Result["dt"];
+            string imgpath = act_dt.Rows[0]["act_image"].ToString();
+            string relatefilepath = act_dt.Rows[0]["act_relate_file"].ToString();
+            resultList.Add(excelResult);
+
+            dt = _bl.GetSessionData(act_idn);
+            excelResult = _bl.GetSessionExcelData(dt.Result);
+            resultList.Add(excelResult);
+
+            dt = _bl.GetSectionData(act_idn);
+            excelResult = _bl.GetSectionExcelData(dt.Result);
+            resultList.Add(excelResult);
+
+            dt = _bl.GetColumnData(act_idn);
+            excelResult = _bl.GetColumnExcelData(dt.Result);
+            resultList.Add(excelResult);
+
+            List<Dictionary<string, object>> excelList = new List<Dictionary<string, object>>();
+            foreach (BLResult<Dictionary<string, object>> result in resultList)
+            {
+                if (result.PopupMessageType == ITCEnum.PopupMessageType.Success)
+                {
+                    Dictionary<string, object> excel = new Dictionary<string, object>();
+                    excel.Add("dt", result.Result["dt"]);
+                    excel.Add("colname", result.Result["colname"]);
+                    excel.Add("sheetname", result.Result["sheetname"]);
+                    excel.Add("format", result.Result["format"]);
+                    excelList.Add(excel);
+                }
+            }
+            CustomHelper.ExportExcelFromDataTable(filename, excelList, "~/");
+            
+            ZipFile zip = new ZipFile(Encoding.UTF8);
+            if (File.Exists(upload_path + act_idn + "/Img/" + imgpath.Split('/')[imgpath.Split('/').Count() - 1]))
+            {
+                zip.AddFile(upload_path + act_idn + "/Img/" + imgpath.Split('/')[imgpath.Split('/').Count() - 1], "Img");
+            }
+            if (File.Exists(upload_path + act_idn + "/relateFile/" + relatefilepath.Split('/')[relatefilepath.Split('/').Count() - 1]))
+            {
+                zip.AddFile(upload_path + act_idn + "/relateFile/" + relatefilepath.Split('/')[relatefilepath.Split('/').Count() - 1], "relateFile");
+            }
+            //抓取專案路徑
+            string path = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            if (File.Exists(path + filename+".xls"))
+            {
+                zip.AddFile(path + filename + ".xls", "");
+            }
+            //壓縮率
+            zip.CompressionLevel = Ionic.Zlib.CompressionLevel.BestCompression;
+            zip.Save(memoryStream);
+            if (File.Exists(path + filename + ".xls"))
+            {
+                File.Delete(path + filename + ".xls");
+            }
+            //Content-Disposition檔案標頭設定，attachment為附件檔
+            Response.AddHeader("Content-Disposition", "attachment;filename="+ filename + ".zip");
+            Response.BinaryWrite(memoryStream.ToArray());
+            memoryStream.Close();
+            Response.Flush();
+            Response.End();
+            
         }
 
         //下載報名資料
@@ -424,7 +506,7 @@ namespace Web.S02
         {
             GridView gv = (GridView)sender;
             var lst = GridViewHelper.SortGridView<Account_copperateInfo>(gv, e, _bl.GetControlList(copperate_cop_act_hf.Value));
-            
+
             //已發佈活動
             if (Request.Cookies["tabs"].Value == "0")
             {
@@ -509,7 +591,7 @@ namespace Web.S02
                     }
                     break;
                 //頁尾列
-                case DataControlRowType.Footer :
+                case DataControlRowType.Footer:
                     DropDownList dropdownlist = e.Row.FindControl("cop_authority_dll") as DropDownList;
                     dropdownlist.Items.Insert(0, new ListItem("請選擇", ""));
                     dropdownlist.Items.Insert(1, new ListItem("編輯", "編輯"));
@@ -592,7 +674,7 @@ namespace Web.S02
                     break;
 
                 //編輯帳號
-                case "account" :
+                case "account":
                     SetAccount();
                     break;
             }

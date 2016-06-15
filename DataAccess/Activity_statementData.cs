@@ -157,5 +157,13 @@ namespace DataAccess
             return Db.GetEnumerable<Activity_statementInfo>(sql, param).ToList();
         }
         #endregion
+
+        public DataTable GetCountData(string data_dict) {
+            string sql = @" SELECT COUNT(*) as num
+                            FROM activity
+                            WHERE act_as = @act_as";
+            IDataParameter[] param = { Db.GetParam("@act_as", data_dict) };
+            return Db.GetDataTable(sql,param);
+        }
     }
 }

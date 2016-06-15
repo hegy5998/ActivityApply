@@ -199,5 +199,17 @@ namespace ActivityApply
             public Int32 ifnewqus { get; set; }
         }
         #endregion
+
+        protected void print_ApplyProve(object sender, EventArgs e)
+        {
+            Sign_UpBL _bl = new Sign_UpBL();
+            DataTable dt = _bl.GetApplyProve(AA_IDN);
+            ReportDocument rd = new ReportDocument();
+            //載入該報表
+            rd.Load(Server.MapPath("~/applyProve.rpt"));
+            //設定資料
+            rd.SetDataSource(dt);
+            rd.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, true, dt.Rows[0]["act_title"] + "_" + dt.Rows[0]["as_title"] + "_活動資訊");
+        }
     }
 }

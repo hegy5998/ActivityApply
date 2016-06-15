@@ -100,7 +100,7 @@
             <tr>
                 <th></th>
                 <td style="text-align: center;padding-right: 140px;">
-                    <asp:Button ID="update_btn" runat="server" CssClass="btn btn-default" Text="儲存" CommandName="Update" UseSubmitBehavior="false" />
+                    <asp:Button ID="update_btn" runat="server" CssClass="btn btn-default" Text="儲存" CommandName="Update" UseSubmitBehavior="false" OnClientClick="if(!confirm('如果有更動保存年月數，所有有使用此聲明的活動都將受影響，確定要儲存?')) return false"/>
                     &nbsp;<asp:Button ID="cancel_btn" runat="server" CssClass="btn btn-default" Text="取消" OnClick="cancel_btn_Click" UseSubmitBehavior="false" />
                 </td>
             </tr>

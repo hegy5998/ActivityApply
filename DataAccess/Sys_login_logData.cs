@@ -129,5 +129,25 @@ namespace DataAccess
         }
         #endregion
         #endregion
+
+        public void DeleteApplyData() {
+            string sql = @" DELETE FROM activity_apply_detail
+                            WHERE activity_apply_detail.aad_col_id IN(
+                            SELECT activity_column.acc_idn
+                            FROM activity,activity_statement,activity_session,activity_column
+                            WHERE activity.act_as = activity_statement.ast_id AND
+                            activity_session.as_act = activity.act_idn AND
+                            activity_column.acc_act = activity.act_idn AND
+                            CONVERT(varchar(256),GETDATE(),121) >= CONVERT(varchar(256),activity_session.as_date_end+activity_statement.ast_year*365+activity_statement.ast_month*31, 121));
+                            DELETE FROM activity_apply
+                            WHERE activity_apply.aa_as IN(
+                            SELECT DISTINCT activity_session.as_idn
+                            FROM activity,activity_statement,activity_session,activity_column
+                            WHERE activity.act_as = activity_statement.ast_id AND
+                            activity_session.as_act = activity.act_idn AND
+                            activity_column.acc_act = activity.act_idn AND
+                            CONVERT(varchar(256),GETDATE(),121) >= CONVERT(varchar(256),activity_session.as_date_end+activity_statement.ast_year*365+activity_statement.ast_month*31, 121));";
+            Db.ExecuteNonQuery(sql);
+        }
     }
 }

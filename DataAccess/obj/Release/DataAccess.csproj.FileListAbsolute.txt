@@ -11,3 +11,16 @@ C:\Users\Saki\Desktop\ActivityApply\DataAccess\bin\Release\UtilBase.xml
 C:\Users\Saki\Desktop\ActivityApply\DataAccess\obj\Release\DataAccess.csprojResolveAssemblyReference.cache
 C:\Users\Saki\Desktop\ActivityApply\DataAccess\obj\Release\DataAccess.dll
 C:\Users\Saki\Desktop\ActivityApply\DataAccess\obj\Release\DataAccess.pdb
+D:\DeskTop\ActivityApply\DataAccess\bin\Release\DataAccess.dll
+D:\DeskTop\ActivityApply\DataAccess\bin\Release\DataAccess.pdb
+D:\DeskTop\ActivityApply\DataAccess\bin\Release\DataAccessBase.dll
+D:\DeskTop\ActivityApply\DataAccess\bin\Release\Model.dll
+D:\DeskTop\ActivityApply\DataAccess\bin\Release\Util.dll
+D:\DeskTop\ActivityApply\DataAccess\bin\Release\UtilBase.dll
+D:\DeskTop\ActivityApply\DataAccess\bin\Release\Model.pdb
+D:\DeskTop\ActivityApply\DataAccess\bin\Release\Util.pdb
+D:\DeskTop\ActivityApply\DataAccess\bin\Release\DataAccessBase.xml
+D:\DeskTop\ActivityApply\DataAccess\bin\Release\UtilBase.xml
+D:\DeskTop\ActivityApply\DataAccess\obj\Release\DataAccess.csprojResolveAssemblyReference.cache
+D:\DeskTop\ActivityApply\DataAccess\obj\Release\DataAccess.dll
+D:\DeskTop\ActivityApply\DataAccess\obj\Release\DataAccess.pdb
